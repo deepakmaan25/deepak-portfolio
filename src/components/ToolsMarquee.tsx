@@ -1,26 +1,23 @@
 import { motion } from "framer-motion";
 
-const tools = [
-  "Figma", "ChatGPT", "Midjourney", "Photoshop", "Illustrator",
-  "Procreate", "Framer", "Maze", "Notion", "FigJam",
-  "Miro", "After Effects", "Claude",
+const items = [
+  "User Research", "Wireframing", "Prototyping", "Figma",
+  "Usability Testing", "Design Systems", "Information Architecture", "Interaction Design",
 ];
 
 const ToolsMarquee = () => {
   return (
-    <section className="py-5 border-y border-border overflow-hidden">
+    <section className="py-4 border-y border-border overflow-hidden">
       <div className="flex">
         <motion.div
-          className="flex gap-8 items-center whitespace-nowrap"
+          className="flex items-center whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
         >
-          {[...tools, ...tools].map((tool, i) => (
-            <span key={i} className="flex items-center gap-8">
-              <span className="type-caption text-muted-foreground">
-                {tool}
-              </span>
-              <span className="text-border text-[8px]">●</span>
+          {[...items, ...items].map((item, i) => (
+            <span key={i} className="flex items-center">
+              <span className="type-caption text-muted-foreground px-6">{item}</span>
+              <span className="text-border text-[6px]">◆</span>
             </span>
           ))}
         </motion.div>

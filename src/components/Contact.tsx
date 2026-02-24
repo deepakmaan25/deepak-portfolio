@@ -6,66 +6,50 @@ const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="contact" className="py-24 lg:py-32 border-t border-border">
-      <div className="px-6 lg:px-8 max-w-6xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl"
-        >
-          <p className="type-label text-muted-foreground mb-3">Contact</p>
-          <h2 className="type-display text-foreground mb-6">
-            Let's work together.
-          </h2>
-          <p className="type-body text-muted-foreground mb-10 max-w-lg">
-            Whether you're a startup looking for a founding designer, or a team that needs a thoughtful UX collaborator — I'd love to hear what you're building.
-          </p>
+    <>
+      <section id="contact" className="py-[120px] max-md:py-16 bg-foreground">
+        <div className="px-6 lg:px-8 max-w-site mx-auto">
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <p className="type-caption text-accent mb-4">Get in Touch</p>
+            <h2 className="type-h2 text-primary-foreground mb-4">
+              Let's build something great together.
+            </h2>
+            <p className="type-body-lg text-primary-foreground/60 mb-10 max-w-lg mx-auto">
+              Open to full-time roles, freelance projects, and design conversations.
+            </p>
 
-          <div className="space-y-4 mb-10">
-            {[
-              { label: "Email", value: "deepak.maan@email.com", href: "mailto:deepak.maan@email.com" },
-              { label: "LinkedIn", value: "linkedin.com/in/deepakmaan", href: "#" },
-              { label: "Dribbble", value: "dribbble.com/deepakmaan", href: "#" },
-            ].map(({ label, value, href }) => (
-              <a key={label} href={href} className="flex items-center gap-6 group">
-                <span className="type-label text-muted-foreground w-16 flex-shrink-0">{label}</span>
-                <span className="type-body text-foreground group-hover:opacity-60 transition-opacity border-b border-transparent group-hover:border-foreground/20 pb-0.5">
-                  {value}
-                </span>
-              </a>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-3">
             <a
               href="mailto:deepak.maan@email.com"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background type-caption rounded-full hover:opacity-90 transition-opacity"
+              className="type-body-lg text-primary-foreground hover:opacity-70 transition-opacity"
             >
-              Send Email
-              <span className="text-xs">→</span>
+              Send me an email →
             </a>
-            <a
-              href="#"
-              className="inline-flex items-center px-6 py-3 border border-border text-foreground type-caption rounded-full hover:bg-secondary transition-colors"
-            >
-              Download Resume
-            </a>
-          </div>
-        </motion.div>
-      </div>
+
+            <div className="flex items-center justify-center gap-2 mt-8 type-body text-primary-foreground/60">
+              <a href="#" className="hover:text-primary-foreground transition-colors">LinkedIn</a>
+              <span>·</span>
+              <a href="#" className="hover:text-primary-foreground transition-colors">Dribbble</a>
+              <span>·</span>
+              <a href="#" className="hover:text-primary-foreground transition-colors">Behance</a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <div className="px-6 lg:px-8 max-w-6xl mx-auto mt-24 pt-8 border-t border-border flex items-center justify-between flex-wrap gap-4">
-        <span className="type-caption text-muted-foreground">
-          © 2024 Deepak Maan
-        </span>
-        <span className="type-caption text-muted-foreground">
-          Product Designer
-        </span>
-      </div>
-    </section>
+      <footer className="bg-foreground border-t border-primary-foreground/10 py-6">
+        <div className="px-6 lg:px-8 max-w-site mx-auto flex items-center justify-between">
+          <span className="text-[13px] text-primary-foreground/40">© 2025 Deepak Maan</span>
+          <span className="text-[13px] text-primary-foreground/40">Designed & built with intention</span>
+        </div>
+      </footer>
+    </>
   );
 };
 

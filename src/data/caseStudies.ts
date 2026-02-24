@@ -19,19 +19,18 @@ export interface CaseStudy {
   process: { title: string; description: string }[];
   outcomes: { metric: string; label: string }[];
   keyInsights: string[];
-  gallery?: string[];
 }
 
 export const caseStudies: CaseStudy[] = [
   {
     id: "01",
-    slug: "mental-models-first-time-investors",
-    tag: "UX Research",
-    title: "Mapping Mental Models of First-Time Investors",
+    slug: "fintech-onboarding-redesign",
+    tag: "UX Research · Mobile App",
+    title: "Redesigning Onboarding for a FinTech App",
     description:
-      "Conducted 14 user interviews and synthesized findings into actionable insights that reshaped the onboarding flow of a fintech app.",
+      "Conducted 14 user interviews and synthesized findings into actionable insights that reshaped the onboarding flow, reducing drop-off by 38%.",
     image: caseStudy1,
-    tools: ["User Interviews", "Affinity Mapping", "Journey Mapping", "Figma", "Miro"],
+    tools: ["UX Research", "Mobile App", "B2C"],
     metric: "38%",
     metricLabel: "drop-off reduced",
     duration: "8 weeks",
@@ -41,26 +40,11 @@ export const caseStudies: CaseStudy[] = [
     challenge:
       "The existing onboarding had a 62% drop-off rate at the KYC step. Users felt lost, confused by terminology, and unsure about the value proposition. The challenge was to redesign the flow without compromising regulatory compliance while making it feel approachable and trustworthy.",
     process: [
-      {
-        title: "Discovery & Recruitment",
-        description: "Screened and recruited 14 participants aged 19–28 who had never invested before. Conducted 45-minute semi-structured interviews exploring their relationship with money, fears around investing, and expectations from a financial app.",
-      },
-      {
-        title: "Synthesis & Affinity Mapping",
-        description: "Transcribed all interviews and ran a collaborative affinity mapping session. Identified 5 key mental model clusters: 'Fear of Loss', 'Jargon Overload', 'Trust Deficit', 'Small Wins Motivation', and 'Social Validation Need'.",
-      },
-      {
-        title: "Journey Mapping & Opportunity Areas",
-        description: "Created an end-to-end journey map highlighting emotional peaks and valleys. Pinpointed 3 critical opportunity areas where design intervention could reduce cognitive load and build confidence.",
-      },
-      {
-        title: "Ideation & Prototyping",
-        description: "Designed 3 concept directions in Figma, each addressing different mental models. Ran rapid preference tests with 8 participants to validate the most promising direction before moving to hi-fi.",
-      },
-      {
-        title: "Usability Testing & Iteration",
-        description: "Conducted 2 rounds of moderated usability testing with 6 participants each. Iterated on micro-copy, progress indicators, and trust signals based on direct user feedback.",
-      },
+      { title: "Discovery & Recruitment", description: "Screened and recruited 14 participants aged 19–28 who had never invested before. Conducted 45-minute semi-structured interviews exploring their relationship with money, fears around investing, and expectations from a financial app." },
+      { title: "Synthesis & Affinity Mapping", description: "Transcribed all interviews and ran a collaborative affinity mapping session. Identified 5 key mental model clusters: 'Fear of Loss', 'Jargon Overload', 'Trust Deficit', 'Small Wins Motivation', and 'Social Validation Need'." },
+      { title: "Journey Mapping & Opportunity Areas", description: "Created an end-to-end journey map highlighting emotional peaks and valleys. Pinpointed 3 critical opportunity areas where design intervention could reduce cognitive load and build confidence." },
+      { title: "Ideation & Prototyping", description: "Designed 3 concept directions in Figma, each addressing different mental models. Ran rapid preference tests with 8 participants to validate the most promising direction." },
+      { title: "Usability Testing & Iteration", description: "Conducted 2 rounds of moderated usability testing with 6 participants each. Iterated on micro-copy, progress indicators, and trust signals based on direct user feedback." },
     ],
     outcomes: [
       { metric: "38%", label: "Reduction in onboarding drop-off" },
@@ -77,13 +61,13 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     id: "02",
-    slug: "healthcare-scheduling-redesign",
-    tag: "End-to-End Redesign",
-    title: "Redesigning a Legacy Healthcare Scheduling Platform",
+    slug: "health-tracking-dashboard",
+    tag: "End-to-End Design · Dashboard",
+    title: "A Health Tracking Dashboard for Busy Professionals",
     description:
       "Full redesign from heuristic evaluation to high-fidelity prototype — clinician-first approach with rigorous usability testing.",
     image: caseStudy2,
-    tools: ["Figma", "Usability Testing", "Design System", "ChatGPT", "Maze"],
+    tools: ["Product Design", "Dashboard", "B2B"],
     metric: "4.2/5",
     metricLabel: "usability score",
     duration: "12 weeks",
@@ -91,28 +75,13 @@ export const caseStudies: CaseStudy[] = [
     overview:
       "A mid-size healthcare network was struggling with a 15-year-old scheduling system that frustrated both clinicians and administrative staff. The goal was to redesign the scheduling experience from the ground up, creating a modern, intuitive interface that could handle complex scheduling rules while being delightful to use daily.",
     challenge:
-      "The legacy system had over 200 screens with inconsistent patterns, no design system, and deeply ingrained user habits. Clinicians were resistant to change, and any downtime in scheduling directly impacted patient care. The redesign had to respect existing mental models while introducing significant improvements.",
+      "The legacy system had over 200 screens with inconsistent patterns, no design system, and deeply ingrained user habits. Clinicians were resistant to change, and any downtime in scheduling directly impacted patient care.",
     process: [
-      {
-        title: "Heuristic Evaluation & Audit",
-        description: "Conducted a comprehensive heuristic evaluation of the existing 200+ screen system, cataloging 47 usability issues across severity levels. Created a prioritized backlog based on frequency of use and impact on workflow efficiency.",
-      },
-      {
-        title: "Contextual Inquiry",
-        description: "Spent 3 days shadowing clinicians and admin staff in their actual work environment. Observed workarounds, shortcuts, and pain points that wouldn't surface in interviews alone. Documented 23 unique workflow patterns.",
-      },
-      {
-        title: "Information Architecture & Design System",
-        description: "Restructured the IA from 200+ screens down to 12 core views using card sorting with 10 participants. Built a healthcare-specific design system with accessibility (WCAG AA) baked in from day one.",
-      },
-      {
-        title: "Prototyping with AI Assistance",
-        description: "Used ChatGPT to rapidly generate content variations and edge-case scenarios. Built interactive Figma prototypes covering 5 core workflows. Leveraged AI to write realistic patient data for prototype testing.",
-      },
-      {
-        title: "Validation with Maze",
-        description: "Ran unmoderated usability tests via Maze with 24 participants across 3 clinician roles. Achieved task completion rates above 90% on all core flows. Iterated based on heatmap and misclick data.",
-      },
+      { title: "Heuristic Evaluation & Audit", description: "Conducted a comprehensive heuristic evaluation of the existing 200+ screen system, cataloging 47 usability issues across severity levels." },
+      { title: "Contextual Inquiry", description: "Spent 3 days shadowing clinicians and admin staff in their actual work environment. Observed workarounds, shortcuts, and pain points." },
+      { title: "Information Architecture & Design System", description: "Restructured the IA from 200+ screens down to 12 core views using card sorting. Built a healthcare-specific design system with WCAG AA baked in." },
+      { title: "Prototyping with AI Assistance", description: "Used AI tools to rapidly generate content variations and edge-case scenarios. Built interactive Figma prototypes covering 5 core workflows." },
+      { title: "Validation with Maze", description: "Ran unmoderated usability tests via Maze with 24 participants across 3 clinician roles. Achieved task completion rates above 90% on all core flows." },
     ],
     outcomes: [
       { metric: "4.2/5", label: "Average usability score" },
@@ -121,62 +90,47 @@ export const caseStudies: CaseStudy[] = [
       { metric: "60%", label: "Reduction in training time" },
     ],
     keyInsights: [
-      "Clinicians valued speed over aesthetics — every click saved was a win. Keyboard shortcuts were non-negotiable.",
-      "Color-coding by appointment type was deeply ingrained — the redesign preserved this mental model while modernizing the palette.",
+      "Clinicians valued speed over aesthetics — every click saved was a win.",
+      "Color-coding by appointment type was deeply ingrained — the redesign preserved this mental model.",
       "AI-assisted content generation saved ~30 hours in prototype preparation.",
-      "The biggest risk wasn't bad design — it was change resistance. Involving power users early as co-designers eliminated pushback.",
+      "Involving power users early as co-designers eliminated pushback.",
     ],
   },
   {
     id: "03",
-    slug: "brand-identity-photo-manipulation",
-    tag: "Visual & Illustration",
-    title: "Brand Identity & Surreal Photo-Manipulation Series",
+    slug: "b2b-saas-forms",
+    tag: "Product Design · B2B SaaS",
+    title: "Simplifying Complex Forms — A B2B SaaS Case Study",
     description:
-      "Created a cohesive visual identity and surreal photo-manipulation series for an independent lifestyle brand.",
+      "Created a streamlined multi-step form experience for a B2B SaaS product, improving completion rates and reducing support tickets.",
     image: caseStudy3,
-    tools: ["Photoshop", "Illustrator", "Procreate", "Midjourney", "After Effects"],
+    tools: ["Product Design", "B2B SaaS", "Forms"],
     metric: "15+",
     metricLabel: "deliverables",
     duration: "6 weeks",
     year: "2023",
     overview:
-      "An emerging lifestyle brand needed a complete visual identity that would stand out in a crowded market. The brief called for something 'between luxury and surrealism' — a visual language that felt premium yet unexpected. The project spanned logo design, a photo-manipulation art series, and social media templates.",
+      "An enterprise SaaS product needed to simplify a complex, multi-step onboarding form that was causing high abandonment rates and excessive support tickets. The brief called for a form experience that guided users without overwhelming them.",
     challenge:
-      "The brand had no existing visual assets and a very broad target audience (18–35 urban creatives). The challenge was creating a visual system flexible enough for everything from Instagram stories to packaging, while maintaining a consistent surreal aesthetic that didn't veer into gimmicky territory.",
+      "The existing form had 40+ fields across a single page with no clear hierarchy or progress indication. Users frequently abandoned mid-way or submitted incomplete data, creating downstream issues for the sales team.",
     process: [
-      {
-        title: "Brand Discovery & Moodboarding",
-        description: "Ran a brand workshop to define personality attributes, audience archetypes, and competitive positioning. Created 3 moodboard directions exploring different balances of luxury, surrealism, and accessibility.",
-      },
-      {
-        title: "Logo & Typography System",
-        description: "Designed 12 logo concepts, narrowed to 3 through client feedback, and refined the chosen direction. Paired a custom-modified wordmark with a flexible type system for different contexts.",
-      },
-      {
-        title: "Surreal Photo-Manipulation Series",
-        description: "Created 8 surreal compositions blending product photography with dreamlike environments. Used Photoshop for compositing, Midjourney for environmental concepts, and Procreate for hand-drawn overlays.",
-      },
-      {
-        title: "AI-Enhanced Workflow",
-        description: "Leveraged Midjourney to rapidly explore visual directions and generate background concepts. Used AI as a creative brainstorming partner — all final outputs were hand-crafted and refined in Photoshop.",
-      },
-      {
-        title: "Brand Guidelines & Handoff",
-        description: "Compiled a comprehensive brand book with logo usage, color system, typography rules, photography guidelines, and social media templates. Delivered 15+ production-ready assets.",
-      },
+      { title: "Audit & User Research", description: "Analyzed form analytics and conducted 8 user interviews to understand pain points, mental models, and expectations around the form experience." },
+      { title: "Content & Flow Redesign", description: "Reorganized 40+ fields into logical groups and designed a multi-step wizard pattern with clear progress indication." },
+      { title: "Interaction Design", description: "Designed smart defaults, conditional logic, and inline validation to reduce cognitive load and errors." },
+      { title: "AI-Enhanced Workflow", description: "Leveraged AI tools for rapid concept exploration and user testing script generation." },
+      { title: "Testing & Iteration", description: "Ran 3 rounds of usability testing, iterating on field labels, error messaging, and step transitions." },
     ],
     outcomes: [
       { metric: "15+", label: "Production-ready deliverables" },
-      { metric: "8", label: "Surreal art compositions" },
-      { metric: "40+", label: "Social media templates" },
-      { metric: "3x", label: "Engagement increase on launch" },
+      { metric: "52%", label: "Improvement in completion rate" },
+      { metric: "40%", label: "Fewer support tickets" },
+      { metric: "3x", label: "Faster form completion" },
     ],
     keyInsights: [
-      "AI tools like Midjourney were invaluable for rapid exploration but required significant manual refinement for brand-quality output.",
-      "Consistency in surrealism is harder than consistency in minimalism — a strict color and composition system was essential.",
-      "The brand workshop saved weeks of revision by aligning stakeholders early on personality and positioning.",
-      "Hand-drawn overlays on digital compositions created the 'unexpected premium' feel the client wanted.",
+      "Breaking a long form into steps isn't enough — each step needs a clear purpose communicated to the user.",
+      "Smart defaults saved users the most time and reduced errors significantly.",
+      "Inline validation at the field level was preferred over page-level error summaries.",
+      "Progress indicators with step labels outperformed simple progress bars.",
     ],
   },
 ];
