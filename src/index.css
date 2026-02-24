@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,46 +6,41 @@
 
 @layer base {
   :root {
-    /* Material-inspired neutral palette */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 12%;
+    --background: 40 14% 97%;
+    --foreground: 60 7% 6%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 12%;
+    --card-foreground: 60 7% 6%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 12%;
+    --popover-foreground: 60 7% 6%;
 
-    --primary: 0 0% 12%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 60 7% 6%;
+    --primary-foreground: 40 14% 97%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 12%;
+    --secondary: 40 10% 94%;
+    --secondary-foreground: 60 7% 6%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 40 10% 94%;
+    --muted-foreground: 0 0% 42%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 12%;
+    --accent: 38 38% 60%;
+    --accent-foreground: 60 7% 6%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 12%;
+    --border: 37 13% 90%;
+    --input: 37 13% 90%;
+    --ring: 60 7% 6%;
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
-    /* Portfolio tokens — restrained, professional */
-    --charcoal: 0 0% 12%;
-    --cream: 0 0% 98%;
-    --terracotta: 0 0% 35%;
-    --terracotta-light: 0 0% 96%;
-    --warm-gray: 0 0% 50%;
-    --surface: 0 0% 96%;
+    /* Custom tokens */
+    --gold: 38 38% 60%;
+    --surface: 0 0% 100%;
 
-    /* Shadows — Material elevation */
+    /* Shadows */
     --shadow-2xs: 0 1px 2px 0 hsl(0 0% 0% / 0.03);
     --shadow-xs: 0 1px 3px 0 hsl(0 0% 0% / 0.04);
     --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.06), 0 1px 2px -1px hsl(0 0% 0% / 0.06);
@@ -57,15 +52,15 @@
     --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.04);
     --shadow-hover: 0 8px 24px hsl(0 0% 0% / 0.08);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 12%;
-    --sidebar-primary: 0 0% 12%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 12%;
-    --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 0 0% 12%;
-    --sidebar: 0 0% 98%;
+    --sidebar-background: 40 14% 97%;
+    --sidebar-foreground: 60 7% 6%;
+    --sidebar-primary: 60 7% 6%;
+    --sidebar-primary-foreground: 40 14% 97%;
+    --sidebar-accent: 40 10% 94%;
+    --sidebar-accent-foreground: 60 7% 6%;
+    --sidebar-border: 37 13% 90%;
+    --sidebar-ring: 60 7% 6%;
+    --sidebar: 40 14% 97%;
 
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -74,50 +69,6 @@
     --chart-5: 340 75% 55%;
 
     --spacing: 0.25rem;
-    --tracking-normal: 0em;
-  }
-
-  .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 93%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 93%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 93%;
-    --primary: 0 0% 93%;
-    --primary-foreground: 0 0% 7%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 93%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 93%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 0% 93%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar: 0 0% 10%;
-    --sidebar-foreground: 0 0% 93%;
-    --sidebar-primary: 0 0% 93%;
-    --sidebar-primary-foreground: 0 0% 7%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 0% 93%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 0 0% 93%;
-    --shadow-2xs: 0 1px 2px 0 hsl(0 0% 0% / 0.1);
-    --shadow-xs: 0 1px 3px 0 hsl(0 0% 0% / 0.15);
-    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.2), 0 1px 2px -1px hsl(0 0% 0% / 0.15);
-    --shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.2), 0 1px 2px -1px hsl(0 0% 0% / 0.15);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.25), 0 2px 4px -2px hsl(0 0% 0% / 0.15);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.3), 0 4px 6px -4px hsl(0 0% 0% / 0.15);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.3), 0 8px 10px -6px hsl(0 0% 0% / 0.15);
-    --shadow-2xl: 0 25px 50px -12px hsl(0 0% 0% / 0.4);
   }
 }
 
@@ -128,64 +79,84 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-
-  /* Material Design type scale */
-  .type-display-large {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.1;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-  }
-
+  /* Typography scale — 8px grid */
   .type-display {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -2px;
+  }
+
+  .type-h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
     line-height: 1.15;
-    font-weight: 500;
-    letter-spacing: -0.025em;
+    font-weight: 400;
+    letter-spacing: -1px;
   }
 
-  .type-headline {
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
-    line-height: 1.3;
+  .type-h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    line-height: 1.25;
     font-weight: 500;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.5px;
   }
 
-  .type-title {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+  .type-h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: -0.3px;
   }
 
   .type-body {
-    font-size: 0.9375rem;
-    line-height: 1.65;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
     font-weight: 400;
   }
 
-  .type-label {
-    font-size: 0.75rem;
-    line-height: 1.5;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+  .type-body-lg {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
   }
 
   .type-caption {
-    font-size: 0.8125rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
     line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .type-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Project number */
+  .type-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 96px;
+    line-height: 1;
     font-weight: 400;
   }
 }
@@ -196,7 +167,17 @@
   }
 }
 
-/* Smooth scroll */
+/* Grain texture */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }
