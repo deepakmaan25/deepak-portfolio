@@ -24,39 +24,34 @@ const Testimonials = () => {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="py-24 lg:py-32 bg-charcoal overflow-hidden">
-      <div className="px-6 lg:px-12 max-w-7xl mx-auto">
+    <section className="py-24 lg:py-32 bg-foreground">
+      <div className="px-6 lg:px-8 max-w-6xl mx-auto">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <span className="inline-flex items-center gap-3 font-body text-xs font-medium tracking-[0.25em] uppercase text-cream/40 mb-3">
-            <span className="w-8 h-px bg-terracotta" />
-            Kind Words
-          </span>
-          <h2 className="font-display text-4xl lg:text-5xl font-bold text-cream">
-            What collaborators say
-          </h2>
+          <p className="type-label text-background/40 mb-3">Testimonials</p>
+          <h2 className="type-display text-background">What collaborators say</h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-px bg-cream/10">
+        <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
             <motion.blockquote
               key={i}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="bg-charcoal p-8 lg:p-10 flex flex-col justify-between"
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="flex flex-col justify-between"
             >
-              <p className="font-body text-sm text-cream/70 leading-relaxed mb-8 italic">
+              <p className="type-body text-background/70 mb-6">
                 "{t.quote}"
               </p>
               <footer>
-                <div className="font-body text-sm font-medium text-cream">{t.name}</div>
-                <div className="font-body text-xs text-cream/40 mt-0.5">{t.role}</div>
+                <div className="type-body font-medium text-background">{t.name}</div>
+                <div className="type-caption text-background/40">{t.role}</div>
               </footer>
             </motion.blockquote>
           ))}

@@ -5,72 +5,53 @@ import { caseStudies } from "@/data/caseStudies";
 
 const CaseStudyCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.15 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link
         to={`/case-study/${cs.slug}`}
-        className="group relative grid lg:grid-cols-[1fr_480px] gap-0 border border-border overflow-hidden cursor-pointer hover:border-terracotta/30 transition-all duration-500 block"
+        className="group block"
       >
-        {/* Content */}
-        <div className="p-8 lg:p-12 flex flex-col justify-between bg-cream group-hover:bg-surface transition-colors duration-300">
-          <div>
-            <div className="flex items-center gap-4 mb-6">
-              <span className="font-display text-6xl font-bold text-border/60 group-hover:text-terracotta/20 transition-colors duration-300">
-                {cs.id}
-              </span>
-              <span className="font-body text-[10px] font-semibold tracking-[0.2em] uppercase text-terracotta border border-terracotta/30 px-3 py-1">
-                {cs.tag}
-              </span>
-            </div>
-
-            <h3 className="font-display text-2xl lg:text-3xl font-semibold text-charcoal mb-4 leading-tight group-hover:text-terracotta transition-colors duration-300">
-              {cs.title}
-            </h3>
-
-            <p className="font-body text-sm text-warm-gray leading-relaxed max-w-md">
-              {cs.description}
-            </p>
-
-            {/* Metric callout */}
-            <div className="mt-6 inline-flex items-baseline gap-2 px-4 py-2 bg-charcoal/5 group-hover:bg-terracotta/10 transition-colors duration-300">
-              <span className="font-display text-2xl font-bold text-charcoal group-hover:text-terracotta transition-colors duration-300">{cs.metric}</span>
-              <span className="font-body text-xs text-warm-gray">{cs.metricLabel}</span>
-            </div>
-          </div>
-
-          <div className="mt-8 flex items-end justify-between flex-wrap gap-4">
-            <div className="flex flex-wrap gap-2">
-              {cs.tools.slice(0, 3).map((tool) => (
-                <span key={tool} className="font-body text-[11px] font-medium px-2.5 py-1 bg-muted text-warm-gray">
-                  {tool}
-                </span>
-              ))}
-            </div>
-            <div className="font-body text-xs text-warm-gray">{cs.duration} · {cs.year}</div>
-          </div>
-
-          <div className="mt-6 flex items-center gap-2 text-sm font-body font-medium text-charcoal group-hover:text-terracotta transition-colors duration-300">
-            <span>Read Case Study</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
-          </div>
-        </div>
-
         {/* Image */}
-        <div className="relative h-64 lg:h-auto overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-secondary mb-5">
           <img
             src={cs.image}
             alt={cs.title}
             loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-charcoal/10 group-hover:bg-charcoal/0 transition-colors duration-500" />
+        </div>
+
+        {/* Content */}
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="type-label text-muted-foreground mb-2">{cs.tag}</div>
+            <h3 className="type-headline text-foreground group-hover:opacity-70 transition-opacity mb-2">
+              {cs.title}
+            </h3>
+            <p className="type-caption text-muted-foreground max-w-md">
+              {cs.description}
+            </p>
+          </div>
+          <div className="flex-shrink-0 mt-1">
+            <div className="text-xl font-medium text-foreground">{cs.metric}</div>
+            <div className="type-caption text-muted-foreground">{cs.metricLabel}</div>
+          </div>
+        </div>
+
+        {/* Tools */}
+        <div className="flex flex-wrap gap-2 mt-4">
+          {cs.tools.slice(0, 4).map((tool) => (
+            <span key={tool} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground">
+              {tool}
+            </span>
+          ))}
         </div>
       </Link>
     </motion.article>
@@ -82,29 +63,19 @@ const CaseStudies = () => {
   const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
 
   return (
-    <section id="work" className="py-24 lg:py-32 px-6 lg:px-12 max-w-7xl mx-auto">
+    <section id="work" className="py-24 lg:py-32 px-6 lg:px-8 max-w-6xl mx-auto">
       <motion.div
         ref={headerRef}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="flex items-end justify-between mb-16 gap-4 flex-wrap"
+        transition={{ duration: 0.5 }}
+        className="mb-16"
       >
-        <div>
-          <span className="inline-flex items-center gap-3 font-body text-xs font-medium tracking-[0.25em] uppercase text-warm-gray mb-3">
-            <span className="w-8 h-px bg-terracotta" />
-            Selected Work
-          </span>
-          <h2 className="font-display text-4xl lg:text-5xl font-bold text-charcoal">
-            Case Studies
-          </h2>
-        </div>
-        <p className="font-body text-sm text-warm-gray max-w-xs text-right hidden sm:block">
-          Each project is a story — of problems, people, and purposeful design.
-        </p>
+        <p className="type-label text-muted-foreground mb-3">Selected Work</p>
+        <h2 className="type-display text-foreground">Case Studies</h2>
       </motion.div>
 
-      <div className="space-y-8">
+      <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
         {caseStudies.map((cs, i) => (
           <CaseStudyCard key={cs.id} cs={cs} index={i} />
         ))}
