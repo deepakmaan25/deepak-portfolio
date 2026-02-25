@@ -1,54 +1,98 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+const skillGroups = [
+  {
+    label: "RESEARCH",
+    skills: ["User Interviews", "Usability Testing", "Affinity Mapping", "Journey Mapping"],
+  },
+  {
+    label: "DESIGN",
+    skills: ["Figma", "Wireframing", "Prototyping", "Design Systems", "Interaction Design"],
+  },
+  {
+    label: "AI & TOOLS",
+    skills: ["ChatGPT", "Claude", "Midjourney", "Photoshop", "Illustrator"],
+  },
+];
+
+const background = [
+  { title: "BSc Interaction Design", detail: "Design Institute, 2023" },
+  { title: "Google UX Design Certificate", detail: "Coursera, 2023" },
+  { title: "AI for Designers", detail: "Self-directed, 2024" },
+];
+
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="about" className="py-[120px] max-md:py-16">
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
+    <section id="about" className="py-24 md:py-[96px] border-t border-border">
+      <div className="px-6 max-w-site mx-auto">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid lg:grid-cols-[1fr_320px] gap-16 lg:gap-24 items-start"
+          transition={{ duration: 0.5 }}
+          className="grid lg:grid-cols-2 gap-16 lg:gap-24"
         >
-          {/* Left: Text */}
+          {/* Left column */}
           <div>
-            <p className="type-caption text-muted-foreground mb-3">About Me</p>
-            <h2 className="type-h2 text-foreground mb-8">
-              A designer who thinks in systems
-            </h2>
+            <p className="type-label mb-4">ABOUT</p>
+            <h2 className="type-h2 mb-8">A designer who listens first.</h2>
 
-            <div className="space-y-4 type-body text-muted-foreground max-w-xl">
+            <div className="space-y-5 type-body text-text-body max-w-lg">
               <p>
-                I'm Deepak — a product designer who obsesses over the gap between how products work and how people actually experience them. I believe great design is 80% listening and 20% making.
+                I'm Deepak — a product designer crafting digital experiences that balance user needs with business goals. I work at the intersection of UX research, interface design, and AI-powered creative workflows.
               </p>
               <p>
-                I'm currently open to junior product design roles and freelance collaborations.
+                Great design starts before the first wireframe — in conversations, in empathy, and in genuine curiosity about how people think. I leverage AI tools as force multipliers for research synthesis, ideation, and visual exploration.
               </p>
             </div>
 
-            {/* Skills as inline text */}
-            <p className="type-body text-foreground mt-8">
-              Figma · FigJam · Maze · Notion · Miro · Framer · Principle
-            </p>
+            <div className="flex items-center gap-2 mt-8">
+              <span className="w-2.5 h-2.5 bg-green-500 rounded-full" />
+              <span className="text-[14px] font-medium text-foreground">Available for new opportunities</span>
+            </div>
 
-            {/* CTA */}
-            <a
-              href="#"
-              className="inline-flex items-center mt-8 px-6 h-12 border border-border text-foreground type-body font-medium rounded-md hover:bg-secondary transition-colors"
-            >
-              Download Résumé
-            </a>
+            {/* Currently card */}
+            <div className="mt-6 border border-border rounded-lg p-4 bg-background max-w-xs">
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-3">CURRENTLY</p>
+              <div className="space-y-1.5 text-[14px] text-text-body">
+                <p>📖 Reading: The Design of Everyday Things</p>
+                <p>🛠 Building: AI-assisted UX research toolkit</p>
+                <p>🌍 Based in: India, open to remote</p>
+              </div>
+            </div>
           </div>
 
-          {/* Right: Photo placeholder */}
-          <div className="w-full max-w-[320px] mx-auto lg:mx-0">
-            <div className="aspect-square rounded-lg bg-secondary border border-border flex items-center justify-center">
-              <span className="type-caption text-muted-foreground">Photo</span>
+          {/* Right column */}
+          <div>
+            {/* Skill tag groups */}
+            {skillGroups.map((group) => (
+              <div key={group.label} className="mb-8">
+                <p className="type-label border-b border-border pb-2 mb-4">{group.label}</p>
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span key={skill} className="inline-flex items-center px-3.5 py-1.5 border border-tag-border rounded-full text-[13px] text-text-body bg-background hover:bg-muted transition-colors">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Background */}
+            <div>
+              <p className="type-label border-b border-border pb-2 mb-4">BACKGROUND</p>
+              <div className="space-y-4">
+                {background.map((item) => (
+                  <div key={item.title}>
+                    <div className="text-[15px] font-semibold text-foreground">{item.title}</div>
+                    <div className="text-[14px] text-muted-foreground">{item.detail}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>

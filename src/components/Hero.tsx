@@ -1,71 +1,84 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const Hero = () => {
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true });
+
+  const stats = [
+    { value: "12+", label: "Projects" },
+    { value: "38%", label: "Avg. Improvement" },
+    { value: "4.2/5", label: "Usability Score" },
+  ];
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 lg:px-8 grain overflow-hidden">
-      <div className="relative z-10 text-center max-w-3xl mx-auto">
+    <section className="pt-32 pb-0 px-6 max-w-site mx-auto">
+      <div className="max-w-3xl">
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="type-caption text-muted-foreground mb-8"
+          transition={{ duration: 0.4 }}
+          className="type-label mb-6"
         >
-          Product Designer · Based in India
+          PRODUCT DESIGNER
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="type-display text-foreground mb-8"
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="type-h1 mb-8"
         >
-          Designing products that feel inevitable.
+          I design products that are simple, useful, and respectful of people's time.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="type-body-lg text-muted-foreground max-w-[480px] mx-auto mb-10"
+          transition={{ duration: 0.5, delay: 0.16 }}
+          className="type-body-lg text-muted-foreground max-w-xl mb-10"
         >
-          I'm Deepak Maan — I help teams shape complex ideas into clear, purposeful digital experiences.
+          Specializing in UX research, interaction design, and AI-powered workflows. I turn complex problems into clear, intuitive experiences — grounded in research, shaped by empathy.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          transition={{ duration: 0.4, delay: 0.24 }}
+          className="flex items-center gap-4 mb-16"
         >
           <a
             href="#work"
-            className="inline-flex items-center px-6 h-12 bg-foreground text-primary-foreground type-body font-medium rounded-md hover:scale-[1.02] transition-transform duration-150"
+            className="inline-flex items-center px-7 py-3.5 bg-foreground text-primary-foreground text-[15px] font-medium rounded-full hover:bg-foreground/85 transition-colors"
           >
-            View My Work
+            View Work ↓
           </a>
           <a
-            href="#about"
-            className="type-body text-muted-foreground hover:text-foreground transition-colors"
+            href="#contact"
+            className="inline-flex items-center px-7 py-3 border-[1.5px] border-foreground text-foreground text-[15px] font-medium rounded-full hover:bg-foreground hover:text-primary-foreground transition-colors duration-200"
           >
-            Read about me →
+            Get in Touch
           </a>
         </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex items-center justify-center gap-3 mt-16"
-        >
-          {["4+ Projects", "2+ Years Learning", "100% Process-Driven"].map((stat, i) => (
-            <span key={stat} className="flex items-center gap-3">
-              {i > 0 && <span className="text-border">·</span>}
-              <span className="type-caption text-muted-foreground">{stat}</span>
-            </span>
-          ))}
-        </motion.div>
       </div>
+
+      {/* Stats row */}
+      <motion.div
+        ref={statsRef}
+        initial={{ opacity: 0 }}
+        animate={statsInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="border-t border-border pt-10 pb-10"
+      >
+        <div className="flex items-start gap-16 max-md:gap-10">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <div className="text-3xl font-bold text-foreground leading-none mb-1">{stat.value}</div>
+              <div className="text-[14px] text-muted-foreground">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 };

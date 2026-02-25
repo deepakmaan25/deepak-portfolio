@@ -7,15 +7,14 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: '1.5rem',
       screens: {
-        '2xl': '1400px'
+        '2xl': '1200px'
       }
     },
     extend: {
       fontFamily: {
-        display: ['"DM Serif Display"', 'serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       maxWidth: {
         site: '1200px',
@@ -54,8 +53,15 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-        gold: 'hsl(var(--gold))',
         surface: 'hsl(var(--surface))',
+        'text-secondary': 'hsl(var(--text-secondary))',
+        'text-body': 'hsl(var(--text-body))',
+        'tag-border': 'hsl(var(--tag-border))',
+        'process-bg': 'hsl(var(--process-bg))',
+        'quote-mark': 'hsl(var(--quote-mark))',
+        'card-lavender': 'hsl(var(--card-lavender))',
+        'card-blue': 'hsl(var(--card-blue))',
+        'card-orange': 'hsl(var(--card-orange))',
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -87,13 +93,8 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       boxShadow: {
-        '2xs': 'var(--shadow-2xs)',
-        xs: 'var(--shadow-xs)',
-        sm: 'var(--shadow-sm)',
-        md: 'var(--shadow-md)',
-        lg: 'var(--shadow-lg)',
-        xl: 'var(--shadow-xl)',
-        '2xl': 'var(--shadow-2xl)'
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
       }
     }
   },
