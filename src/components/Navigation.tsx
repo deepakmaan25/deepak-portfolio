@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
+const sections = ["work", "about", "process", "contact"];
+
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
   const isHome = location.pathname === "/";
 
@@ -13,6 +16,26 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Active section tracking
+  useEffect(() => {
+    if (!isHome) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -40% 0px" }
+    );
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [isHome]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -41,13 +64,20 @@ const Navigation = () => {
 
           {/* Desktop center links */}
           <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <LinkOrAnchor href={link.href} className="text-[14px] text-muted-foreground hover:text-foreground transition-colors">
-                  {link.label}
-                </LinkOrAnchor>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const sectionId = link.href.replace(/.*#/, "");
+              const isActive = activeSection === sectionId;
+              return (
+                <li key={link.label}>
+                  <LinkOrAnchor
+                    href={link.href}
+                    className={`text-[14px] transition-colors ${isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"}`}
+                  >
+                    {link.label}
+                  </LinkOrAnchor>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Desktop CTA */}
@@ -70,10 +100,10 @@ const Navigation = () => {
       {/* Mobile fullscreen overlay */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] bg-background flex flex-col items-center justify-center gap-8">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] bg-foreground flex flex-col items-center justify-center gap-8">
             {navLinks.map((link, i) => (
               <motion.div key={link.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-                <LinkOrAnchor href={link.href} onClick={() => setMenuOpen(false)} className="text-3xl font-bold text-foreground hover:text-muted-foreground transition-colors">
+                <LinkOrAnchor href={link.href} onClick={() => setMenuOpen(false)} className="text-3xl font-bold text-primary-foreground hover:text-primary-foreground/70 transition-colors">
                   {link.label}
                 </LinkOrAnchor>
               </motion.div>
