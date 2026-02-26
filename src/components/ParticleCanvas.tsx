@@ -24,40 +24,36 @@ const ParticleCanvas = () => {
     const w = () => canvas.width / window.devicePixelRatio;
     const h = () => canvas.height / window.devicePixelRatio;
 
-    // Create dots in loose grid
-    const dots: { ox: number; oy: number; x: number; y: number; vx: number; vy: number; phase: number }[] = [];
-    const cols = 12;
-    const rows = 10;
+    const dots: { ox: number; oy: number; x: number; y: number; phase: number }[] = [];
+    const cols = 18;
+    const rows = 12;
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         const ox = (i + 0.5) * (w() / cols) + (Math.random() - 0.5) * 20;
         const oy = (j + 0.5) * (h() / rows) + (Math.random() - 0.5) * 20;
-        dots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0, phase: Math.random() * Math.PI * 2 });
+        dots.push({ ox, oy, x: ox, y: oy, phase: Math.random() * Math.PI * 2 });
       }
     }
 
     let time = 0;
     const animate = () => {
-      time += 0.008;
+      time += 0.006;
       const cw = w();
       const ch = h();
       ctx.clearRect(0, 0, cw, ch);
 
       const mouse = mouseRef.current;
 
-      // Update dots
       for (const dot of dots) {
-        // Sine drift
-        const targetX = dot.ox + Math.sin(time + dot.phase) * 6;
-        const targetY = dot.oy + Math.cos(time * 0.7 + dot.phase) * 4;
+        const targetX = dot.ox + Math.sin(time + dot.phase) * 5;
+        const targetY = dot.oy + Math.cos(time * 0.7 + dot.phase) * 3;
 
-        // Mouse repulsion
         const dx = dot.x - mouse.x;
         const dy = dot.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         let fx = 0, fy = 0;
-        if (dist < 100 && dist > 0) {
-          const force = (100 - dist) / 100 * 40;
+        if (dist < 120 && dist > 0) {
+          const force = (120 - dist) / 120 * 50;
           fx = (dx / dist) * force;
           fy = (dy / dist) * force;
         }
@@ -67,13 +63,13 @@ const ParticleCanvas = () => {
       }
 
       // Draw connections
-      ctx.strokeStyle = "rgba(255,255,255,0.06)";
+      ctx.strokeStyle = "rgba(0,0,0,0.04)";
       ctx.lineWidth = 1;
       for (let i = 0; i < dots.length; i++) {
         for (let j = i + 1; j < dots.length; j++) {
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
-          if (dx * dx + dy * dy < 80 * 80) {
+          if (dx * dx + dy * dy < 90 * 90) {
             ctx.beginPath();
             ctx.moveTo(dots[i].x, dots[i].y);
             ctx.lineTo(dots[j].x, dots[j].y);
@@ -83,10 +79,10 @@ const ParticleCanvas = () => {
       }
 
       // Draw dots
-      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.fillStyle = "rgba(0,0,0,0.12)";
       for (const dot of dots) {
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, 2, 0, Math.PI * 2);
+        ctx.arc(dot.x, dot.y, 1.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -97,7 +93,6 @@ const ParticleCanvas = () => {
 
     const handleResize = () => {
       resize();
-      // Recalculate dot origins
       const newW = w();
       const newH = h();
       let idx = 0;
@@ -136,34 +131,11 @@ const ParticleCanvas = () => {
 
   return (
     <div
-      className="relative w-full h-[480px] rounded-[20px] overflow-hidden"
-      style={{ background: "#0A0A0A" }}
+      className="absolute inset-0 pointer-events-auto"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
-      {/* Floating UI mockup card */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="animate-float-card w-[220px] rounded-xl p-5"
-          style={{
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.15)",
-          }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }} />
-            <div className="flex-1 space-y-1.5">
-              <div className="h-2 rounded-full w-3/4" style={{ background: "rgba(255,255,255,0.2)" }} />
-              <div className="h-2 rounded-full w-1/2" style={{ background: "rgba(255,255,255,0.12)" }} />
-            </div>
-          </div>
-          <div className="space-y-2 mb-4">
-            <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.2)" }} />
-            <div className="h-2 rounded-full w-5/6" style={{ background: "rgba(255,255,255,0.15)" }} />
-          </div>
-          <div className="h-7 rounded-md w-24" style={{ background: "rgba(99,102,241,0.6)" }} />
-        </div>
-      </div>
     </div>
   );
 };
