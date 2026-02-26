@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import ProofBar from "@/components/ProofBar";
 import ToolsMarquee from "@/components/ToolsMarquee";
@@ -10,6 +11,7 @@ import Contact from "@/components/Contact";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <ScrollProgress />
       <Navigation />
       <main>
         <Hero />

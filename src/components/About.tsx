@@ -4,14 +4,17 @@ import { motion, useInView } from "framer-motion";
 const skillGroups = [
   {
     label: "RESEARCH",
+    dotColor: "bg-blue-500",
     skills: ["User Interviews", "Usability Testing", "Affinity Mapping", "Journey Mapping"],
   },
   {
     label: "DESIGN",
+    dotColor: "bg-indigo-500",
     skills: ["Figma", "Wireframing", "Prototyping", "Design Systems", "Interaction Design"],
   },
   {
     label: "AI & TOOLS",
+    dotColor: "bg-green-500",
     skills: ["ChatGPT", "Claude", "Midjourney", "Photoshop", "Illustrator"],
   },
 ];
@@ -27,8 +30,10 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="about" className="py-24 md:py-[96px] border-t border-border">
-      <div className="px-6 max-w-site mx-auto">
+    <section id="about" className="py-24 md:py-[96px]">
+      {/* Thin top rule */}
+      <div className="border-t border-border" />
+      <div className="px-6 max-w-site mx-auto pt-24 md:pt-[96px]">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -39,7 +44,28 @@ const About = () => {
           {/* Left column */}
           <div>
             <p className="type-label mb-4">ABOUT</p>
-            <h2 className="type-h2 mb-8">A designer who listens first.</h2>
+            <h2 className="type-h2 mb-8 text-[40px]">
+              A designer who{" "}
+              <span className="relative inline-block">
+                listens
+                <svg
+                  className="absolute -bottom-1 left-0 w-full"
+                  height="6"
+                  viewBox="0 0 100 6"
+                  preserveAspectRatio="none"
+                  fill="none"
+                >
+                  <path
+                    d="M0 3 Q 10 0, 20 3 T 40 3 T 60 3 T 80 3 T 100 3"
+                    stroke="#6366F1"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+              {" "}first.
+            </h2>
 
             <div className="space-y-5 type-body text-text-body max-w-lg">
               <p>
@@ -50,18 +76,39 @@ const About = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 mt-8">
-              <span className="w-2.5 h-2.5 bg-green-500 rounded-full" />
-              <span className="text-[14px] font-medium text-foreground">Available for new opportunities</span>
+            {/* Available badge */}
+            <div className="flex items-center gap-2.5 mt-8">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping-dot absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+              </span>
+              <span
+                className="text-[13px] font-medium px-4 py-1.5 rounded-full"
+                style={{
+                  background: "#DCFCE7",
+                  color: "#166534",
+                  border: "1px solid #BBF7D0",
+                }}
+              >
+                Available for new opportunities
+              </span>
             </div>
 
-            {/* Currently card */}
-            <div className="mt-6 border border-border rounded-lg p-4 bg-background max-w-xs">
-              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-3">CURRENTLY</p>
-              <div className="space-y-1.5 text-[14px] text-text-body">
+            {/* Currently card — dark */}
+            <div className="mt-6 bg-foreground rounded-xl p-5 max-w-xs">
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-muted-foreground/50 mb-3">
+                CURRENTLY
+              </p>
+              <div className="space-y-1 text-[14px] text-primary-foreground leading-[2]">
                 <p>📖 Reading: The Design of Everyday Things</p>
                 <p>🛠 Building: AI-assisted UX research toolkit</p>
-                <p>🌍 Based in: India, open to remote</p>
+                <p className="flex items-center gap-2">
+                  🌍 Based in: India, open to remote
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping-dot absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                  </span>
+                </p>
               </div>
             </div>
           </div>
@@ -71,10 +118,17 @@ const About = () => {
             {/* Skill tag groups */}
             {skillGroups.map((group) => (
               <div key={group.label} className="mb-8">
-                <p className="type-label border-b border-border pb-2 mb-4">{group.label}</p>
+                <div className="border-t border-border/50 mb-4" />
+                <p className="type-label pb-2 mb-4 flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${group.dotColor}`} />
+                  {group.label}
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {group.skills.map((skill) => (
-                    <span key={skill} className="inline-flex items-center px-3.5 py-1.5 border border-tag-border rounded-full text-[13px] text-text-body bg-background hover:bg-muted transition-colors">
+                    <span
+                      key={skill}
+                      className="inline-flex items-center px-3.5 py-1.5 border border-tag-border rounded-full text-[13px] text-text-body bg-background hover:bg-foreground hover:text-primary-foreground hover:border-foreground transition-all duration-200 cursor-default"
+                    >
                       {skill}
                     </span>
                   ))}
@@ -84,12 +138,21 @@ const About = () => {
 
             {/* Background */}
             <div>
-              <p className="type-label border-b border-border pb-2 mb-4">BACKGROUND</p>
-              <div className="space-y-4">
+              <div className="border-t border-border/50 mb-4" />
+              <p className="type-label pb-2 mb-4">BACKGROUND</p>
+              <div className="space-y-2">
                 {background.map((item) => (
-                  <div key={item.title}>
+                  <div
+                    key={item.title}
+                    className="flex items-center justify-between p-3 px-4 bg-surface rounded-lg hover:bg-background hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-200"
+                  >
                     <div className="text-[15px] font-semibold text-foreground">{item.title}</div>
-                    <div className="text-[14px] text-muted-foreground">{item.detail}</div>
+                    <div
+                      className="text-[12px] text-muted-foreground px-2 py-0.5 rounded"
+                      style={{ background: "hsl(var(--muted))" }}
+                    >
+                      {item.detail}
+                    </div>
                   </div>
                 ))}
               </div>

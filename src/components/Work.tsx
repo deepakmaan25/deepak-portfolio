@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { caseStudies } from "@/data/caseStudies";
@@ -9,11 +9,30 @@ const cardColors = [
   "bg-card-orange",
 ];
 
+// EduPath dashboard wireframe placeholder
+const EduPathPlaceholder = () => (
+  <div className="w-full h-full flex rounded-xl overflow-hidden" style={{ background: "#F0F4FF" }}>
+    {/* Sidebar */}
+    <div className="w-[20%] h-full" style={{ background: "rgba(99,102,241,0.08)" }} />
+    <div className="flex-1 p-4 flex flex-col gap-3">
+      {/* Top bar */}
+      <div className="h-8 rounded-md w-full" style={{ background: "rgba(99,102,241,0.06)" }} />
+      {/* Content grid */}
+      <div className="flex-1 grid grid-cols-3 gap-2.5">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="rounded-lg" style={{ background: "rgba(99,102,241,0.1)" }} />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [showCursor, setShowCursor] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -22,6 +41,8 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
     setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   }, []);
 
+  const isEduPath = cs.slug === "edupath-learning-system";
+
   return (
     <motion.div
       ref={ref}
@@ -29,8 +50,21 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: 0.05 }}
     >
-      <Link to={`/case-study/${cs.slug}`} className="group block">
-        <div className={`${cardColors[index % 3]} rounded-2xl shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-200 p-8 md:p-10`}>
+      <Link
+        to={`/case-study/${cs.slug}`}
+        className="group block"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div
+          className={`${cardColors[index % 3]} rounded-2xl p-8 md:p-10 transition-all duration-[280ms]`}
+          style={{
+            boxShadow: isHovered
+              ? "0 20px 60px rgba(0,0,0,0.12)"
+              : "0 2px 20px rgba(0,0,0,0.06)",
+            transform: isHovered ? "translateY(-6px)" : "translateY(0)",
+          }}
+        >
           <div className="grid md:grid-cols-[55%_45%] gap-8 items-center">
             {/* Left content */}
             <div>
@@ -41,18 +75,24 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
               {/* Outcome chips */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {cs.outcomes.slice(0, 4).map((o, i) => (
-                  <span key={i} className="inline-flex items-center px-3 py-1.5 bg-background border border-tag-border rounded-full text-[13px] text-text-body">
+                  <span
+                    key={i}
+                    className="inline-flex items-center px-3 py-1 bg-background border border-tag-border rounded-full text-[12px] text-text-body hover:bg-[#F5F5FF] hover:border-[#C7D2FE] transition-colors duration-200"
+                  >
                     {o.metric} {o.label.toLowerCase()}
                   </span>
                 ))}
               </div>
 
-              <span className="text-[15px] font-medium text-foreground group-hover:underline underline-offset-4 transition-all">
+              <span
+                className="text-[15px] font-medium text-foreground underline-offset-4 transition-colors duration-200"
+                style={{ color: isHovered ? "#6366F1" : undefined }}
+              >
                 View Case Study →
               </span>
             </div>
 
-            {/* Right image placeholder */}
+            {/* Right image area */}
             <div
               ref={imageRef}
               className="relative aspect-[4/3] bg-muted rounded-xl flex items-center justify-center overflow-hidden cursor-none"
@@ -60,7 +100,9 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
               onMouseLeave={() => setShowCursor(false)}
               onMouseMove={handleMouseMove}
             >
-              {cs.image ? (
+              {isEduPath ? (
+                <EduPathPlaceholder />
+              ) : cs.image ? (
                 <img src={cs.image} alt={cs.title} loading="lazy" className="w-full h-full object-cover rounded-xl" />
               ) : (
                 <span className="text-[13px] text-muted-foreground">Project Mockup</span>
