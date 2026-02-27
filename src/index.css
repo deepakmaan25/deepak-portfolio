@@ -43,12 +43,10 @@
     --process-bg: 0 0% 97%;
     --quote-mark: 0 0% 91%;
 
-    /* Card accent backgrounds */
     --card-lavender: 260 100% 97%;
     --card-blue: 213 100% 97%;
     --card-orange: 24 100% 97%;
 
-    /* Shadows */
     --shadow-card: 0 2px 20px hsla(0, 0%, 0%, 0.06);
     --shadow-card-hover: 0 8px 30px hsla(0, 0%, 0%, 0.1);
 
@@ -68,6 +66,73 @@
     --chart-5: 340 75% 55%;
 
     --spacing: 0.25rem;
+
+    /* Dark mode specific */
+    --glass-bg: 0 0% 100% / 0.55;
+    --glass-border: 0 0% 100% / 0.8;
+    --glass-shadow: 239 84% 67% / 0.08;
+    --ambient-opacity: 0.15;
+    --skills-strip-bg: 0 0% 4%;
+    --skills-strip-tag-bg: 0 0% 11%;
+    --skills-strip-tag-border: 0 0% 16%;
+    --skills-strip-text: 0 0% 88%;
+    --skills-strip-label: 0 0% 40%;
+    --skills-strip-divider: 0 0% 16%;
+  }
+
+  [data-theme="dark"] {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 96%;
+
+    --card: 240 6% 8%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 240 6% 8%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 0 0% 96%;
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 240 6% 10%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 240 5% 13%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 240 5% 13%;
+    --accent-foreground: 0 0% 96%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 240 5% 65%;
+
+    --surface: 240 6% 10%;
+    --text-secondary: 240 5% 65%;
+    --text-body: 240 5% 75%;
+    --tag-border: 240 4% 20%;
+    --process-bg: 240 6% 8%;
+    --quote-mark: 240 4% 16%;
+
+    --card-lavender: 260 30% 12%;
+    --card-blue: 213 30% 12%;
+    --card-orange: 24 30% 12%;
+
+    --shadow-card: 0 2px 20px hsla(0, 0%, 0%, 0.3);
+    --shadow-card-hover: 0 8px 30px hsla(0, 0%, 0%, 0.4);
+
+    --glass-bg: 0 0% 100% / 0.04;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-shadow: 239 84% 67% / 0.15;
+    --ambient-opacity: 0.25;
+    --skills-strip-bg: 240 6% 8%;
+    --skills-strip-tag-bg: 240 5% 13%;
+    --skills-strip-tag-border: 240 4% 20%;
+    --skills-strip-text: 0 0% 88%;
+    --skills-strip-label: 240 5% 40%;
+    --skills-strip-divider: 240 4% 20%;
   }
 }
 
@@ -82,18 +147,17 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 1.7;
-    color: hsl(0 0% 29%);
+    color: hsl(var(--text-body));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Section labels */
   .type-label {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: hsl(0 0% 60%);
+    color: hsl(var(--muted-foreground));
   }
 
   .type-h1 {
@@ -149,12 +213,29 @@
   }
 }
 
-/* Float animation for canvas card */
+/* Float animations */
+@keyframes float1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float-1 { animation: float1 5s ease-in-out infinite; }
+.animate-float-2 { animation: float2 5s ease-in-out 1.5s infinite; }
+.animate-float-3 { animation: float3 5s ease-in-out 3s infinite; }
+
+/* Legacy float-card */
 @keyframes float-card {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-
 .animate-float-card {
   animation: float-card 4s ease-in-out infinite;
 }
@@ -165,11 +246,44 @@
   50% { transform: scale(1.4); opacity: 0.5; }
   100% { transform: scale(1); opacity: 0.75; }
 }
-
 .animate-ping-dot {
   animation: ping-dot 2s ease-in-out infinite;
 }
 
+/* Decorative ring rotation */
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes ring-rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
 html {
   scroll-behavior: smooth;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Marquee fade edges */
+.marquee-container {
+  position: relative;
+}
+.marquee-container::before,
+.marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, hsl(var(--background)), transparent);
+}
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, hsl(var(--background)), transparent);
 }

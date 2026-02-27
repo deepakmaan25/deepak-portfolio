@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
 
 const items = [
-  "Maze", "Notion", "FigJam", "Miro", "After Effects",
-  "Claude", "Figma", "ChatGPT", "Midjourney", "Photoshop",
+  "Figma", "FigJam", "Maze", "Miro", "Notion",
+  "After Effects", "Claude", "ChatGPT", "Midjourney",
+  "Photoshop", "Illustrator",
 ];
 
 const ToolsMarquee = () => {
   return (
-    <section className="py-4 border-y border-border overflow-hidden bg-background">
+    <section className="marquee-container py-4 border-y border-border overflow-hidden bg-background">
       <div className="flex">
         <motion.div
           className="flex items-center whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
         >
           {[...items, ...items].map((item, i) => (
             <span key={i} className="flex items-center">

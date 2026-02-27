@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Search, Target, PenTool, CheckCircle } from "lucide-react";
 
 const steps = [
@@ -37,184 +36,219 @@ const steps = [
   },
 ];
 
-// Visual illustrations for each step
-const StepVisual = ({ index }: { index: number }) => {
-  if (index === 0) {
-    // Discover — transcript to insight flow
-    return (
-      <div className="flex flex-col gap-3 p-4">
-        <div className="flex items-center gap-2">
-          <div className="px-3 py-2 rounded-lg bg-muted text-[11px] font-medium text-foreground border border-border">Raw Transcripts</div>
-          <div className="text-muted-foreground text-[10px]">→</div>
-          <div className="px-3 py-2 rounded-lg text-[11px] font-medium text-primary-foreground border" style={{ background: "rgba(99,102,241,0.8)", borderColor: "rgba(99,102,241,0.3)" }}>AI Analysis</div>
-          <div className="text-muted-foreground text-[10px]">→</div>
-          <div className="px-3 py-2 rounded-lg bg-muted text-[11px] font-medium text-foreground border border-border">Insights</div>
-        </div>
-        <div className="space-y-2 mt-2">
-          {[85, 60, 45].map((w, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
-              <div className="h-2 rounded-full bg-foreground/10" style={{ width: `${w}%` }} />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  if (index === 1) {
-    // Define — affinity map
-    return (
-      <div className="p-4">
-        <div className="grid grid-cols-3 gap-2">
-          {["Pain Points", "Needs", "Goals"].map((label) => (
-            <div key={label} className="flex flex-col gap-1.5">
-              <div className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{label}</div>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="px-2 py-1.5 rounded text-[10px] border border-border bg-background" style={{
-                  background: label === "Pain Points" ? "rgba(239,68,68,0.05)" : label === "Needs" ? "rgba(59,130,246,0.05)" : "rgba(16,185,129,0.05)",
-                  borderColor: label === "Pain Points" ? "rgba(239,68,68,0.15)" : label === "Needs" ? "rgba(59,130,246,0.15)" : "rgba(16,185,129,0.15)",
-                }}>
-                  <div className="h-1.5 rounded-full bg-foreground/10" style={{ width: `${60 + i * 15}%` }} />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div className="mt-3 px-3 py-2 rounded-lg border border-border bg-muted text-[10px] font-medium text-center text-foreground/70">
-          → HMW Statement
-        </div>
-      </div>
-    );
-  }
-  if (index === 2) {
-    // Design — component system
-    return (
-      <div className="p-4">
-        <div className="rounded-xl overflow-hidden border border-border">
-          {/* Toolbar */}
-          <div className="flex items-center gap-2 px-3 py-2 bg-muted/50 border-b border-border">
-            <div className="flex gap-1">
-              <div className="w-2 h-2 rounded-full bg-destructive/50" />
-              <div className="w-2 h-2 rounded-full bg-foreground/15" />
-              <div className="w-2 h-2 rounded-full bg-foreground/15" />
-            </div>
-            <div className="h-2 rounded bg-foreground/8 flex-1 max-w-[80px]" />
-          </div>
-          {/* Canvas */}
-          <div className="p-3 flex gap-2">
-            {/* Sidebar layers */}
-            <div className="w-[60px] space-y-1.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-2 rounded bg-foreground/8" style={{ width: `${70 + Math.random() * 30}%` }} />
-              ))}
-            </div>
-            {/* Preview area */}
-            <div className="flex-1 rounded-lg p-2" style={{ background: "rgba(99,102,241,0.04)", border: "1px dashed rgba(99,102,241,0.2)" }}>
-              <div className="h-4 rounded bg-foreground/6 mb-2 w-3/4" />
-              <div className="grid grid-cols-2 gap-1.5">
-                <div className="h-8 rounded" style={{ background: "rgba(99,102,241,0.1)" }} />
-                <div className="h-8 rounded" style={{ background: "rgba(99,102,241,0.1)" }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  // Deliver — metrics dashboard
+// Opposite-side visuals
+const ResearchWall = () => {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.3 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  const colors = ['rgba(253,224,71,0.2)', 'rgba(196,181,253,0.2)'];
+  const highlights = [2, 7, 14];
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-2 gap-2 mb-3">
-        {[
-          { label: "Task Success", value: "94%", color: "rgba(16,185,129,0.15)" },
-          { label: "Time on Task", value: "-32%", color: "rgba(59,130,246,0.15)" },
-          { label: "Error Rate", value: "2.1%", color: "rgba(239,68,68,0.1)" },
-          { label: "SUS Score", value: "82", color: "rgba(139,92,246,0.15)" },
-        ].map((m) => (
-          <div key={m.label} className="rounded-lg p-2.5 border border-border" style={{ background: m.color }}>
-            <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{m.label}</div>
-            <div className="text-[16px] font-bold text-foreground leading-none mt-1">{m.value}</div>
-          </div>
-        ))}
-      </div>
-      <div className="flex items-end gap-1 h-[30px]">
-        {[30, 50, 40, 70, 60, 85, 75, 90].map((h, i) => (
-          <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: `rgba(16,185,129,${0.2 + i * 0.05})` }} />
+    <div ref={ref} className="hidden md:flex items-center justify-center opacity-85">
+      <div className="grid grid-cols-5 gap-2 w-[280px]">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="w-12 h-12 rounded-md transition-all duration-300"
+            style={{
+              background: colors[i % 2],
+              border: '1px solid rgba(0,0,0,0.06)',
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'scale(1)' : 'scale(0.95)',
+              transitionDelay: `${i * 30}ms`,
+              borderTop: highlights.includes(i) ? '3px solid rgba(99,102,241,0.4)' : undefined,
+            }}
+          />
         ))}
       </div>
     </div>
   );
 };
 
+const JourneyMap = () => (
+  <div className="hidden md:flex items-center justify-center opacity-85">
+    <div className="w-[300px]">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-3">User Journey</div>
+      <div className="relative flex items-center justify-between">
+        <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-border -translate-y-1/2" />
+        {['#EF4444', '#F59E0B', '#F59E0B', '#10B981', '#10B981'].map((c, i) => (
+          <div key={i} className="relative z-10 flex flex-col items-center gap-2">
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: c }} />
+            <div className="w-10 h-1.5 rounded bg-border" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const ComponentLibrary = () => (
+  <div className="hidden md:flex items-center justify-center opacity-85">
+    <div className="w-[280px] p-6 rounded-xl" style={{ border: '1px dashed hsl(var(--border))' }}>
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-4">Design System Components</div>
+      <div className="space-y-3">
+        <div className="flex gap-2">
+          <div className="px-3 py-1.5 rounded-md text-[10px] font-medium text-white" style={{ background: '#6366f1' }}>Button</div>
+          <div className="px-3 py-1.5 rounded-md text-[10px] font-medium border border-border text-foreground">Outlined</div>
+        </div>
+        <div className="h-8 rounded-md border border-border flex items-center px-3">
+          <div className="h-1.5 rounded-full w-2/3 bg-foreground/10" />
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="w-8 h-4 rounded-full bg-[#6366f1] relative"><div className="absolute right-0.5 top-0.5 w-3 h-3 rounded-full bg-white" /></div>
+          <div className="w-4 h-4 rounded border-2 border-[#6366f1] flex items-center justify-center"><div className="w-2 h-2 rounded-sm bg-[#6366f1]" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const MetricsDashboard = () => {
+  const metrics = [
+    { label: "Task Completion", value: "↑ 93%", color: "#6366f1" },
+    { label: "Drop-off Rate", value: "↓ 60%", color: "#6366f1" },
+    { label: "Usability Score", value: "4.2/5", color: "#6366f1" },
+  ];
+  return (
+    <div className="hidden md:flex items-center justify-center opacity-85">
+      <div className="w-[240px] space-y-2.5">
+        {metrics.map((m) => (
+          <div key={m.label} className="rounded-lg p-3 bg-surface border border-border">
+            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{m.label}</div>
+            <div className="text-[18px] font-bold mt-0.5" style={{ color: m.color }}>{m.value}</div>
+          </div>
+        ))}
+        <svg width="240" height="40" viewBox="0 0 240 40" fill="none">
+          <polyline points="0,35 30,28 60,30 90,20 120,22 150,14 180,10 210,6 240,3" stroke="#6366f1" strokeWidth="2" fill="none" />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+const oppositeVisuals = [ResearchWall, JourneyMap, ComponentLibrary, MetricsDashboard];
+
 const StepCard = ({ step, index }: { step: typeof steps[0]; index: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   const isLeft = index % 2 === 0;
 
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.2 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  const OppositeVisual = oppositeVisuals[index];
+
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       {/* Center node dot */}
       <div className="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-2 h-2 rounded-full bg-foreground z-10" />
 
-      <div className={`md:flex items-start ${isLeft ? "md:justify-start" : "md:justify-end"}`}>
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="w-full md:w-[calc(50%-32px)] bg-background border border-border rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.05)]"
-        >
-          <div className="p-8">
-            <div className="text-[48px] font-extrabold text-border/60 leading-none mb-3">{step.num}</div>
-            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
-              <step.icon size={18} className="text-foreground" />
+      <div className={`md:grid md:grid-cols-2 gap-8 items-center`}>
+        {/* Left side */}
+        <div className={isLeft ? '' : 'md:order-2'}>
+          {isLeft ? (
+            <div
+              className="w-full bg-background border border-border rounded-2xl overflow-hidden transition-all duration-400"
+              style={{
+                boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
+                opacity: visible ? 1 : 0,
+                transform: visible ? 'translateX(0)' : 'translateX(-40px)',
+                transition: 'opacity 400ms ease, transform 400ms ease',
+              }}
+            >
+              <div className="p-8">
+                <div className="text-[48px] font-extrabold leading-none mb-3" style={{ color: 'hsl(var(--border))' }}>{step.num}</div>
+                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <step.icon size={18} className="text-foreground" />
+                </div>
+                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
+                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {step.tags.map((tag) => (
+                    <span key={tag} className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background">{tag}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-            <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
-            <p className="type-body text-text-body mb-5">{step.description}</p>
-            <div className="flex flex-wrap gap-2">
-              {step.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-text-body bg-background"
-                >
-                  {tag}
-                </span>
-              ))}
+          ) : (
+            <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(-40px)', transition: 'opacity 400ms ease, transform 400ms ease' }}>
+              <OppositeVisual />
             </div>
-          </div>
-          {/* Visual illustration */}
-          <div className="border-t border-border bg-muted/30">
-            <StepVisual index={index} />
-          </div>
-        </motion.div>
+          )}
+        </div>
+
+        {/* Right side */}
+        <div className={isLeft ? '' : 'md:order-1'}>
+          {isLeft ? (
+            <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(40px)', transition: 'opacity 400ms ease, transform 400ms ease' }}>
+              <OppositeVisual />
+            </div>
+          ) : (
+            <div
+              className="w-full bg-background border border-border rounded-2xl overflow-hidden transition-all duration-400"
+              style={{
+                boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
+                opacity: visible ? 1 : 0,
+                transform: visible ? 'translateX(0)' : 'translateX(40px)',
+                transition: 'opacity 400ms ease, transform 400ms ease',
+              }}
+            >
+              <div className="p-8">
+                <div className="text-[48px] font-extrabold leading-none mb-3" style={{ color: 'hsl(var(--border))' }}>{step.num}</div>
+                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <step.icon size={18} className="text-foreground" />
+                </div>
+                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
+                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {step.tags.map((tag) => (
+                    <span key={tag} className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 const Process = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <section id="process" className="py-24 md:py-[96px] bg-surface">
       <div className="px-6 max-w-site mx-auto">
-        <motion.div
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
           className="mb-16"
+          style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transition: 'opacity 400ms ease, transform 400ms ease' }}
         >
           <p className="type-label mb-3">PROCESS</p>
           <h2 className="type-h2">How I work</h2>
-        </motion.div>
+        </div>
 
         {/* Timeline */}
         <div className="relative">
-          {/* Vertical dashed line — desktop only */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 border-l border-dashed border-border" />
-
           <div className="space-y-10 md:space-y-12">
             {steps.map((step, i) => (
               <StepCard key={step.num} step={step} index={i} />
@@ -222,57 +256,36 @@ const Process = () => {
           </div>
         </div>
 
-        {/* Quote block — premium dark card */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="mt-16 relative overflow-hidden rounded-2xl"
-          style={{ background: "#0A0A0A" }}
-        >
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full" style={{
-            background: "radial-gradient(circle, rgba(99,102,241,0.12), transparent 70%)",
-          }} />
-          <div className="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full" style={{
-            background: "radial-gradient(circle, rgba(139,92,246,0.08), transparent 70%)",
-          }} />
-          {/* Grid pattern */}
+        {/* Premium quote block */}
+        <div className="mt-16 relative overflow-hidden rounded-2xl" style={{ background: 'hsl(var(--foreground))' }}>
+          {/* Decorative */}
+          <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)' }} />
+          <div className="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)' }} />
           <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
           }} />
 
           <div className="relative p-12 md:p-16">
-            {/* Large decorative quote mark */}
-            <div className="absolute top-6 left-10 text-[120px] leading-none font-serif" style={{ color: "rgba(99,102,241,0.15)" }}>
-              "
-            </div>
-
+            <div className="absolute top-6 left-10 text-[120px] leading-none font-serif" style={{ color: 'rgba(99,102,241,0.15)' }}>"</div>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-8">
               <div className="max-w-2xl">
-                <p className="text-[26px] md:text-[30px] italic leading-relaxed" style={{ color: "rgba(255,255,255,0.9)" }}>
+                <p className="text-[26px] md:text-[30px] italic leading-relaxed text-primary-foreground/90">
                   The best designers I know aren't the best at Figma. They're the best at asking the right questions.
                 </p>
               </div>
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-bold" style={{
-                    background: "linear-gradient(135deg, rgba(99,102,241,0.6), rgba(139,92,246,0.6))",
-                    color: "white",
-                  }}>
-                    DM
-                  </div>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-bold text-white" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.6), rgba(139,92,246,0.6))' }}>DM</div>
                   <div>
-                    <div className="text-[14px] font-medium" style={{ color: "rgba(255,255,255,0.8)" }}>Deepak Maan</div>
-                    <div className="text-[12px]" style={{ color: "rgba(255,255,255,0.35)" }}>Product Designer</div>
+                    <div className="text-[14px] font-medium text-primary-foreground/80">Deepak Maan</div>
+                    <div className="text-[12px] text-primary-foreground/35">Product Designer</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

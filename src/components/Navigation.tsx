@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 const sections = ["work", "about", "process", "contact"];
 
@@ -17,7 +18,6 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Active section tracking
   useEffect(() => {
     if (!isHome) return;
     const observer = new IntersectionObserver(
@@ -80,30 +80,36 @@ const Navigation = () => {
             })}
           </ul>
 
-          {/* Desktop CTA */}
-          <LinkOrAnchor
-            href={isHome ? "#contact" : "/#contact"}
-            className="hidden md:inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[14px] font-medium rounded-full hover:bg-foreground/85 transition-colors"
-          >
-            Get in Touch
-          </LinkOrAnchor>
+          {/* Desktop right: theme toggle + CTA */}
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+            <LinkOrAnchor
+              href={isHome ? "#contact" : "/#contact"}
+              className="inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[14px] font-medium rounded-full hover:opacity-85 transition-opacity"
+            >
+              Get in Touch
+            </LinkOrAnchor>
+          </div>
 
-          {/* Mobile hamburger */}
-          <button className="md:hidden flex flex-col gap-1.5 p-2 relative z-[60]" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-            <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-            <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
-          </button>
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button className="flex flex-col gap-1.5 p-2 relative z-[60]" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+              <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+              <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            </button>
+          </div>
         </nav>
       </header>
 
       {/* Mobile fullscreen overlay */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] bg-foreground flex flex-col items-center justify-center gap-8">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8" style={{ background: 'rgba(12,12,15,0.97)' }}>
             {navLinks.map((link, i) => (
-              <motion.div key={link.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-                <LinkOrAnchor href={link.href} onClick={() => setMenuOpen(false)} className="text-3xl font-bold text-primary-foreground hover:text-primary-foreground/70 transition-colors">
+              <motion.div key={link.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+                <LinkOrAnchor href={link.href} onClick={() => setMenuOpen(false)} className="text-3xl font-bold text-white hover:text-white/70 transition-colors">
                   {link.label}
                 </LinkOrAnchor>
               </motion.div>
