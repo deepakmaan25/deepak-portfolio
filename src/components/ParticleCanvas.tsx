@@ -1,5 +1,7 @@
 import { useRef, useEffect, useCallback } from "react";
 
+const DOT_COUNT = 80;
+
 const ParticleCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
@@ -11,99 +13,119 @@ const ParticleCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let w = 0, h = 0;
+
     const resize = () => {
       const rect = canvas.parentElement!.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      canvas.style.width = rect.width + "px";
-      canvas.style.height = rect.height + "px";
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const dpr = window.devicePixelRatio;
+      w = rect.width;
+      h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
 
-    const w = () => canvas.width / window.devicePixelRatio;
-    const h = () => canvas.height / window.devicePixelRatio;
-
-    const dots: { ox: number; oy: number; x: number; y: number; phase: number }[] = [];
-    const cols = 18;
-    const rows = 12;
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        const ox = (i + 0.5) * (w() / cols) + (Math.random() - 0.5) * 20;
-        const oy = (j + 0.5) * (h() / rows) + (Math.random() - 0.5) * 20;
-        dots.push({ ox, oy, x: ox, y: oy, phase: Math.random() * Math.PI * 2 });
-      }
+    // Use Float32Array for positions: [ox, oy, x, y, phase] per dot
+    const data = new Float32Array(DOT_COUNT * 5);
+    const cols = 10;
+    const rows = 8;
+    for (let i = 0; i < DOT_COUNT; i++) {
+      const col = i % cols;
+      const row = Math.floor(i / cols) % rows;
+      const ox = (col + 0.5) * (w / cols) + (Math.random() - 0.5) * 30;
+      const oy = (row + 0.5) * (h / rows) + (Math.random() - 0.5) * 30;
+      const base = i * 5;
+      data[base] = ox;     // ox
+      data[base + 1] = oy; // oy
+      data[base + 2] = ox; // x
+      data[base + 3] = oy; // y
+      data[base + 4] = Math.random() * Math.PI * 2; // phase
     }
 
+    // Pre-create radial gradient image for cursor glow
+    const glowCanvas = document.createElement("canvas");
+    glowCanvas.width = 240;
+    glowCanvas.height = 240;
+    const glowCtx = glowCanvas.getContext("2d")!;
+    const grad = glowCtx.createRadialGradient(120, 120, 0, 120, 120, 120);
+    grad.addColorStop(0, "rgba(99,102,241,0.06)");
+    grad.addColorStop(1, "transparent");
+    glowCtx.fillStyle = grad;
+    glowCtx.fillRect(0, 0, 240, 240);
+
     let time = 0;
-    const animate = () => {
+    let lastTs = 0;
+
+    const animate = (ts: number) => {
+      const delta = ts - lastTs;
+      // Skip if below 30fps to prevent lag spikes
+      if (lastTs > 0 && delta > 33) {
+        lastTs = ts;
+        animFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastTs = ts;
       time += 0.006;
-      const cw = w();
-      const ch = h();
-      ctx.clearRect(0, 0, cw, ch);
+
+      ctx.clearRect(0, 0, w, h);
 
       const mouse = mouseRef.current;
 
-      for (const dot of dots) {
-        const targetX = dot.ox + Math.sin(time + dot.phase) * 5;
-        const targetY = dot.oy + Math.cos(time * 0.7 + dot.phase) * 3;
+      // Update dot positions
+      for (let i = 0; i < DOT_COUNT; i++) {
+        const base = i * 5;
+        const ox = data[base];
+        const oy = data[base + 1];
+        const phase = data[base + 4];
 
-        const dx = dot.x - mouse.x;
-        const dy = dot.y - mouse.y;
+        const targetX = ox + Math.sin(time + phase) * 5;
+        const targetY = oy + Math.cos(time * 0.7 + phase) * 3;
+
+        const dx = data[base + 2] - mouse.x;
+        const dy = data[base + 3] - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         let fx = 0, fy = 0;
-        if (dist < 120 && dist > 0) {
-          const force = (120 - dist) / 120 * 50;
+        if (dist < 100 && dist > 0) {
+          const force = (100 - dist) / 100 * 50;
           fx = (dx / dist) * force;
           fy = (dy / dist) * force;
         }
 
-        dot.x += ((targetX + fx) - dot.x) * 0.08;
-        dot.y += ((targetY + fy) - dot.y) * 0.08;
+        data[base + 2] += ((targetX + fx) - data[base + 2]) * 0.08;
+        data[base + 3] += ((targetY + fy) - data[base + 3]) * 0.08;
       }
 
-      // Draw connections
-      ctx.strokeStyle = "rgba(0,0,0,0.04)";
-      ctx.lineWidth = 1;
-      for (let i = 0; i < dots.length; i++) {
-        for (let j = i + 1; j < dots.length; j++) {
-          const dx = dots[i].x - dots[j].x;
-          const dy = dots[i].y - dots[j].y;
-          if (dx * dx + dy * dy < 90 * 90) {
-            ctx.beginPath();
-            ctx.moveTo(dots[i].x, dots[i].y);
-            ctx.lineTo(dots[j].x, dots[j].y);
-            ctx.stroke();
-          }
-        }
+      // Draw cursor glow instead of lines
+      if (mouse.x > 0 && mouse.y > 0) {
+        ctx.drawImage(glowCanvas, mouse.x - 120, mouse.y - 120);
       }
 
       // Draw dots
-      ctx.fillStyle = "rgba(0,0,0,0.12)";
-      for (const dot of dots) {
+      ctx.fillStyle = "hsl(var(--foreground) / 0.12)";
+      for (let i = 0; i < DOT_COUNT; i++) {
+        const base = i * 5;
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, 1.5, 0, Math.PI * 2);
+        ctx.arc(data[base + 2], data[base + 3], 1.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    animFrameRef.current = requestAnimationFrame(animate);
 
     const handleResize = () => {
       resize();
-      const newW = w();
-      const newH = h();
-      let idx = 0;
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          if (idx < dots.length) {
-            dots[idx].ox = (i + 0.5) * (newW / cols) + (Math.random() - 0.5) * 20;
-            dots[idx].oy = (j + 0.5) * (newH / rows) + (Math.random() - 0.5) * 20;
-            idx++;
-          }
-        }
+      const cols2 = 10;
+      for (let i = 0; i < DOT_COUNT; i++) {
+        const col = i % cols2;
+        const row = Math.floor(i / cols2) % rows;
+        const base = i * 5;
+        data[base] = (col + 0.5) * (w / cols2) + (Math.random() - 0.5) * 30;
+        data[base + 1] = (row + 0.5) * (h / rows) + (Math.random() - 0.5) * 30;
       }
     };
 
