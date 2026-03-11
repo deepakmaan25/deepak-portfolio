@@ -100,10 +100,10 @@ const About = () => {
                 </span>
               </div>
 
-              {/* Currently card — dark */}
-              <div className="mt-6 bg-foreground rounded-xl p-5 max-w-xs">
-                <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-muted-foreground/50 mb-3">CURRENTLY</p>
-                <div className="space-y-1 text-[14px] text-primary-foreground leading-[2]">
+              {/* Currently card */}
+              <div className="mt-6 rounded-xl p-5 max-w-xs" style={{ background: 'hsl(var(--currently-card-bg))' }}>
+                <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-3" style={{ color: 'hsl(var(--currently-card-label))' }}>CURRENTLY</p>
+                <div className="space-y-1 text-[14px] leading-[2]" style={{ color: 'hsl(var(--currently-card-text))' }}>
                   <p>📖 Reading: The Design of Everyday Things</p>
                   <p>🛠 Building: AI-assisted UX research toolkit</p>
                   <p className="flex items-center gap-2">
@@ -120,26 +120,21 @@ const About = () => {
             {/* Right — Photo with decorative frame */}
             <div className="flex items-center justify-center">
               <div className="relative">
-                {/* Decorative rotating rings */}
-                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px]" viewBox="0 0 440 440" fill="none">
-                  <g style={{ animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px' }}>
-                    <path d="M 220 60 A 160 160 0 0 1 356 150" stroke="rgba(99,102,241,0.15)" strokeWidth="1.5" strokeDasharray="6 4" fill="none" />
-                  </g>
-                  <g style={{ animation: 'ring-rotate-reverse 30s linear infinite', transformOrigin: '220px 220px' }}>
-                    <path d="M 220 30 A 190 190 0 0 1 386 140" stroke="rgba(99,102,241,0.12)" strokeWidth="1.5" strokeDasharray="6 4" fill="none" />
-                  </g>
-                  <g style={{ animation: 'ring-rotate 45s linear infinite', transformOrigin: '220px 220px' }}>
-                    <path d="M 220 0 A 220 220 0 0 1 420 160" stroke="rgba(99,102,241,0.08)" strokeWidth="1.5" strokeDasharray="6 4" fill="none" />
-                  </g>
+                {/* Decorative rotating rings — full orbital circles */}
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] pointer-events-none" viewBox="0 0 440 440" fill="none">
+                  <circle cx="220" cy="220" r="160" stroke="rgba(99,102,241,0.12)" strokeWidth="1" strokeDasharray="6 4" fill="none" style={{animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px'}} />
+                  <circle cx="220" cy="220" r="190" stroke="rgba(99,102,241,0.08)" strokeWidth="1" strokeDasharray="8 6" fill="none" style={{animation: 'ring-rotate 30s linear infinite reverse', transformOrigin: '220px 220px'}} />
+                  <circle cx="220" cy="220" r="215" stroke="rgba(99,102,241,0.05)" strokeWidth="1" strokeDasharray="4 8" fill="none" style={{animation: 'ring-rotate 45s linear infinite', transformOrigin: '220px 220px'}} />
                 </svg>
 
-                {/* Photo circle */}
+                {/* Photo circle with initials */}
                 <div className="w-[280px] h-[280px] rounded-full relative z-10" style={{
                   background: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
                   boxShadow: '0 0 0 6px white, 0 0 0 12px #e0e7ff, 0 0 0 18px rgba(99,102,241,0.1)',
                 }}>
-                  <div className="w-full h-full rounded-full flex items-center justify-center text-muted-foreground text-[14px]">
-                    Photo
+                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1">
+                    <span className="text-[64px] font-bold leading-none" style={{ color: '#6366f1' }}>DM</span>
+                    <span className="text-[12px] text-muted-foreground">Add Photo</span>
                   </div>
                 </div>
 
@@ -195,7 +190,7 @@ const About = () => {
               >
                 <div>
                   <div className="text-[16px] font-bold text-foreground">{exp.company}</div>
-                  <div className="text-[14px]" style={{ color: '#6366f1' }}>{exp.role}</div>
+                  <div className="text-[14px]" style={{ color: 'var(--role-color)' }}>{exp.role}</div>
                 </div>
                 <div className="space-y-1">
                   {exp.points.map((p, j) => (

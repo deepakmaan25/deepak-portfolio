@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
 
-const DOT_COUNT = 80;
+const DOT_COUNT = 70;
 
 const ParticleCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,41 +28,41 @@ const ParticleCanvas = () => {
     };
     resize();
 
-    // Use Float32Array for positions: [ox, oy, x, y, phase] per dot
+    // Float32Array: [ox, oy, x, y, phase] per dot
     const data = new Float32Array(DOT_COUNT * 5);
     const cols = 10;
-    const rows = 8;
+    const rows = 7;
     for (let i = 0; i < DOT_COUNT; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols) % rows;
       const ox = (col + 0.5) * (w / cols) + (Math.random() - 0.5) * 30;
       const oy = (row + 0.5) * (h / rows) + (Math.random() - 0.5) * 30;
       const base = i * 5;
-      data[base] = ox;     // ox
-      data[base + 1] = oy; // oy
-      data[base + 2] = ox; // x
-      data[base + 3] = oy; // y
-      data[base + 4] = Math.random() * Math.PI * 2; // phase
+      data[base] = ox;
+      data[base + 1] = oy;
+      data[base + 2] = ox;
+      data[base + 3] = oy;
+      data[base + 4] = Math.random() * Math.PI * 2;
     }
 
-    // Pre-create radial gradient image for cursor glow
+    // Pre-create radial gradient for cursor glow
     const glowCanvas = document.createElement("canvas");
-    glowCanvas.width = 240;
-    glowCanvas.height = 240;
+    glowCanvas.width = 200;
+    glowCanvas.height = 200;
     const glowCtx = glowCanvas.getContext("2d")!;
-    const grad = glowCtx.createRadialGradient(120, 120, 0, 120, 120, 120);
-    grad.addColorStop(0, "rgba(99,102,241,0.06)");
+    const grad = glowCtx.createRadialGradient(100, 100, 0, 100, 100, 100);
+    grad.addColorStop(0, "rgba(99,102,241,0.04)");
     grad.addColorStop(1, "transparent");
     glowCtx.fillStyle = grad;
-    glowCtx.fillRect(0, 0, 240, 240);
+    glowCtx.fillRect(0, 0, 200, 200);
 
     let time = 0;
     let lastTs = 0;
 
     const animate = (ts: number) => {
       const delta = ts - lastTs;
-      // Skip if below 30fps to prevent lag spikes
-      if (lastTs > 0 && delta > 33) {
+      // Skip frame if below ~30fps to prevent lag
+      if (lastTs > 0 && delta > 32) {
         lastTs = ts;
         animFrameRef.current = requestAnimationFrame(animate);
         return;
@@ -73,8 +73,10 @@ const ParticleCanvas = () => {
       ctx.clearRect(0, 0, w, h);
 
       const mouse = mouseRef.current;
+      const mx = mouse.x;
+      const my = mouse.y;
 
-      // Update dot positions
+      // Update positions — only check mouse for nearby particles
       for (let i = 0; i < DOT_COUNT; i++) {
         const base = i * 5;
         const ox = data[base];
@@ -84,23 +86,28 @@ const ParticleCanvas = () => {
         const targetX = ox + Math.sin(time + phase) * 5;
         const targetY = oy + Math.cos(time * 0.7 + phase) * 3;
 
-        const dx = data[base + 2] - mouse.x;
-        const dy = data[base + 3] - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
         let fx = 0, fy = 0;
-        if (dist < 100 && dist > 0) {
-          const force = (100 - dist) / 100 * 50;
-          fx = (dx / dist) * force;
-          fy = (dy / dist) * force;
+        // Bounding box check before distance calc
+        const cx = data[base + 2];
+        const cy = data[base + 3];
+        if (Math.abs(cx - mx) < 150 && Math.abs(cy - my) < 150) {
+          const dx = cx - mx;
+          const dy = cy - my;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100 && dist > 0) {
+            const force = (100 - dist) / 100 * 50;
+            fx = (dx / dist) * force;
+            fy = (dy / dist) * force;
+          }
         }
 
         data[base + 2] += ((targetX + fx) - data[base + 2]) * 0.08;
         data[base + 3] += ((targetY + fy) - data[base + 3]) * 0.08;
       }
 
-      // Draw cursor glow instead of lines
-      if (mouse.x > 0 && mouse.y > 0) {
-        ctx.drawImage(glowCanvas, mouse.x - 120, mouse.y - 120);
+      // Draw cursor glow (single drawImage call)
+      if (mx > 0 && my > 0) {
+        ctx.drawImage(glowCanvas, mx - 100, my - 100);
       }
 
       // Draw dots
@@ -119,12 +126,11 @@ const ParticleCanvas = () => {
 
     const handleResize = () => {
       resize();
-      const cols2 = 10;
       for (let i = 0; i < DOT_COUNT; i++) {
-        const col = i % cols2;
-        const row = Math.floor(i / cols2) % rows;
+        const col = i % cols;
+        const row = Math.floor(i / cols) % rows;
         const base = i * 5;
-        data[base] = (col + 0.5) * (w / cols2) + (Math.random() - 0.5) * 30;
+        data[base] = (col + 0.5) * (w / cols) + (Math.random() - 0.5) * 30;
         data[base + 1] = (row + 0.5) * (h / rows) + (Math.random() - 0.5) * 30;
       }
     };
@@ -157,7 +163,7 @@ const ParticleCanvas = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <canvas ref={canvasRef} className="absolute inset-0" />
+      <canvas ref={canvasRef} className="absolute inset-0" style={{ willChange: 'transform' }} />
     </div>
   );
 };

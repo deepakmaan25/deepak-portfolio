@@ -147,76 +147,51 @@ const StepCard = ({ step, index }: { step: typeof steps[0]; index: number }) => 
 
   const OppositeVisual = oppositeVisuals[index];
 
+  const cardContent = (
+    <div
+      className="w-full bg-background border border-border rounded-2xl overflow-hidden"
+      style={{
+        boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateX(0)' : `translateX(${isLeft ? '-40px' : '40px'})`,
+        transition: 'opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+      }}
+    >
+      <div className="p-8">
+        <div className="text-[48px] font-extrabold leading-none mb-3" style={{ color: 'hsl(var(--border))' }}>{step.num}</div>
+        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
+          <step.icon size={18} className="text-foreground" />
+        </div>
+        <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
+        <p className="type-body text-muted-foreground mb-5">{step.description}</p>
+        <div className="flex flex-wrap gap-2">
+          {step.tags.map((tag) => (
+            <span key={tag} className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background">{tag}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const visualContent = (
+    <div style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateX(0)' : `translateX(${isLeft ? '40px' : '-40px'})`,
+      transition: 'opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+    }}>
+      <OppositeVisual />
+    </div>
+  );
+
   return (
     <div ref={ref} className="relative">
-      {/* Center node dot */}
       <div className="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-2 h-2 rounded-full bg-foreground z-10" />
-
-      <div className={`md:grid md:grid-cols-2 gap-8 items-center`}>
-        {/* Left side */}
+      <div className="md:grid md:grid-cols-2 gap-8 items-center">
         <div className={isLeft ? '' : 'md:order-2'}>
-          {isLeft ? (
-            <div
-              className="w-full bg-background border border-border rounded-2xl overflow-hidden transition-all duration-400"
-              style={{
-                boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateX(0)' : 'translateX(-40px)',
-                transition: 'opacity 400ms ease, transform 400ms ease',
-              }}
-            >
-              <div className="p-8">
-                <div className="text-[48px] font-extrabold leading-none mb-3" style={{ color: 'hsl(var(--border))' }}>{step.num}</div>
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <step.icon size={18} className="text-foreground" />
-                </div>
-                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
-                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {step.tags.map((tag) => (
-                    <span key={tag} className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(-40px)', transition: 'opacity 400ms ease, transform 400ms ease' }}>
-              <OppositeVisual />
-            </div>
-          )}
+          {isLeft ? cardContent : visualContent}
         </div>
-
-        {/* Right side */}
         <div className={isLeft ? '' : 'md:order-1'}>
-          {isLeft ? (
-            <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(40px)', transition: 'opacity 400ms ease, transform 400ms ease' }}>
-              <OppositeVisual />
-            </div>
-          ) : (
-            <div
-              className="w-full bg-background border border-border rounded-2xl overflow-hidden transition-all duration-400"
-              style={{
-                boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateX(0)' : 'translateX(40px)',
-                transition: 'opacity 400ms ease, transform 400ms ease',
-              }}
-            >
-              <div className="p-8">
-                <div className="text-[48px] font-extrabold leading-none mb-3" style={{ color: 'hsl(var(--border))' }}>{step.num}</div>
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <step.icon size={18} className="text-foreground" />
-                </div>
-                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
-                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {step.tags.map((tag) => (
-                    <span key={tag} className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+          {isLeft ? visualContent : cardContent}
         </div>
       </div>
     </div>
@@ -257,7 +232,7 @@ const Process = () => {
         </div>
 
         {/* Premium quote block */}
-        <div className="mt-16 relative overflow-hidden rounded-2xl" style={{ background: 'hsl(var(--foreground))' }}>
+        <div className="mt-16 relative overflow-hidden rounded-2xl" style={{ background: 'hsl(var(--quote-block-bg))' }}>
           {/* Decorative */}
           <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)' }} />
           <div className="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)' }} />
@@ -270,7 +245,7 @@ const Process = () => {
             <div className="absolute top-6 left-10 text-[120px] leading-none font-serif" style={{ color: 'rgba(99,102,241,0.15)' }}>"</div>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-8">
               <div className="max-w-2xl">
-                <p className="text-[26px] md:text-[30px] italic leading-relaxed text-primary-foreground/90">
+                <p className="text-[26px] md:text-[30px] italic leading-relaxed" style={{ color: 'hsl(var(--quote-block-text))' }}>
                   The best designers I know aren't the best at Figma. They're the best at asking the right questions.
                 </p>
               </div>
@@ -278,8 +253,8 @@ const Process = () => {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-bold text-white" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.6), rgba(139,92,246,0.6))' }}>DM</div>
                   <div>
-                    <div className="text-[14px] font-medium text-primary-foreground/80">Deepak Maan</div>
-                    <div className="text-[12px] text-primary-foreground/35">Product Designer</div>
+                    <div className="text-[14px] font-medium" style={{ color: 'hsl(var(--quote-block-text) / 0.8)' }}>Deepak Maan</div>
+                    <div className="text-[12px]" style={{ color: 'hsl(var(--quote-block-text) / 0.35)' }}>Product Designer</div>
                   </div>
                 </div>
               </div>
