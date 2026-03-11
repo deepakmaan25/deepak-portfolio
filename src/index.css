@@ -67,17 +67,34 @@
 
     --spacing: 0.25rem;
 
-    /* Dark mode specific */
+    /* Glass cards */
     --glass-bg: 0 0% 100% / 0.55;
     --glass-border: 0 0% 100% / 0.8;
     --glass-shadow: 239 84% 67% / 0.08;
     --ambient-opacity: 0.15;
+    --glass-blob-1: rgba(168,148,255,0.08);
+    --glass-blob-2: rgba(99,180,255,0.06);
+    --glass-blob-3: rgba(236,72,153,0.05);
+
+    /* Skills strip */
     --skills-strip-bg: 0 0% 4%;
     --skills-strip-tag-bg: 0 0% 11%;
     --skills-strip-tag-border: 0 0% 16%;
     --skills-strip-text: 0 0% 88%;
     --skills-strip-label: 0 0% 40%;
     --skills-strip-divider: 0 0% 16%;
+
+    /* Quote block */
+    --quote-block-bg: 0 0% 4%;
+    --quote-block-text: 0 0% 100%;
+
+    /* Currently card */
+    --currently-card-bg: 0 0% 4%;
+    --currently-card-label: 0 0% 40%;
+    --currently-card-text: 0 0% 96%;
+
+    /* Role color */
+    --role-color: #6366f1;
   }
 
   [data-theme="dark"] {
@@ -123,16 +140,34 @@
     --shadow-card: 0 2px 20px hsla(0, 0%, 0%, 0.3);
     --shadow-card-hover: 0 8px 30px hsla(0, 0%, 0%, 0.4);
 
+    /* Glass cards — dark */
     --glass-bg: 0 0% 100% / 0.04;
     --glass-border: 0 0% 100% / 0.08;
     --glass-shadow: 239 84% 67% / 0.15;
     --ambient-opacity: 0.25;
-    --skills-strip-bg: 240 6% 8%;
-    --skills-strip-tag-bg: 240 5% 13%;
-    --skills-strip-tag-border: 240 4% 20%;
-    --skills-strip-text: 0 0% 88%;
-    --skills-strip-label: 240 5% 40%;
-    --skills-strip-divider: 240 4% 20%;
+    --glass-blob-1: rgba(99,102,241,0.2);
+    --glass-blob-2: rgba(99,180,255,0.15);
+    --glass-blob-3: rgba(236,72,153,0.12);
+
+    /* Skills strip — dark */
+    --skills-strip-bg: 240 6% 5%;
+    --skills-strip-tag-bg: 240 5% 9%;
+    --skills-strip-tag-border: 240 4% 15%;
+    --skills-strip-text: 0 0% 70%;
+    --skills-strip-label: 240 5% 35%;
+    --skills-strip-divider: 240 4% 12%;
+
+    /* Quote block — dark */
+    --quote-block-bg: 240 6% 10%;
+    --quote-block-text: 0 0% 96%;
+
+    /* Currently card — dark */
+    --currently-card-bg: 240 6% 10%;
+    --currently-card-label: 240 5% 40%;
+    --currently-card-text: 0 0% 88%;
+
+    /* Role color — dark (lighter indigo for contrast) */
+    --role-color: #818cf8;
   }
 }
 
@@ -262,6 +297,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
   transition: background-color 300ms ease, color 300ms ease;
 }
 

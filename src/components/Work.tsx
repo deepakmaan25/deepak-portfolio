@@ -12,12 +12,9 @@ const cardColors = [
 // EduPath dashboard wireframe placeholder
 const EduPathPlaceholder = () => (
   <div className="w-full h-full flex rounded-xl overflow-hidden" style={{ background: "#F0F4FF" }}>
-    {/* Sidebar */}
     <div className="w-[20%] h-full" style={{ background: "rgba(99,102,241,0.08)" }} />
     <div className="flex-1 p-4 flex flex-col gap-3">
-      {/* Top bar */}
       <div className="h-8 rounded-md w-full" style={{ background: "rgba(99,102,241,0.06)" }} />
-      {/* Content grid */}
       <div className="flex-1 grid grid-cols-3 gap-2.5">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="rounded-lg" style={{ background: "rgba(99,102,241,0.1)" }} />
@@ -61,7 +58,7 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
           style={{
             boxShadow: isHovered
               ? "0 20px 60px rgba(0,0,0,0.12)"
-              : "0 2px 20px rgba(0,0,0,0.06)",
+              : "var(--shadow-card)",
             transform: isHovered ? "translateY(-6px)" : "translateY(0)",
           }}
         >
@@ -77,7 +74,7 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
                 {cs.outcomes.slice(0, 4).map((o, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center px-3 py-1 bg-background border border-tag-border rounded-full text-[12px] text-text-body hover:bg-[#F5F5FF] hover:border-[#C7D2FE] transition-colors duration-200"
+                    className="inline-flex items-center px-3 py-1 bg-surface border border-border rounded-full text-[12px] text-foreground hover:bg-accent hover:border-ring transition-colors duration-200"
                   >
                     {o.metric} {o.label.toLowerCase()}
                   </span>
@@ -108,7 +105,6 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
                 <span className="text-[13px] text-muted-foreground">Project Mockup</span>
               )}
 
-              {/* Custom cursor label */}
               {showCursor && (
                 <div
                   className="absolute pointer-events-none z-10 bg-foreground text-primary-foreground text-[12px] font-medium px-4 py-2 rounded-full transition-transform duration-75"

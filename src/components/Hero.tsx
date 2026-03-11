@@ -15,9 +15,9 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative pt-32 pb-0 px-6 max-w-site mx-auto overflow-hidden">
+    <section className="relative pt-32 pb-0 px-6 max-w-site mx-auto overflow-visible">
       {/* Full-section particle background */}
-      <div className="absolute inset-0 z-0 hidden lg:block">
+      <div className="absolute inset-0 z-0 hidden lg:block overflow-hidden">
         <ParticleCanvas />
       </div>
 
@@ -91,11 +91,11 @@ const Hero = () => {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="relative z-10 border-t border-b border-border py-10 mt-16"
       >
-        <div className="flex items-start justify-between max-md:grid max-md:grid-cols-2 max-md:gap-8">
+        <div className="flex items-start justify-between max-md:grid max-md:grid-cols-2 max-md:gap-8 max-md:gap-y-8">
           {stats.map((stat) => (
             <div key={stat.label}>
               <div className="text-[40px] font-bold text-foreground leading-none mb-1">{stat.value}</div>
-              <div className="text-[13px] text-muted-foreground">{stat.label}</div>
+              <div className="text-[13px] text-muted-foreground mt-1">{stat.label}</div>
             </div>
           ))}
         </div>

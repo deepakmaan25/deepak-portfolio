@@ -1,4 +1,4 @@
-import { Linkedin, Mail, ArrowUp } from "lucide-react";
+import { Linkedin, Mail } from "lucide-react";
 
 const Contact = () => {
   const scrollToTop = () => {
@@ -15,7 +15,7 @@ const Contact = () => {
             <h3 className="text-[22px] font-bold text-white mb-1">Deepak Maan</h3>
             <p className="text-[14px] mb-4" style={{ color: '#666666' }}>Product Designer</p>
             <div className="flex items-center gap-4">
-              <a href="#" aria-label="LinkedIn" className="transition-colors" style={{ color: '#666666' }} onMouseEnter={(e) => e.currentTarget.style.color = 'white'} onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}>
+              <a href="https://linkedin.com/in/deepakmaan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="transition-colors" style={{ color: '#666666' }} onMouseEnter={(e) => e.currentTarget.style.color = 'white'} onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}>
                 <Linkedin size={20} />
               </a>
               <a href="mailto:hello@deepakmaan.com" aria-label="Email" className="transition-colors" style={{ color: '#666666' }} onMouseEnter={(e) => e.currentTarget.style.color = 'white'} onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}>

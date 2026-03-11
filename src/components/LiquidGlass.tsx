@@ -3,14 +3,14 @@ const LiquidGlass = () => {
     <div className="relative w-[460px] h-[420px]">
       {/* Ambient light blobs */}
       {[
-        { w: 50, h: 50, top: '10%', left: '15%', bg: 'rgba(168,148,255,0.18)' },
-        { w: 40, h: 40, top: '60%', left: '5%', bg: 'rgba(99,180,255,0.15)' },
-        { w: 35, h: 35, top: '20%', left: '70%', bg: 'rgba(236,72,153,0.12)' },
-        { w: 45, h: 45, top: '70%', left: '65%', bg: 'rgba(168,148,255,0.14)' },
-        { w: 30, h: 30, top: '40%', left: '80%', bg: 'rgba(99,180,255,0.16)' },
-        { w: 25, h: 25, top: '5%', left: '45%', bg: 'rgba(236,72,153,0.1)' },
-        { w: 38, h: 38, top: '85%', left: '35%', bg: 'rgba(139,92,246,0.12)' },
-        { w: 28, h: 28, top: '50%', left: '25%', bg: 'rgba(99,180,255,0.13)' },
+        { w: 50, h: 50, top: '10%', left: '15%', bg: 'var(--glass-blob-1)' },
+        { w: 40, h: 40, top: '60%', left: '5%', bg: 'var(--glass-blob-2)' },
+        { w: 35, h: 35, top: '20%', left: '70%', bg: 'var(--glass-blob-3)' },
+        { w: 45, h: 45, top: '70%', left: '65%', bg: 'var(--glass-blob-1)' },
+        { w: 30, h: 30, top: '40%', left: '80%', bg: 'var(--glass-blob-2)' },
+        { w: 25, h: 25, top: '5%', left: '45%', bg: 'var(--glass-blob-3)' },
+        { w: 38, h: 38, top: '85%', left: '35%', bg: 'var(--glass-blob-1)' },
+        { w: 28, h: 28, top: '50%', left: '25%', bg: 'var(--glass-blob-2)' },
       ].map((blob, i) => (
         <div
           key={i}
@@ -22,7 +22,7 @@ const LiquidGlass = () => {
             left: blob.left,
             background: blob.bg,
             filter: 'blur(30px)',
-            opacity: 'var(--ambient-opacity, 0.15)',
+            opacity: 'var(--ambient-opacity)',
           }}
         />
       ))}
@@ -47,12 +47,12 @@ const LiquidGlass = () => {
           left: '70px',
           width: 320,
           height: 200,
-          background: 'hsl(var(--glass-bg, 0 0% 100% / 0.55))',
+          background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          border: '1px solid hsl(var(--glass-border, 0 0% 100% / 0.8))',
+          border: '1px solid hsl(var(--glass-border))',
           borderRadius: 20,
-          boxShadow: '0 8px 32px hsl(var(--glass-shadow, 239 84% 67% / 0.08)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
+          boxShadow: '0 8px 32px hsl(var(--glass-shadow)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
           zIndex: 3,
           padding: 24,
         }}
@@ -87,12 +87,12 @@ const LiquidGlass = () => {
           right: '20px',
           width: 180,
           height: 100,
-          background: 'hsl(var(--glass-bg, 0 0% 100% / 0.55))',
+          background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          border: '1px solid hsl(var(--glass-border, 0 0% 100% / 0.8))',
+          border: '1px solid hsl(var(--glass-border))',
           borderRadius: 20,
-          boxShadow: '0 8px 32px hsl(var(--glass-shadow, 239 84% 67% / 0.08)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
+          boxShadow: '0 8px 32px hsl(var(--glass-shadow)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
           zIndex: 2,
           padding: 16,
         }}
@@ -118,12 +118,12 @@ const LiquidGlass = () => {
           left: '40px',
           width: 160,
           height: 80,
-          background: 'hsl(var(--glass-bg, 0 0% 100% / 0.55))',
+          background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          border: '1px solid hsl(var(--glass-border, 0 0% 100% / 0.8))',
+          border: '1px solid hsl(var(--glass-border))',
           borderRadius: 20,
-          boxShadow: '0 8px 32px hsl(var(--glass-shadow, 239 84% 67% / 0.08)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
+          boxShadow: '0 8px 32px hsl(var(--glass-shadow)), inset 0 1.5px 0 rgba(255,255,255,0.9)',
           zIndex: 2,
           padding: 14,
         }}

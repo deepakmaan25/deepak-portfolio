@@ -19,6 +19,7 @@ export interface CaseStudy {
   process: { title: string; description: string }[];
   outcomes: { metric: string; label: string }[];
   keyInsights: string[];
+  heroColor: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -35,6 +36,7 @@ export const caseStudies: CaseStudy[] = [
     metricLabel: "drop-off reduced",
     duration: "8 weeks",
     year: "2024",
+    heroColor: "hsl(260 100% 97%)",
     overview:
       "First-time investors often feel overwhelmed by financial jargon and complex interfaces. This project focused on understanding their mental models through deep qualitative research, then translating those insights into a simplified onboarding experience for a fintech startup targeting Gen-Z users.",
     challenge:
@@ -72,6 +74,7 @@ export const caseStudies: CaseStudy[] = [
     metricLabel: "usability score",
     duration: "12 weeks",
     year: "2024",
+    heroColor: "hsl(213 100% 97%)",
     overview:
       "A mid-size healthcare network was struggling with a 15-year-old scheduling system that frustrated both clinicians and administrative staff. The goal was to redesign the scheduling experience from the ground up.",
     challenge:
@@ -109,6 +112,7 @@ export const caseStudies: CaseStudy[] = [
     metricLabel: "completion improvement",
     duration: "6 weeks",
     year: "2023",
+    heroColor: "hsl(24 100% 97%)",
     overview:
       "An enterprise SaaS product needed to simplify a complex, multi-step onboarding form that was causing high abandonment rates and excessive support tickets.",
     challenge:
