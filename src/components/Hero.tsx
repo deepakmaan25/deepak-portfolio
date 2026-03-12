@@ -17,7 +17,7 @@ const Hero = () => {
   return (
     <section className="relative pt-32 pb-0 px-6 max-w-site mx-auto overflow-visible">
       {/* Full-section particle background */}
-      <div className="absolute inset-0 z-0 hidden lg:block overflow-hidden">
+      <div className="absolute inset-0 z-0 hidden lg:block overflow-hidden pointer-events-none">
         <ParticleCanvas />
       </div>
 
@@ -78,6 +78,7 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="hidden lg:flex items-center justify-center"
+          style={{ position: 'relative', zIndex: 20 }}
         >
           <LiquidGlass />
         </motion.div>

@@ -290,10 +290,27 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-@keyframes ring-rotate-reverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
+
+/* Blob drift for LiquidGlass */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(8px, -6px); }
+  66% { transform: translate(-5px, 8px); }
 }
+.animate-blob-drift {
+  animation: blob-drift 8s ease-in-out infinite;
+}
+
+/* Orbit */
+@keyframes orbit {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+/* Work card dark mode overrides */
+[data-theme="dark"] .bg-card-lavender { background-color: hsl(260 30% 12%) !important; }
+[data-theme="dark"] .bg-card-blue { background-color: hsl(213 30% 12%) !important; }
+[data-theme="dark"] .bg-card-orange { background-color: hsl(24 30% 12%) !important; }
 
 html {
   scroll-behavior: smooth;
