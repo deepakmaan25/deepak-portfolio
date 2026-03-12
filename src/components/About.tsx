@@ -122,9 +122,9 @@ const About = () => {
               <div className="relative">
                 {/* Decorative rotating rings — full orbital circles */}
                 <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] pointer-events-none" viewBox="0 0 440 440" fill="none">
-                  <circle cx="220" cy="220" r="160" stroke="rgba(99,102,241,0.12)" strokeWidth="1" strokeDasharray="6 4" fill="none" style={{animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px'}} />
-                  <circle cx="220" cy="220" r="190" stroke="rgba(99,102,241,0.08)" strokeWidth="1" strokeDasharray="8 6" fill="none" style={{animation: 'ring-rotate 30s linear infinite reverse', transformOrigin: '220px 220px'}} />
-                  <circle cx="220" cy="220" r="215" stroke="rgba(99,102,241,0.05)" strokeWidth="1" strokeDasharray="4 8" fill="none" style={{animation: 'ring-rotate 45s linear infinite', transformOrigin: '220px 220px'}} />
+                  <circle cx="220" cy="220" r="158" stroke="rgba(99,102,241,0.12)" strokeWidth="1" strokeDasharray="6 4" fill="none" style={{ animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px' }} />
+                  <circle cx="220" cy="220" r="188" stroke="rgba(99,102,241,0.08)" strokeWidth="1" strokeDasharray="8 6" fill="none" style={{ animation: 'ring-rotate 30s linear infinite reverse', transformOrigin: '220px 220px' }} />
+                  <circle cx="220" cy="220" r="214" stroke="rgba(99,102,241,0.05)" strokeWidth="1.5" strokeDasharray="3 9" fill="none" style={{ animation: 'ring-rotate 50s linear infinite', transformOrigin: '220px 220px' }} />
                 </svg>
 
                 {/* Photo circle with initials */}
@@ -134,7 +134,7 @@ const About = () => {
                 }}>
                   <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1">
                     <span className="text-[64px] font-bold leading-none" style={{ color: '#6366f1' }}>DM</span>
-                    <span className="text-[12px] text-muted-foreground">Add Photo</span>
+                    <span className="text-[12px] text-muted-foreground">Your Photo Here</span>
                   </div>
                 </div>
 

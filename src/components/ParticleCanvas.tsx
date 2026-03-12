@@ -61,7 +61,6 @@ const ParticleCanvas = () => {
 
     const animate = (ts: number) => {
       const delta = ts - lastTs;
-      // Skip frame if below ~30fps to prevent lag
       if (lastTs > 0 && delta > 32) {
         lastTs = ts;
         animFrameRef.current = requestAnimationFrame(animate);
@@ -76,7 +75,6 @@ const ParticleCanvas = () => {
       const mx = mouse.x;
       const my = mouse.y;
 
-      // Update positions — only check mouse for nearby particles
       for (let i = 0; i < DOT_COUNT; i++) {
         const base = i * 5;
         const ox = data[base];
@@ -87,7 +85,6 @@ const ParticleCanvas = () => {
         const targetY = oy + Math.cos(time * 0.7 + phase) * 3;
 
         let fx = 0, fy = 0;
-        // Bounding box check before distance calc
         const cx = data[base + 2];
         const cy = data[base + 3];
         if (Math.abs(cx - mx) < 150 && Math.abs(cy - my) < 150) {
@@ -105,12 +102,10 @@ const ParticleCanvas = () => {
         data[base + 3] += ((targetY + fy) - data[base + 3]) * 0.08;
       }
 
-      // Draw cursor glow (single drawImage call)
       if (mx > 0 && my > 0) {
         ctx.drawImage(glowCanvas, mx - 100, my - 100);
       }
 
-      // Draw dots
       ctx.fillStyle = "hsl(var(--foreground) / 0.12)";
       for (let i = 0; i < DOT_COUNT; i++) {
         const base = i * 5;
@@ -158,12 +153,14 @@ const ParticleCanvas = () => {
   };
 
   return (
-    <div
-      className="absolute inset-0 pointer-events-auto"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <canvas ref={canvasRef} className="absolute inset-0" style={{ willChange: 'transform' }} />
+    <div className="absolute inset-0 pointer-events-none">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 pointer-events-auto"
+        style={{ willChange: 'transform' }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      />
     </div>
   );
 };

@@ -28,7 +28,7 @@ const Navigation = () => {
           }
         }
       },
-      { rootMargin: "-20% 0px -60% 0px" }
+      { rootMargin: "-15% 0px -70% 0px" }
     );
     sections.forEach((id) => {
       const el = document.getElementById(id);
