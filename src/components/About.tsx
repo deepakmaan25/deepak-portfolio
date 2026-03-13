@@ -132,9 +132,10 @@ const About = () => {
                 <div className="w-[280px] h-[280px] rounded-full relative z-10" style={{ background: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
                     boxShadow: '0 0 0 6px white, 0 0 0 12px #e0e7ff, 0 0 0 18px rgba(99,102,241,0.1)'
                   }}>
-                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1">
-                    <span className="text-[64px] font-bold leading-none" style={{ color: '#6366f1' }}>DM</span>
-                    <span className="text-[12px] text-muted-foreground">Add Photo</span>
+                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1.5"
+                    style={{ background: 'linear-gradient(135deg, #c7d2fe 0%, #818cf8 50%, #6366f1 100%)' }}>
+                    <span className="text-[52px] font-bold text-white leading-none" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>DM</span>
+                    <span className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: 'rgba(255,255,255,0.65)' }}>Your Photo Here</span>
                   </div>
                 </div>
 
