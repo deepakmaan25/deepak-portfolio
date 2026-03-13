@@ -11,6 +11,7 @@ const Navigation = () => {
   const [activeSection, setActiveSection] = useState("");
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isWork = location.pathname.startsWith("/case-study");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,9 +24,7 @@ const Navigation = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         }
       },
       { rootMargin: "-15% 0px -70% 0px" }
@@ -43,10 +42,10 @@ const Navigation = () => {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: "Work", href: isHome ? "#work" : "/#work" },
-    { label: "About", href: isHome ? "#about" : "/#about" },
-    { label: "Process", href: isHome ? "#process" : "/#process" },
-    { label: "Contact", href: isHome ? "#contact" : "/#contact" },
+    { label: "Work", href: isHome ? "#work" : "/#work", sectionId: "work" },
+    { label: "About", href: isHome ? "#about" : "/#about", sectionId: "about" },
+    { label: "Process", href: isHome ? "#process" : "/#process", sectionId: "process" },
+    { label: "Contact", href: isHome ? "#contact" : "/#contact", sectionId: "contact" },
   ];
 
   const LinkOrAnchor = ({ href, children, className, onClick }: { href: string; children: React.ReactNode; className?: string; onClick?: () => void }) => {
@@ -62,11 +61,11 @@ const Navigation = () => {
             Deepak Maan
           </Link>
 
-          {/* Desktop center links */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
-              const sectionId = link.href.replace(/.*#/, "");
-              const isActive = activeSection === sectionId;
+              const isActive = isWork
+                ? link.sectionId === "work"
+                : activeSection === link.sectionId;
               return (
                 <li key={link.label}>
                   <LinkOrAnchor
@@ -80,7 +79,6 @@ const Navigation = () => {
             })}
           </ul>
 
-          {/* Desktop right: theme toggle + CTA */}
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
             <LinkOrAnchor
@@ -91,7 +89,6 @@ const Navigation = () => {
             </LinkOrAnchor>
           </div>
 
-          {/* Mobile: theme toggle + hamburger */}
           <div className="md:hidden flex items-center gap-3">
             <ThemeToggle />
             <button className="flex flex-col gap-1.5 p-2 relative z-[60]" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
@@ -103,7 +100,6 @@ const Navigation = () => {
         </nav>
       </header>
 
-      {/* Mobile fullscreen overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8" style={{ background: 'rgba(12,12,15,0.97)' }}>
