@@ -25,12 +25,16 @@ const LiquidGlass = () => {
         { w: 45, h: 45, top: '70%', left: '65%', bg: 'rgba(168,148,255,0.4)', delay: '6s' },
         { w: 30, h: 30, top: '40%', left: '80%', bg: 'rgba(99,180,255,0.4)', delay: '1s' },
         { w: 25, h: 25, top: '5%', left: '45%', bg: 'rgba(196,181,253,0.5)', delay: '3s' },
-        { w: 70, h: 70, top: '2%', left: '40%', bg: 'rgba(236,72,153,0.3)', delay: '5s' },
-        { w: 45, h: 45, top: '75%', left: '70%', bg: 'rgba(20,184,166,0.3)', delay: '7s' },
+        { w: 70, h: 70, top: '2%', left: '40%', bg: 'rgba(236,72,153,0.25)', delay: '5s' },
+        { w: 45, h: 45, top: '75%', left: '70%', bg: 'rgba(20,184,166,0.25)', delay: '7s' },
       ].map((blob, i) => (
         <div key={i} className="absolute rounded-full" style={{
-          width: blob.w, height: blob.h, top: blob.top, left: blob.left,
-          background: blob.bg, filter: 'blur(30px)',
+          width: blob.w,
+          height: blob.h,
+          top: blob.top,
+          left: blob.left,
+          background: blob.bg,
+          filter: 'blur(30px)',
           animation: `blob-drift 8s ease-in-out ${blob.delay} infinite`,
         }} />
       ))}
@@ -52,7 +56,12 @@ const LiquidGlass = () => {
         onMouseEnter={() => setCard1Hovered(true)}
         onMouseLeave={() => setCard1Hovered(false)}
         style={{
-          position: 'absolute', top: 100, left: 70, width: 320, zIndex: 3, padding: 24,
+          position: 'absolute',
+          top: 100,
+          left: 70,
+          width: 320,
+          zIndex: 3,
+          padding: 24,
           background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(24px) saturate(200%) brightness(1.05)',
           WebkitBackdropFilter: 'blur(24px) saturate(200%) brightness(1.05)',
@@ -68,7 +77,7 @@ const LiquidGlass = () => {
       >
         {/* macOS window chrome */}
         <div className="flex gap-1.5 mb-3">
-          {['#FF5F57','#FFBD2E','#28C840'].map(c => (
+          {['#FF5F57', '#FFBD2E', '#28C840'].map(c => (
             <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
           ))}
         </div>
@@ -101,7 +110,8 @@ const LiquidGlass = () => {
         <div className="flex items-end gap-[3px]" style={{ height: 28 }}>
           {barHeights.map((h, i) => (
             <div key={i} style={{
-              width: 4, height: h,
+              width: 4,
+              height: h,
               background: h === 24 ? 'rgba(99,102,241,0.85)' : 'rgba(99,102,241,0.3)',
               borderRadius: 2,
             }} />
@@ -114,7 +124,12 @@ const LiquidGlass = () => {
         onMouseEnter={() => setCard2Hovered(true)}
         onMouseLeave={() => setCard2Hovered(false)}
         style={{
-          position: 'absolute', top: 30, right: 20, width: 160, zIndex: 2, padding: 16,
+          position: 'absolute',
+          top: 30,
+          right: 20,
+          width: 160,
+          zIndex: 2,
+          padding: 16,
           background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(24px) saturate(200%)',
           WebkitBackdropFilter: 'blur(24px) saturate(200%)',
@@ -145,7 +160,12 @@ const LiquidGlass = () => {
         onMouseEnter={() => setCard3Hovered(true)}
         onMouseLeave={() => setCard3Hovered(false)}
         style={{
-          position: 'absolute', bottom: 40, left: 40, width: 160, zIndex: 2, padding: 14,
+          position: 'absolute',
+          bottom: 40,
+          left: 40,
+          width: 160,
+          zIndex: 2,
+          padding: 14,
           background: 'hsl(var(--glass-bg))',
           backdropFilter: 'blur(24px) saturate(200%)',
           WebkitBackdropFilter: 'blur(24px) saturate(200%)',
@@ -160,7 +180,7 @@ const LiquidGlass = () => {
         }}
       >
         <div className="flex gap-2 mb-2.5">
-          {['#8B5CF6','#EC4899','#F59E0B','#10B981'].map(c => (
+          {['#8B5CF6', '#EC4899', '#F59E0B', '#10B981'].map(c => (
             <div key={c} style={{ width: 14, height: 14, borderRadius: '50%', background: c }} />
           ))}
         </div>
@@ -168,6 +188,7 @@ const LiquidGlass = () => {
           <div className="h-full rounded-full" style={{ width: '65%', background: 'linear-gradient(90deg, #6366f1, #8B5CF6)' }} />
         </div>
       </div>
+
     </div>
   );
 };
