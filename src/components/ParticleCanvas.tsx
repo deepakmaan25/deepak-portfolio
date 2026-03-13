@@ -28,7 +28,6 @@ const ParticleCanvas = () => {
     };
     resize();
 
-    // Float32Array: [ox, oy, x, y, phase] per dot
     const data = new Float32Array(DOT_COUNT * 5);
     const cols = 10;
     const rows = 7;
@@ -45,7 +44,6 @@ const ParticleCanvas = () => {
       data[base + 4] = Math.random() * Math.PI * 2;
     }
 
-    // Pre-create radial gradient for cursor glow
     const glowCanvas = document.createElement("canvas");
     glowCanvas.width = 200;
     glowCanvas.height = 200;
