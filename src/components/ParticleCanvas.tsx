@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
 
-const DOT_COUNT = 70;
+const DOT_COUNT = 45;
 
 const ParticleCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -29,8 +29,8 @@ const ParticleCanvas = () => {
     resize();
 
     const data = new Float32Array(DOT_COUNT * 5);
-    const cols = 10;
-    const rows = 7;
+    const cols = 9;
+    const rows = 5;
     for (let i = 0; i < DOT_COUNT; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols) % rows;
@@ -49,7 +49,7 @@ const ParticleCanvas = () => {
     glowCanvas.height = 200;
     const glowCtx = glowCanvas.getContext("2d")!;
     const grad = glowCtx.createRadialGradient(100, 100, 0, 100, 100, 100);
-    grad.addColorStop(0, "rgba(99,102,241,0.04)");
+    grad.addColorStop(0, "rgba(99,102,241,0.03)");
     grad.addColorStop(1, "transparent");
     glowCtx.fillStyle = grad;
     glowCtx.fillRect(0, 0, 200, 200);
@@ -66,19 +66,16 @@ const ParticleCanvas = () => {
       }
       lastTs = ts;
       time += 0.006;
-
       ctx.clearRect(0, 0, w, h);
 
-      const mouse = mouseRef.current;
-      const mx = mouse.x;
-      const my = mouse.y;
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
 
       for (let i = 0; i < DOT_COUNT; i++) {
         const base = i * 5;
         const ox = data[base];
         const oy = data[base + 1];
         const phase = data[base + 4];
-
         const targetX = ox + Math.sin(time + phase) * 5;
         const targetY = oy + Math.cos(time * 0.7 + phase) * 3;
 
@@ -100,15 +97,14 @@ const ParticleCanvas = () => {
         data[base + 3] += ((targetY + fy) - data[base + 3]) * 0.08;
       }
 
-      if (mx > 0 && my > 0) {
-        ctx.drawImage(glowCanvas, mx - 100, my - 100);
-      }
+      if (mx > 0 && my > 0) ctx.drawImage(glowCanvas, mx - 100, my - 100);
 
-      ctx.fillStyle = "hsl(var(--foreground) / 0.12)";
+      // Subtler dots
+      ctx.fillStyle = "hsl(var(--foreground) / 0.07)";
       for (let i = 0; i < DOT_COUNT; i++) {
         const base = i * 5;
         ctx.beginPath();
-        ctx.arc(data[base + 2], data[base + 3], 1.5, 0, Math.PI * 2);
+        ctx.arc(data[base + 2], data[base + 3], 1.2, 0, Math.PI * 2);
         ctx.fill();
       }
 
