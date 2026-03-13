@@ -101,7 +101,7 @@ const About = () => {
               </div>
 
               {/* Currently card */}
-              <div className="mt-6 rounded-xl p-5 max-w-xs" style={{ background: 'hsl(var(--currently-card-bg))' }}>
+              <div className="mt-6 rounded-xl p-5 max-w-xs" style={{ background: 'hsl(var(--quote-block-bg, 0 0% 4%))' }}>
                 <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-3" style={{ color: 'hsl(var(--currently-card-label))' }}>CURRENTLY</p>
                 <div className="space-y-1 text-[14px] leading-[2]" style={{ color: 'hsl(var(--currently-card-text))' }}>
                   <p>📖 Reading: The Design of Everyday Things</p>
@@ -123,18 +123,19 @@ const About = () => {
               <div className="relative">
                 {/* Decorative rotating rings — full orbital circles */}
                 <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] pointer-events-none" viewBox="0 0 440 440" fill="none">
-                  <circle cx="220" cy="220" r="160" stroke="rgba(99,102,241,0.12)" strokeWidth="1" strokeDasharray="6 4" fill="none" style={{ animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px' }} />
-                  <circle cx="220" cy="220" r="190" stroke="rgba(99,102,241,0.08)" strokeWidth="1" strokeDasharray="8 6" fill="none" style={{ animation: 'ring-rotate 30s linear infinite reverse', transformOrigin: '220px 220px' }} />
-                  <circle cx="220" cy="220" r="215" stroke="rgba(99,102,241,0.05)" strokeWidth="1" strokeDasharray="4 8" fill="none" style={{ animation: 'ring-rotate 45s linear infinite', transformOrigin: '220px 220px' }} />
+                  <circle cx="220" cy="220" r="158" stroke="rgba(99,102,241,0.12)" strokeWidth="1" strokeDasharray="6 4" fill="none" style={{ animation: 'ring-rotate 20s linear infinite', transformOrigin: '220px 220px' }} />
+                  <circle cx="220" cy="220" r="188" stroke="rgba(99,102,241,0.08)" strokeWidth="1" strokeDasharray="8 6" fill="none" style={{ animation: 'ring-rotate 30s linear infinite reverse', transformOrigin: '220px 220px' }} />
+                  <circle cx="220" cy="220" r="214" stroke="rgba(99,102,241,0.05)" strokeWidth="1.5" strokeDasharray="3 9" fill="none" style={{ animation: 'ring-rotate 50s linear infinite', transformOrigin: '220px 220px' }} />
                 </svg>
 
                 {/* Photo circle with initials */}
                 <div className="w-[280px] h-[280px] rounded-full relative z-10" style={{ background: 'linear-gradient(135deg, #e0e7ff, #c7d2fe)',
                     boxShadow: '0 0 0 6px white, 0 0 0 12px #e0e7ff, 0 0 0 18px rgba(99,102,241,0.1)'
                   }}>
-                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1">
-                    <span className="text-[64px] font-bold leading-none" style={{ color: '#6366f1' }}>DM</span>
-                    <span className="text-[12px] text-muted-foreground">Add Photo</span>
+                  <div className="w-full h-full rounded-full flex flex-col items-center justify-center gap-1.5"
+                    style={{ background: 'linear-gradient(135deg, #c7d2fe 0%, #818cf8 50%, #6366f1 100%)' }}>
+                    <span className="text-[52px] font-bold text-white leading-none" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>DM</span>
+                    <span className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: 'rgba(255,255,255,0.65)' }}>Your Photo Here</span>
                   </div>
                 </div>
 

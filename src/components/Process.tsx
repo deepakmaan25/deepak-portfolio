@@ -232,7 +232,7 @@ const Process = () => {
         </div>
 
         {/* Premium quote block */}
-        <div className="mt-16 relative overflow-hidden rounded-2xl" style={{ background: 'hsl(var(--quote-block-bg))' }}>
+        <div className="mt-16 relative overflow-hidden rounded-2xl" style={{ background: 'hsl(var(--quote-block-bg, 0 0% 4%))' }}>
           {/* Decorative */}
           <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)' }} />
           <div className="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)' }} />
