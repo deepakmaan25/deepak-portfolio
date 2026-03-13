@@ -101,7 +101,7 @@ const About = () => {
               </div>
 
               {/* Currently card */}
-              <div className="mt-6 rounded-xl p-5 max-w-xs" style={{ background: 'hsl(var(--currently-card-bg))' }}>
+              <div className="mt-6 rounded-xl p-5 max-w-xs" style={{ background: 'hsl(var(--quote-block-bg, 0 0% 4%))' }}>
                 <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-3" style={{ color: 'hsl(var(--currently-card-label))' }}>CURRENTLY</p>
                 <div className="space-y-1 text-[14px] leading-[2]" style={{ color: 'hsl(var(--currently-card-text))' }}>
                   <p>📖 Reading: The Design of Everyday Things</p>
