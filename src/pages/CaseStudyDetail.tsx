@@ -54,23 +54,15 @@ const CaseStudyDetail = () => {
         className="mt-8 py-20 lg:py-28 px-6 lg:px-8"
         style={{ background: cs.heroColor || "hsl(260 100% 97%)" }}
       >
-        <div className="max-w-site mx-auto grid grid-cols-12 gap-6">
+        <div className="max-w-site mx-auto">
           <motion.div
-            className="col-span-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Tag */}
             <p className="type-label text-muted-foreground mb-4">{cs.tag}</p>
-
-            {/* Title */}
             <h1 className="type-h1 text-foreground mb-6 max-w-[900px]">{cs.title}</h1>
-
-            {/* Description */}
-            <p className="type-body-lg text-muted-foreground max-w-[640px] mb-10">
-              {cs.description}
-            </p>
+            <p className="type-body-lg text-muted-foreground max-w-[760px] mb-10">{cs.description}</p>
 
             {/* Meta row */}
             <div className="flex flex-wrap gap-x-12 gap-y-6 pt-8 border-t border-black/10">
@@ -99,10 +91,7 @@ const CaseStudyDetail = () => {
       <section className="px-6 lg:px-8 max-w-site mx-auto py-16">
         <motion.div {...fadeUp} className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {cs.outcomes.map((o) => (
-            <div
-              key={o.label}
-              className="bg-secondary rounded-2xl p-6 lg:p-8"
-            >
+            <div key={o.label} className="bg-secondary rounded-2xl p-6 lg:p-8">
               <p className="type-h2 text-foreground mb-1">{o.metric}</p>
               <p className="type-caption text-muted-foreground">{o.label}</p>
             </div>
@@ -111,125 +100,110 @@ const CaseStudyDetail = () => {
       </section>
 
       {/* ── Divider ── */}
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
-        <div className="border-t border-border" />
-      </div>
+      <div className="px-6 lg:px-8 max-w-site mx-auto"><div className="border-t border-border" /></div>
 
       {/* ── The Challenge ── */}
       <section className="px-6 lg:px-8 max-w-site mx-auto py-24">
-        <motion.div {...fadeUp} className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-3">
-            <p className="type-label text-muted-foreground">The Challenge</p>
+        <motion.div {...fadeUp}>
+          {/* Full-width header */}
+          <div className="mb-10">
+            <p className="type-label text-muted-foreground mb-3">The Challenge</p>
+            <h2 className="type-h2 text-foreground">What we were up against</h2>
           </div>
-          <div className="col-span-12 lg:col-span-9">
-            <h2 className="type-h2 text-foreground mb-6">What we were up against</h2>
+          {/* Content — comfortable reading width */}
+          <div className="max-w-[760px]">
             <p className="type-body-lg text-muted-foreground leading-relaxed">{cs.challenge}</p>
           </div>
         </motion.div>
       </section>
 
       {/* ── Divider ── */}
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
-        <div className="border-t border-border" />
-      </div>
+      <div className="px-6 lg:px-8 max-w-site mx-auto"><div className="border-t border-border" /></div>
 
       {/* ── Design Process ── */}
       <section className="px-6 lg:px-8 max-w-site mx-auto py-24">
-        <motion.div {...fadeUp} className="grid grid-cols-12 gap-6 mb-12">
-          <div className="col-span-12 lg:col-span-3">
-            <p className="type-label text-muted-foreground">Design Process</p>
-          </div>
-          <div className="col-span-12 lg:col-span-9">
+        <motion.div {...fadeUp}>
+          {/* Full-width header */}
+          <div className="mb-12">
+            <p className="type-label text-muted-foreground mb-3">Design Process</p>
             <h2 className="type-h2 text-foreground">How we got there</h2>
           </div>
         </motion.div>
 
-        {/* Process steps */}
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-9 lg:col-start-4">
-            {cs.process.map((step, i) => (
-              <motion.div
-                key={step.title}
-                {...fadeUp}
-                className="grid grid-cols-9 gap-6 py-8 border-t border-border last:border-b"
-              >
-                {/* Step number */}
-                <div className="col-span-1">
-                  <span className="type-caption text-muted-foreground tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                {/* Step title + description */}
-                <div className="col-span-8">
-                  <p className="type-body font-semibold text-foreground mb-2">{step.title}</p>
-                  <p className="type-body text-muted-foreground leading-relaxed">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        {/* Steps — constrained for readability */}
+        <div className="max-w-[860px]">
+          {cs.process.map((step, i) => (
+            <motion.div
+              key={step.title}
+              {...fadeUp}
+              className="py-8 border-t border-border last:border-b"
+            >
+              {/* Number + Title on same line */}
+              <div className="flex items-baseline gap-4 mb-3">
+                <span className="type-caption text-muted-foreground tabular-nums shrink-0 w-6">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="type-body font-semibold text-foreground">{step.title}</p>
+              </div>
+              {/* Description indented to align with title */}
+              <div className="pl-10">
+                <p className="type-body text-muted-foreground leading-relaxed">{step.description}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* ── Divider ── */}
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
-        <div className="border-t border-border" />
-      </div>
+      <div className="px-6 lg:px-8 max-w-site mx-auto"><div className="border-t border-border" /></div>
 
       {/* ── Key Insights ── */}
       <section className="px-6 lg:px-8 max-w-site mx-auto py-24">
-        <motion.div {...fadeUp} className="grid grid-cols-12 gap-6 mb-12">
-          <div className="col-span-12 lg:col-span-3">
-            <p className="type-label text-muted-foreground">Key Insights</p>
-          </div>
-          <div className="col-span-12 lg:col-span-9">
+        <motion.div {...fadeUp}>
+          {/* Full-width header */}
+          <div className="mb-12">
+            <p className="type-label text-muted-foreground mb-3">Key Insights</p>
             <h2 className="type-h2 text-foreground">What the research revealed</h2>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 lg:col-span-9 lg:col-start-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-              {cs.keyInsights.map((insight, i) => (
-                <motion.div
-                  key={i}
-                  {...fadeUp}
-                  className="bg-secondary rounded-2xl p-6 lg:p-8 flex gap-5"
-                >
-                  <span
-                    className="type-h2 leading-none shrink-0 tabular-nums"
-                    style={{ color: "var(--role-color)", opacity: 0.35 }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="type-body text-foreground leading-relaxed">{insight}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+        {/* Insight cards — 2 col grid, slightly inset */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 max-w-[1000px]">
+          {cs.keyInsights.map((insight, i) => (
+            <motion.div
+              key={i}
+              {...fadeUp}
+              className="bg-secondary rounded-2xl p-6 lg:p-8 flex gap-5"
+            >
+              <span
+                className="text-[40px] font-bold leading-none shrink-0 tabular-nums"
+                style={{ color: "var(--role-color)", opacity: 0.3 }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="type-body text-foreground leading-relaxed">{insight}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* ── Divider ── */}
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
-        <div className="border-t border-border" />
-      </div>
+      <div className="px-6 lg:px-8 max-w-site mx-auto"><div className="border-t border-border" /></div>
 
-      {/* ── Design Artifacts (placeholder) ── */}
+      {/* ── Artefacts (placeholder) ── */}
       <section className="px-6 lg:px-8 max-w-site mx-auto py-24">
-        <motion.div {...fadeUp} className="grid grid-cols-12 gap-6 mb-12">
-          <div className="col-span-12 lg:col-span-3">
-            <p className="type-label text-muted-foreground">Artefacts</p>
-          </div>
-          <div className="col-span-12 lg:col-span-9">
+        <motion.div {...fadeUp}>
+          <div className="mb-12">
+            <p className="type-label text-muted-foreground mb-3">Artefacts</p>
             <h2 className="type-h2 text-foreground">From sketch to prototype</h2>
           </div>
         </motion.div>
 
-        <motion.div {...fadeUp} className="grid grid-cols-12 gap-4 lg:gap-6">
+        <motion.div {...fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           {["Wireframes", "User Flow", "Hi-Fi Prototype"].map((label) => (
             <div
               key={label}
-              className="col-span-12 md:col-span-4 aspect-video bg-muted rounded-2xl flex items-center justify-center"
+              className="aspect-video bg-muted rounded-2xl flex items-center justify-center"
             >
               <span className="type-caption text-muted-foreground">{label}</span>
             </div>
@@ -238,19 +212,14 @@ const CaseStudyDetail = () => {
       </section>
 
       {/* ── Divider ── */}
-      <div className="px-6 lg:px-8 max-w-site mx-auto">
-        <div className="border-t border-border" />
-      </div>
+      <div className="px-6 lg:px-8 max-w-site mx-auto"><div className="border-t border-border" /></div>
 
       {/* ── Prev / Next ── */}
       <section className="px-6 lg:px-8 max-w-site mx-auto py-16">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-6">
+        <div className="flex items-center justify-between">
+          <div>
             {prevCs ? (
-              <Link
-                to={`/case-study/${prevCs.slug}`}
-                className="group flex flex-col gap-2"
-              >
+              <Link to={`/case-study/${prevCs.slug}`} className="group flex flex-col gap-2">
                 <span className="type-caption text-muted-foreground group-hover:text-foreground transition-colors">
                   ← Previous
                 </span>
@@ -260,12 +229,9 @@ const CaseStudyDetail = () => {
               </Link>
             ) : <div />}
           </div>
-          <div className="col-span-6 flex flex-col items-end">
+          <div className="text-right">
             {nextCs ? (
-              <Link
-                to={`/case-study/${nextCs.slug}`}
-                className="group flex flex-col gap-2 text-right"
-              >
+              <Link to={`/case-study/${nextCs.slug}`} className="group flex flex-col gap-2 items-end">
                 <span className="type-caption text-muted-foreground group-hover:text-foreground transition-colors">
                   Next →
                 </span>
