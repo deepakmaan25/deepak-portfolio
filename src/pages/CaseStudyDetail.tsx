@@ -58,7 +58,7 @@ const CaseStudyDetail = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
           >
             <p className="type-label text-muted-foreground mb-4">{cs.tag}</p>
             <h1 className="type-h1 text-foreground mb-6 max-w-[900px]">{cs.title}</h1>
