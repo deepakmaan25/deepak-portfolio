@@ -6,7 +6,7 @@ import { caseStudies } from "@/data/caseStudies";
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] as const },
 });
 
 const RevealSection = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
