@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,9 @@ const tools = [
   { label: "Prototyping", ring: 2, angle: 160 },
 ];
 
-const radii: Record<number, number> = { 1: 55, 2: 94 };
+const radii: Record<number, number> = { 1: 68, 2: 118 };
+const CENTER = 150;
+const SPEED: Record<number, number> = { 1: 0.003, 2: -0.002 };
 
 const useCounter = (target: number, decimals: number, delay: number) => {
   const [value, setValue] = useState(0);
@@ -37,18 +39,42 @@ const useCounter = (target: number, decimals: number, delay: number) => {
 };
 
 const OrbitCanvas = () => {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const tagRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const anglesRef = useRef<number[]>(tools.map((t) => (t.angle * Math.PI) / 180));
+  const pausedRef = useRef<boolean[]>(tools.map(() => false));
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const animate = () => {
+      anglesRef.current.forEach((angle, i) => {
+        if (pausedRef.current[i]) return;
+        const newAngle = angle + SPEED[tools[i].ring];
+        anglesRef.current[i] = newAngle;
+        const r = radii[tools[i].ring];
+        const x = CENTER + r * Math.cos(newAngle);
+        const y = CENTER + r * Math.sin(newAngle);
+        const el = tagRefs.current[i];
+        if (el) {
+          el.style.left = `${x}px`;
+          el.style.top = `${y}px`;
+        }
+      });
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
   return (
     <div
-      ref={wrapRef}
       className="relative flex items-center justify-center flex-shrink-0"
-      style={{ width: 240, height: 240 }}
+      style={{ width: 300, height: 300 }}
     >
       {/* Rings */}
       {[
-        { size: 110, duration: "10s", direction: "normal" },
-        { size: 188, duration: "17s", direction: "reverse" },
-        { size: 238, duration: "28s", direction: "normal" },
+        { size: 136, duration: "10s", direction: "normal" },
+        { size: 236, duration: "17s", direction: "reverse" },
+        { size: 298, duration: "28s", direction: "normal" },
       ].map((ring, i) => (
         <div
           key={i}
@@ -77,19 +103,40 @@ const OrbitCanvas = () => {
       </div>
 
       {/* Tool tags */}
-      {tools.map((t) => {
+      {tools.map((t, i) => {
+        const initRad = (t.angle * Math.PI) / 180;
         const r = radii[t.ring];
-        const rad = (t.angle * Math.PI) / 180;
-        const x = 120 + r * Math.cos(rad);
-        const y = 120 + r * Math.sin(rad);
+        const ix = CENTER + r * Math.cos(initRad);
+        const iy = CENTER + r * Math.sin(initRad);
         return (
           <span
             key={t.label}
-            className="absolute text-[9.5px] font-medium px-[10px] py-[4px] rounded-full bg-background border border-border text-muted-foreground whitespace-nowrap z-[5] cursor-default transition-all duration-250 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:scale-105"
+            ref={(el) => { tagRefs.current[i] = el; }}
+            className="absolute text-[9.5px] font-medium px-[10px] py-[4px] rounded-full bg-background border border-border text-muted-foreground whitespace-nowrap z-[5] cursor-default transition-colors duration-200"
             style={{
-              left: x, top: y,
+              left: ix, top: iy,
               transform: "translate(-50%,-50%)",
               boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+            }}
+            onMouseEnter={() => {
+              pausedRef.current[i] = true;
+              const el = tagRefs.current[i];
+              if (el) {
+                el.style.background = "hsl(var(--primary))";
+                el.style.color = "hsl(var(--primary-foreground))";
+                el.style.borderColor = "hsl(var(--primary))";
+                el.style.transform = "translate(-50%,-50%) scale(1.05)";
+              }
+            }}
+            onMouseLeave={() => {
+              pausedRef.current[i] = false;
+              const el = tagRefs.current[i];
+              if (el) {
+                el.style.background = "";
+                el.style.color = "";
+                el.style.borderColor = "";
+                el.style.transform = "translate(-50%,-50%)";
+              }
             }}
           >
             {t.label}
@@ -145,6 +192,26 @@ const Hero = () => {
 
         {/* LEFT */}
         <div className="flex flex-col justify-center px-12 py-11">
+          {/* Availability badge */}
+          <div
+            className="inline-flex items-center gap-[6px] mb-5 w-fit"
+            style={{
+              background: "#DCFCE7",
+              color: "#166534",
+              border: "1px solid #BBF7D0",
+              padding: "4px 12px",
+              borderRadius: 100,
+              fontSize: 11,
+              fontWeight: 500,
+            }}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+            </span>
+            Available for opportunities
+          </div>
+
           {/* Role group */}
           <div className="mb-4">
             <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
