@@ -317,6 +317,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
   transition: background-color 300ms ease, color 300ms ease;
+  border-top: 3px solid #6366f1;
 }
 
 /* Marquee fade edges */

@@ -138,22 +138,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full">
-      {/* 3px indigo accent bar */}
-      <div style={{ height: 3, background: "linear-gradient(90deg,#6366f1,#818cf8)", width: "100%" }} />
-
-      {/* Label row */}
-      <div className="flex items-center justify-between px-12 py-5 border-b border-border">
-        <span className="type-label text-muted-foreground">Product Designer</span>
-        <div className="flex items-center gap-2 text-[11px] font-medium px-3 py-1 rounded-full" style={{ background: "#DCFCE7", color: "#166534", border: "1px solid #BBF7D0" }}>
-          <span className="relative flex h-[6px] w-[6px]">
-            <span className="animate-ping-dot absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-[6px] w-[6px] bg-green-500" />
-          </span>
-          Available for opportunities
-        </div>
-        <span className="text-[12px] text-muted-foreground">India · Open to remote</span>
-      </div>
+    <section className="w-full pt-24">
 
       {/* Hero grid — 65/35 */}
       <div className="grid border-b border-border" style={{ gridTemplateColumns: "65fr 35fr", minHeight: 400 }}>
