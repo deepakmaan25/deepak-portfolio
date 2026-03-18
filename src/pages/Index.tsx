@@ -3,7 +3,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/Hero";
 import ProofBar from "@/components/ProofBar";
 import ToolsMarquee from "@/components/ToolsMarquee";
-import Work from "@/components/Work";
+import CaseStudies from "@/components/CaseStudies";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
@@ -17,7 +17,7 @@ const Index = () => {
         <Hero />
         <ProofBar />
         <ToolsMarquee />
-        <Work />
+        <CaseStudies />
         <Process />
         <About />
         <Contact />
