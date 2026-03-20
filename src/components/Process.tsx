@@ -1,375 +1,329 @@
-import { useRef, useEffect, useState } from "react";
-import { Search, Target, PenTool, CheckCircle } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const steps = [
   {
-    num: "01",
-    icon: Search,
-    title: "Discover & Listen",
-    description:
-      "Every project starts with curiosity. I conduct user interviews, competitive audits, and stakeholder workshops — using AI tools like Claude to synthesize patterns from raw transcripts 3x faster than manual analysis.",
-    tags: ["User Interviews", "AI Synthesis"],
+    tag: "Step 01 — Discover",
+    title: "Discover &",
+    titleEm: "Listen",
+    desc: "User interviews, competitive audits, and stakeholder workshops — using AI to synthesize patterns from raw transcripts 3× faster than manual analysis.",
+    pills: ["User Interviews", "AI Synthesis", "Competitive Audit"],
   },
   {
-    num: "02",
-    icon: Target,
-    title: "Define the Real Problem",
-    description:
-      "Most design fails because it solves the wrong thing. I use affinity mapping and Jobs-to-be-Done frameworks to reframe vague briefs into precise, testable problem statements — validated with stakeholders before a single wireframe.",
-    tags: ["HMW Statements", "Journey Maps"],
+    tag: "Step 02 — Define",
+    title: "Define the Real",
+    titleEm: "Problem",
+    desc: "Affinity mapping and JTBD frameworks reframe vague briefs into precise, testable problem statements — validated with stakeholders before a single wireframe.",
+    pills: ["HMW Statements", "Journey Maps", "JTBD"],
   },
   {
-    num: "03",
-    icon: PenTool,
-    title: "Design with Intention",
-    description:
-      "From rough sketches to high-fidelity Figma prototypes — every decision is traceable to a research insight. I use Midjourney for early visual mood exploration and component-driven design systems for scalable delivery.",
-    tags: ["Figma Systems", "AI-Assisted Ideation"],
+    tag: "Step 03 — Design",
+    title: "Design with",
+    titleEm: "Intention",
+    desc: "From rough sketches to high-fidelity Figma prototypes — every decision traceable to a research insight. Component-driven systems for scalable delivery.",
+    pills: ["Figma Systems", "AI Ideation", "Prototyping"],
   },
   {
-    num: "04",
-    icon: CheckCircle,
-    title: "Deliver & Measure",
-    description:
-      "Design doesn't end at handoff. I conduct usability testing with Maze, annotate developer specs, and track post-launch metrics to close the feedback loop and quantify impact.",
-    tags: ["Usability Testing", "Impact Metrics"],
+    tag: "Step 04 — Deliver",
+    title: "Deliver &",
+    titleEm: "Measure",
+    desc: "Design doesn't end at handoff. Usability testing, developer specs, and post-launch metrics close the feedback loop and quantify real impact.",
+    pills: ["Usability Testing", "Impact Metrics", "Maze"],
   },
 ];
 
-const ResearchWall = () => {
-  const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!ref.current) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.3 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  const colors = ['rgba(253,224,71,0.2)', 'rgba(196,181,253,0.2)'];
-  const highlights = [2, 7, 14];
-  return (
-    <div ref={ref} className="hidden md:flex items-center justify-center opacity-85">
-      <div className="grid grid-cols-5 gap-2 w-[280px]">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="w-12 h-12 rounded-md transition-all duration-300"
-            style={{
-              background: colors[i % 2],
-              border: '1px solid rgba(0,0,0,0.06)',
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'scale(1)' : 'scale(0.95)',
-              transitionDelay: `${i * 30}ms`,
-              borderTop: highlights.includes(i) ? '3px solid rgba(99,102,241,0.4)' : undefined,
-            }}
-          />
+const DiscoverIllus = () => (
+  <div className="flex flex-col gap-3 w-full">
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
+      style={{ background: "#f0eeff", color: "#4f46e5", border: "1px solid rgba(99,102,241,0.15)" }}>
+      "How do you currently track your spending?"
+    </div>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-end max-w-[200px]"
+      style={{ background: "#0A0A0A", color: "rgba(255,255,255,0.75)" }}>
+      AI Pattern: 9/14 users mention anxiety around budgets
+    </div>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
+      style={{ background: "#fff7ed", color: "#c2410c", border: "1px solid rgba(234,88,12,0.15)" }}>
+      "I just avoid looking at it honestly..."
+    </div>
+    <div className="flex gap-2 mt-1">
+      {[
+        { label: "F", bg: "#f0eeff", color: "#4f46e5" },
+        { label: "T", bg: "#eaf3ff", color: "#1d4ed8" },
+        { label: "A", bg: "#fff4ec", color: "#c2410c" },
+        { label: "+6", bg: "rgba(0,0,0,0.05)", color: "#888" },
+      ].map((d) => (
+        <div key={d.label} className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold flex-shrink-0"
+          style={{ background: d.bg, color: d.color }}>
+          {d.label}
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const DefineIllus = () => (
+  <div className="flex flex-col gap-3 w-full">
+    <div className="grid grid-cols-3 gap-1.5">
+      {[
+        { label: "Fear", cards: [{ text: "Loss anxiety", type: "purple" }, { text: "Avoidance", type: "muted" }] },
+        { label: "Trust", cards: [{ text: "Social proof", type: "blue" }, { text: "Transparency", type: "muted" }] },
+        { label: "Wins", cards: [{ text: "Milestones", type: "orange" }, { text: "Progress", type: "muted" }] },
+      ].map((group) => (
+        <div key={group.label} className="flex flex-col gap-1">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-center mb-0.5" style={{ color: "#bbb" }}>{group.label}</div>
+          {group.cards.map((card) => (
+            <div key={card.text} className="rounded-md px-2 py-1.5 text-[10px] font-medium text-center leading-tight"
+              style={{
+                background: card.type === "purple" ? "#f0eeff" : card.type === "blue" ? "#eaf3ff" : card.type === "orange" ? "#fff4ec" : "rgba(0,0,0,0.04)",
+                color: card.type === "purple" ? "#4f46e5" : card.type === "blue" ? "#1d4ed8" : card.type === "orange" ? "#c2410c" : "#888",
+                border: `1px solid ${card.type === "purple" ? "rgba(99,102,241,0.15)" : card.type === "blue" ? "rgba(37,99,235,0.15)" : card.type === "orange" ? "rgba(234,88,12,0.15)" : "rgba(0,0,0,0.07)"}`,
+              }}>
+              {card.text}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div className="rounded-lg px-3 py-2.5 flex items-center gap-2" style={{ background: "#0A0A0A" }}>
+      <span className="text-[9px] font-bold uppercase tracking-wider flex-shrink-0" style={{ color: "rgba(255,255,255,0.35)" }}>HMW</span>
+      <span className="text-[10px] italic" style={{ color: "rgba(255,255,255,0.65)" }}>"...make investing feel safe for first-timers?"</span>
+    </div>
+  </div>
+);
+
+const DesignIllus = () => (
+  <div className="flex flex-col gap-2 w-full">
+    <div className="flex items-center gap-1.5 mb-1">
+      <div className="w-2 h-2 rounded-full bg-red-400" />
+      <div className="w-2 h-2 rounded-full bg-yellow-400" />
+      <div className="w-2 h-2 rounded-full bg-green-400" />
+      <span className="text-[10px] font-medium ml-1" style={{ color: "#bbb" }}>Figma — Onboarding v3</span>
+    </div>
+    <div className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center gap-1.5 px-3 py-2" style={{ background: "#f5f5f5", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+      </div>
+      <div className="p-3 bg-white flex flex-col gap-1.5">
+        <div className="h-1.5 rounded-full w-[55%]" style={{ background: "rgba(99,102,241,0.4)" }} />
+        <div className="h-1.5 rounded-full w-full" style={{ background: "rgba(0,0,0,0.07)" }} />
+        <div className="h-1.5 rounded-full w-[35%]" style={{ background: "rgba(0,0,0,0.05)" }} />
+        <div className="flex gap-2 mt-1">
+          <div className="px-3 py-1 rounded text-[9px] font-bold text-white" style={{ background: "#6366f1" }}>Continue</div>
+          <div className="px-3 py-1 rounded text-[9px]" style={{ border: "1px solid rgba(0,0,0,0.1)", color: "#888" }}>Skip</div>
+        </div>
+      </div>
+    </div>
+    <div className="grid grid-cols-2 gap-1.5">
+      {[0, 1].map((i) => (
+        <div key={i} className="rounded-lg p-2 bg-white border flex flex-col gap-1" style={{ borderColor: "rgba(0,0,0,0.07)" }}>
+          <div className="h-1 rounded-full" style={{ width: i === 0 ? "70%" : "80%", background: "rgba(99,102,241,0.35)" }} />
+          <div className="h-1 rounded-full w-1/2" style={{ background: "rgba(0,0,0,0.07)" }} />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const DeliverIllus = () => (
+  <div className="flex flex-col gap-2.5 w-full">
+    <div className="grid grid-cols-2 gap-2">
+      {[
+        { val: "↑38", suf: "%", lbl: "Completion" },
+        { val: "4.6", suf: "/5", lbl: "Usability" },
+      ].map((m) => (
+        <div key={m.lbl} className="rounded-xl p-3" style={{ background: "#f9f8f6", border: "1px solid rgba(0,0,0,0.07)" }}>
+          <div className="font-normal leading-none mb-1" style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: "#0A0A0A" }}>
+            {m.val}<em style={{ fontStyle: "normal", color: "#6366f1", fontSize: 14 }}>{m.suf}</em>
+          </div>
+          <div className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: "#bbb" }}>{m.lbl}</div>
+        </div>
+      ))}
+    </div>
+    <div className="rounded-xl p-3" style={{ background: "#f9f8f6", border: "1px solid rgba(0,0,0,0.07)" }}>
+      <div className="text-[9px] font-bold uppercase tracking-wider mb-2" style={{ color: "#bbb" }}>Drop-off — before vs after</div>
+      <div className="flex items-end gap-1" style={{ height: 40 }}>
+        {[
+          { h: "80%", type: "before" }, { h: "32%", type: "after" },
+          { h: "70%", type: "before" }, { h: "28%", type: "after" },
+          { h: "65%", type: "before" }, { h: "22%", type: "after" },
+        ].map((b, i) => (
+          <div key={i} className="flex-1 rounded-t"
+            style={{ height: b.h, background: b.type === "before" ? "rgba(0,0,0,0.08)" : "rgba(99,102,241,0.55)" }} />
         ))}
       </div>
     </div>
-  );
-};
-
-const JourneyMap = () => (
-  <div className="hidden md:flex items-center justify-center opacity-85">
-    <div className="w-[300px]">
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-3">
-        User Journey
-      </div>
-      <div className="relative flex items-center justify-between">
-        <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-border -translate-y-1/2" />
-        {['#EF4444', '#F59E0B', '#F59E0B', '#10B981', '#10B981'].map((c, i) => (
-          <div key={i} className="relative z-10 flex flex-col items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: c }} />
-            <div className="w-10 h-1.5 rounded bg-border" />
-          </div>
-        ))}
+    <div className="rounded-xl px-3 py-2.5 flex items-center gap-3 bg-white" style={{ border: "1px solid rgba(0,0,0,0.07)" }}>
+      <span className="relative flex h-2 w-2 flex-shrink-0">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#22c55e" }} />
+        <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "#22c55e" }} />
+      </span>
+      <div>
+        <div className="text-[11px] font-semibold" style={{ color: "#0A0A0A" }}>Maze test complete</div>
+        <div className="text-[9px]" style={{ color: "#bbb" }}>24 participants · 2 rounds</div>
       </div>
     </div>
   </div>
 );
 
-const ComponentLibrary = () => (
-  <div className="hidden md:flex items-center justify-center opacity-85">
-    <div className="w-[280px] p-6 rounded-xl" style={{ border: '1px dashed hsl(var(--border))' }}>
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-4">
-        Design System Components
-      </div>
-      <div className="space-y-3">
-        <div className="flex gap-2">
-          <div
-            className="px-3 py-1.5 rounded-md text-[10px] font-medium text-white"
-            style={{ background: '#6366f1' }}
-          >
-            Button
-          </div>
-          <div className="px-3 py-1.5 rounded-md text-[10px] font-medium border border-border text-foreground">
-            Outlined
-          </div>
-        </div>
-        <div className="h-8 rounded-md border border-border flex items-center px-3">
-          <div className="h-1.5 rounded-full w-2/3 bg-foreground/10" />
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-4 rounded-full bg-[#6366f1] relative">
-            <div className="absolute right-0.5 top-0.5 w-3 h-3 rounded-full bg-white" />
-          </div>
-          <div className="w-4 h-4 rounded border-2 border-[#6366f1] flex items-center justify-center">
-            <div className="w-2 h-2 rounded-sm bg-[#6366f1]" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const MetricsDashboard = () => {
-  const metrics = [
-    { label: "Task Completion", value: "↑ 93%", color: "#6366f1" },
-    { label: "Drop-off Rate", value: "↓ 60%", color: "#6366f1" },
-    { label: "Usability Score", value: "4.2/5", color: "#6366f1" },
-  ];
-  return (
-    <div className="hidden md:flex items-center justify-center opacity-85">
-      <div className="w-[240px] space-y-2.5">
-        {metrics.map((m) => (
-          <div key={m.label} className="rounded-lg p-3 bg-surface border border-border">
-            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-              {m.label}
-            </div>
-            <div className="text-[18px] font-bold mt-0.5" style={{ color: m.color }}>
-              {m.value}
-            </div>
-          </div>
-        ))}
-        <svg width="240" height="40" viewBox="0 0 240 40" fill="none">
-          <polyline
-            points="0,35 30,28 60,30 90,20 120,22 150,14 180,10 210,6 240,3"
-            stroke="#6366f1"
-            strokeWidth="2"
-            fill="none"
-          />
-        </svg>
-      </div>
-    </div>
-  );
-};
-
-const oppositeVisuals = [ResearchWall, JourneyMap, ComponentLibrary, MetricsDashboard];
-
-const StepCard = ({ step, index }: { step: typeof steps[0]; index: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const isLeft = index % 2 === 0;
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.2 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const OppositeVisual = oppositeVisuals[index];
-
-  const cardStyle = {
-    boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
-    opacity: visible ? 1 : 0,
-    transition: 'opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1)',
-  };
-
-  return (
-    <div ref={ref} className="relative">
-      <div className="hidden md:block absolute left-1/2 top-10 -translate-x-1/2 w-2 h-2 rounded-full bg-foreground z-10" />
-
-      <div className="md:grid md:grid-cols-2 gap-8 items-center">
-        <div className={isLeft ? '' : 'md:order-2'}>
-          {isLeft ? (
-            <div
-              className="w-full bg-background border border-border rounded-2xl overflow-hidden"
-              style={{
-                ...cardStyle,
-                transform: visible ? 'translateX(0)' : 'translateX(-40px)',
-              }}
-            >
-              <div className="p-8">
-                <div
-                  className="text-[48px] font-extrabold leading-none mb-3"
-                  style={{ color: 'hsl(var(--border))' }}
-                >
-                  {step.num}
-                </div>
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <step.icon size={18} className="text-foreground" />
-                </div>
-                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
-                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {step.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateX(0)' : 'translateX(-40px)',
-              transition: 'opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1)',
-            }}>
-              <OppositeVisual />
-            </div>
-          )}
-        </div>
-
-        <div className={isLeft ? '' : 'md:order-1'}>
-          {isLeft ? (
-            <div style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateX(0)' : 'translateX(40px)',
-              transition: 'opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1)',
-            }}>
-              <OppositeVisual />
-            </div>
-          ) : (
-            <div
-              className="w-full bg-background border border-border rounded-2xl overflow-hidden"
-              style={{
-                ...cardStyle,
-                transform: visible ? 'translateX(0)' : 'translateX(40px)',
-              }}
-            >
-              <div className="p-8">
-                <div
-                  className="text-[48px] font-extrabold leading-none mb-3"
-                  style={{ color: 'hsl(var(--border))' }}
-                >
-                  {step.num}
-                </div>
-                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <step.icon size={18} className="text-foreground" />
-                </div>
-                <h3 className="text-[20px] font-bold text-foreground mb-3">{step.title}</h3>
-                <p className="type-body text-muted-foreground mb-5">{step.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {step.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-3 py-1.5 border border-tag-border rounded-full text-[12px] text-muted-foreground bg-background"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
+const illustrations = [DiscoverIllus, DefineIllus, DesignIllus, DeliverIllus];
 
 const Process = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
-  useEffect(() => {
-    if (!ref.current) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
+  const handleStep = (i: number) => {
+    if (i === active) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setActive(i);
+      setAnimating(false);
+    }, 220);
+  };
+
+  const IllusComponent = illustrations[active];
+  const step = steps[active];
+  const progressPct = active === 0 ? 0 : (active / 3) * 100;
 
   return (
-    <section id="process" className="py-24 md:py-[96px] bg-surface">
-      <div className="px-6 max-w-site mx-auto">
-        <div
-          ref={ref}
-          className="mb-16"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 400ms ease, transform 400ms ease',
-          }}
-        >
-          <p className="type-label mb-3">PROCESS</p>
-          <h2 className="type-h2">How I work</h2>
-        </div>
+    <section id="process" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
 
-        <div className="relative">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 border-l border-dashed border-border" />
-          <div className="space-y-10 md:space-y-12">
-            {steps.map((step, i) => (
-              <StepCard key={step.num} step={step} index={i} />
-            ))}
-          </div>
-        </div>
+      {/* Section header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="mb-12"
+      >
+        <p className="type-label text-muted-foreground mb-3">Process</p>
+        <h2 className="font-normal text-foreground"
+          style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.1 }}>
+          How I <em style={{ fontStyle: "italic", color: "#6366f1" }}>work</em>
+        </h2>
+      </motion.div>
 
-        {/* Quote block — dark mode safe */}
-        <div
-          className="mt-16 relative overflow-hidden rounded-2xl"
-          style={{ background: 'hsl(var(--quote-block-bg, 0 0% 4%))' }}
-        >
-          <div
-            className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)' }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-[200px] h-[200px] rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)' }}
-          />
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-            }}
-          />
-          <div className="relative p-12 md:p-16">
-            <div
-              className="absolute top-6 left-10 text-[120px] leading-none font-serif"
-              style={{ color: 'rgba(99,102,241,0.15)' }}
-            >
-              "
+      {/* Stepper track */}
+      <div className="relative flex items-start mb-6">
+        {/* Background line */}
+        <div className="absolute h-px bg-border z-0" style={{ top: 20, left: 20, right: 20 }} />
+        {/* Progress line */}
+        <div className="absolute h-px z-10 transition-all duration-500" style={{
+          top: 20, left: 20,
+          width: `calc(${progressPct}% * (100% - 40px) / 100)`,
+          background: "#6366f1",
+          transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)"
+        }} />
+        {steps.map((s, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center relative z-20 cursor-pointer"
+            onClick={() => handleStep(i)}>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2.5 transition-all duration-300"
+              style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: 14, fontStyle: "italic",
+                background: i === active ? "#6366f1" : "hsl(var(--background))",
+                border: `1.5px solid ${i === active ? "#6366f1" : "hsl(var(--border))"}`,
+                color: i === active ? "#fff" : "hsl(var(--muted-foreground))",
+                boxShadow: i === active ? "0 4px 12px rgba(99,102,241,0.25)" : "none",
+              }}>
+              {String(i + 1).padStart(2, "0")}
             </div>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-8">
-              <div className="max-w-2xl">
-                <p className="text-[26px] md:text-[30px] italic leading-relaxed text-white/90">
-                  The best designers I know aren't the best at Figma. They're the best at asking the right questions.
-                </p>
-              </div>
-              <div className="flex-shrink-0">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-bold text-white"
-                    style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.6), rgba(139,92,246,0.6))' }}
-                  >
-                    DM
-                  </div>
-                  <div>
-                    <div className="text-[14px] font-medium text-white/80">Deepak Maan</div>
-                    <div className="text-[12px] text-white/35">Product Designer</div>
-                  </div>
-                </div>
-              </div>
+            <div className="text-center transition-colors duration-300 max-w-[90px]"
+              style={{ fontSize: 11, fontWeight: 600, lineHeight: 1.3, color: i === active ? "#0A0A0A" : "hsl(var(--muted-foreground))" }}>
+              {s.tag.split(" — ")[1]}
             </div>
           </div>
-        </div>
-
+        ))}
       </div>
+
+      {/* Panel */}
+      <motion.div
+        className="rounded-2xl overflow-hidden bg-background relative"
+        style={{ border: "1px solid hsl(var(--border))" }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {/* Indigo top bar */}
+        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+          style={{ background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
+
+        <div className="grid" style={{ gridTemplateColumns: "65fr 35fr", minHeight: 280 }}>
+          {/* Left — text */}
+          <div className="flex flex-col justify-center p-10"
+            style={{
+              borderRight: "1px solid hsl(var(--border))",
+              opacity: animating ? 0 : 1,
+              transform: animating ? "translateY(6px)" : "translateY(0)",
+              transition: "opacity 0.22s ease, transform 0.22s ease",
+            }}>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2.5"
+              style={{ color: "hsl(var(--muted-foreground))" }}>
+              {step.tag}
+            </p>
+            <h3 className="font-normal mb-3"
+              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(22px, 2.5vw, 30px)", lineHeight: 1.2, color: "hsl(var(--foreground))" }}>
+              {step.title}{" "}
+              <em style={{ fontStyle: "italic", color: "#6366f1" }}>{step.titleEm}</em>
+            </h3>
+            <p className="mb-5 max-w-[400px]"
+              style={{ fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))" }}>
+              {step.desc}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {step.pills.map((pill) => (
+                <span key={pill} className="text-[10px] font-medium px-3 py-1 rounded-full"
+                  style={{ background: "rgba(99,102,241,0.06)", color: "#6366f1", border: "1px solid rgba(99,102,241,0.14)" }}>
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — illustration */}
+          <div className="flex items-center justify-center p-8"
+            style={{
+              opacity: animating ? 0 : 1,
+              transform: animating ? "translateY(6px)" : "translateY(0)",
+              transition: "opacity 0.22s ease, transform 0.22s ease",
+            }}>
+            <IllusComponent />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Quote block */}
+      <div className="mt-12 relative overflow-hidden rounded-2xl"
+        style={{ background: "hsl(var(--foreground))" }}>
+        <div className="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)" }} />
+        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)" }} />
+        <div className="relative p-12 md:p-16">
+          <div className="absolute top-4 left-8 leading-none font-serif select-none pointer-events-none"
+            style={{ fontSize: 100, color: "rgba(99,102,241,0.12)", fontFamily: "Georgia, serif" }}>"</div>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-6">
+            <p className="max-w-2xl italic leading-relaxed text-primary-foreground/90"
+              style={{ fontSize: "clamp(20px, 2.5vw, 28px)" }}>
+              The best designers I know aren't the best at Figma. They're the best at asking the right questions.
+            </p>
+            <div className="flex-shrink-0 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white"
+                style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.7), rgba(139,92,246,0.7))" }}>
+                DM
+              </div>
+              <div>
+                <div className="text-[13px] font-medium text-primary-foreground/80">Deepak Maan</div>
+                <div className="text-[11px] text-primary-foreground/35">Product Designer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   );
 };
