@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const steps = [
@@ -34,29 +34,18 @@ const steps = [
 
 const DiscoverIllus = () => (
   <div className="flex flex-col gap-3 w-full">
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
-      style={{ background: "#f0eeff", color: "#4f46e5", border: "1px solid rgba(99,102,241,0.15)" }}>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]" style={{ background: "#f0eeff", color: "#4f46e5", border: "1px solid rgba(99,102,241,0.15)" }}>
       "How do you currently track your spending?"
     </div>
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-end max-w-[200px]"
-      style={{ background: "#0A0A0A", color: "rgba(255,255,255,0.75)" }}>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-end max-w-[200px]" style={{ background: "#0A0A0A", color: "rgba(255,255,255,0.75)" }}>
       AI Pattern: 9/14 users mention anxiety around budgets
     </div>
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
-      style={{ background: "#fff7ed", color: "#c2410c", border: "1px solid rgba(234,88,12,0.15)" }}>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]" style={{ background: "#fff7ed", color: "#c2410c", border: "1px solid rgba(234,88,12,0.15)" }}>
       "I just avoid looking at it honestly..."
     </div>
     <div className="flex gap-2 mt-1">
-      {[
-        { label: "F", bg: "#f0eeff", color: "#4f46e5" },
-        { label: "T", bg: "#eaf3ff", color: "#1d4ed8" },
-        { label: "A", bg: "#fff4ec", color: "#c2410c" },
-        { label: "+6", bg: "rgba(0,0,0,0.05)", color: "#888" },
-      ].map((d) => (
-        <div key={d.label} className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold flex-shrink-0"
-          style={{ background: d.bg, color: d.color }}>
-          {d.label}
-        </div>
+      {[{ label: "F", bg: "#f0eeff", color: "#4f46e5" }, { label: "T", bg: "#eaf3ff", color: "#1d4ed8" }, { label: "A", bg: "#fff4ec", color: "#c2410c" }, { label: "+6", bg: "rgba(0,0,0,0.05)", color: "#888" }].map((d) => (
+        <div key={d.label} className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold flex-shrink-0" style={{ background: d.bg, color: d.color }}>{d.label}</div>
       ))}
     </div>
   </div>
@@ -73,14 +62,11 @@ const DefineIllus = () => (
         <div key={group.label} className="flex flex-col gap-1">
           <div className="text-[9px] font-bold uppercase tracking-wider text-center mb-0.5" style={{ color: "#bbb" }}>{group.label}</div>
           {group.cards.map((card) => (
-            <div key={card.text} className="rounded-md px-2 py-1.5 text-[10px] font-medium text-center leading-tight"
-              style={{
-                background: card.type === "purple" ? "#f0eeff" : card.type === "blue" ? "#eaf3ff" : card.type === "orange" ? "#fff4ec" : "rgba(0,0,0,0.04)",
-                color: card.type === "purple" ? "#4f46e5" : card.type === "blue" ? "#1d4ed8" : card.type === "orange" ? "#c2410c" : "#888",
-                border: `1px solid ${card.type === "purple" ? "rgba(99,102,241,0.15)" : card.type === "blue" ? "rgba(37,99,235,0.15)" : card.type === "orange" ? "rgba(234,88,12,0.15)" : "rgba(0,0,0,0.07)"}`,
-              }}>
-              {card.text}
-            </div>
+            <div key={card.text} className="rounded-md px-2 py-1.5 text-[10px] font-medium text-center leading-tight" style={{
+              background: card.type === "purple" ? "#f0eeff" : card.type === "blue" ? "#eaf3ff" : card.type === "orange" ? "#fff4ec" : "rgba(0,0,0,0.04)",
+              color: card.type === "purple" ? "#4f46e5" : card.type === "blue" ? "#1d4ed8" : card.type === "orange" ? "#c2410c" : "#888",
+              border: `1px solid ${card.type === "purple" ? "rgba(99,102,241,0.15)" : card.type === "blue" ? "rgba(37,99,235,0.15)" : card.type === "orange" ? "rgba(234,88,12,0.15)" : "rgba(0,0,0,0.07)"}`,
+            }}>{card.text}</div>
           ))}
         </div>
       ))}
@@ -95,16 +81,12 @@ const DefineIllus = () => (
 const DesignIllus = () => (
   <div className="flex flex-col gap-2 w-full">
     <div className="flex items-center gap-1.5 mb-1">
-      <div className="w-2 h-2 rounded-full bg-red-400" />
-      <div className="w-2 h-2 rounded-full bg-yellow-400" />
-      <div className="w-2 h-2 rounded-full bg-green-400" />
+      <div className="w-2 h-2 rounded-full bg-red-400" /><div className="w-2 h-2 rounded-full bg-yellow-400" /><div className="w-2 h-2 rounded-full bg-green-400" />
       <span className="text-[10px] font-medium ml-1" style={{ color: "#bbb" }}>Figma — Onboarding v3</span>
     </div>
     <div className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(0,0,0,0.08)" }}>
       <div className="flex items-center gap-1.5 px-3 py-2" style={{ background: "#f5f5f5", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-red-400" /><div className="w-1.5 h-1.5 rounded-full bg-yellow-400" /><div className="w-1.5 h-1.5 rounded-full bg-green-400" />
       </div>
       <div className="p-3 bg-white flex flex-col gap-1.5">
         <div className="h-1.5 rounded-full w-[55%]" style={{ background: "rgba(99,102,241,0.4)" }} />
@@ -130,10 +112,7 @@ const DesignIllus = () => (
 const DeliverIllus = () => (
   <div className="flex flex-col gap-2.5 w-full">
     <div className="grid grid-cols-2 gap-2">
-      {[
-        { val: "↑38", suf: "%", lbl: "Completion" },
-        { val: "4.6", suf: "/5", lbl: "Usability" },
-      ].map((m) => (
+      {[{ val: "↑38", suf: "%", lbl: "Completion" }, { val: "4.6", suf: "/5", lbl: "Usability" }].map((m) => (
         <div key={m.lbl} className="rounded-xl p-3" style={{ background: "#f9f8f6", border: "1px solid rgba(0,0,0,0.07)" }}>
           <div className="font-normal leading-none mb-1" style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: "#0A0A0A" }}>
             {m.val}<em style={{ fontStyle: "normal", color: "#6366f1", fontSize: 14 }}>{m.suf}</em>
@@ -145,13 +124,8 @@ const DeliverIllus = () => (
     <div className="rounded-xl p-3" style={{ background: "#f9f8f6", border: "1px solid rgba(0,0,0,0.07)" }}>
       <div className="text-[9px] font-bold uppercase tracking-wider mb-2" style={{ color: "#bbb" }}>Drop-off — before vs after</div>
       <div className="flex items-end gap-1" style={{ height: 40 }}>
-        {[
-          { h: "80%", type: "before" }, { h: "32%", type: "after" },
-          { h: "70%", type: "before" }, { h: "28%", type: "after" },
-          { h: "65%", type: "before" }, { h: "22%", type: "after" },
-        ].map((b, i) => (
-          <div key={i} className="flex-1 rounded-t"
-            style={{ height: b.h, background: b.type === "before" ? "rgba(0,0,0,0.08)" : "rgba(99,102,241,0.55)" }} />
+        {[{ h: "80%", type: "before" }, { h: "32%", type: "after" }, { h: "70%", type: "before" }, { h: "28%", type: "after" }, { h: "65%", type: "before" }, { h: "22%", type: "after" }].map((b, i) => (
+          <div key={i} className="flex-1 rounded-t" style={{ height: b.h, background: b.type === "before" ? "rgba(0,0,0,0.08)" : "rgba(99,102,241,0.55)" }} />
         ))}
       </div>
     </div>
@@ -173,24 +147,45 @@ const illustrations = [DiscoverIllus, DefineIllus, DesignIllus, DeliverIllus];
 const Process = () => {
   const [active, setActive] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const handleStep = (i: number) => {
+  const goToStep = (i: number) => {
     if (i === active) return;
     setAnimating(true);
-    setTimeout(() => {
-      setActive(i);
-      setAnimating(false);
-    }, 220);
+    setTimeout(() => { setActive(i); setAnimating(false); }, 220);
+  };
+
+  // Auto-advance every 2.5 seconds
+  const startAuto = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setAnimating(true);
+      setTimeout(() => {
+        setActive(prev => {
+          const next = (prev + 1) % steps.length;
+          return next;
+        });
+        setAnimating(false);
+      }, 220);
+    }, 2500);
+  };
+
+  useEffect(() => {
+    startAuto();
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, []);
+
+  const handleStepClick = (i: number) => {
+    goToStep(i);
+    // Reset auto-advance timer on manual click
+    startAuto();
   };
 
   const IllusComponent = illustrations[active];
   const step = steps[active];
-  const progressPct = active === 0 ? 0 : (active / 3) * 100;
 
   return (
     <section id="process" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
-
-      {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -199,8 +194,7 @@ const Process = () => {
         className="mb-12"
       >
         <p className="type-label text-muted-foreground mb-3">Process</p>
-        <h2 className="font-normal text-foreground"
-          style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.1 }}>
+        <h2 className="font-normal text-foreground" style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 4vw, 48px)", lineHeight: 1.1 }}>
           How I <em style={{ fontStyle: "italic", color: "#6366f1" }}>work</em>
         </h2>
       </motion.div>
@@ -209,50 +203,54 @@ const Process = () => {
       <div className="relative flex items-start mb-6">
         {/* Background line */}
         <div className="absolute h-px bg-border z-0" style={{ top: 20, left: 20, right: 20 }} />
-        {/* Progress line */}
-        <div className="absolute h-px z-10 transition-all duration-500" style={{
-          top: 20, left: 20,
-          width: `calc(${progressPct}% * (100% - 40px) / 100)`,
+        {/* Completed progress line */}
+        <div className="absolute h-px z-10" style={{
+          top: 20,
+          left: 20,
+          width: active === 0 ? 0 : `calc(${(active / (steps.length - 1)) * 100}% - 40px * ${active / (steps.length - 1)})`,
           background: "#6366f1",
-          transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)"
+          transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)",
         }} />
-        {steps.map((s, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center relative z-20 cursor-pointer"
-            onClick={() => handleStep(i)}>
-            <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2.5 transition-all duration-300"
-              style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: 14, fontStyle: "italic",
-                background: i === active ? "#6366f1" : "hsl(var(--background))",
-                border: `1.5px solid ${i === active ? "#6366f1" : "hsl(var(--border))"}`,
-                color: i === active ? "#fff" : "hsl(var(--muted-foreground))",
-                boxShadow: i === active ? "0 4px 12px rgba(99,102,241,0.25)" : "none",
-              }}>
-              {String(i + 1).padStart(2, "0")}
+
+        {steps.map((s, i) => {
+          const isCompleted = i < active;
+          const isActive = i === active;
+          return (
+            <div key={i} className="flex-1 flex flex-col items-center relative z-20 cursor-pointer" onClick={() => handleStepClick(i)}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2.5 transition-all duration-300"
+                style={{
+                  fontFamily: "'DM Serif Display', serif", fontSize: 14, fontStyle: "italic",
+                  background: isActive ? "#6366f1" : isCompleted ? "#6366f1" : "hsl(var(--background))",
+                  border: `1.5px solid ${isActive || isCompleted ? "#6366f1" : "hsl(var(--border))"}`,
+                  color: isActive || isCompleted ? "#fff" : "hsl(var(--muted-foreground))",
+                  boxShadow: isActive ? "0 4px 12px rgba(99,102,241,0.25)" : "none",
+                  transform: isActive ? "scale(1.1)" : "scale(1)",
+                }}>
+                {isCompleted && !isActive ? "✓" : String(i + 1).padStart(2, "0")}
+              </div>
+              <div className="text-center transition-colors duration-300 max-w-[90px]"
+                style={{ fontSize: 11, fontWeight: 600, lineHeight: 1.3, color: isActive ? "#0A0A0A" : isCompleted ? "#6366f1" : "hsl(var(--muted-foreground))" }}>
+                {s.tag.split(" — ")[1]}
+              </div>
             </div>
-            <div className="text-center transition-colors duration-300 max-w-[90px]"
-              style={{ fontSize: 11, fontWeight: 600, lineHeight: 1.3, color: i === active ? "#0A0A0A" : "hsl(var(--muted-foreground))" }}>
-              {s.tag.split(" — ")[1]}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Panel */}
       <motion.div
-        className="rounded-2xl overflow-hidden relative"
-        style={{ background: "hsl(var(--card))", border: "1.5px solid hsl(var(--border))", boxShadow: "0 2px 24px rgba(0,0,0,0.06)" }}
+        className="rounded-2xl overflow-hidden bg-background relative"
+        style={{ border: "1px solid hsl(var(--border))", boxShadow: "0 2px 24px rgba(0,0,0,0.06)" }}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
       >
         {/* Indigo top bar */}
-        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
-          style={{ background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
+        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl" style={{ background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
 
         <div className="grid" style={{ gridTemplateColumns: "65fr 35fr", minHeight: 280 }}>
-          {/* Left — text */}
+          {/* Left */}
           <div className="flex flex-col justify-center p-10"
             style={{
               borderRight: "1px solid hsl(var(--border))",
@@ -260,17 +258,14 @@ const Process = () => {
               transform: animating ? "translateY(6px)" : "translateY(0)",
               transition: "opacity 0.22s ease, transform 0.22s ease",
             }}>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2.5"
-              style={{ color: "hsl(var(--muted-foreground))" }}>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2.5" style={{ color: "hsl(var(--muted-foreground))" }}>
               {step.tag}
             </p>
-            <h3 className="font-normal mb-3"
-              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(22px, 2.5vw, 30px)", lineHeight: 1.2, color: "hsl(var(--foreground))" }}>
+            <h3 className="font-normal mb-3" style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(22px, 2.5vw, 30px)", lineHeight: 1.2, color: "hsl(var(--foreground))" }}>
               {step.title}{" "}
               <em style={{ fontStyle: "italic", color: "#6366f1" }}>{step.titleEm}</em>
             </h3>
-            <p className="mb-5 max-w-[400px]"
-              style={{ fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))" }}>
+            <p className="mb-5 max-w-[400px]" style={{ fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))" }}>
               {step.desc}
             </p>
             <div className="flex flex-wrap gap-1.5">
@@ -283,7 +278,7 @@ const Process = () => {
             </div>
           </div>
 
-          {/* Right — illustration */}
+          {/* Right */}
           <div className="flex items-center justify-center p-8"
             style={{
               opacity: animating ? 0 : 1,
@@ -296,25 +291,17 @@ const Process = () => {
       </motion.div>
 
       {/* Quote block */}
-      <div className="mt-12 relative overflow-hidden rounded-2xl"
-        style={{ background: "hsl(var(--foreground))" }}>
-        <div className="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)" }} />
-        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)" }} />
+      <div className="mt-12 relative overflow-hidden rounded-2xl" style={{ background: "hsl(var(--foreground))" }}>
+        <div className="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)" }} />
+        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%)" }} />
         <div className="relative p-12 md:p-16">
-          <div className="absolute top-4 left-8 leading-none font-serif select-none pointer-events-none"
-            style={{ fontSize: 100, color: "rgba(99,102,241,0.12)", fontFamily: "Georgia, serif" }}>"</div>
+          <div className="absolute top-4 left-8 leading-none font-serif select-none pointer-events-none" style={{ fontSize: 100, color: "rgba(99,102,241,0.12)", fontFamily: "Georgia, serif" }}>"</div>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-6">
-            <p className="max-w-2xl italic leading-relaxed text-primary-foreground/90"
-              style={{ fontSize: "clamp(20px, 2.5vw, 28px)" }}>
+            <p className="max-w-2xl italic leading-relaxed text-primary-foreground/90" style={{ fontSize: "clamp(20px, 2.5vw, 28px)" }}>
               The best designers I know aren't the best at Figma. They're the best at asking the right questions.
             </p>
             <div className="flex-shrink-0 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white"
-                style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.7), rgba(139,92,246,0.7))" }}>
-                DM
-              </div>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.7), rgba(139,92,246,0.7))" }}>DM</div>
               <div>
                 <div className="text-[13px] font-medium text-primary-foreground/80">Deepak Maan</div>
                 <div className="text-[11px] text-primary-foreground/35">Product Designer</div>
@@ -323,7 +310,6 @@ const Process = () => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };
