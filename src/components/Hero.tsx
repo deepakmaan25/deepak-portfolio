@@ -110,7 +110,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full" style={{ background: "#F9F8F6" }}>
+      <section className="w-full pt-16" style={{ background: "#F9F8F6" }}>
       {/* 3px indigo accent bar */}
       <div style={{ height: 3, background: "linear-gradient(90deg,#6366f1,#818cf8)", width: "100%" }} />
 
