@@ -204,7 +204,7 @@ const Process = () => {
   const step = steps[active];
 
   return (
-    <section id="process" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
+     <section id="process" className="pt-12 pb-24 px-6 lg:px-8 max-w-site mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -225,7 +225,8 @@ const Process = () => {
         <div className="absolute h-px z-10" style={{
           top: 20,
           left: 20,
-          width: active === 0 ? 0 : `calc(${(active / (steps.length - 1)) * 100}% - 40px)`,
+          width: `${(active / (steps.length - 1)) * 100}%`,
+          maxWidth: `calc(100% - 40px)`,        
           background: "#6366f1",
           transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)",
         }} />
