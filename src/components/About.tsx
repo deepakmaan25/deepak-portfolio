@@ -90,7 +90,7 @@ const About = () => {
               flex: 1, borderRadius: 20, padding: 28,
               background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)",
               display: "flex", flexDirection: "column", justifyContent: "space-between",
-              position: "relative", overflow: "hidden", minHeight: 280,
+              position: "relative", overflow: "hidden", minHeight: 320,
               transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s",
               cursor: "default",
             }}
