@@ -52,7 +52,7 @@ const CaseStudies = () => {
   const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
 
   return (
-    <section id="work" className="py-[120px] max-md:py-16 px-6 lg:px-8 max-w-site mx-auto">
+      <section id="work" className="py-20 max-md:py-12 px-6 lg:px-8 max-w-site mx-auto">
 
       {/* Section header */}
       <motion.div
