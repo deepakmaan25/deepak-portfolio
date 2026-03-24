@@ -42,10 +42,11 @@ const Navigation = () => {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: "Work", href: isHome ? "#work" : "/#work", sectionId: "work" },
-    { label: "Process", href: isHome ? "#process" : "/#process", sectionId: "process" },
-    { label: "About", href: isHome ? "#about" : "/#about", sectionId: "about" },
-  ];
+  { label: "Work", href: isHome ? "#work" : "/#work", sectionId: "work" },
+  { label: "Process", href: isHome ? "#process" : "/#process", sectionId: "process" },
+  { label: "About", href: isHome ? "#about" : "/#about", sectionId: "about" },
+  { label: "Contact", href: isHome ? "#contact" : "/#contact", sectionId: "contact" },
+];
 
   const LinkOrAnchor = ({
     href, children, className, onClick
@@ -102,12 +103,13 @@ const Navigation = () => {
             >
               Resume ↗
             </a>
-            <LinkOrAnchor
-              href={isHome ? "#contact" : "/#contact"}
-              className="inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[13px] font-medium rounded-full hover:opacity-85 transition-opacity"
-            >
-              Get in Touch
-            </LinkOrAnchor>
+           href="/resume.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-1.5 px-5 py-2 bg-foreground text-primary-foreground text-[13px] font-medium rounded-full hover:opacity-85 transition-opacity"
+>
+  Resume ↗
+</a>
           </div>
 
           {/* Mobile hamburger */}
