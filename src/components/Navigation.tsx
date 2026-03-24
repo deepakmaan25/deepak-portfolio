@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 
-const sections = ["work", "about", "process", "contact"];
+const sections = ["work", "process", "about", "contact"];
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -43,24 +43,32 @@ const Navigation = () => {
 
   const navLinks = [
     { label: "Work", href: isHome ? "#work" : "/#work", sectionId: "work" },
-    { label: "About", href: isHome ? "#about" : "/#about", sectionId: "about" },
     { label: "Process", href: isHome ? "#process" : "/#process", sectionId: "process" },
-    { label: "Contact", href: isHome ? "#contact" : "/#contact", sectionId: "contact" },
+    { label: "About", href: isHome ? "#about" : "/#about", sectionId: "about" },
   ];
 
-  const LinkOrAnchor = ({ href, children, className, onClick }: { href: string; children: React.ReactNode; className?: string; onClick?: () => void }) => {
+  const LinkOrAnchor = ({
+    href, children, className, onClick
+  }: {
+    href: string; children: React.ReactNode; className?: string; onClick?: () => void;
+  }) => {
     if (href.startsWith("#")) return <a href={href} className={className} onClick={onClick}>{children}</a>;
     return <Link to={href} className={className} onClick={onClick}>{children}</Link>;
   };
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-background/95 backdrop-blur-md border-b border-border" : "bg-background/80 backdrop-blur-sm"
+      }`}>
         <nav className="max-w-site mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="text-[16px] font-semibold text-foreground hover:opacity-70 transition-opacity">
+
+          {/* Logo */}
+          <Link to="/" className="text-[15px] font-semibold text-foreground hover:opacity-70 transition-opacity">
             Deepak Maan
           </Link>
 
+          {/* Nav links */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = isWork
@@ -70,7 +78,11 @@ const Navigation = () => {
                 <li key={link.label}>
                   <LinkOrAnchor
                     href={link.href}
-                    className={`text-[14px] transition-colors ${isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`text-[14px] transition-colors duration-200 ${
+                      isActive
+                        ? "text-foreground font-semibold"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     {link.label}
                   </LinkOrAnchor>
@@ -79,19 +91,33 @@ const Navigation = () => {
             })}
           </ul>
 
-          <div className="hidden md:flex items-center gap-4">
+          {/* Right side — theme toggle + Resume */}
+          <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
+            
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-5 py-2 text-[13px] font-medium rounded-full border-[1.5px] border-foreground/20 text-foreground hover:bg-foreground hover:text-primary-foreground transition-all duration-200"
+            >
+              Resume ↗
+            </a>
             <LinkOrAnchor
               href={isHome ? "#contact" : "/#contact"}
-              className="inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[14px] font-medium rounded-full hover:opacity-85 transition-opacity"
+              className="inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[13px] font-medium rounded-full hover:opacity-85 transition-opacity"
             >
               Get in Touch
             </LinkOrAnchor>
           </div>
 
+          {/* Mobile hamburger */}
           <div className="md:hidden flex items-center gap-3">
             <ThemeToggle />
-            <button className="flex flex-col gap-1.5 p-2 relative z-[60]" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+            <button
+              className="flex flex-col gap-1.5 p-2 relative z-[60]"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
               <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
               <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
               <span className={`block h-px w-5 bg-foreground transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
@@ -100,16 +126,48 @@ const Navigation = () => {
         </nav>
       </header>
 
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8" style={{ background: 'rgba(12,12,15,0.97)' }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8"
+            style={{ background: "rgba(12,12,15,0.97)" }}
+          >
             {navLinks.map((link, i) => (
-              <motion.div key={link.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
-                <LinkOrAnchor href={link.href} onClick={() => setMenuOpen(false)} className="text-3xl font-bold text-white hover:text-white/70 transition-colors">
+              <motion.div
+                key={link.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <LinkOrAnchor
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-3xl font-bold text-white hover:text-white/70 transition-colors"
+                >
                   {link.label}
                 </LinkOrAnchor>
               </motion.div>
             ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: navLinks.length * 0.06 }}
+            >
+              
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-3xl font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
+                onClick={() => setMenuOpen(false)}
+              >
+                Resume ↗
+              </a>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
