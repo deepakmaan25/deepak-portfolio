@@ -38,7 +38,9 @@ const Navigation = () => {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
   const navLinks = [
@@ -114,7 +116,7 @@ const Navigation = () => {
 
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
-            
+            <a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -177,12 +179,13 @@ const Navigation = () => {
                 </LinkOrAnchor>
               </motion.div>
             ))}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navLinks.length * 0.06 }}
             >
-              
+              <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
