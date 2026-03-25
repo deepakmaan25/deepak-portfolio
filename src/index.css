@@ -94,55 +94,69 @@
     --dark-card-text: 0 0% 96%;
 
     --role-color: #6366f1;
+
+    /* Hero specific */
+    --hero-subtitle: 0 0% 20%;
+    --hero-body: 0 0% 35%;
+    --orbit-tag-bg: 255 255 255;
+    --orbit-tag-border: 0 0% 88%;
+    --orbit-tag-text: 0 0% 33%;
+
+    /* Case study cards */
+    --filmstrip-card-lavender-bg: 260 100% 97%;
+    --filmstrip-card-blue-bg: 213 100% 97%;
+    --filmstrip-card-orange-bg: 24 100% 97%;
+
+    /* Footer */
+    --footer-bg: 0 0% 6%;
+    --footer-text: 0 0% 85%;
+    --footer-muted: 0 0% 45%;
   }
 
   [data-theme="dark"] {
-    /* ── Page background — dark but not pure black ── */
-    --background: 240 8% 9%;
-    --foreground: 0 0% 93%;
+    /* ── Page — warm dark, not pure black ── */
+    --background: 230 12% 11%;
+    --foreground: 220 14% 90%;
 
-    /* ── Cards — slightly lighter than background ── */
-    --card: 240 6% 12%;
-    --card-foreground: 0 0% 93%;
+    --card: 230 10% 15%;
+    --card-foreground: 220 14% 90%;
 
-    --popover: 240 6% 12%;
-    --popover-foreground: 0 0% 93%;
+    --popover: 230 10% 15%;
+    --popover-foreground: 220 14% 90%;
 
-    --primary: 0 0% 93%;
-    --primary-foreground: 240 8% 9%;
+    --primary: 220 14% 90%;
+    --primary-foreground: 230 12% 11%;
 
-    --secondary: 240 6% 14%;
-    --secondary-foreground: 0 0% 93%;
+    --secondary: 230 8% 18%;
+    --secondary-foreground: 220 14% 90%;
 
-    /* ── Muted — comfortable reading contrast ── */
-    --muted: 240 5% 16%;
-    --muted-foreground: 240 5% 62%;
+    --muted: 230 8% 20%;
+    --muted-foreground: 220 10% 58%;
 
-    --accent: 240 5% 16%;
-    --accent-foreground: 0 0% 93%;
+    --accent: 230 8% 20%;
+    --accent-foreground: 220 14% 90%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    /* ── Borders — subtle, not harsh ── */
-    --border: 240 4% 20%;
-    --input: 240 4% 20%;
-    --ring: 240 5% 62%;
+    --border: 230 8% 22%;
+    --input: 230 8% 22%;
+    --ring: 220 10% 58%;
 
-    --surface: 240 6% 12%;
-    --text-secondary: 240 5% 62%;
-    --text-body: 240 5% 72%;
-    --tag-border: 240 4% 22%;
-    --process-bg: 240 6% 12%;
-    --quote-mark: 240 4% 20%;
+    --surface: 230 10% 15%;
+    --text-secondary: 220 10% 58%;
+    --text-body: 220 10% 70%;
+    --tag-border: 230 8% 24%;
+    --process-bg: 230 10% 15%;
+    --quote-mark: 230 8% 22%;
 
-    /* ── Project cards — muted tones, not pure black ── */
-    --card-lavender: 260 20% 16%;
-    --card-blue: 213 20% 16%;
-    --card-orange: 24 20% 16%;
+    /* ── Project cards — tinted, distinguishable ── */
+    --card-lavender: 255 18% 20%;
+    --card-blue: 220 18% 20%;
+    --card-orange: 25 18% 20%;
 
-    --shadow-card: 0 2px 20px hsla(0, 0%, 0%, 0.25);
-    --shadow-card-hover: 0 8px 30px hsla(0, 0%, 0%, 0.35);
+    --shadow-card: 0 2px 20px hsla(0, 0%, 0%, 0.3);
+    --shadow-card-hover: 0 8px 30px hsla(0, 0%, 0%, 0.4);
 
     --glass-bg: 0 0% 100% / 0.04;
     --glass-border: 0 0% 100% / 0.08;
@@ -152,27 +166,41 @@
     --glass-blob-2: rgba(99,180,255,0.12);
     --glass-blob-3: rgba(236,72,153,0.1);
 
-    /* ── Skills strip ── */
-    --skills-strip-bg: 240 8% 7%;
-    --skills-strip-tag-bg: 240 6% 12%;
-    --skills-strip-tag-border: 240 4% 18%;
-    --skills-strip-text: 0 0% 72%;
-    --skills-strip-label: 240 5% 38%;
-    --skills-strip-divider: 240 4% 16%;
+    /* ── Skills strip — slightly different from page ── */
+    --skills-strip-bg: 230 12% 8%;
+    --skills-strip-tag-bg: 230 10% 14%;
+    --skills-strip-tag-border: 230 8% 20%;
+    --skills-strip-text: 220 10% 70%;
+    --skills-strip-label: 220 8% 40%;
+    --skills-strip-divider: 230 8% 18%;
 
-    /* ── Quote / dark cards — not pure black ── */
-    --quote-block-bg: 240 6% 12%;
-    --quote-block-text: 0 0% 93%;
-
-    --currently-card-bg: 240 6% 12%;
-    --currently-card-label: 240 5% 42%;
-    --currently-card-text: 0 0% 85%;
-
-    /* ── Dark card bg (used in About photo card, Process panel) ── */
-    --dark-card-bg: 240 15% 14%;
-    --dark-card-text: 0 0% 93%;
+    /* ── Dark embedded cards (About photo, footer) ── */
+    --quote-block-bg: 230 10% 15%;
+    --quote-block-text: 220 14% 90%;
+    --currently-card-bg: 230 10% 15%;
+    --currently-card-label: 220 8% 42%;
+    --currently-card-text: 220 10% 80%;
+    --dark-card-bg: 230 18% 17%;
+    --dark-card-text: 220 14% 90%;
 
     --role-color: #818cf8;
+
+    /* Hero specific — dark */
+    --hero-subtitle: 220 14% 82%;
+    --hero-body: 220 10% 65%;
+    --orbit-tag-bg: 230 10% 18%;
+    --orbit-tag-border: 230 8% 26%;
+    --orbit-tag-text: 220 10% 68%;
+
+    /* Case study cards dark */
+    --filmstrip-card-lavender-bg: 255 18% 20%;
+    --filmstrip-card-blue-bg: 220 18% 20%;
+    --filmstrip-card-orange-bg: 25 18% 20%;
+
+    /* Footer — slightly different from page in dark */
+    --footer-bg: 230 14% 8%;
+    --footer-text: 220 10% 70%;
+    --footer-muted: 220 8% 42%;
   }
 }
 
@@ -253,7 +281,7 @@
   }
 }
 
-/* Float animations */
+/* ── Animations ── */
 @keyframes float1 {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -266,7 +294,6 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-
 .animate-float-1 { animation: float1 5s ease-in-out infinite; }
 .animate-float-2 { animation: float2 5s ease-in-out 1.5s infinite; }
 .animate-float-3 { animation: float3 5s ease-in-out 3s infinite; }
@@ -275,18 +302,14 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-.animate-float-card {
-  animation: float-card 4s ease-in-out infinite;
-}
+.animate-float-card { animation: float-card 4s ease-in-out infinite; }
 
 @keyframes ping-dot {
   0% { transform: scale(1); opacity: 0.75; }
   50% { transform: scale(1.4); opacity: 0.5; }
   100% { transform: scale(1); opacity: 0.75; }
 }
-.animate-ping-dot {
-  animation: ping-dot 2s ease-in-out infinite;
-}
+.animate-ping-dot { animation: ping-dot 2s ease-in-out infinite; }
 
 @keyframes ring-rotate {
   from { transform: rotate(0deg); }
@@ -298,25 +321,48 @@
   33% { transform: translate(8px, -6px); }
   66% { transform: translate(-5px, 8px); }
 }
-.animate-blob-drift {
-  animation: blob-drift 8s ease-in-out infinite;
-}
+.animate-blob-drift { animation: blob-drift 8s ease-in-out infinite; }
 
 @keyframes orbit {
   from { offset-distance: 0%; }
   to { offset-distance: 100%; }
 }
 
-/* Dark mode card overrides */
-[data-theme="dark"] .bg-card-lavender { background-color: hsl(260 20% 16%) !important; }
-[data-theme="dark"] .bg-card-blue { background-color: hsl(213 20% 16%) !important; }
-[data-theme="dark"] .bg-card-orange { background-color: hsl(24 20% 16%) !important; }
+/* ══════════════════════════════════════
+   DARK MODE COMPONENT OVERRIDES
+   These fix hardcoded colors in components
+══════════════════════════════════════ */
 
-/* ── Dark mode — orbit tags ── */
+/* ── Hero section ── */
+[data-theme="dark"] #hero-section {
+  background: hsl(var(--background)) !important;
+}
+
+/* Hero label row */
+[data-theme="dark"] .hero-label-row {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Hero subtitle "Designing products..." */
+[data-theme="dark"] .hero-subtitle {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Hero body text */
+[data-theme="dark"] .hero-body {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Hero divider */
+[data-theme="dark"] .hero-divider {
+  background: #818cf8 !important;
+}
+
+/* Orbit tags */
 [data-theme="dark"] .orbit-tag {
-  background: hsl(240 6% 16%) !important;
-  border-color: hsl(240 4% 24%) !important;
-  color: hsl(240 5% 72%) !important;
+  background: hsl(230 10% 18%) !important;
+  border-color: hsl(230 8% 26%) !important;
+  color: hsl(220 10% 72%) !important;
 }
 [data-theme="dark"] .orbit-tag:hover {
   background: #6366f1 !important;
@@ -324,33 +370,140 @@
   border-color: #6366f1 !important;
 }
 
-/* ── Dark mode — About bento cards ── */
-[data-theme="dark"] .bento-bio {
-  background: hsl(var(--card)) !important;
+/* Hero stats row */
+[data-theme="dark"] .hero-stats {
   border-color: hsl(var(--border)) !important;
 }
-[data-theme="dark"] .bento-skills {
-  background: hsl(260 20% 16%) !important;
+[data-theme="dark"] .hero-stat-val {
+  color: hsl(var(--foreground)) !important;
 }
-[data-theme="dark"] .bento-avail {
-  background: hsl(150 20% 12%) !important;
-  border-color: hsl(150 20% 20%) !important;
-}
-[data-theme="dark"] .bento-avail .av-title,
-[data-theme="dark"] .bento-avail .av-stat {
-  color: hsl(150 40% 65%) !important;
+[data-theme="dark"] .hero-stat-lbl {
+  color: hsl(var(--muted-foreground)) !important;
 }
 
-/* ── Dark mode — Process panel ── */
+/* ── View Work button ── */
+[data-theme="dark"] .btn-primary {
+  background: hsl(var(--foreground)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+}
+[data-theme="dark"] .btn-outline {
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+[data-theme="dark"] .btn-outline:hover {
+  background: hsl(var(--foreground)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+}
+
+/* ── Case study filmstrip cards ── */
+[data-theme="dark"] .filmstrip-card-1 {
+  background: linear-gradient(145deg, hsl(255 18% 20%), hsl(255 16% 17%)) !important;
+}
+[data-theme="dark"] .filmstrip-card-2 {
+  background: linear-gradient(145deg, hsl(220 18% 20%), hsl(220 16% 17%)) !important;
+}
+[data-theme="dark"] .filmstrip-card-3 {
+  background: linear-gradient(145deg, hsl(25 18% 20%), hsl(25 16% 17%)) !important;
+}
+
+/* ── Process panel ── */
 [data-theme="dark"] .process-panel {
   background: hsl(var(--card)) !important;
   border-color: hsl(var(--border)) !important;
 }
-
-/* ── Dark mode — accordion items ── */
-[data-theme="dark"] .acc-item-bg {
+[data-theme="dark"] .process-illus-bubble-user {
+  background: hsl(255 20% 22%) !important;
+  border-color: hsl(255 15% 30%) !important;
+  color: #a5b4fc !important;
+}
+[data-theme="dark"] .process-illus-bubble-note {
+  background: hsl(25 20% 18%) !important;
+  border-color: hsl(25 15% 26%) !important;
+  color: #fb923c !important;
+}
+[data-theme="dark"] .process-illus-figma {
   background: hsl(var(--card)) !important;
   border-color: hsl(var(--border)) !important;
+}
+[data-theme="dark"] .process-illus-figma-header {
+  background: hsl(var(--muted)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+[data-theme="dark"] .process-illus-white {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+[data-theme="dark"] .process-illus-metric {
+  background: hsl(var(--muted)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+[data-theme="dark"] .process-illus-maze {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* ── About bento ── */
+[data-theme="dark"] .bento-bio {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+[data-theme="dark"] .bento-bio h3,
+[data-theme="dark"] .bento-bio p {
+  color: hsl(var(--foreground)) !important;
+}
+[data-theme="dark"] .bento-skills {
+  background: hsl(255 18% 20%) !important;
+}
+[data-theme="dark"] .bento-avail {
+  background: hsl(150 15% 14%) !important;
+  border-color: hsl(150 15% 22%) !important;
+}
+[data-theme="dark"] .bento-avail-title,
+[data-theme="dark"] .bento-avail-stat {
+  color: hsl(150 40% 62%) !important;
+}
+[data-theme="dark"] .bento-avail-badge {
+  background: hsl(150 15% 18%) !important;
+  border-color: hsl(150 15% 26%) !important;
+  color: hsl(150 40% 62%) !important;
+}
+
+/* ── Experience accordion ── */
+[data-theme="dark"] .exp-accordion-item {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+[data-theme="dark"] .exp-accordion-item.open {
+  border-color: rgba(99,102,241,0.3) !important;
+}
+
+/* ── Footer ── */
+[data-theme="dark"] footer,
+[data-theme="dark"] .site-footer {
+  background: hsl(var(--footer-bg, 230 14% 8%)) !important;
+}
+
+/* ── Card overrides ── */
+[data-theme="dark"] .bg-card-lavender { background-color: hsl(255 18% 20%) !important; }
+[data-theme="dark"] .bg-card-blue { background-color: hsl(220 18% 20%) !important; }
+[data-theme="dark"] .bg-card-orange { background-color: hsl(25 18% 20%) !important; }
+
+/* ── Marquee strip ── */
+[data-theme="dark"] .marquee-strip {
+  background: hsl(var(--skills-strip-bg)) !important;
+}
+
+/* ── Navigation ── */
+[data-theme="dark"] header {
+  background: hsl(230 12% 11% / 0.95) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+/* ── Scrollbar in dark mode ── */
+[data-theme="dark"] {
+  scrollbar-color: hsl(230 8% 24%) hsl(230 12% 11%);
 }
 
 html {
@@ -380,4 +533,74 @@ html {
 .marquee-container::after {
   right: 0;
   background: linear-gradient(to left, hsl(var(--background)), transparent);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — Mobile & Tablet
+══════════════════════════════════════ */
+
+/* ── Hero ── */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-orbit {
+    display: none !important;
+  }
+  .hero-label-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: flex-start !important;
+  }
+  .hero-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* ── Case studies filmstrip ── */
+@media (max-width: 768px) {
+  .filmstrip {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  .filmstrip .film-card {
+    flex: none !important;
+    min-height: 200px !important;
+    width: 100% !important;
+  }
+  .filmstrip .film-card.active {
+    flex: none !important;
+    min-height: 280px !important;
+  }
+}
+
+/* ── Process stepper ── */
+@media (max-width: 768px) {
+  .process-stepper {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  .process-panel-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .process-panel-illus {
+    display: none !important;
+  }
+}
+
+/* ── About bento ── */
+@media (max-width: 768px) {
+  .about-bento {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Experience accordion ── */
+@media (max-width: 768px) {
+  .exp-header-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
 }
