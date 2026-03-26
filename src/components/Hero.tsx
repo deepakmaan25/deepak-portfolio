@@ -161,73 +161,102 @@ const Hero = () => {
         <span className="text-[12px] text-muted-foreground hidden sm:block">India · Open to remote</span>
       </div>
 
-   {/* Hero grid — responsive */}
-<div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border grid grid-cols-1 md:grid-cols-[65fr_35fr]"
-  style={{ minHeight: 360 }}>
+      {/* Hero grid — LEFT content + RIGHT orbit */}
+      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border"
+        style={{ display: "grid", gridTemplateColumns: "1fr", minHeight: 360 }}>
 
-  {/* LEFT */}
-  <div className="flex flex-col justify-center py-8 md:py-10 md:pr-8">
-          <div className="mb-4">
-            <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
-           <span className="block font-normal" style={{
-  fontFamily: "'DM Serif Display', serif",
-  fontSize: "clamp(32px, 8vw, 68px)",
-  fontStyle: "italic",
-  color: "var(--role-color, #6366f1)",
-  lineHeight: 1.05,
-  minHeight: 54,
-  opacity: roleVisible ? 1 : 0,
-  transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
-  transition: "opacity 0.35s ease, transform 0.35s ease",
-            }}>{roles[roleIndex]}</span>
-            <p className="font-medium text-foreground mt-[4px]"
-              style={{ fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.35 }}>
-              Designing products people actually finish using.
+        {/* On md+ → side by side. On mobile → stacked (content first, orbit second) */}
+        <style>{`
+          @media (min-width: 768px) {
+            .hero-inner-grid {
+              grid-template-columns: 65fr 35fr !important;
+            }
+            .hero-orbit-col {
+              border-top: none !important;
+              padding-top: 32px !important;
+              padding-bottom: 32px !important;
+              justify-content: flex-end !important;
+            }
+          }
+        `}</style>
+
+        <div
+          className="hero-inner-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            width: "100%",
+          }}
+        >
+          {/* LEFT — text content */}
+          <div className="flex flex-col justify-center py-8 md:pr-8">
+            <div className="mb-4">
+              <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
+              <span className="block font-normal" style={{
+                fontFamily: "'DM Serif Display', serif",
+                fontSize: "clamp(32px, 8vw, 68px)",
+                fontStyle: "italic",
+                color: "var(--role-color, #6366f1)",
+                lineHeight: 1.05,
+                minHeight: 54,
+                opacity: roleVisible ? 1 : 0,
+                transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
+                transition: "opacity 0.35s ease, transform 0.35s ease",
+              }}>{roles[roleIndex]}</span>
+              <p className="font-medium text-foreground mt-[4px]"
+                style={{ fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.35 }}>
+                Designing products people actually finish using.
+              </p>
+            </div>
+
+            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "16px 0" }} />
+
+            <p className="text-muted-foreground leading-[1.7] mb-6 max-w-[520px]"
+              style={{ fontSize: "clamp(13px, 1.2vw, 14px)" }}>
+              UX research, interaction design, and AI-powered workflows — turning complex problems into intuitive experiences backed by real user insight.
             </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="#work"
+                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px]"
+                style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
+                View Work ↓
+              </a>
+              <a href="#contact"
+                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
+                style={{
+                  border: "1.5px solid hsl(var(--border))",
+                  color: "hsl(var(--foreground))",
+                  background: "transparent",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = "hsl(var(--foreground))";
+                  el.style.color = "hsl(var(--primary-foreground))";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = "transparent";
+                  el.style.color = "hsl(var(--foreground))";
+                }}>
+                Get in Touch
+              </a>
+            </div>
           </div>
 
-          <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "16px 0" }} />
-
-          <p className="text-muted-foreground leading-[1.7] mb-6 max-w-[520px]"
-            style={{ fontSize: "clamp(13px, 1.2vw, 14px)" }}>
-            UX research, interaction design, and AI-powered workflows — turning complex problems into intuitive experiences backed by real user insight.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <a href="#work"
-              className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px]"
-              style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
-              View Work ↓
-            </a>
-            <a href="#contact"
-              className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
-              style={{
-                border: "1.5px solid hsl(var(--border))",
-                color: "hsl(var(--foreground))",
-                background: "transparent",
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.background = "hsl(var(--foreground))";
-                el.style.color = "hsl(var(--primary-foreground))";
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.background = "transparent";
-                el.style.color = "hsl(var(--foreground))";
-              }}>
-              Get in Touch
-            </a>
+          {/* RIGHT — orbit. On mobile: shows below content with top border */}
+          <div
+            className="hero-orbit-col flex items-center justify-center py-8"
+            style={{
+              borderTop: "1px solid hsl(var(--border))",
+            }}
+          >
+            <OrbitCanvas />
           </div>
         </div>
-
-        {/* RIGHT — orbit */}
-<div className="flex items-center justify-center md:justify-end py-6 md:py-8 border-t md:border-t-0 border-border">
-  <OrbitCanvas />
-</div>
       </div>
 
-      {/* Stats row — 2 cols on mobile, 4 on desktop */}
+      {/* Stats row */}
       <div ref={statsRef}
         className="grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
         {stats.map((s, i) => (
