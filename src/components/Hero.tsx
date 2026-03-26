@@ -209,51 +209,50 @@ const Hero = () => {
                 style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
                 View Work ↓
               </a>
-           <a
-  href="#contact"
-  className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px] border border-border"
-  style={{
-    background: "hsl(var(--background))",
-    color: "hsl(var(--foreground))",
-  }}
->
-  Contact Me
-</a>
-</div>
+              <a href="#contact"
+                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
+                style={{ border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent" }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "hsl(var(--foreground))"; el.style.color = "hsl(var(--primary-foreground))"; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; }}>
+                Get in Touch
+              </a>
+            </div>
+          </div>
 
-{/* Stats */}
-<div
-  ref={statsRef}
-  className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-8 max-w-[520px]"
->
-  {stats.map((stat, i) => (
-    <div key={i} className="flex flex-col">
-      <span
-        className="font-semibold text-foreground"
-        style={{ fontSize: "clamp(18px,2vw,22px)" }}
-      >
-        {stat.value}
-        {stat.suffix}
-      </span>
-      <span className="text-[12px] text-muted-foreground">
-        {stat.label}
-      </span>
-    </div>
-  ))}
-</div>
+          {/* RIGHT — orbit. Border top only on mobile (when stacked) */}
+          <div className="flex items-center justify-center md:justify-end py-8 border-t border-border md:border-t-0">
+            <OrbitCanvas />
+          </div>
 
-</div>
+        </div>
+      </div>
 
-{/* RIGHT — orbit */}
-<div className="flex items-center justify-center border-t md:border-t-0 md:border-l border-border py-10 md:py-0">
-  <OrbitCanvas />
-</div>
+      {/* Stats row */}
+      <div ref={statsRef}
+        className="grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
+        {stats.map((s, i) => (
+          <div key={s.label} className={`
+            ${i === 1 ? "pl-6 border-l border-border" : ""}
+            ${i > 0 ? "md:pl-6 md:border-l md:border-border" : ""}
+            ${i < 3 ? "md:pr-6" : ""}
+          `}>
+            <div className="leading-none mb-1 font-normal text-foreground"
+              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px, 3vw, 34px)" }}>
+              {s.value}<em className="not-italic" style={{ color: "#6366f1" }}>{s.suffix}</em>
+            </div>
+            <div className="text-[11px] text-muted-foreground">{s.label}</div>
+          </div>
+        ))}
+      </div>
 
-</div>
-</div>
-
-</section>
-);
+      {/* Scroll cue */}
+      <div className="flex flex-col items-center gap-[5px] py-3 max-w-site mx-auto">
+        <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
+        <span className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/50">Scroll to explore</span>
+        <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
+      </div>
+    </section>
+  );
 };
 
 export default Hero;
