@@ -4,7 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
-
+import Navigation from "@/components/Navigation";
+import ScrollProgress from "@/components/ScrollProgress";
 import Index from "./pages/Index";
 import CaseStudyDetail from "./pages/CaseStudyDetail";
 import NotFound from "./pages/NotFound";
@@ -14,28 +15,19 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "hsl(var(--background))",
-          color: "hsl(var(--foreground))",
-          paddingTop: 64,
-        }}
-      >
-        <Toaster />
-        <Sonner />
-
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/case-study/:slug" element={<CaseStudyDetail />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-
-        <Analytics />
-      </div>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        {/* Navigation and ScrollProgress render on every route */}
+        <ScrollProgress />
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/case-study/:slug" element={<CaseStudyDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+      <Analytics />
     </TooltipProvider>
   </QueryClientProvider>
 );
