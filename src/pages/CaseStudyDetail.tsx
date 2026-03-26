@@ -258,22 +258,29 @@ export default function CaseStudyDetail() {
 
   if (!cs) {
     return (
-      <div style={{ paddingTop: 120, textAlign: "center" }}>
+      <div style={{ paddingTop: 120, textAlign: "center", display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
         <p style={{ color: "hsl(var(--muted-foreground))" }}>Case study not found.</p>
-        <Link to="/" style={{ color: "#6366f1", fontWeight: 600 }}>← Back home</Link>
+        <Link to="/" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>← Back home</Link>
       </div>
     );
   }
 
   const currentIndex = caseStudies.findIndex((c) => c.slug === slug);
   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
-  const px = "clamp(16px, 5vw, 80px)";
+
+  // Single padding value applied only to the centered inner container
+  const innerStyle = {
+    maxWidth: 1200,
+    margin: "0 auto",
+    paddingLeft: "clamp(20px, 5vw, 80px)",
+    paddingRight: "clamp(20px, 5vw, 80px)",
+  };
 
   return (
-    // pt-16 accounts for the fixed 64px Navigation that now renders globally
+    // pt-16 = 64px for fixed nav (h-16), consistent with Hero
     <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
 
-      {/* Breadcrumb bar — sticky just below the global nav */}
+      {/* Breadcrumb — sticky just below fixed nav at top: 64px */}
       <div style={{
         position: "sticky",
         top: 64,
@@ -282,12 +289,11 @@ export default function CaseStudyDetail() {
         WebkitBackdropFilter: "blur(12px)",
         background: "hsl(var(--background) / 0.95)",
         borderBottom: "1px solid hsl(var(--border))",
-        padding: `0 ${px}`,
       }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", height: 44, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ ...innerStyle, height: 44, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link
             to="/#work"
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "hsl(var(--muted-foreground))", textDecoration: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
             onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
             onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
           >
@@ -298,20 +304,16 @@ export default function CaseStudyDetail() {
         </div>
       </div>
 
-      {/* Hero — full width container, centered content */}
-      <motion.header
-        style={{
-          width: "100%",
-          padding: `clamp(48px,7vw,88px) ${px} clamp(36px,5vw,56px)`,
-        }}
+      {/* Hero */}
+      <motion.div
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ ...innerStyle, paddingTop: "clamp(48px,7vw,88px)", paddingBottom: "clamp(36px,5vw,56px)" }}>
           {/* Tag */}
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 18 }}>
-            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#6366f1" }} />
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#6366f1", display: "block" }} />
             {cs.tag}
           </div>
 
@@ -327,18 +329,18 @@ export default function CaseStudyDetail() {
           </p>
 
           {/* Meta row */}
-          <div className="flex flex-wrap gap-y-4" style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 24 }}>
+          <div style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 24, display: "flex", flexWrap: "wrap", gap: "16px 0" }}>
             {[
               { label: "Role", value: cs.role },
               { label: "Timeline", value: cs.timeline },
               { label: "Platform", value: cs.platform },
               { label: "Year", value: cs.year },
             ].map((item, i, arr) => (
-              <div key={item.label} className="flex-shrink-0" style={{
-                paddingRight: "clamp(16px, 3vw, 28px)",
-                marginRight: "clamp(16px, 3vw, 28px)",
+              <div key={item.label} style={{
+                paddingRight: "clamp(16px,3vw,28px)",
+                marginRight: "clamp(16px,3vw,28px)",
                 borderRight: i < arr.length - 1 ? "1px solid hsl(var(--border))" : "none",
-                paddingTop: 4, paddingBottom: 4,
+                flexShrink: 0,
               }}>
                 <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 5 }}>{item.label}</div>
                 <div style={{ fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>{item.value}</div>
@@ -346,14 +348,14 @@ export default function CaseStudyDetail() {
             ))}
           </div>
         </div>
-      </motion.header>
+      </motion.div>
 
-      {/* Outcome pills — full width, centered content */}
+      {/* Outcome pills */}
       <motion.div
-        style={{ width: "100%", padding: `16px ${px}`, background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", borderBottom: "1px solid hsl(var(--border))" }}
+        style={{ borderTop: "1px solid hsl(var(--border))", borderBottom: "1px solid hsl(var(--border))", background: "hsl(var(--card))" }}
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4, delay: 0.25 }}
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ ...innerStyle, paddingTop: 16, paddingBottom: 16, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginRight: 6, flexShrink: 0 }}>Key outcomes</span>
           {cs.outcomes.map((o, i) => (
             <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 100, background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.18)", fontSize: 12, fontWeight: 600, color: "#818cf8", whiteSpace: "nowrap" }}>
@@ -364,43 +366,45 @@ export default function CaseStudyDetail() {
         </div>
       </motion.div>
 
-      {/* Sections — full width wrapper, centered content inside */}
-      <main style={{ width: "100%", padding: `0 ${px}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          {cs.sections.map((section, i) => (
-            <SectionBlock key={i} section={section} />
+      {/* Sections */}
+      <div style={innerStyle}>
+        {cs.sections.map((section, i) => (
+          <SectionBlock key={i} section={section} />
+        ))}
+
+        {/* Tools strip */}
+        <div style={{ padding: "20px 0", marginTop: 8, borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>Tools used</span>
+          {(cs.slug === "zu-ai"
+            ? ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"]
+            : ["Figma", "Google Forms", "Zoom", "Poppins / Euclid Circular B"]
+          ).map((t) => (
+            <span key={t} style={{ display: "inline-flex", padding: "4px 12px", borderRadius: 100, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12, fontWeight: 500, color: "hsl(var(--muted-foreground))" }}>{t}</span>
           ))}
-
-          {/* Tools strip */}
-          <div style={{ padding: "20px 0", marginTop: 8, borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>Tools used</span>
-            {(cs.slug === "zu-ai"
-              ? ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"]
-              : ["Figma", "Google Forms", "Zoom", "Poppins / Euclid Circular B"]
-            ).map((t) => (
-              <span key={t} style={{ display: "inline-flex", padding: "4px 12px", borderRadius: 100, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12, fontWeight: 500, color: "hsl(var(--muted-foreground))" }}>{t}</span>
-            ))}
-          </div>
         </div>
-      </main>
+      </div>
 
-      {/* Next project */}
-      <section style={{ width: "100%", padding: `clamp(56px,8vw,96px) ${px}`, background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", textAlign: "center" }}>
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
-        <Link
-          to={`/case-study/${nextCs.slug}`}
-          style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 16, textDecoration: "none", color: "inherit" }}
-        >
-          <h3
-            style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px,4vw,48px)", fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.15 }}
-            dangerouslySetInnerHTML={{ __html: nextCs.title.replace(/—(.+)$/, `— <em style="font-style:italic;color:#6366f1">$1</em>`) }}
-          />
-          <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "transparent"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
-          >→</span>
-        </Link>
+      {/* Next project — full bleed background, inner content centered */}
+      <section style={{ background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", textAlign: "center" }}>
+        <div style={{ ...innerStyle, paddingTop: "clamp(56px,8vw,96px)", paddingBottom: "clamp(56px,8vw,96px)" }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
+          <Link
+            to={`/case-study/${nextCs.slug}`}
+            style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 16, textDecoration: "none", color: "inherit" }}
+          >
+            <h3
+              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px,4vw,48px)", fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.15 }}
+              dangerouslySetInnerHTML={{ __html: nextCs.title.replace(/—(.+)$/, `— <em style="font-style:italic;color:#6366f1">$1</em>`) }}
+            />
+            <span
+              style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "transparent"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
+            >→</span>
+          </Link>
+        </div>
       </section>
+
     </div>
   );
 }
