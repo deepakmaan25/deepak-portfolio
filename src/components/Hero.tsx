@@ -161,24 +161,24 @@ const Hero = () => {
         <span className="text-[12px] text-muted-foreground hidden sm:block">India · Open to remote</span>
       </div>
 
-      {/* Hero grid — responsive */}
-      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border"
-        style={{ display: "grid", gridTemplateColumns: "65fr 35fr", minHeight: 360 }}>
+   {/* Hero grid — responsive */}
+<div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border grid grid-cols-1 md:grid-cols-[65fr_35fr]"
+  style={{ minHeight: 360 }}>
 
-        {/* LEFT */}
-        <div className="flex flex-col justify-center py-10 pr-4 lg:pr-8">
+  {/* LEFT */}
+  <div className="flex flex-col justify-center py-8 md:py-10 md:pr-8">
           <div className="mb-4">
             <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
-            <span className="block font-normal" style={{
-              fontFamily: "'DM Serif Display', serif",
-              fontSize: "clamp(32px, 4.8vw, 68px)",
-              fontStyle: "italic",
-              color: "var(--role-color, #6366f1)",
-              lineHeight: 1.05,
-              minHeight: 54,
-              opacity: roleVisible ? 1 : 0,
-              transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
-              transition: "opacity 0.35s ease, transform 0.35s ease",
+           <span className="block font-normal" style={{
+  fontFamily: "'DM Serif Display', serif",
+  fontSize: "clamp(32px, 8vw, 68px)",
+  fontStyle: "italic",
+  color: "var(--role-color, #6366f1)",
+  lineHeight: 1.05,
+  minHeight: 54,
+  opacity: roleVisible ? 1 : 0,
+  transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
+  transition: "opacity 0.35s ease, transform 0.35s ease",
             }}>{roles[roleIndex]}</span>
             <p className="font-medium text-foreground mt-[4px]"
               style={{ fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.35 }}>
@@ -221,10 +221,10 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* RIGHT — orbit, hidden on mobile */}
-        <div className="hidden md:flex items-center justify-end py-8">
-          <OrbitCanvas />
-        </div>
+        {/* RIGHT — orbit */}
+<div className="flex items-center justify-center md:justify-end py-6 md:py-8 border-t md:border-t-0 border-border">
+  <OrbitCanvas />
+</div>
       </div>
 
       {/* Stats row — 2 cols on mobile, 4 on desktop */}
