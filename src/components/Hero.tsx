@@ -82,7 +82,7 @@ const OrbitCanvas = () => {
         const a = (t.angle * Math.PI) / 180;
         return (
           <span key={t.label} ref={el => { tagRefsRef.current[i] = el; }}
-            className="orbit-tag absolute text-[10px] font-medium px-[10px] py-[4px] rounded-full whitespace-nowrap cursor-default transition-colors duration-200"
+            className="orbit-tag absolute text-[10px] font-medium px-[10px] py-[4px] rounded-full whitespace-nowrap cursor-default"
             style={{
               left: cx + r * Math.cos(a), top: cy + r * Math.sin(a),
               transform: "translate(-50%,-50%)",
@@ -90,6 +90,7 @@ const OrbitCanvas = () => {
               border: "1px solid hsl(var(--border))",
               color: "hsl(var(--muted-foreground))",
               boxShadow: "0 2px 6px rgba(0,0,0,0.05)", zIndex: 5,
+              transition: "background 0.2s, color 0.2s, border-color 0.2s",
             }}
             onMouseEnter={e => {
               const el = e.currentTarget as HTMLSpanElement;
@@ -143,7 +144,12 @@ const Hero = () => {
   ];
 
   return (
+    /*
+      pt-16 = 64px to clear the fixed nav (h-16).
+      No extra margin needed — nav is always 64px on all screen sizes.
+    */
     <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
+
       {/* Accent bar */}
       <div style={{ height: 3, background: "linear-gradient(90deg,#6366f1,#818cf8)", width: "100%" }} />
 
@@ -161,35 +167,16 @@ const Hero = () => {
         <span className="text-[12px] text-muted-foreground hidden sm:block">India · Open to remote</span>
       </div>
 
-      {/* Hero grid — LEFT content + RIGHT orbit */}
-      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border"
-        style={{ display: "grid", gridTemplateColumns: "1fr", minHeight: 360 }}>
+      {/*
+        Hero grid:
+        - Mobile (< md): single column, content on top, orbit below with top border
+        - Desktop (≥ md): two columns side by side
+      */}
+      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
+        <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
-        {/* On md+ → side by side. On mobile → stacked (content first, orbit second) */}
-        <style>{`
-          @media (min-width: 768px) {
-            .hero-inner-grid {
-              grid-template-columns: 65fr 35fr !important;
-            }
-            .hero-orbit-col {
-              border-top: none !important;
-              padding-top: 32px !important;
-              padding-bottom: 32px !important;
-              justify-content: flex-end !important;
-            }
-          }
-        `}</style>
-
-        <div
-          className="hero-inner-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            width: "100%",
-          }}
-        >
           {/* LEFT — text content */}
-          <div className="flex flex-col justify-center py-8 md:pr-8">
+          <div className="flex flex-col justify-center py-8 md:py-10 md:pr-8">
             <div className="mb-4">
               <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
               <span className="block font-normal" style={{
@@ -223,61 +210,4 @@ const Hero = () => {
                 View Work ↓
               </a>
               <a href="#contact"
-                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
-                style={{
-                  border: "1.5px solid hsl(var(--border))",
-                  color: "hsl(var(--foreground))",
-                  background: "transparent",
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background = "hsl(var(--foreground))";
-                  el.style.color = "hsl(var(--primary-foreground))";
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.background = "transparent";
-                  el.style.color = "hsl(var(--foreground))";
-                }}>
-                Get in Touch
-              </a>
-            </div>
-          </div>
-
-          {/* RIGHT — orbit. On mobile: shows below content with top border */}
-          <div
-            className="hero-orbit-col flex items-center justify-center py-8"
-            style={{
-              borderTop: "1px solid hsl(var(--border))",
-            }}
-          >
-            <OrbitCanvas />
-          </div>
-        </div>
-      </div>
-
-      {/* Stats row */}
-      <div ref={statsRef}
-        className="grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
-        {stats.map((s, i) => (
-          <div key={s.label} className={`${i % 2 !== 0 || i > 0 ? "md:pl-6 md:border-l md:border-border" : ""} ${i < 3 ? "md:pr-6" : ""} ${i === 1 ? "pl-6 border-l border-border" : ""}`}>
-            <div className="leading-none mb-1 font-normal text-foreground"
-              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px, 3vw, 34px)" }}>
-              {s.value}<em className="not-italic" style={{ color: "#6366f1" }}>{s.suffix}</em>
-            </div>
-            <div className="text-[11px] text-muted-foreground">{s.label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Scroll cue */}
-      <div className="flex flex-col items-center gap-[5px] py-3 max-w-site mx-auto">
-        <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
-        <span className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/50">Scroll to explore</span>
-        <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
-      </div>
-    </section>
-  );
-};
-
-export default Hero;
+                className="inline-fl
