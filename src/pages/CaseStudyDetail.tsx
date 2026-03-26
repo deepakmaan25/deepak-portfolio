@@ -326,39 +326,36 @@ export default function CaseStudyDetail() {
 
   const currentIndex = caseStudies.findIndex((c) => c.slug === slug);
   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
-  const px = "clamp(20px, 5vw, 80px)";
+  const px = "clamp(16px, 5vw, 80px)";
 
   return (
     <div style={{ minHeight: "100vh", background: "hsl(var(--background))", color: "hsl(var(--foreground))" }}>
 
-      {/* Indigo accent bar — matches homepage */}
-      <div style={{ height: 3, background: "linear-gradient(90deg, #6366f1, #818cf8)", width: "100%" }} />
-
-      {/* Sticky nav */}
-      <nav style={{
-        position: "sticky", top: 0, zIndex: 50,
-        backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
-        background: "hsl(var(--background) / 0.92)",
-        borderBottom: "1px solid hsl(var(--border))",
-        padding: `0 ${px}`,
-      }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link
-            to="/#work"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
-            onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
-          >
-            <span style={{ width: 26, height: 26, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11 }}>←</span>
-            All Work
-          </Link>
-          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))" }}>{cs.tag}</span>
-        </div>
-      </nav>
+{/* Breadcrumb bar — sits below main nav, not a replacement */}
+<div style={{
+  position: "sticky", top: 64, zIndex: 40,
+  backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+  background: "hsl(var(--background) / 0.95)",
+  borderBottom: "1px solid hsl(var(--border))",
+  padding: `0 ${px}`,
+}}>
+  <div style={{ maxWidth: 1200, margin: "0 auto", height: 44, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <Link
+      to="/#work"
+      style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
+      onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
+      onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
+    >
+      <span style={{ fontSize: 11 }}>←</span>
+      All Work
+    </Link>
+    <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))" }}>{cs.tag}</span>
+  </div>
+</div>
 
       {/* Hero */}
       <motion.header
-        style={{ padding: `clamp(56px,9vw,100px) ${px} clamp(40px,6vw,64px)`, maxWidth: 1200, margin: "0 auto" }}
+          style={{ padding: `clamp(56px,9vw,100px) ${px} clamp(40px,6vw,64px)`, maxWidth: "min(1200px, 100%)", margin: "0 auto" }}
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -381,19 +378,20 @@ export default function CaseStudyDetail() {
         </p>
 
         {/* Meta row */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 0, borderTop: "1px solid hsl(var(--border))", paddingTop: 24 }}>
+        <div className="flex flex-wrap gap-y-4" style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 24 }}>
           {[
             { label: "Role", value: cs.role },
             { label: "Timeline", value: cs.timeline },
             { label: "Platform", value: cs.platform },
             { label: "Year", value: cs.year },
           ].map((item, i, arr) => (
-            <div key={item.label} style={{
-              paddingRight: 28, marginRight: 28,
-              borderRight: i < arr.length - 1 ? "1px solid hsl(var(--border))" : "none",
-              paddingTop: 4, paddingBottom: 4,
-            }}>
-              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 5 }}>{item.label}</div>
+             <div key={item.label} className="flex-shrink-0" style={{
+      paddingRight: "clamp(16px, 3vw, 28px)",
+      marginRight: "clamp(16px, 3vw, 28px)",
+      borderRight: i < arr.length - 1 ? "1px solid hsl(var(--border))" : "none",
+      paddingTop: 4, paddingBottom: 4,
+    }}>
+               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 5 }}>{item.label}</div>
               <div style={{ fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>{item.value}</div>
             </div>
           ))}
@@ -428,7 +426,7 @@ export default function CaseStudyDetail() {
       </motion.div>
 
       {/* Sections */}
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: `0 ${px}` }}>
+      <main style={{ maxWidth: "min(1200px, 100%)", margin: "0 auto", padding: `0 ${px}` }}>
         {cs.sections.map((section, i) => (
           <SectionBlock key={i} section={section} />
         ))}
