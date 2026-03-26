@@ -209,5 +209,51 @@ const Hero = () => {
                 style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
                 View Work ↓
               </a>
-              <a href="#contact"
-                className="inline-fl
+           <a
+  href="#contact"
+  className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px] border border-border"
+  style={{
+    background: "hsl(var(--background))",
+    color: "hsl(var(--foreground))",
+  }}
+>
+  Contact Me
+</a>
+</div>
+
+{/* Stats */}
+<div
+  ref={statsRef}
+  className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-8 max-w-[520px]"
+>
+  {stats.map((stat, i) => (
+    <div key={i} className="flex flex-col">
+      <span
+        className="font-semibold text-foreground"
+        style={{ fontSize: "clamp(18px,2vw,22px)" }}
+      >
+        {stat.value}
+        {stat.suffix}
+      </span>
+      <span className="text-[12px] text-muted-foreground">
+        {stat.label}
+      </span>
+    </div>
+  ))}
+</div>
+
+</div>
+
+{/* RIGHT — orbit */}
+<div className="flex items-center justify-center border-t md:border-t-0 md:border-l border-border py-10 md:py-0">
+  <OrbitCanvas />
+</div>
+
+</div>
+</div>
+
+</section>
+);
+};
+
+export default Hero;
