@@ -29,10 +29,12 @@ const Navigation = () => {
       },
       { rootMargin: "-15% 0px -70% 0px" }
     );
+
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
+
     return () => observer.disconnect();
   }, [isHome]);
 
@@ -68,6 +70,7 @@ const Navigation = () => {
         </a>
       );
     }
+
     return (
       <Link to={href} className={className} onClick={onClick}>
         {children}
@@ -85,7 +88,7 @@ const Navigation = () => {
         }`}
       >
         <nav className="max-w-site mx-auto px-6 h-16 flex items-center justify-between">
-
+          
           <Link
             to="/"
             className="text-[15px] font-semibold text-foreground hover:opacity-70 transition-opacity flex-shrink-0"
@@ -98,6 +101,7 @@ const Navigation = () => {
               const isActive = isWork
                 ? link.sectionId === "work"
                 : activeSection === link.sectionId;
+
               return (
                 <li key={link.label}>
                   <LinkOrAnchor
@@ -117,7 +121,8 @@ const Navigation = () => {
 
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
-            
+
+            <a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -129,6 +134,7 @@ const Navigation = () => {
 
           <div className="md:hidden flex items-center gap-2">
             <ThemeToggle />
+
             <button
               className="flex flex-col justify-center items-center gap-[5px] w-9 h-9 relative z-[60] flex-shrink-0"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -139,11 +145,13 @@ const Navigation = () => {
                   menuOpen ? "rotate-45 translate-y-[6.5px]" : ""
                 }`}
               />
+
               <span
                 className={`block h-[1.5px] w-5 bg-foreground rounded-full transition-all duration-300 ${
                   menuOpen ? "opacity-0 scale-x-0" : ""
                 }`}
               />
+
               <span
                 className={`block h-[1.5px] w-5 bg-foreground rounded-full transition-all duration-300 origin-center ${
                   menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""
@@ -181,12 +189,13 @@ const Navigation = () => {
                 </LinkOrAnchor>
               </motion.div>
             ))}
+
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navLinks.length * 0.05 }}
             >
-              
+              <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
