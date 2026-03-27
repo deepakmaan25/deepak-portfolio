@@ -69,8 +69,7 @@ export const caseStudies: CaseStudy[] = [
     platform: "Mobile App (iOS / Android)",
     year: "2024",
     heroTagline:
-      "Making AI learning feel human, trustworthy, and personalized for 100K+ students",
-
+  "Redesigning an AI learning chat to improve trust, reduce cognitive overload, and enable personalized learning for 100K+ students",
     sections: [
       // ── Executive Summary ──
       {
