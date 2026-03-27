@@ -249,130 +249,33 @@ function SectionBlock({ section, index }: { section: CaseStudySection; index: nu
   );
 }
 
-// // ── Main page ─────────────────────────────────────────────────────────────────
-// export default function CaseStudyDetail() {
-//   const { slug } = useParams<{ slug: string }>();
-//   const [scrollProgress, setScrollProgress] = useState(0);  useEffect(() => {   const handleScroll = () => {     const totalHeight =       document.documentElement.scrollHeight - window.innerHeight;      const progress = window.scrollY / totalHeight;     setScrollProgress(progress);   };    window.addEventListener("scroll", handleScroll);   return () => window.removeEventListener("scroll", handleScroll); }, []);
-
-//   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
-
-//   if (!cs) {
-//     return (
-//       <div style={{ paddingTop: 120, textAlign: "center", display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
-//         <p style={{ color: "hsl(var(--muted-foreground))" }}>Case study not found.</p>
-//         <Link to="/" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>← Back home</Link>
-//       </div>
-//     );
-//   }
-
-//   const sectionNav = [
-//   { id: "overview-0", label: "Overview" },
-//   { id: "insight-1", label: "Research" },
-//   { id: "process-2", label: "Process" },
-//   { id: "solution-3", label: "Solution" },
-//   { id: "impact-6", label: "Impact" },
-//   { id: "reflection-7", label: "Reflection" },
-// ];
-//   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
-
-//   // Single padding value applied only to the centered inner container
-//   const innerStyle = {
-//     maxWidth: 1200,
-//     margin: "0 auto",
-//     paddingLeft: "clamp(20px, 5vw, 80px)",
-//     paddingRight: "clamp(20px, 5vw, 80px)",
-//   };
-
-//   return (
-//   <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
-
-
-
-
+// ── Main page ─────────────────────────────────────────────────────────────────
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
+  const [scrollProgress, setScrollProgress] = useState(0);  useEffect(() => {   const handleScroll = () => {     const totalHeight =       document.documentElement.scrollHeight - window.innerHeight;      const progress = window.scrollY / totalHeight;     setScrollProgress(progress);   };    window.addEventListener("scroll", handleScroll);   return () => window.removeEventListener("scroll", handleScroll); }, []);
 
-  /* ✅ FIX 1: REQUIRED DATA */
-  const cs = caseStudies.find((c) => c.slug === slug);
-  const currentIndex = caseStudies.findIndex((c) => c.slug === slug);
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
-  /* ✅ FIX 2: STATE INSIDE COMPONENT */
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("overview-0");
-
-  /* ✅ SECTION NAV */
-  const sectionNav = [
-    { id: "overview-0", label: "Overview" },
-    { id: "insight-1", label: "Research" },
-    { id: "process-2", label: "Process" },
-    { id: "solution-3", label: "Solution" },
-    { id: "impact-6", label: "Impact" },
-    { id: "reflection-7", label: "Reflection" },
-  ];
-
-  /* ✅ FIX 3: SCROLL PROGRESS */
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = window.scrollY / totalHeight;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  /* ✅ RESET SCROLL ON SLUG CHANGE */
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-
-  /* ✅ FIX 4: ACTIVE SECTION TRACK */
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 140;
-
-      sectionNav.forEach((sec) => {
-        const el = document.getElementById(sec.id);
-        if (!el) return;
-
-        if (
-          scrollPos >= el.offsetTop &&
-          scrollPos < el.offsetTop + el.offsetHeight
-        ) {
-          setActiveSection(sec.id);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  /* ✅ FIX 5: SCROLL FUNCTION */
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    window.scrollTo({
-      top: el.offsetTop - 110,
-      behavior: "smooth",
-    });
-  };
-
-  /* ✅ SAFE GUARD */
   if (!cs) {
     return (
-      <div style={{ paddingTop: 120, textAlign: "center" }}>
-        <p>Case study not found.</p>
-        <Link to="/">← Back home</Link>
+      <div style={{ paddingTop: 120, textAlign: "center", display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
+        <p style={{ color: "hsl(var(--muted-foreground))" }}>Case study not found.</p>
+        <Link to="/" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>← Back home</Link>
       </div>
     );
   }
 
+  const sectionNav = [
+  { id: "overview-0", label: "Overview" },
+  { id: "insight-1", label: "Research" },
+  { id: "process-2", label: "Process" },
+  { id: "solution-3", label: "Solution" },
+  { id: "impact-6", label: "Impact" },
+  { id: "reflection-7", label: "Reflection" },
+];
   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
 
+  // Single padding value applied only to the centered inner container
   const innerStyle = {
     maxWidth: 1200,
     margin: "0 auto",
@@ -381,90 +284,263 @@ export default function CaseStudyDetail() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", paddingTop: 64 }}>
+  <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
 
-      {/* Progress bar */}
-      <div
+    {/* Scroll Progress Bar */}
+    <div
+      style={{
+        position: "fixed",
+        top: 64,
+        left: 0,
+        height: 3,
+        width: `${scrollProgress * 100}%`,
+        background: "#6366f1",
+        zIndex: 100,
+        transition: "width 0.1s linear",
+      }}
+    />
+      {/* Breadcrumb — sticky just below fixed nav at top: 64px */}
+      <div style={{
+        position: "sticky",
+        top: 64,
+        zIndex: 40,
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        background: "hsl(var(--background) / 0.95)",
+        borderBottom: "1px solid hsl(var(--border))",
+      }}>
+        <div style={{ ...innerStyle, height: 44, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link
+            to="/#work"
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
+            onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
+          >
+            <span style={{ fontSize: 11 }}>←</span>
+            All Work
+          </Link>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))" }}>{cs.tag}</span>
+        </div>
+      </div>
+
+    {/* Sticky Section Nav */}
+<div
+  style={{
+    position: "sticky",
+    top: 108,
+    zIndex: 30,
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    background: "hsl(var(--background) / 0.9)",
+    borderBottom: "1px solid hsl(var(--border))",
+  }}
+>
+  <div
+    style={{
+      ...innerStyle,
+      display: "flex",
+      gap: 16,
+      overflowX: "auto",
+      padding: "10px 0",
+    }}
+  >
+    {sectionNav.map((item) => (
+      <button
+        key={item.id}
+        onClick={() => scrollToSection(item.id)}
         style={{
-          position: "fixed",
-          top: 64,
-          left: 0,
-          height: 3,
-          width: `${scrollProgress * 100}%`,
-          background: "#6366f1",
-          zIndex: 100,
+          fontSize: 12,
+          fontWeight: 600,
+          whiteSpace: "nowrap",
+          padding: "6px 12px",
+          borderRadius: 100,
+          border: "1px solid",
+          cursor: "pointer",
+          background:
+            activeSection === item.id
+              ? "rgba(99,102,241,0.1)"
+              : "transparent",
+          borderColor:
+            activeSection === item.id
+              ? "#6366f1"
+              : "hsl(var(--border))",
+          color:
+            activeSection === item.id
+              ? "#6366f1"
+              : "hsl(var(--muted-foreground))",
+          transition: "all 0.2s",
         }}
-      />
+      >
+        {item.label}
+      </button>
+    ))}
+  </div>
+</div>
+    
+      {/* Hero */}
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ ...innerStyle, paddingTop: "clamp(48px,7vw,88px)", paddingBottom: "clamp(36px,5vw,56px)" }}>
+          {/* Tag */}
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 18 }}>
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#6366f1", display: "block" }} />
+            {cs.tag}
+          </div>
 
-      {/* Section nav */}
-      <div style={{ position: "sticky", top: 108 }}>
-        <div style={{ ...innerStyle, display: "flex", gap: 12 }}>
-          {sectionNav.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              style={{
-                padding: "6px 12px",
-                borderRadius: 100,
-                border: "1px solid",
-                background:
-                  activeSection === item.id ? "#6366f1" : "transparent",
-                color: activeSection === item.id ? "#fff" : "#999",
-              }}
-            >
-              {item.label}
-            </button>
+          {/* Title */}
+          <h1
+            style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px,5.5vw,68px)", fontWeight: 400, lineHeight: 1.1, color: "hsl(var(--foreground))", marginBottom: 18, maxWidth: 800 }}
+            dangerouslySetInnerHTML={{ __html: cs.title.replace(/—(.+)$/, `— <em style="font-style:italic;color:#6366f1">$1</em>`) }}
+          />
+
+         {/* Tagline + Impact Highlights */}
+<div style={{ maxWidth: 600, marginBottom: 40 }}>
+  <p style={{
+    fontSize: "clamp(15px,1.8vw,18px)",
+    lineHeight: 1.65,
+    color: "hsl(var(--muted-foreground))",
+    marginBottom: 16
+  }}>
+    {cs.heroTagline}
+  </p>
+
+  {/* Impact bullets */}
+  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+    {cs.outcomes.map((o, i) => (
+      <div key={i} style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        fontSize: 14,
+        color: "hsl(var(--foreground))"
+      }}>
+        <span style={{
+          width: 5,
+          height: 5,
+          borderRadius: "50%",
+          background: "#6366f1",
+          flexShrink: 0
+        }} />
+        <span>
+          <strong style={{ color: "#6366f1" }}>{o.metric}</strong> {o.label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
+          {/* Meta row */}
+          <div style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 24, display: "flex", flexWrap: "wrap", gap: "16px 0" }}>
+            {[
+              { label: "Role", value: cs.role },
+              { label: "Timeline", value: cs.timeline },
+              { label: "Platform", value: cs.platform },
+              { label: "Year", value: cs.year },
+            ].map((item, i, arr) => (
+              <div key={item.label} style={{
+                paddingRight: "clamp(16px,3vw,28px)",
+                marginRight: "clamp(16px,3vw,28px)",
+                borderRight: i < arr.length - 1 ? "1px solid hsl(var(--border))" : "none",
+                flexShrink: 0,
+              }}>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 5 }}>{item.label}</div>
+                <div style={{ fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Outcome pills */}
+      <motion.div
+        style={{ borderTop: "1px solid hsl(var(--border))", borderBottom: "1px solid hsl(var(--border))", background: "hsl(var(--card))" }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4, delay: 0.25 }}
+      >
+        <div style={{ ...innerStyle, paddingTop: 16, paddingBottom: 16, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginRight: 6, flexShrink: 0 }}>Key outcomes</span>
+          {cs.outcomes.map((o, i) => (
+            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 100, background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.18)", fontSize: 12, fontWeight: 600, color: "#818cf8", whiteSpace: "nowrap" }}>
+              <em style={{ fontFamily: "'DM Serif Display', serif", fontSize: 14, fontStyle: "italic", color: "#6366f1" }}>{o.metric}</em>
+              {o.label}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Sections */}
+      <div style={innerStyle}>
+       {cs.sections.map((section, i) => (
+  <SectionBlock key={i} section={section} index={i} />
+))}
+
+        {/* Tools strip */}
+        <div style={{ padding: "20px 0", marginTop: 8, borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>Tools used</span>
+          {(cs.slug === "zu-ai"
+            ? ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"]
+            : ["Figma", "Google Forms", "Zoom", "Poppins / Euclid Circular B"]
+          ).map((t) => (
+            <span key={t} style={{ display: "inline-flex", padding: "4px 12px", borderRadius: 100, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12, fontWeight: 500, color: "hsl(var(--muted-foreground))" }}>{t}</span>
           ))}
         </div>
       </div>
 
-      {/* HERO */}
-      <div style={{ ...innerStyle, paddingTop: 80 }}>
+      {/* Next project — full bleed background, inner content centered */}
+      <section style={{ background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", textAlign: "center" }}>
+        <div style={{ ...innerStyle, paddingTop: "clamp(56px,8vw,96px)", paddingBottom: "clamp(56px,8vw,96px)" }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
+          <Link
+            to={`/case-study/${nextCs.slug}`}
+            style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 16, textDecoration: "none", color: "inherit" }}
+          >
+            <h3
+              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px,4vw,48px)", fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.15 }}
+              dangerouslySetInnerHTML={{ __html: nextCs.title.replace(/—(.+)$/, `— <em style="font-style:italic;color:#6366f1">$1</em>`) }}
+            />
+            <span
+              style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "transparent"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
+            >→</span>
+          </Link>
+        </div>
+      </section>
 
-        <h1
-          dangerouslySetInnerHTML={{
-            /* ✅ FIX 6: REGEX FIX */
-            __html: cs.title.replace(
-              /—(.+)$/,
-              '— <em style="font-style:italic;color:#6366f1">$1</em>'
-            ),
-          }}
-        />
-
-        <p>{cs.heroTagline}</p>
-
-        {/* outcomes */}
-        {cs.outcomes.map((o, i) => (
-          <div key={i}>
-            <strong>{o.metric}</strong> {o.label}
-          </div>
-        ))}
-      </div>
-
-      {/* SECTIONS */}
-      <div style={innerStyle}>
-        {cs.sections.map((section, i) => (
-          <div key={i} id={`${section.type}-${i}`}>
-            <h2>{section.heading}</h2>
-            <p>{section.body}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* NEXT PROJECT */}
-      <div style={{ textAlign: "center", marginTop: 80 }}>
-        <Link to={`/case-study/${nextCs.slug}`}>
-          <h3
-            dangerouslySetInnerHTML={{
-              /* ✅ FIX AGAIN HERE */
-              __html: nextCs.title.replace(
-                /—(.+)$/,
-                '— <em style="font-style:italic;color:#6366f1">$1</em>'
-              ),
-            }}
-          />
-        </Link>
-      </div>
     </div>
   );
 }
+const [activeSection, setActiveSection] = useState("overview-0");
+
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollPos = window.scrollY + 140;
+
+    sectionNav.forEach((sec) => {
+      const el = document.getElementById(sec.id);
+      if (!el) return;
+
+      if (
+        scrollPos >= el.offsetTop &&
+        scrollPos < el.offsetTop + el.offsetHeight
+      ) {
+        setActiveSection(sec.id);
+      }
+    });
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  window.scrollTo({
+    top: el.offsetTop - 110,
+    behavior: "smooth",
+  });
+};
