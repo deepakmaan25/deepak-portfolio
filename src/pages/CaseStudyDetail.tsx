@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { caseStudies, CaseStudySection, ImagePlaceholder } from "@/data/caseStudies";
@@ -210,7 +210,7 @@ function FutureList({ items }: { items: string[] }) {
   );
 }
 
-function SectionBlock({ section, index }: { section: CaseStudySection; index: number }) {
+function SectionBlock({ section }: { section: CaseStudySection }) {
   const labels: Record<CaseStudySection["type"], string> = {
     overview: "Overview",
     insight: "Research & Insights",
@@ -221,7 +221,7 @@ function SectionBlock({ section, index }: { section: CaseStudySection; index: nu
   };
   const isWide = section.type === "overview" || section.type === "impact";
   return (
-    <article   id={`${section.type}-${index}`}   style={{ padding: "clamp(48px,7vw,80px) 0", borderBottom: "1px solid hsl(var(--border))" }}>
+    <article style={{ padding: "clamp(48px,7vw,80px) 0", borderBottom: "1px solid hsl(var(--border))" }}>
       <div style={{ maxWidth: isWide ? "100%" : 720 }}>
         <Fade>
           <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6366f1", marginBottom: 10 }}>{labels[section.type]}</p>
@@ -252,7 +252,7 @@ function SectionBlock({ section, index }: { section: CaseStudySection; index: nu
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [scrollProgress, setScrollProgress] = useState(0);  useEffect(() => {   const handleScroll = () => {     const totalHeight =       document.documentElement.scrollHeight - window.innerHeight;      const progress = window.scrollY / totalHeight;     setScrollProgress(progress);   };    window.addEventListener("scroll", handleScroll);   return () => window.removeEventListener("scroll", handleScroll); }, []);
+  const cs = caseStudies.find((c) => c.slug === slug);
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
@@ -265,14 +265,7 @@ export default function CaseStudyDetail() {
     );
   }
 
-  const sectionNav = [
-  { id: "overview-0", label: "Overview" },
-  { id: "insight-1", label: "Research" },
-  { id: "process-2", label: "Process" },
-  { id: "solution-3", label: "Solution" },
-  { id: "impact-6", label: "Impact" },
-  { id: "reflection-7", label: "Reflection" },
-];
+  const currentIndex = caseStudies.findIndex((c) => c.slug === slug);
   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
 
   // Single padding value applied only to the centered inner container
@@ -284,21 +277,9 @@ export default function CaseStudyDetail() {
   };
 
   return (
-  <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
+    // pt-16 = 64px for fixed nav (h-16), consistent with Hero
+    <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
 
-    {/* Scroll Progress Bar */}
-    <div
-      style={{
-        position: "fixed",
-        top: 64,
-        left: 0,
-        height: 3,
-        width: `${scrollProgress * 100}%`,
-        background: "#6366f1",
-        zIndex: 100,
-        transition: "width 0.1s linear",
-      }}
-    />
       {/* Breadcrumb — sticky just below fixed nav at top: 64px */}
       <div style={{
         position: "sticky",
@@ -323,60 +304,6 @@ export default function CaseStudyDetail() {
         </div>
       </div>
 
-    {/* Sticky Section Nav */}
-<div
-  style={{
-    position: "sticky",
-    top: 108,
-    zIndex: 30,
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    background: "hsl(var(--background) / 0.9)",
-    borderBottom: "1px solid hsl(var(--border))",
-  }}
->
-  <div
-    style={{
-      ...innerStyle,
-      display: "flex",
-      gap: 16,
-      overflowX: "auto",
-      padding: "10px 0",
-    }}
-  >
-    {sectionNav.map((item) => (
-      <button
-        key={item.id}
-        onClick={() => scrollToSection(item.id)}
-        style={{
-          fontSize: 12,
-          fontWeight: 600,
-          whiteSpace: "nowrap",
-          padding: "6px 12px",
-          borderRadius: 100,
-          border: "1px solid",
-          cursor: "pointer",
-          background:
-            activeSection === item.id
-              ? "rgba(99,102,241,0.1)"
-              : "transparent",
-          borderColor:
-            activeSection === item.id
-              ? "#6366f1"
-              : "hsl(var(--border))",
-          color:
-            activeSection === item.id
-              ? "#6366f1"
-              : "hsl(var(--muted-foreground))",
-          transition: "all 0.2s",
-        }}
-      >
-        {item.label}
-      </button>
-    ))}
-  </div>
-</div>
-    
       {/* Hero */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
@@ -472,9 +399,9 @@ export default function CaseStudyDetail() {
 
       {/* Sections */}
       <div style={innerStyle}>
-       {cs.sections.map((section, i) => (
-  <SectionBlock key={i} section={section} index={i} />
-))}
+        {cs.sections.map((section, i) => (
+          <SectionBlock key={i} section={section} />
+        ))}
 
         {/* Tools strip */}
         <div style={{ padding: "20px 0", marginTop: 8, borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
@@ -512,35 +439,3 @@ export default function CaseStudyDetail() {
     </div>
   );
 }
-const [activeSection, setActiveSection] = useState("overview-0");
-
-useEffect(() => {
-  const handleScroll = () => {
-    const scrollPos = window.scrollY + 140;
-
-    sectionNav.forEach((sec) => {
-      const el = document.getElementById(sec.id);
-      if (!el) return;
-
-      if (
-        scrollPos >= el.offsetTop &&
-        scrollPos < el.offsetTop + el.offsetHeight
-      ) {
-        setActiveSection(sec.id);
-      }
-    });
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  window.scrollTo({
-    top: el.offsetTop - 110,
-    behavior: "smooth",
-  });
-};
