@@ -289,9 +289,6 @@ function SectionBlock({ section, index }: { section: CaseStudySection; index: nu
 
 
 
-   MAIN COMPONENT
-========================= */
-
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
 
