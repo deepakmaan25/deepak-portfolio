@@ -249,13 +249,121 @@ function SectionBlock({ section, index }: { section: CaseStudySection; index: nu
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+// // ── Main page ─────────────────────────────────────────────────────────────────
+// export default function CaseStudyDetail() {
+//   const { slug } = useParams<{ slug: string }>();
+//   const [scrollProgress, setScrollProgress] = useState(0);  useEffect(() => {   const handleScroll = () => {     const totalHeight =       document.documentElement.scrollHeight - window.innerHeight;      const progress = window.scrollY / totalHeight;     setScrollProgress(progress);   };    window.addEventListener("scroll", handleScroll);   return () => window.removeEventListener("scroll", handleScroll); }, []);
+
+//   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+
+//   if (!cs) {
+//     return (
+//       <div style={{ paddingTop: 120, textAlign: "center", display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
+//         <p style={{ color: "hsl(var(--muted-foreground))" }}>Case study not found.</p>
+//         <Link to="/" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>← Back home</Link>
+//       </div>
+//     );
+//   }
+
+//   const sectionNav = [
+//   { id: "overview-0", label: "Overview" },
+//   { id: "insight-1", label: "Research" },
+//   { id: "process-2", label: "Process" },
+//   { id: "solution-3", label: "Solution" },
+//   { id: "impact-6", label: "Impact" },
+//   { id: "reflection-7", label: "Reflection" },
+// ];
+//   const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
+
+//   // Single padding value applied only to the centered inner container
+//   const innerStyle = {
+//     maxWidth: 1200,
+//     margin: "0 auto",
+//     paddingLeft: "clamp(20px, 5vw, 80px)",
+//     paddingRight: "clamp(20px, 5vw, 80px)",
+//   };
+
+//   return (
+//   <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
+
 export default function CaseStudyDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const [scrollProgress, setScrollProgress] = useState(0);  useEffect(() => {   const handleScroll = () => {     const totalHeight =       document.documentElement.scrollHeight - window.innerHeight;      const progress = window.scrollY / totalHeight;     setScrollProgress(progress);   };    window.addEventListener("scroll", handleScroll);   return () => window.removeEventListener("scroll", handleScroll); }, []);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  // ✅ FIX: define current case study
+  const currentIndex = caseStudies.findIndex(cs => cs.slug === slug);
+  const cs = caseStudies[currentIndex];
 
+  // ✅ EXISTING STATE
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // ✅ FIX: moved inside component
+  const [activeSection, setActiveSection] = useState("overview-0");
+
+  // ✅ EXISTING
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      const progress = window.scrollY / totalHeight;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  // ✅ KEEP YOUR EXISTING sectionNav (UNCHANGED)
+  const sectionNav = [
+    { id: "overview-0", label: "Overview" },
+    { id: "insight-1", label: "Research" },
+    { id: "process-2", label: "Process" },
+    { id: "solution-3", label: "Solution" },
+    { id: "impact-6", label: "Impact" },
+    { id: "reflection-7", label: "Reflection" },
+  ];
+
+  // ✅ FIX: moved inside component
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 140;
+
+      sectionNav.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (!el) return;
+
+        if (
+          scrollPos >= el.offsetTop &&
+          scrollPos < el.offsetTop + el.offsetHeight
+        ) {
+          setActiveSection(sec.id);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // ✅ FIX: moved inside component
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    window.scrollTo({
+      top: el.offsetTop - 110,
+      behavior: "smooth",
+    });
+  };
+
+  // ✅ FIX: define next case study
+  const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
+
+  // ❗ SAFETY CHECK
   if (!cs) {
     return (
       <div style={{ paddingTop: 120, textAlign: "center", display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
@@ -265,27 +373,7 @@ export default function CaseStudyDetail() {
     );
   }
 
-  const sectionNav = [
-  { id: "overview-0", label: "Overview" },
-  { id: "insight-1", label: "Research" },
-  { id: "process-2", label: "Process" },
-  { id: "solution-3", label: "Solution" },
-  { id: "impact-6", label: "Impact" },
-  { id: "reflection-7", label: "Reflection" },
-];
-  const nextCs = caseStudies[(currentIndex + 1) % caseStudies.length];
-
-  // Single padding value applied only to the centered inner container
-  const innerStyle = {
-    maxWidth: 1200,
-    margin: "0 auto",
-    paddingLeft: "clamp(20px, 5vw, 80px)",
-    paddingRight: "clamp(20px, 5vw, 80px)",
-  };
-
-  return (
-  <div style={{ minHeight: "100vh", background: "hsl(var(--background))", paddingTop: 64 }}>
-
+  // ✅ KEEP EVERYTHING BELOW EXACTLY SAME
     {/* Scroll Progress Bar */}
     <div
       style={{
@@ -512,35 +600,3 @@ export default function CaseStudyDetail() {
     </div>
   );
 }
-const [activeSection, setActiveSection] = useState("overview-0");
-
-useEffect(() => {
-  const handleScroll = () => {
-    const scrollPos = window.scrollY + 140;
-
-    sectionNav.forEach((sec) => {
-      const el = document.getElementById(sec.id);
-      if (!el) return;
-
-      if (
-        scrollPos >= el.offsetTop &&
-        scrollPos < el.offsetTop + el.offsetHeight
-      ) {
-        setActiveSection(sec.id);
-      }
-    });
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  window.scrollTo({
-    top: el.offsetTop - 110,
-    behavior: "smooth",
-  });
-};
