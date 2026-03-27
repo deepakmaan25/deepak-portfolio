@@ -323,10 +323,41 @@ export default function CaseStudyDetail() {
             dangerouslySetInnerHTML={{ __html: cs.title.replace(/—(.+)$/, `— <em style="font-style:italic;color:#6366f1">$1</em>`) }}
           />
 
-          {/* Tagline */}
-          <p style={{ fontSize: "clamp(15px,1.8vw,18px)", lineHeight: 1.65, color: "hsl(var(--muted-foreground))", maxWidth: 600, marginBottom: 40 }}>
-            {cs.heroTagline}
-          </p>
+         {/* Tagline + Impact Highlights */}
+<div style={{ maxWidth: 600, marginBottom: 40 }}>
+  <p style={{
+    fontSize: "clamp(15px,1.8vw,18px)",
+    lineHeight: 1.65,
+    color: "hsl(var(--muted-foreground))",
+    marginBottom: 16
+  }}>
+    {cs.heroTagline}
+  </p>
+
+  {/* Impact bullets */}
+  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+    {cs.outcomes.map((o, i) => (
+      <div key={i} style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        fontSize: 14,
+        color: "hsl(var(--foreground))"
+      }}>
+        <span style={{
+          width: 5,
+          height: 5,
+          borderRadius: "50%",
+          background: "#6366f1",
+          flexShrink: 0
+        }} />
+        <span>
+          <strong style={{ color: "#6366f1" }}>{o.metric}</strong> {o.label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
 
           {/* Meta row */}
           <div style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 24, display: "flex", flexWrap: "wrap", gap: "16px 0" }}>
