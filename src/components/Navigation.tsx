@@ -119,20 +119,7 @@ const Navigation = () => {
             className="md:hidden flex items-center gap-2"
             style={{ flexShrink: 0 }}
           >
-            {/* Wrap ThemeToggle in a fixed-size container so it can't grow */}
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-                overflow: "hidden",
-              }}
-            >
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
 
             {/* Hamburger — fixed 36×36 */}
             <button
