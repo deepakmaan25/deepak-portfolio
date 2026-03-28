@@ -45,9 +45,7 @@ const OrbitCanvas = () => {
 
   useEffect(() => {
     const animate = () => {
-      anglesRef.current = anglesRef.current.map((angle, i) => {
-        return angle + speeds[toolsConfig[i].ring];
-      });
+      anglesRef.current = anglesRef.current.map((angle, i) => angle + speeds[toolsConfig[i].ring]);
       tagRefsRef.current.forEach((el, i) => {
         if (!el) return;
         const r = radii[toolsConfig[i].ring];
@@ -94,6 +92,7 @@ const OrbitCanvas = () => {
             style={{
               left: cx + r * Math.cos(a), top: cy + r * Math.sin(a),
               transform: "translate(-50%,-50%)",
+              fontFamily: "'DM Sans', sans-serif",
               background: "hsl(var(--background))",
               border: "1px solid hsl(var(--border))",
               color: "hsl(var(--muted-foreground))",
@@ -102,15 +101,11 @@ const OrbitCanvas = () => {
             }}
             onMouseEnter={e => {
               const el = e.currentTarget as HTMLSpanElement;
-              el.style.background = "#6366f1";
-              el.style.color = "#fff";
-              el.style.borderColor = "#6366f1";
+              el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1";
             }}
             onMouseLeave={e => {
               const el = e.currentTarget as HTMLSpanElement;
-              el.style.background = "hsl(var(--background))";
-              el.style.color = "hsl(var(--muted-foreground))";
-              el.style.borderColor = "hsl(var(--border))";
+              el.style.background = "hsl(var(--background))"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))";
             }}
           >{t.label}</span>
         );
@@ -154,29 +149,20 @@ const Hero = () => {
   return (
     <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
 
-      {/* Label row */}
-      <div className="hero-label-row flex flex-wrap items-center justify-between px-6 lg:px-8 max-w-site mx-auto py-4 border-b border-border gap-2">
-        <span className="type-label text-muted-foreground">Product Designer</span>
-        <div className="flex items-center gap-2 text-[11px] font-medium px-3 py-1 rounded-full"
-          style={{ background: "#DCFCE7", color: "#166534", border: "1px solid #BBF7D0" }}>
-          <span className="relative flex h-[6px] w-[6px]">
-            <span className="animate-ping-dot absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-[6px] w-[6px] bg-green-500" />
-          </span>
-          Available for opportunities
-        </div>
-        <span className="text-[12px] text-muted-foreground hidden sm:block">India · Open to remote</span>
-      </div>
-
-      {/* Hero grid */}
-      <div className="hero-grid max-w-site mx-auto px-6 lg:px-8 border-b border-border">
+      {/* Hero grid — directly after nav, no label row */}
+      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center py-8 md:py-10 md:pr-8">
-            <div className="mb-4">
-              <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
-              <span className="block font-normal" style={{
+          <div className="flex flex-col justify-center py-10 md:py-14 md:pr-8">
+            <div className="mb-5">
+              <span className="block mb-[10px]" style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13, fontWeight: 400,
+                color: "hsl(var(--muted-foreground))",
+              }}>I'm a</span>
+
+              <span className="block" style={{
                 fontFamily: "'DM Serif Display', serif",
                 fontSize: "clamp(32px, 8vw, 68px)",
                 fontStyle: "italic",
@@ -188,28 +174,41 @@ const Hero = () => {
                 transition: "opacity 0.35s ease, transform 0.35s ease",
               }}>{roles[roleIndex]}</span>
 
-              <p className="font-medium text-foreground mt-[4px]"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.5 }}>
+              <p style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "clamp(14px, 1.4vw, 17px)",
+                fontWeight: 500,
+                lineHeight: 1.5,
+                color: "hsl(var(--foreground))",
+                marginTop: 6,
+              }}>
                 Designing products people actually want to come back to.
               </p>
             </div>
 
-            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "16px 0" }} />
+            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 18px" }} />
 
-            <p className="text-muted-foreground mb-6 max-w-[520px]"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(13px, 1.2vw, 15px)", lineHeight: 1.75 }}>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "clamp(13px, 1.2vw, 15px)",
+              fontWeight: 400,
+              lineHeight: 1.75,
+              color: "hsl(var(--muted-foreground))",
+              maxWidth: 520,
+              marginBottom: 28,
+            }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <a href="#work"
-                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px]"
-                style={{ fontFamily: "'DM Sans', sans-serif", background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all hover:-translate-y-[1px]"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))", textDecoration: "none" }}>
                 View Work ↓
               </a>
               <a href="#contact"
-                className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
-                style={{ fontFamily: "'DM Sans', sans-serif", border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent" }}
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-200"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent", textDecoration: "none" }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "hsl(var(--foreground))"; el.style.color = "hsl(var(--primary-foreground))"; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; }}>
                 Let's Talk
@@ -218,29 +217,61 @@ const Hero = () => {
           </div>
 
           {/* RIGHT — orbit desktop only */}
-          <div className="hero-orbit-wrap hidden md:flex items-center justify-end py-8">
+          <div className="hidden md:flex items-center justify-end py-8">
             <OrbitCanvas />
           </div>
-
         </div>
       </div>
 
-      {/* Stats row */}
-      <div ref={statsRef}
-        className="hero-stats-row grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
-        {stats.map((s, i) => (
-          <div key={s.label} className={`
-            ${i === 1 ? "pl-6 border-l border-border" : ""}
-            ${i > 0 ? "md:pl-6 md:border-l md:border-border" : ""}
-            ${i < 3 ? "md:pr-6" : ""}
-          `}>
-            <div className="leading-none mb-1 font-normal text-foreground"
-              style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px, 3vw, 34px)" }}>
-              {s.value}<em className="not-italic" style={{ color: "#6366f1" }}>{s.suffix}</em>
+      {/* ── Stats row — Option A: editorial ruled ── */}
+      <div ref={statsRef} className="max-w-site mx-auto border-b border-border">
+        <div className="grid grid-cols-2 md:grid-cols-4">
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              style={{
+                padding: "24px 28px",
+                borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
+                borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
+              }}
+              className={`
+                ${i === 1 ? "md:border-b-0" : ""}
+                ${i < 3 ? "md:border-r" : "md:border-r-0"}
+              `}
+            >
+              {/* Number — DM Sans tabular, large */}
+              <div style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "clamp(28px, 3vw, 38px)",
+                fontWeight: 300,
+                fontVariantNumeric: "tabular-nums",
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                color: "hsl(var(--foreground))",
+                marginBottom: 8,
+              }}>
+                {s.value}
+                <em style={{
+                  fontFamily: "'DM Serif Display', serif",
+                  fontStyle: "italic",
+                  fontSize: "0.55em",
+                  color: "#6366f1",
+                  marginLeft: 2,
+                  letterSpacing: 0,
+                }}>{s.suffix}</em>
+              </div>
+              {/* Label */}
+              <div style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 11,
+                fontWeight: 400,
+                letterSpacing: "0.03em",
+                lineHeight: 1.5,
+                color: "hsl(var(--muted-foreground))",
+              }}>{s.label}</div>
             </div>
-            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, lineHeight: 1.5, color: "hsl(var(--muted-foreground))" }}>{s.label}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Scroll cue */}
