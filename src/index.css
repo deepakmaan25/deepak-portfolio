@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -95,26 +95,22 @@
 
     --role-color: #6366f1;
 
-    /* Hero specific */
     --hero-subtitle: 0 0% 20%;
     --hero-body: 0 0% 35%;
     --orbit-tag-bg: 255 255 255;
     --orbit-tag-border: 0 0% 88%;
     --orbit-tag-text: 0 0% 33%;
 
-    /* Case study cards */
     --filmstrip-card-lavender-bg: 260 100% 97%;
     --filmstrip-card-blue-bg: 213 100% 97%;
     --filmstrip-card-orange-bg: 24 100% 97%;
 
-    /* Footer */
     --footer-bg: 0 0% 6%;
     --footer-text: 0 0% 85%;
     --footer-muted: 0 0% 45%;
   }
 
   [data-theme="dark"] {
-    /* ── Page — warm dark, not pure black ── */
     --background: 230 12% 11%;
     --foreground: 220 14% 90%;
 
@@ -150,7 +146,6 @@
     --process-bg: 230 10% 15%;
     --quote-mark: 230 8% 22%;
 
-    /* ── Project cards — tinted, distinguishable ── */
     --card-lavender: 255 18% 20%;
     --card-blue: 220 18% 20%;
     --card-orange: 25 18% 20%;
@@ -166,7 +161,6 @@
     --glass-blob-2: rgba(99,180,255,0.12);
     --glass-blob-3: rgba(236,72,153,0.1);
 
-    /* ── Skills strip — slightly different from page ── */
     --skills-strip-bg: 230 12% 8%;
     --skills-strip-tag-bg: 230 10% 14%;
     --skills-strip-tag-border: 230 8% 20%;
@@ -174,7 +168,6 @@
     --skills-strip-label: 220 8% 40%;
     --skills-strip-divider: 230 8% 18%;
 
-    /* ── Dark embedded cards (About photo, footer) ── */
     --quote-block-bg: 230 10% 15%;
     --quote-block-text: 220 14% 90%;
     --currently-card-bg: 230 10% 15%;
@@ -185,19 +178,16 @@
 
     --role-color: #818cf8;
 
-    /* Hero specific — dark */
     --hero-subtitle: 220 14% 82%;
     --hero-body: 220 10% 65%;
     --orbit-tag-bg: 230 10% 18%;
     --orbit-tag-border: 230 8% 26%;
     --orbit-tag-text: 220 10% 68%;
 
-    /* Case study cards dark */
     --filmstrip-card-lavender-bg: 255 18% 20%;
     --filmstrip-card-blue-bg: 220 18% 20%;
     --filmstrip-card-orange-bg: 25 18% 20%;
 
-    /* Footer — slightly different from page in dark */
     --footer-bg: 230 14% 8%;
     --footer-text: 220 10% 70%;
     --footer-muted: 220 8% 42%;
@@ -211,7 +201,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.7;
@@ -229,7 +219,7 @@
   }
 
   .type-h1 {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: clamp(40px, 5vw, 72px);
     line-height: 1.1;
     font-weight: 700;
@@ -238,7 +228,7 @@
   }
 
   .type-h2 {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 36px;
     line-height: 1.2;
     font-weight: 700;
@@ -247,28 +237,28 @@
   }
 
   .type-h3 {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 20px;
     line-height: 1.4;
     font-weight: 600;
   }
 
   .type-body {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.7;
     font-weight: 400;
   }
 
   .type-body-lg {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 18px;
     line-height: 1.7;
     font-weight: 400;
   }
 
   .type-caption {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 13px;
     line-height: 1.5;
     font-weight: 500;
@@ -330,35 +320,28 @@
 
 /* ══════════════════════════════════════
    DARK MODE COMPONENT OVERRIDES
-   These fix hardcoded colors in components
 ══════════════════════════════════════ */
 
-/* ── Hero section ── */
 [data-theme="dark"] #hero-section {
   background: hsl(var(--background)) !important;
 }
 
-/* Hero label row */
 [data-theme="dark"] .hero-label-row {
   border-color: hsl(var(--border)) !important;
 }
 
-/* Hero subtitle "Designing products..." */
 [data-theme="dark"] .hero-subtitle {
   color: hsl(var(--foreground)) !important;
 }
 
-/* Hero body text */
 [data-theme="dark"] .hero-body {
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* Hero divider */
 [data-theme="dark"] .hero-divider {
   background: #818cf8 !important;
 }
 
-/* Orbit tags */
 [data-theme="dark"] .orbit-tag {
   background: hsl(230 10% 18%) !important;
   border-color: hsl(230 8% 26%) !important;
@@ -370,7 +353,6 @@
   border-color: #6366f1 !important;
 }
 
-/* Hero stats row */
 [data-theme="dark"] .hero-stats {
   border-color: hsl(var(--border)) !important;
 }
@@ -381,7 +363,6 @@
   color: hsl(var(--muted-foreground)) !important;
 }
 
-/* ── View Work button ── */
 [data-theme="dark"] .btn-primary {
   background: hsl(var(--foreground)) !important;
   color: hsl(var(--primary-foreground)) !important;
@@ -395,7 +376,6 @@
   color: hsl(var(--primary-foreground)) !important;
 }
 
-/* ── Case study filmstrip cards ── */
 [data-theme="dark"] .filmstrip-card-1 {
   background: linear-gradient(145deg, hsl(255 18% 20%), hsl(255 16% 17%)) !important;
 }
@@ -406,7 +386,6 @@
   background: linear-gradient(145deg, hsl(25 18% 20%), hsl(25 16% 17%)) !important;
 }
 
-/* ── Process panel ── */
 [data-theme="dark"] .process-panel {
   background: hsl(var(--card)) !important;
   border-color: hsl(var(--border)) !important;
@@ -444,7 +423,6 @@
   color: hsl(var(--foreground)) !important;
 }
 
-/* ── About bento ── */
 [data-theme="dark"] .bento-bio {
   background: hsl(var(--card)) !important;
   border-color: hsl(var(--border)) !important;
@@ -470,7 +448,6 @@
   color: hsl(150 40% 62%) !important;
 }
 
-/* ── Experience accordion ── */
 [data-theme="dark"] .exp-accordion-item {
   background: hsl(var(--card)) !important;
   border-color: hsl(var(--border)) !important;
@@ -479,29 +456,24 @@
   border-color: rgba(99,102,241,0.3) !important;
 }
 
-/* ── Footer ── */
 [data-theme="dark"] footer,
 [data-theme="dark"] .site-footer {
   background: hsl(var(--footer-bg, 230 14% 8%)) !important;
 }
 
-/* ── Card overrides ── */
 [data-theme="dark"] .bg-card-lavender { background-color: hsl(255 18% 20%) !important; }
 [data-theme="dark"] .bg-card-blue { background-color: hsl(220 18% 20%) !important; }
 [data-theme="dark"] .bg-card-orange { background-color: hsl(25 18% 20%) !important; }
 
-/* ── Marquee strip ── */
 [data-theme="dark"] .marquee-strip {
   background: hsl(var(--skills-strip-bg)) !important;
 }
 
-/* ── Navigation ── */
 [data-theme="dark"] header {
   background: hsl(230 12% 11% / 0.95) !important;
   border-color: hsl(var(--border)) !important;
 }
 
-/* ── Scrollbar in dark mode ── */
 [data-theme="dark"] {
   scrollbar-color: hsl(230 8% 24%) hsl(230 12% 11%);
 }
@@ -539,7 +511,6 @@ html {
    RESPONSIVE — Mobile & Tablet
 ══════════════════════════════════════ */
 
-/* ── Hero ── */
 @media (max-width: 768px) {
   .hero-grid {
     grid-template-columns: 1fr !important;
@@ -558,7 +529,6 @@ html {
   }
 }
 
-/* ── Case studies filmstrip ── */
 @media (max-width: 768px) {
   .filmstrip {
     flex-direction: column !important;
@@ -575,7 +545,6 @@ html {
   }
 }
 
-/* ── Process stepper ── */
 @media (max-width: 768px) {
   .process-stepper {
     flex-wrap: wrap !important;
@@ -589,14 +558,12 @@ html {
   }
 }
 
-/* ── About bento ── */
 @media (max-width: 768px) {
   .about-bento {
     grid-template-columns: 1fr !important;
   }
 }
 
-/* ── Experience accordion ── */
 @media (max-width: 768px) {
   .exp-header-row {
     flex-direction: column !important;
@@ -605,12 +572,6 @@ html {
   }
 }
 
-/* ══════════════════════════════════════
-   RESPONSIVE SYSTEM
-   Mobile: < 640px | Tablet: 640–1024px
-══════════════════════════════════════ */
-
-/* ── Hero ── */
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr !important;
@@ -643,14 +604,12 @@ html {
   }
 }
 
-/* ── About bento ── */
 @media (max-width: 768px) {
   .about-bento {
     grid-template-columns: 1fr !important;
   }
 }
 
-/* ── Process stepper ── */
 @media (max-width: 640px) {
   .process-stepper-wrap {
     gap: 4px !important;
@@ -668,7 +627,6 @@ html {
   }
 }
 
-/* ── Case study detail page ── */
 @media (max-width: 640px) {
   .cs-meta-row {
     flex-direction: column !important;
@@ -706,7 +664,6 @@ html {
   }
 }
 
-/* ── Footer ── */
 @media (max-width: 640px) {
   .footer-grid {
     flex-direction: column !important;
@@ -714,7 +671,6 @@ html {
   }
 }
 
-/* ── General spacing ── */
 @media (max-width: 640px) {
   .max-w-site {
     padding-left: 16px !important;
@@ -726,14 +682,12 @@ html {
   }
 }
 
-/* ── Touch targets ── */
 @media (max-width: 1024px) {
   a, button {
     min-height: 44px;
   }
 }
 
-/* ── Prevent horizontal scroll ── */
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
