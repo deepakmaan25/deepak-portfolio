@@ -30,6 +30,10 @@ const cardStyles = [
   },
 ];
 
+/* Typography constants */
+const FONT_SANS = "'DM Sans', sans-serif";
+const FONT_SERIF = "'DM Serif Display', serif";
+
 const CaseStudies = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const headerRef = useRef(null);
@@ -45,10 +49,36 @@ const CaseStudies = () => {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="mb-10"
       >
-        <p className="type-label text-muted-foreground mb-3">Selected Work</p>
-        <h2 className="font-normal text-foreground"
-          style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.1 }}>
-          Projects I'm <em style={{ fontStyle: "italic", color: "#6366f1" }}>proud of</em>
+        {/* Section label */}
+        <p style={{
+          fontFamily: FONT_SANS, fontSize: 11, fontWeight: 600,
+          letterSpacing: "0.15em", textTransform: "uppercase",
+          color: "hsl(var(--muted-foreground))", marginBottom: 12,
+        }}>
+          Selected Work
+        </p>
+
+        {/* Main heading — DM Sans bold, only accent word in serif italic */}
+        <h2 style={{ margin: 0, lineHeight: 1.15 }}>
+          <span style={{
+            fontFamily: FONT_SANS,
+            fontSize: "clamp(28px, 4vw, 44px)",
+            fontWeight: 700,
+            color: "hsl(var(--foreground))",
+            letterSpacing: "-0.02em",
+          }}>
+            Projects I'm{" "}
+          </span>
+          <em style={{
+            fontFamily: FONT_SERIF,
+            fontSize: "clamp(28px, 4vw, 44px)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            color: "#6366f1",
+            letterSpacing: "-0.01em",
+          }}>
+            proud of
+          </em>
         </h2>
       </motion.div>
 
@@ -58,13 +88,11 @@ const CaseStudies = () => {
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         className="hidden md:flex gap-2"
-        style={{ height: 380 }}
+        style={{ height: 400 }}
       >
         {caseStudies.map((cs, i) => {
           const style = cardStyles[i] ?? cardStyles[0];
           const isActive = activeIndex === i;
-
-          // Pull the first outcome for the hero metric display
           const heroOutcome = cs.outcomes?.[0];
 
           return (
@@ -85,7 +113,7 @@ const CaseStudies = () => {
               {/* Watermark number */}
               <span className="absolute pointer-events-none select-none"
                 style={{
-                  fontFamily: "'DM Serif Display', serif",
+                  fontFamily: FONT_SERIF,
                   fontSize: 130, fontStyle: "italic", fontWeight: 400,
                   lineHeight: 1, bottom: -16, right: -8,
                   color: style.watermark,
@@ -98,26 +126,49 @@ const CaseStudies = () => {
 
               {/* Top — tag + title + description */}
               <div className="flex flex-col" style={{ gap: 6 }}>
-                <p className="font-semibold overflow-hidden text-ellipsis whitespace-nowrap"
-                  style={{ fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag }}>
+                {/* Tag — DM Sans uppercase */}
+                <p style={{
+                  fontFamily: FONT_SANS,
+                  fontSize: 10, fontWeight: 600,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: style.tag, margin: 0,
+                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                }}>
                   {cs.tag}
                 </p>
-                <h3 className="font-normal"
-                  style={{
-                    fontFamily: "'DM Serif Display', serif",
-                    fontSize: isActive ? 23 : 17,
-                    lineHeight: 1.2, color: style.title,
+
+                {/* Card heading — DM Sans bold, serif italic only for subtitle accent */}
+                <h3 style={{ margin: 0, lineHeight: 1.25 }}>
+                  <span style={{
+                    fontFamily: FONT_SANS,
+                    fontSize: isActive ? 20 : 15,
+                    fontWeight: 700,
+                    color: style.title,
+                    letterSpacing: "-0.01em",
                     transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)",
                   }}>
-                  {cs.title}
+                    {cs.title}
+                    {cs.subtitle && <> — </>}
+                  </span>
                   {cs.subtitle && (
-                    <> — <em style={{ fontStyle: "italic", color: style.accent }}>{cs.subtitle}</em></>
+                    <em style={{
+                      fontFamily: FONT_SERIF,
+                      fontSize: isActive ? 20 : 15,
+                      fontStyle: "italic",
+                      fontWeight: 400,
+                      color: style.accent,
+                      transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)",
+                    }}>
+                      {cs.subtitle}
+                    </em>
                   )}
                 </h3>
 
-                {/* Description — show tagline on expand */}
+                {/* Description */}
                 <p style={{
+                  fontFamily: FONT_SANS,
                   fontSize: 13, lineHeight: 1.7, color: style.desc,
+                  margin: 0,
                   opacity: isActive ? 1 : 0,
                   maxHeight: isActive ? 80 : 0,
                   overflow: "hidden",
@@ -128,28 +179,39 @@ const CaseStudies = () => {
                 </p>
               </div>
 
-              {/* Bottom — hero metric + outcome pills + CTA */}
+              {/* Bottom — metric + pills + CTA */}
               <div className="relative flex flex-col" style={{ gap: 4, zIndex: 2 }}>
 
-                {/* Hero metric — first outcome */}
                 {heroOutcome && (
                   <>
-                    <div style={{
-                      fontFamily: "'DM Serif Display', serif",
-                      fontSize: 30, fontWeight: 400, lineHeight: 1, color: style.title,
-                    }}>
-                      {heroOutcome.value}
-                      <em style={{ fontStyle: "normal", color: style.accent, fontSize: 18 }}>
-                        {" "}{heroOutcome.label.split(" ")[0]}
+                    <div style={{ lineHeight: 1.1 }}>
+                      <span style={{
+                        fontFamily: FONT_SERIF,
+                        fontSize: 32, fontWeight: 400,
+                        color: style.title,
+                      }}>
+                        {heroOutcome.value}
+                      </span>
+                      <em style={{
+                        fontFamily: FONT_SANS,
+                        fontStyle: "normal", fontWeight: 600,
+                        color: style.accent, fontSize: 15,
+                        marginLeft: 4,
+                      }}>
+                        {heroOutcome.label.split(" ")[0]}
                       </em>
                     </div>
-                    <div style={{ fontSize: 11, color: style.lbl }}>
+                    <div style={{
+                      fontFamily: FONT_SANS,
+                      fontSize: 11, lineHeight: 1.4,
+                      color: style.lbl,
+                    }}>
                       {heroOutcome.label.split(" ").slice(1).join(" ")}
                     </div>
                   </>
                 )}
 
-                {/* Outcome pills — show on expand */}
+                {/* Pills */}
                 <div className="flex flex-wrap" style={{
                   gap: 5,
                   opacity: isActive ? 1 : 0,
@@ -160,6 +222,7 @@ const CaseStudies = () => {
                 }}>
                   {(cs.outcomes ?? []).slice(0, 3).map((o) => (
                     <span key={o.label} style={{
+                      fontFamily: FONT_SANS,
                       fontSize: 10, fontWeight: 600,
                       padding: "4px 10px", borderRadius: 100,
                       background: style.pillBg, color: style.pillColor,
@@ -173,7 +236,9 @@ const CaseStudies = () => {
 
                 {/* CTA */}
                 <div className="inline-flex items-center" style={{
-                  gap: 8, fontSize: 12, fontWeight: 600, color: style.accent,
+                  gap: 8,
+                  fontFamily: FONT_SANS,
+                  fontSize: 12, fontWeight: 600, color: style.accent,
                   opacity: isActive ? 1 : 0,
                   marginTop: isActive ? 12 : 0,
                   transition: "opacity 0.3s 0.25s, margin-top 0.3s",
@@ -228,7 +293,7 @@ const CaseStudies = () => {
             >
               <span className="absolute pointer-events-none select-none"
                 style={{
-                  fontFamily: "'DM Serif Display', serif",
+                  fontFamily: FONT_SERIF,
                   fontSize: 80, fontStyle: "italic",
                   bottom: -8, right: -4,
                   color: style.watermark, lineHeight: 1, opacity: 0.6,
@@ -237,34 +302,60 @@ const CaseStudies = () => {
               </span>
 
               <div className="relative z-10">
-                <p className="font-semibold mb-2"
-                  style={{ fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag }}>
+                <p style={{
+                  fontFamily: FONT_SANS,
+                  fontSize: 10, fontWeight: 600,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: style.tag, margin: "0 0 8px",
+                }}>
                   {cs.tag}
                 </p>
-                <h3 className="font-normal mb-2"
-                  style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, lineHeight: 1.2, color: style.title }}>
-                  {cs.title}
+
+                <h3 style={{ margin: "0 0 8px", lineHeight: 1.25 }}>
+                  <span style={{
+                    fontFamily: FONT_SANS,
+                    fontSize: 20, fontWeight: 700,
+                    color: style.title, letterSpacing: "-0.01em",
+                  }}>
+                    {cs.title}
+                    {cs.subtitle && <> — </>}
+                  </span>
                   {cs.subtitle && (
-                    <> — <em style={{ fontStyle: "italic", color: style.accent }}>{cs.subtitle}</em></>
+                    <em style={{
+                      fontFamily: FONT_SERIF,
+                      fontSize: 20, fontStyle: "italic", fontWeight: 400,
+                      color: style.accent,
+                    }}>
+                      {cs.subtitle}
+                    </em>
                   )}
                 </h3>
-                <p style={{ fontSize: 13, lineHeight: 1.7, color: style.desc, marginBottom: 16 }}>
+
+                <p style={{
+                  fontFamily: FONT_SANS,
+                  fontSize: 13, lineHeight: 1.75,
+                  color: style.desc, margin: "0 0 16px",
+                }}>
                   {cs.tagline}
                 </p>
 
                 {heroOutcome && (
                   <>
-                    <div style={{
-                      fontFamily: "'DM Serif Display', serif",
-                      fontSize: 26, fontWeight: 400, lineHeight: 1,
-                      color: style.title, marginBottom: 4,
-                    }}>
-                      {heroOutcome.value}
-                      <em style={{ fontStyle: "normal", color: style.accent, fontSize: 16 }}>
-                        {" "}{heroOutcome.label.split(" ")[0]}
+                    <div style={{ lineHeight: 1.1, marginBottom: 4 }}>
+                      <span style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, color: style.title }}>
+                        {heroOutcome.value}
+                      </span>
+                      <em style={{
+                        fontFamily: FONT_SANS, fontStyle: "normal",
+                        fontWeight: 600, color: style.accent, fontSize: 14, marginLeft: 4,
+                      }}>
+                        {heroOutcome.label.split(" ")[0]}
                       </em>
                     </div>
-                    <div style={{ fontSize: 11, color: style.lbl, marginBottom: 14 }}>
+                    <div style={{
+                      fontFamily: FONT_SANS, fontSize: 11, lineHeight: 1.5,
+                      color: style.lbl, marginBottom: 14,
+                    }}>
                       {heroOutcome.label.split(" ").slice(1).join(" ")}
                     </div>
                   </>
@@ -273,6 +364,7 @@ const CaseStudies = () => {
                 <div className="flex flex-wrap" style={{ gap: 5, marginBottom: 14 }}>
                   {(cs.outcomes ?? []).slice(0, 3).map((o) => (
                     <span key={o.label} style={{
+                      fontFamily: FONT_SANS,
                       fontSize: 10, fontWeight: 600,
                       padding: "4px 10px", borderRadius: 100,
                       background: style.pillBg, color: style.pillColor,
@@ -284,7 +376,7 @@ const CaseStudies = () => {
                 </div>
 
                 <div className="inline-flex items-center gap-2"
-                  style={{ fontSize: 12, fontWeight: 600, color: style.accent }}>
+                  style={{ fontFamily: FONT_SANS, fontSize: 12, fontWeight: 600, color: style.accent }}>
                   <span style={{
                     width: 22, height: 22, borderRadius: "50%",
                     border: `1.5px solid ${style.accent}`,
