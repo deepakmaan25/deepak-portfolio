@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
+const FONT_BODY = "'Aileron', sans-serif";
+const FONT_DISPLAY = "'Unbounded', sans-serif";
+
 const roles = ["UX Researcher", "Interaction Designer", "AI Workflow Builder", "Product Designer", "Systems Thinker"];
 
 const toolsConfig = [
@@ -40,8 +43,7 @@ const OrbitCanvas = () => {
   const anglesRef = useRef(toolsConfig.map(t => (t.angle * Math.PI) / 180));
   const rafRef = useRef<number>(0);
   const tagRefsRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const cx = 150;
-  const cy = 150;
+  const cx = 150; const cy = 150;
 
   useEffect(() => {
     const animate = () => {
@@ -62,51 +64,20 @@ const OrbitCanvas = () => {
   return (
     <div className="relative flex-shrink-0" style={{ width: 300, height: 300 }}>
       {[{ size: 136, opacity: 0.2 }, { size: 236, opacity: 0.2 }, { size: 298, opacity: 0.07 }].map((ring, i) => (
-        <div key={i} className="absolute rounded-full" style={{
-          width: ring.size, height: ring.size,
-          top: cy - ring.size / 2, left: cx - ring.size / 2,
-          border: `1px dashed rgba(99,102,241,${ring.opacity})`,
-          pointerEvents: "none",
-        }} />
+        <div key={i} className="absolute rounded-full" style={{ width: ring.size, height: ring.size, top: cy - ring.size / 2, left: cx - ring.size / 2, border: `1px dashed rgba(99,102,241,${ring.opacity})`, pointerEvents: "none" }} />
       ))}
-
-      {/* Center — photo */}
-      <div className="absolute rounded-full overflow-hidden" style={{
-        width: 76, height: 76, top: cy - 38, left: cx - 38,
-        boxShadow: "0 0 0 5px rgba(99,102,241,0.08), 0 6px 24px rgba(99,102,241,0.2)",
-        zIndex: 10,
-      }}>
-        <img
-          src="/deepak.png"
-          alt="Deepak Maan"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-        />
+      <div className="absolute rounded-full overflow-hidden" style={{ width: 76, height: 76, top: cy - 38, left: cx - 38, boxShadow: "0 0 0 5px rgba(99,102,241,0.08), 0 6px 24px rgba(99,102,241,0.2)", zIndex: 10 }}>
+        <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
       </div>
-
       {toolsConfig.map((t, i) => {
         const r = radii[t.ring];
         const a = (t.angle * Math.PI) / 180;
         return (
           <span key={t.label} ref={el => { tagRefsRef.current[i] = el; }}
-            className="orbit-tag absolute text-[10px] font-medium px-[10px] py-[4px] rounded-full whitespace-nowrap cursor-default"
-            style={{
-              left: cx + r * Math.cos(a), top: cy + r * Math.sin(a),
-              transform: "translate(-50%,-50%)",
-              fontFamily: "'DM Sans', sans-serif",
-              background: "hsl(var(--background))",
-              border: "1px solid hsl(var(--border))",
-              color: "hsl(var(--muted-foreground))",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.05)", zIndex: 5,
-              transition: "background 0.2s, color 0.2s, border-color 0.2s",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLSpanElement;
-              el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLSpanElement;
-              el.style.background = "hsl(var(--background))"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))";
-            }}
+            className="orbit-tag absolute rounded-full whitespace-nowrap cursor-default"
+            style={{ left: cx + r * Math.cos(a), top: cy + r * Math.sin(a), transform: "translate(-50%,-50%)", fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400, padding: "4px 10px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", color: "hsl(var(--muted-foreground))", boxShadow: "0 2px 6px rgba(0,0,0,0.05)", zIndex: 5, transition: "background 0.2s, color 0.2s, border-color 0.2s" }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "hsl(var(--background))"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
           >{t.label}</span>
         );
       })}
@@ -149,66 +120,47 @@ const Hero = () => {
   return (
     <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
 
-      {/* Hero grid — directly after nav, no label row */}
+      {/* Hero grid */}
       <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
           <div className="flex flex-col justify-center py-10 md:py-14 md:pr-8">
             <div className="mb-5">
-              <span className="block mb-[10px]" style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 13, fontWeight: 400,
-                color: "hsl(var(--muted-foreground))",
-              }}>I'm a</span>
+              <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
+              {/* Role — Unbounded italic colored */}
               <span className="block" style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: "clamp(32px, 8vw, 68px)",
-                fontStyle: "italic",
+                fontFamily: FONT_DISPLAY,
+                fontSize: "clamp(24px, 6vw, 52px)",
+                fontWeight: 700,
                 color: "var(--role-color, #6366f1)",
-                lineHeight: 1.05,
-                minHeight: 54,
+                lineHeight: 1.1,
+                minHeight: 48,
+                letterSpacing: "-0.03em",
                 opacity: roleVisible ? 1 : 0,
                 transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
                 transition: "opacity 0.35s ease, transform 0.35s ease",
               }}>{roles[roleIndex]}</span>
 
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "clamp(14px, 1.4vw, 17px)",
-                fontWeight: 500,
-                lineHeight: 1.5,
-                color: "hsl(var(--foreground))",
-                marginTop: 6,
-              }}>
+              <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(14px, 1.4vw, 16px)", fontWeight: 400, lineHeight: 1.6, color: "hsl(var(--foreground))", marginTop: 10 }}>
                 Designing products people actually want to come back to.
               </p>
             </div>
 
-            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 18px" }} />
+            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 20px" }} />
 
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "clamp(13px, 1.2vw, 15px)",
-              fontWeight: 400,
-              lineHeight: 1.75,
-              color: "hsl(var(--muted-foreground))",
-              maxWidth: 520,
-              marginBottom: 28,
-            }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: 520, marginBottom: 28 }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a href="#work"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all hover:-translate-y-[1px]"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))", textDecoration: "none" }}>
+              <a href="#work" className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all hover:-translate-y-[1px]"
+                style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))", textDecoration: "none" }}>
                 View Work ↓
               </a>
-              <a href="#contact"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-200"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent", textDecoration: "none" }}
+              <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-200"
+                style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent", textDecoration: "none" }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "hsl(var(--foreground))"; el.style.color = "hsl(var(--primary-foreground))"; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; }}>
                 Let's Talk
@@ -223,52 +175,20 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* ── Stats row — Option A: editorial ruled ── */}
+      {/* Stats row — editorial grid */}
       <div ref={statsRef} className="max-w-site mx-auto border-b border-border">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
-            <div
-              key={s.label}
-              style={{
-                padding: "24px 28px",
-                borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
-                borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
-              }}
-              className={`
-                ${i === 1 ? "md:border-b-0" : ""}
-                ${i < 3 ? "md:border-r" : "md:border-r-0"}
-              `}
-            >
-              {/* Number — DM Sans tabular, large */}
-              <div style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "clamp(28px, 3vw, 38px)",
-                fontWeight: 300,
-                fontVariantNumeric: "tabular-nums",
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
-                color: "hsl(var(--foreground))",
-                marginBottom: 8,
-              }}>
+            <div key={s.label} style={{
+              padding: "24px 28px",
+              borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
+              borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
+            }}>
+              <div style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.03em", lineHeight: 1, color: "hsl(var(--foreground))", marginBottom: 8 }}>
                 {s.value}
-                <em style={{
-                  fontFamily: "'DM Serif Display', serif",
-                  fontStyle: "italic",
-                  fontSize: "0.55em",
-                  color: "#6366f1",
-                  marginLeft: 2,
-                  letterSpacing: 0,
-                }}>{s.suffix}</em>
+                <span style={{ fontFamily: FONT_DISPLAY, fontSize: "0.55em", color: "#6366f1", marginLeft: 2 }}>{s.suffix}</span>
               </div>
-              {/* Label */}
-              <div style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 11,
-                fontWeight: 400,
-                letterSpacing: "0.03em",
-                lineHeight: 1.5,
-                color: "hsl(var(--muted-foreground))",
-              }}>{s.label}</div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 400, letterSpacing: "0.02em", lineHeight: 1.5, color: "hsl(var(--muted-foreground))" }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -277,7 +197,7 @@ const Hero = () => {
       {/* Scroll cue */}
       <div className="flex flex-col items-center gap-[5px] py-3 max-w-site mx-auto">
         <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Scroll to explore</span>
+        <span style={{ fontFamily: FONT_BODY, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Scroll to explore</span>
         <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
       </div>
 
