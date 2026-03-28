@@ -45,18 +45,22 @@ const Navigation = () => {
       }`}
     >
       <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "0 clamp(20px, 5vw, 60px)",
-        }}
+        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}
         className="flex items-center justify-between h-16"
       >
-        {/* Logo / Name */}
+        {/* Logo — DM Sans, not serif */}
         <Link
           to="/"
-          className="font-heading text-foreground hover:text-indigo-500 transition-colors"
-          style={{ fontSize: 20 }}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 17,
+            fontWeight: 600,
+            color: "hsl(var(--foreground))",
+            textDecoration: "none",
+            letterSpacing: "-0.01em",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
+          onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
         >
           Deepak Maan
         </Link>
@@ -67,7 +71,9 @@ const Navigation = () => {
             <a
               key={l.label}
               href={l.href}
-              className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
+              onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
             >
               {l.label}
             </a>
@@ -77,7 +83,18 @@ const Navigation = () => {
             href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-body text-sm font-medium px-4 py-2 rounded-full border border-border text-foreground hover:bg-secondary transition-colors"
+            className="inline-flex items-center gap-1.5"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13, fontWeight: 500,
+              padding: "7px 16px", borderRadius: 100,
+              border: "1px solid hsl(var(--border))",
+              color: "hsl(var(--foreground))",
+              textDecoration: "none",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--secondary))")}
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
             Resume
             <Download size={12} />
@@ -92,7 +109,7 @@ const Navigation = () => {
           </button>
         </nav>
 
-        {/* Mobile — theme + hamburger */}
+        {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
           <button
             onClick={toggleTheme}
@@ -101,7 +118,6 @@ const Navigation = () => {
           >
             {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
           </button>
-
           <button
             onClick={() => setMenuOpen((o) => !o)}
             className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground transition-colors"
@@ -120,7 +136,7 @@ const Navigation = () => {
               <a
                 key={l.label}
                 href={l.href}
-                className="font-body text-sm font-medium text-foreground hover:text-indigo-500 transition-colors py-1"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", textDecoration: "none" }}
                 onClick={() => setMenuOpen(false)}
               >
                 {l.label}
@@ -130,7 +146,7 @@ const Navigation = () => {
               href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-body text-sm font-medium text-indigo-500 hover:text-indigo-700 transition-colors py-1"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#6366f1", textDecoration: "none" }}
               onClick={() => setMenuOpen(false)}
             >
               Resume ↗
