@@ -1,8 +1,6 @@
 import { Linkedin, Mail } from "lucide-react";
-
 const Contact = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
   return (
     <footer id="contact" style={{ background: '#0C0C0F' }}>
       <div className="px-6 lg:px-8 max-w-site mx-auto pt-16 pb-10">
@@ -12,7 +10,7 @@ const Contact = () => {
             <p className="text-[14px] mb-4" style={{ color: '#666666' }}>Product Designer</p>
             <div className="flex items-center gap-4">
               <a
-                href="https://www.linkedin.com/in/deepakmaan25"
+                href="https://www.linkedin.com/in/deepakmaan/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -24,7 +22,7 @@ const Contact = () => {
                 <Linkedin size={20} />
               </a>
               <a
-                href="mailto:hello@deepakmaan.com"
+                href="mailto:dipumaan2002@gmail.com"
                 aria-label="Email"
                 className="transition-colors"
                 style={{ color: '#666666' }}
@@ -38,23 +36,21 @@ const Contact = () => {
           <div className="md:text-right">
             <p className="text-[18px] font-bold text-white mb-3">Have a project in mind?</p>
             <a
-              href="mailto:hello@deepakmaan.com"
+              href="mailto:dipumaan2002@gmail.com"
               className="text-[20px] underline-offset-4 hover:underline transition-colors block mb-2"
               style={{ color: '#818CF8' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#818CF8'}
             >
-              hello@deepakmaan.com
+              dipumaan2002@gmail.com
             </a>
             <p className="text-[13px]" style={{ color: '#666666' }}>Open to full-time & freelance</p>
           </div>
         </div>
       </div>
-
       <div className="px-6 lg:px-8 max-w-site mx-auto">
         <div style={{ borderTop: '1px solid #1A1A1A', margin: '0 0 20px' }} />
       </div>
-
       <div className="px-6 lg:px-8 max-w-site mx-auto pb-8 flex items-center justify-between">
         <span className="text-[12px]" style={{ color: '#444444' }}>
           Designed &amp; built by Deepak Maan · {new Date().getFullYear()}
@@ -72,5 +68,4 @@ const Contact = () => {
     </footer>
   );
 };
-
 export default Contact;
