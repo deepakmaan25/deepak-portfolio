@@ -17,20 +17,43 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="relative w-[52px] h-[28px] rounded-full transition-colors duration-250 flex-shrink-0"
-      style={{
-        background: dark ? '#6366F1' : '#E8E8E8',
-      }}
       aria-label="Toggle theme"
+      style={{
+        position: "relative",
+        width: 44,
+        height: 24,
+        borderRadius: 999,
+        border: "none",
+        cursor: "pointer",
+        flexShrink: 0,
+        display: "inline-flex",
+        alignItems: "center",
+        padding: 0,
+        background: dark ? "#6366F1" : "#E8E8E8",
+        transition: "background 0.25s",
+        verticalAlign: "middle",
+      }}
     >
       <div
-        className="absolute top-[2px] w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center transition-all duration-250"
         style={{
-          left: dark ? '26px' : '2px',
-          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          position: "absolute",
+          top: 2,
+          left: dark ? 22 : 2,
+          width: 20,
+          height: 20,
+          borderRadius: "50%",
+          background: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "left 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          flexShrink: 0,
         }}
       >
-        {dark ? <Moon size={14} className="text-white" style={{ color: '#6366F1' }} /> : <Sun size={14} style={{ color: '#F59E0B' }} />}
+        {dark
+          ? <Moon size={11} style={{ color: "#6366F1", flexShrink: 0 }} />
+          : <Sun  size={11} style={{ color: "#F59E0B", flexShrink: 0 }} />
+        }
       </div>
     </button>
   );
