@@ -726,7 +726,7 @@ export default function CaseStudyDetail() {
         paddingTop: 64,
       }}
     >
-      {/* ── Breadcrumb ── */}
+      {/* ── Breadcrumb — sticks right under the fixed 64px nav ── */}
       <div
         style={{
           position: "sticky",
@@ -734,7 +734,7 @@ export default function CaseStudyDetail() {
           zIndex: 40,
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
-          background: "hsl(var(--background) / 0.95)",
+          background: "hsl(var(--background))",
           borderBottom: "1px solid hsl(var(--border))",
         }}
       >
@@ -785,15 +785,15 @@ export default function CaseStudyDetail() {
 
       {/* ── Hero ── */}
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <div
           style={{
             ...innerStyle,
-            paddingTop: "clamp(28px,5vw,88px)",
-            paddingBottom: "clamp(24px,4vw,56px)",
+            paddingTop: "clamp(20px,4vw,72px)",
+            paddingBottom: "clamp(20px,3vw,48px)",
           }}
         >
           <div
