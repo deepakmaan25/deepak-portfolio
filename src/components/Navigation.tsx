@@ -1,236 +1,144 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import ThemeToggle from "./ThemeToggle";
+import { Sun, Moon, Menu, X, Download } from "lucide-react";
 
-const sections = ["work", "process", "about", "contact"];
+const navLinks = [
+  { label: "Work", href: "/#work" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "mailto:dipumaan2002@gmail.com" },
+];
 
 const Navigation = () => {
-  const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("theme") as "light" | "dark") || "light";
+    }
+    return "light";
+  });
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const isHome = location.pathname === "/";
-  const isWork = location.pathname.startsWith("/case-study");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (!isHome) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        }
-      },
-      { rootMargin: "-15% 0px -70% 0px" }
-    );
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, [isHome]);
+    setMenuOpen(false);
+  }, [location]);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
-
-  const navLinks = [
-    { label: "Work",    href: isHome ? "#work"    : "/#work",    sectionId: "work" },
-    { label: "Process", href: isHome ? "#process" : "/#process", sectionId: "process" },
-    { label: "About",   href: isHome ? "#about"   : "/#about",   sectionId: "about" },
-    { label: "Contact", href: isHome ? "#contact" : "/#contact", sectionId: "contact" },
-  ];
-
-  const LinkOrAnchor = ({
-    href, children, className, onClick,
-  }: {
-    href: string; children: React.ReactNode; className?: string; onClick?: () => void;
-  }) => {
-    if (href.startsWith("#")) {
-      return <a href={href} className={className} onClick={onClick}>{children}</a>;
-    }
-    return <Link to={href} className={className} onClick={onClick}>{children}</Link>;
-  };
+  const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
   return (
-    <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-border"
-            : "bg-background/90 backdrop-blur-sm border-b border-border/40"
-        }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border"
+          : "bg-transparent"
+      }`}
+    >
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "0 clamp(20px, 5vw, 60px)",
+        }}
+        className="flex items-center justify-between h-16"
       >
-        <nav className="max-w-site mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo / Name */}
+        <Link
+          to="/"
+          className="font-heading text-foreground hover:text-indigo-500 transition-colors"
+          style={{ fontSize: 20 }}
+        >
+          Deepak Maan
+        </Link>
 
-          {/* Logo */}
-          <Link
-            to="/"
-            className="text-[15px] font-semibold text-foreground hover:opacity-70 transition-opacity flex-shrink-0"
-          >
-            Deepak Maan
-          </Link>
-
-          {/* Desktop nav links */}
-          <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => {
-              const isActive = isWork
-                ? link.sectionId === "work"
-                : activeSection === link.sectionId;
-              return (
-                <li key={link.label}>
-                  <LinkOrAnchor
-                    href={link.href}
-                    className={`text-[14px] transition-colors duration-200 ${
-                      isActive
-                        ? "text-foreground font-semibold"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {link.label}
-                  </LinkOrAnchor>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* Desktop right side */}
-          <div className="hidden md:flex items-center gap-3">
-            <ThemeToggle />
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((l) => (
             <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-5 py-2 bg-foreground text-primary-foreground text-[13px] font-medium rounded-full hover:opacity-85 transition-opacity"
+              key={l.label}
+              href={l.href}
+              className="font-body text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Resume
+              {l.label}
             </a>
-          </div>
+          ))}
 
-          {/* Mobile right side — ThemeToggle constrained, hamburger fixed size */}
-          <div
-            className="md:hidden flex items-center gap-2"
-            style={{ flexShrink: 0 }}
+          <a
+            href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-body text-sm font-medium px-4 py-2 rounded-full border border-border text-foreground hover:bg-secondary transition-colors"
           >
-            <ThemeToggle />
+            Resume
+            <Download size={12} />
+          </a>
 
-            {/* Hamburger — fixed 36×36 */}
-            <button
-              style={{
-                width: 36,
-                height: 36,
-                flexShrink: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 5,
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                position: "relative",
-                zIndex: 60,
-              }}
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
-              <span
-                style={{
-                  display: "block",
-                  height: 1.5,
-                  width: 20,
-                  borderRadius: 2,
-                  background: "hsl(var(--foreground))",
-                  transformOrigin: "center",
-                  transition: "transform 0.3s, opacity 0.3s",
-                  transform: menuOpen ? "rotate(45deg) translateY(6.5px)" : "none",
-                }}
-              />
-              <span
-                style={{
-                  display: "block",
-                  height: 1.5,
-                  width: 20,
-                  borderRadius: 2,
-                  background: "hsl(var(--foreground))",
-                  transition: "opacity 0.3s, transform 0.3s",
-                  opacity: menuOpen ? 0 : 1,
-                  transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
-                }}
-              />
-              <span
-                style={{
-                  display: "block",
-                  height: 1.5,
-                  width: 20,
-                  borderRadius: 2,
-                  background: "hsl(var(--foreground))",
-                  transformOrigin: "center",
-                  transition: "transform 0.3s, opacity 0.3s",
-                  transform: menuOpen ? "rotate(-45deg) translateY(-6.5px)" : "none",
-                }}
-              />
-            </button>
-          </div>
-
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+          </button>
         </nav>
-      </header>
 
-      {/* Mobile full-screen menu overlay */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[55] flex flex-col items-center justify-center gap-8"
-            style={{ background: "rgba(10,10,14,0.97)" }}
+        {/* Mobile — theme + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Toggle theme"
           >
-            {navLinks.map((link, i) => (
-              <motion.div
-                key={link.label}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <LinkOrAnchor
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-3xl font-bold text-white hover:text-white/60 transition-colors"
-                >
-                  {link.label}
-                </LinkOrAnchor>
-              </motion.div>
-            ))}
+            {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+          </button>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: navLinks.length * 0.05 }}
-            >
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={14} /> : <Menu size={14} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-background border-b border-border">
+          <nav className="flex flex-col px-6 py-4 gap-4">
+            {navLinks.map((l) => (
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-3xl font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
+                key={l.label}
+                href={l.href}
+                className="font-body text-sm font-medium text-foreground hover:text-indigo-500 transition-colors py-1"
                 onClick={() => setMenuOpen(false)}
               >
-                Resume
+                {l.label}
               </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            ))}
+            <a
+              href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-sm font-medium text-indigo-500 hover:text-indigo-700 transition-colors py-1"
+              onClick={() => setMenuOpen(false)}
+            >
+              Resume ↗
+            </a>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 };
 
