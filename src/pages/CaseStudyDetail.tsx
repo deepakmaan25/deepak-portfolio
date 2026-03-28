@@ -792,8 +792,8 @@ export default function CaseStudyDetail() {
         <div
           style={{
             ...innerStyle,
-            paddingTop: "clamp(48px,7vw,88px)",
-            paddingBottom: "clamp(36px,5vw,56px)",
+            paddingTop: "clamp(28px,5vw,88px)",
+            paddingBottom: "clamp(24px,4vw,56px)",
           }}
         >
           <div
