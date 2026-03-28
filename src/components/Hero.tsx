@@ -216,8 +216,8 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* RIGHT — orbit */}
-          <div className="flex items-center justify-center md:justify-end py-8 border-t border-border md:border-t-0">
+          {/* RIGHT — orbit: hidden on mobile, visible md+ only */}
+          <div className="hidden md:flex items-center justify-end py-8">
             <OrbitCanvas />
           </div>
 
