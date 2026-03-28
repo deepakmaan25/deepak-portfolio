@@ -138,16 +138,12 @@ const Hero = () => {
 
   const stats = [
     { value: s1, suffix: "+", label: "Projects shipped" },
-    { value: s2, suffix: "%", label: "Avg. improvement" },
-    { value: s3, suffix: "/5", label: "Usability score" },
+    { value: s2, suffix: "%", label: "Avg. usability gain" },
+    { value: s3, suffix: "/5", label: "Avg. user rating" },
     { value: s4, suffix: "+", label: "Research methods" },
   ];
 
   return (
-    /*
-      pt-16 = 64px to clear the fixed nav (h-16).
-      No extra margin needed — nav is always 64px on all screen sizes.
-    */
     <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
 
       {/* Accent bar */}
@@ -167,11 +163,7 @@ const Hero = () => {
         <span className="text-[12px] text-muted-foreground hidden sm:block">India · Open to remote</span>
       </div>
 
-      {/*
-        Hero grid:
-        - Mobile (< md): single column, content on top, orbit below with top border
-        - Desktop (≥ md): two columns side by side
-      */}
+      {/* Hero grid */}
       <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
@@ -190,17 +182,20 @@ const Hero = () => {
                 transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
                 transition: "opacity 0.35s ease, transform 0.35s ease",
               }}>{roles[roleIndex]}</span>
+
+              {/* ── UPDATED subheadline ── */}
               <p className="font-medium text-foreground mt-[4px]"
                 style={{ fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.35 }}>
-                Designing products people actually finish using.
+                Designing products people actually want to come back to.
               </p>
             </div>
 
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "16px 0" }} />
 
+            {/* ── UPDATED body copy ── */}
             <p className="text-muted-foreground leading-[1.7] mb-6 max-w-[520px]"
               style={{ fontSize: "clamp(13px, 1.2vw, 14px)" }}>
-              UX research, interaction design, and AI-powered workflows — turning complex problems into intuitive experiences backed by real user insight.
+              I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -209,17 +204,19 @@ const Hero = () => {
                 style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
                 View Work ↓
               </a>
+
+              {/* ── UPDATED CTA label ── */}
               <a href="#contact"
                 className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
                 style={{ border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent" }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "hsl(var(--foreground))"; el.style.color = "hsl(var(--primary-foreground))"; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; }}>
-                Get in Touch
+                Let's Talk
               </a>
             </div>
           </div>
 
-          {/* RIGHT — orbit. Border top only on mobile (when stacked) */}
+          {/* RIGHT — orbit */}
           <div className="flex items-center justify-center md:justify-end py-8 border-t border-border md:border-t-0">
             <OrbitCanvas />
           </div>
@@ -227,7 +224,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Stats row */}
+      {/* Stats row — updated labels */}
       <div ref={statsRef}
         className="grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
         {stats.map((s, i) => (
@@ -251,6 +248,7 @@ const Hero = () => {
         <span className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/50">Scroll to explore</span>
         <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
       </div>
+
     </section>
   );
 };
