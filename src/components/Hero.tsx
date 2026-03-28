@@ -72,7 +72,7 @@ const OrbitCanvas = () => {
         }} />
       ))}
 
-      {/* Center — photo instead of DM initials */}
+      {/* Center — photo */}
       <div className="absolute rounded-full overflow-hidden" style={{
         width: 76, height: 76, top: cy - 38, left: cx - 38,
         boxShadow: "0 0 0 5px rgba(99,102,241,0.08), 0 6px 24px rgba(99,102,241,0.2)",
@@ -154,11 +154,8 @@ const Hero = () => {
   return (
     <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
 
-      {/* Accent bar */}
-      <div style={{ height: 3, background: "linear-gradient(90deg,#6366f1,#818cf8)", width: "100%" }} />
-
       {/* Label row */}
-      <div className="flex flex-wrap items-center justify-between px-6 lg:px-8 max-w-site mx-auto py-4 border-b border-border gap-2">
+      <div className="hero-label-row flex flex-wrap items-center justify-between px-6 lg:px-8 max-w-site mx-auto py-4 border-b border-border gap-2">
         <span className="type-label text-muted-foreground">Product Designer</span>
         <div className="flex items-center gap-2 text-[11px] font-medium px-3 py-1 rounded-full"
           style={{ background: "#DCFCE7", color: "#166534", border: "1px solid #BBF7D0" }}>
@@ -172,10 +169,10 @@ const Hero = () => {
       </div>
 
       {/* Hero grid */}
-      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
+      <div className="hero-grid max-w-site mx-auto px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
-          {/* LEFT — text content */}
+          {/* LEFT */}
           <div className="flex flex-col justify-center py-8 md:py-10 md:pr-8">
             <div className="mb-4">
               <span className="block text-[13px] text-muted-foreground font-normal mb-[10px]">I'm a</span>
@@ -192,28 +189,27 @@ const Hero = () => {
               }}>{roles[roleIndex]}</span>
 
               <p className="font-medium text-foreground mt-[4px]"
-                style={{ fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.35 }}>
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(13px, 1.4vw, 17px)", lineHeight: 1.5 }}>
                 Designing products people actually want to come back to.
               </p>
             </div>
 
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "16px 0" }} />
 
-            <p className="text-muted-foreground leading-[1.7] mb-6 max-w-[520px]"
-              style={{ fontSize: "clamp(13px, 1.2vw, 14px)" }}>
+            <p className="text-muted-foreground mb-6 max-w-[520px]"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(13px, 1.2vw, 15px)", lineHeight: 1.75 }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <a href="#work"
                 className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all hover:-translate-y-[1px]"
-                style={{ background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
+                style={{ fontFamily: "'DM Sans', sans-serif", background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))" }}>
                 View Work ↓
               </a>
-
               <a href="#contact"
                 className="inline-flex items-center justify-center px-6 py-3 text-[13px] font-medium rounded-full transition-all duration-200"
-                style={{ border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", border: "1.5px solid hsl(var(--border))", color: "hsl(var(--foreground))", background: "transparent" }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "hsl(var(--foreground))"; el.style.color = "hsl(var(--primary-foreground))"; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; }}>
                 Let's Talk
@@ -221,8 +217,8 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* RIGHT — orbit: hidden on mobile, visible md+ only */}
-          <div className="hidden md:flex items-center justify-end py-8">
+          {/* RIGHT — orbit desktop only */}
+          <div className="hero-orbit-wrap hidden md:flex items-center justify-end py-8">
             <OrbitCanvas />
           </div>
 
@@ -231,7 +227,7 @@ const Hero = () => {
 
       {/* Stats row */}
       <div ref={statsRef}
-        className="grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
+        className="hero-stats-row grid grid-cols-2 md:grid-cols-4 max-w-site mx-auto px-6 lg:px-8 py-5 border-b border-border gap-y-4">
         {stats.map((s, i) => (
           <div key={s.label} className={`
             ${i === 1 ? "pl-6 border-l border-border" : ""}
@@ -242,7 +238,7 @@ const Hero = () => {
               style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(26px, 3vw, 34px)" }}>
               {s.value}<em className="not-italic" style={{ color: "#6366f1" }}>{s.suffix}</em>
             </div>
-            <div className="text-[11px] text-muted-foreground">{s.label}</div>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, lineHeight: 1.5, color: "hsl(var(--muted-foreground))" }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -250,7 +246,7 @@ const Hero = () => {
       {/* Scroll cue */}
       <div className="flex flex-col items-center gap-[5px] py-3 max-w-site mx-auto">
         <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
-        <span className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/50">Scroll to explore</span>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Scroll to explore</span>
         <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
       </div>
 
