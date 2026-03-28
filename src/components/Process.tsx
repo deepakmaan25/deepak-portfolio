@@ -1,63 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const FONT_SANS = "'DM Sans', sans-serif";
-const FONT_SERIF = "'DM Serif Display', serif";
+const FONT_BODY = "'Aileron', sans-serif";
+const FONT_DISPLAY = "'Unbounded', sans-serif";
 
 const steps = [
-  {
-    tag: "Step 01 — Discover",
-    title: "Discover &",
-    titleEm: "Listen",
-    desc: "User interviews, competitive audits, and stakeholder workshops — using AI to synthesize patterns from raw transcripts 3× faster than manual analysis.",
-    pills: ["User Interviews", "AI Synthesis", "Competitive Audit"],
-  },
-  {
-    tag: "Step 02 — Define",
-    title: "Define the Real",
-    titleEm: "Problem",
-    desc: "Affinity mapping and JTBD frameworks reframe vague briefs into precise, testable problem statements — validated with stakeholders before a single wireframe.",
-    pills: ["HMW Statements", "Journey Maps", "JTBD"],
-  },
-  {
-    tag: "Step 03 — Design",
-    title: "Design with",
-    titleEm: "Intention",
-    desc: "From rough sketches to high-fidelity Figma prototypes — every decision traceable to a research insight. Component-driven systems for scalable delivery.",
-    pills: ["Figma Systems", "AI Ideation", "Prototyping"],
-  },
-  {
-    tag: "Step 04 — Deliver",
-    title: "Deliver &",
-    titleEm: "Measure",
-    desc: "Design doesn't end at handoff. Usability testing, developer specs, and post-launch metrics close the feedback loop and quantify real impact.",
-    pills: ["Usability Testing", "Impact Metrics", "Maze"],
-  },
+  { tag: "Step 01 — Discover", title: "Discover &", titleEm: "Listen", desc: "User interviews, competitive audits, and stakeholder workshops — using AI to synthesize patterns from raw transcripts 3× faster than manual analysis.", pills: ["User Interviews", "AI Synthesis", "Competitive Audit"] },
+  { tag: "Step 02 — Define", title: "Define the Real", titleEm: "Problem", desc: "Affinity mapping and JTBD frameworks reframe vague briefs into precise, testable problem statements — validated with stakeholders before a single wireframe.", pills: ["HMW Statements", "Journey Maps", "JTBD"] },
+  { tag: "Step 03 — Design", title: "Design with", titleEm: "Intention", desc: "From rough sketches to high-fidelity Figma prototypes — every decision traceable to a research insight. Component-driven systems for scalable delivery.", pills: ["Figma Systems", "AI Ideation", "Prototyping"] },
+  { tag: "Step 04 — Deliver", title: "Deliver &", titleEm: "Measure", desc: "Design doesn't end at handoff. Usability testing, developer specs, and post-launch metrics close the feedback loop and quantify real impact.", pills: ["Usability Testing", "Impact Metrics", "Maze"] },
 ];
 
 const DiscoverIllus = () => (
   <div className="flex flex-col gap-3 w-full">
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
-      style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)", fontFamily: FONT_SANS }}>
-      "How do you currently track your spending?"
-    </div>
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-end max-w-[200px]"
-      style={{ background: "hsl(var(--muted))", color: "hsl(var(--foreground))", border: "1px solid hsl(var(--border))", fontFamily: FONT_SANS }}>
-      AI Pattern: 9/14 users mention anxiety around budgets
-    </div>
-    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]"
-      style={{ background: "rgba(234,88,12,0.08)", color: "#fb923c", border: "1px solid rgba(234,88,12,0.2)", fontFamily: FONT_SANS }}>
-      "I just avoid looking at it honestly..."
-    </div>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]" style={{ fontFamily: FONT_BODY, background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)" }}>"How do you currently track your spending?"</div>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-end max-w-[200px]" style={{ fontFamily: FONT_BODY, background: "hsl(var(--muted))", color: "hsl(var(--foreground))", border: "1px solid hsl(var(--border))" }}>AI Pattern: 9/14 users mention anxiety around budgets</div>
+    <div className="rounded-xl px-4 py-3 text-[11px] leading-relaxed self-start max-w-[200px]" style={{ fontFamily: FONT_BODY, background: "rgba(234,88,12,0.08)", color: "#fb923c", border: "1px solid rgba(234,88,12,0.2)" }}>"I just avoid looking at it honestly..."</div>
     <div className="flex gap-2 mt-1">
-      {[
-        { label: "F", bg: "rgba(99,102,241,0.15)", color: "#818cf8" },
-        { label: "T", bg: "rgba(37,99,235,0.15)", color: "#60a5fa" },
-        { label: "A", bg: "rgba(234,88,12,0.12)", color: "#fb923c" },
-        { label: "+6", bg: "hsl(var(--muted))", color: "hsl(var(--muted-foreground))" },
-      ].map((d) => (
-        <div key={d.label} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 600, background: d.bg, color: d.color }}>{d.label}</div>
+      {[{ label: "F", bg: "rgba(99,102,241,0.15)", color: "#818cf8" }, { label: "T", bg: "rgba(37,99,235,0.15)", color: "#60a5fa" }, { label: "A", bg: "rgba(234,88,12,0.12)", color: "#fb923c" }, { label: "+6", bg: "hsl(var(--muted))", color: "hsl(var(--muted-foreground))" }].map((d) => (
+        <div key={d.label} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, background: d.bg, color: d.color }}>{d.label}</div>
       ))}
     </div>
   </div>
@@ -66,30 +27,18 @@ const DiscoverIllus = () => (
 const DefineIllus = () => (
   <div className="flex flex-col gap-3 w-full">
     <div className="grid grid-cols-3 gap-1.5">
-      {[
-        { label: "Fear", cards: [{ text: "Loss anxiety", type: "purple" }, { text: "Avoidance", type: "muted" }] },
-        { label: "Trust", cards: [{ text: "Social proof", type: "blue" }, { text: "Transparency", type: "muted" }] },
-        { label: "Wins", cards: [{ text: "Milestones", type: "orange" }, { text: "Progress", type: "muted" }] },
-      ].map((group) => (
+      {[{ label: "Fear", cards: [{ text: "Loss anxiety", type: "purple" }, { text: "Avoidance", type: "muted" }] }, { label: "Trust", cards: [{ text: "Social proof", type: "blue" }, { text: "Transparency", type: "muted" }] }, { label: "Wins", cards: [{ text: "Milestones", type: "orange" }, { text: "Progress", type: "muted" }] }].map((group) => (
         <div key={group.label} className="flex flex-col gap-1">
-          <div className="text-[9px] uppercase tracking-wider text-center mb-0.5"
-            style={{ fontFamily: FONT_SANS, fontWeight: 600, color: "hsl(var(--muted-foreground))" }}>{group.label}</div>
+          <div className="text-[9px] uppercase tracking-wider text-center mb-0.5" style={{ fontFamily: FONT_BODY, fontWeight: 600, color: "hsl(var(--muted-foreground))" }}>{group.label}</div>
           {group.cards.map((card) => (
-            <div key={card.text} className="rounded-md px-2 py-1.5 text-[10px] text-center leading-tight"
-              style={{
-                fontFamily: FONT_SANS, fontWeight: 500,
-                background: card.type === "purple" ? "rgba(99,102,241,0.12)" : card.type === "blue" ? "rgba(37,99,235,0.12)" : card.type === "orange" ? "rgba(234,88,12,0.1)" : "hsl(var(--muted))",
-                color: card.type === "purple" ? "#818cf8" : card.type === "blue" ? "#60a5fa" : card.type === "orange" ? "#fb923c" : "hsl(var(--muted-foreground))",
-                border: `1px solid ${card.type === "purple" ? "rgba(99,102,241,0.2)" : card.type === "blue" ? "rgba(37,99,235,0.2)" : card.type === "orange" ? "rgba(234,88,12,0.2)" : "hsl(var(--border))"}`,
-              }}>{card.text}</div>
+            <div key={card.text} className="rounded-md px-2 py-1.5 text-[10px] text-center leading-tight" style={{ fontFamily: FONT_BODY, fontWeight: 500, background: card.type === "purple" ? "rgba(99,102,241,0.12)" : card.type === "blue" ? "rgba(37,99,235,0.12)" : card.type === "orange" ? "rgba(234,88,12,0.1)" : "hsl(var(--muted))", color: card.type === "purple" ? "#818cf8" : card.type === "blue" ? "#60a5fa" : card.type === "orange" ? "#fb923c" : "hsl(var(--muted-foreground))", border: `1px solid ${card.type === "purple" ? "rgba(99,102,241,0.2)" : card.type === "blue" ? "rgba(37,99,235,0.2)" : card.type === "orange" ? "rgba(234,88,12,0.2)" : "hsl(var(--border))"}` }}>{card.text}</div>
           ))}
         </div>
       ))}
     </div>
-    <div className="rounded-lg px-3 py-2.5 flex items-center gap-2"
-      style={{ background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}>
-      <span style={{ fontFamily: FONT_SANS, fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>HMW</span>
-      <span style={{ fontFamily: FONT_SANS, fontSize: 10, fontStyle: "italic", color: "hsl(var(--foreground))" }}>"...make investing feel safe for first-timers?"</span>
+    <div className="rounded-lg px-3 py-2.5 flex items-center gap-2" style={{ background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}>
+      <span style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>HMW</span>
+      <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontStyle: "italic", color: "hsl(var(--foreground))" }}>"...make investing feel safe for first-timers?"</span>
     </div>
   </div>
 );
@@ -97,33 +46,26 @@ const DefineIllus = () => (
 const DesignIllus = () => (
   <div className="flex flex-col gap-2 w-full">
     <div className="flex items-center gap-1.5 mb-1">
-      <div className="w-2 h-2 rounded-full bg-red-400" />
-      <div className="w-2 h-2 rounded-full bg-yellow-400" />
-      <div className="w-2 h-2 rounded-full bg-green-400" />
-      <span style={{ fontFamily: FONT_SANS, fontSize: 10, fontWeight: 400, marginLeft: 4, color: "hsl(var(--muted-foreground))" }}>Figma — Onboarding v3</span>
+      <div className="w-2 h-2 rounded-full bg-red-400" /><div className="w-2 h-2 rounded-full bg-yellow-400" /><div className="w-2 h-2 rounded-full bg-green-400" />
+      <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400, marginLeft: 4, color: "hsl(var(--muted-foreground))" }}>Figma — Onboarding v3</span>
     </div>
     <div className="rounded-xl overflow-hidden" style={{ border: "1px solid hsl(var(--border))" }}>
-      <div className="flex items-center gap-1.5 px-3 py-2"
-        style={{ background: "hsl(var(--muted))", borderBottom: "1px solid hsl(var(--border))" }}>
-        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+      <div className="flex items-center gap-1.5 px-3 py-2" style={{ background: "hsl(var(--muted))", borderBottom: "1px solid hsl(var(--border))" }}>
+        <div className="w-1.5 h-1.5 rounded-full bg-red-400" /><div className="w-1.5 h-1.5 rounded-full bg-yellow-400" /><div className="w-1.5 h-1.5 rounded-full bg-green-400" />
       </div>
       <div className="p-3 flex flex-col gap-1.5" style={{ background: "hsl(var(--card))" }}>
         <div className="h-1.5 rounded-full w-[55%]" style={{ background: "rgba(99,102,241,0.4)" }} />
         <div className="h-1.5 rounded-full w-full" style={{ background: "hsl(var(--border))" }} />
         <div className="h-1.5 rounded-full w-[35%]" style={{ background: "hsl(var(--muted))" }} />
         <div className="flex gap-2 mt-1">
-          <div className="px-3 py-1 rounded text-[9px] font-semibold text-white" style={{ fontFamily: FONT_SANS, background: "#6366f1" }}>Continue</div>
-          <div className="px-3 py-1 rounded text-[9px]"
-            style={{ fontFamily: FONT_SANS, border: "1px solid hsl(var(--border))", color: "hsl(var(--muted-foreground))" }}>Skip</div>
+          <div className="px-3 py-1 rounded text-[9px] font-semibold text-white" style={{ fontFamily: FONT_BODY, background: "#6366f1" }}>Continue</div>
+          <div className="px-3 py-1 rounded text-[9px]" style={{ fontFamily: FONT_BODY, border: "1px solid hsl(var(--border))", color: "hsl(var(--muted-foreground))" }}>Skip</div>
         </div>
       </div>
     </div>
     <div className="grid grid-cols-2 gap-1.5">
       {[0, 1].map((i) => (
-        <div key={i} className="rounded-lg p-2 flex flex-col gap-1"
-          style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
+        <div key={i} className="rounded-lg p-2 flex flex-col gap-1" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
           <div className="h-1 rounded-full" style={{ width: i === 0 ? "70%" : "80%", background: "rgba(99,102,241,0.35)" }} />
           <div className="h-1 rounded-full w-1/2" style={{ background: "hsl(var(--border))" }} />
         </div>
@@ -136,33 +78,27 @@ const DeliverIllus = () => (
   <div className="flex flex-col gap-2.5 w-full">
     <div className="grid grid-cols-2 gap-2">
       {[{ val: "38", suf: "%", lbl: "Completion" }, { val: "4.6", suf: "/5", lbl: "Usability" }].map((m) => (
-        <div key={m.lbl} className="rounded-xl p-3"
-          style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
-          <div className="leading-none mb-1" style={{ fontFamily: FONT_SANS, fontSize: 22, fontWeight: 300, fontVariantNumeric: "tabular-nums", color: "hsl(var(--foreground))" }}>
-            {m.val}<em style={{ fontFamily: FONT_SERIF, fontStyle: "italic", color: "#6366f1", fontSize: 14 }}>{m.suf}</em>
+        <div key={m.lbl} className="rounded-xl p-3" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
+          <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 4, color: "hsl(var(--foreground))" }}>
+            {m.val}<span style={{ fontFamily: FONT_DISPLAY, color: "#6366f1", fontSize: 12 }}>{m.suf}</span>
           </div>
-          <div style={{ fontFamily: FONT_SANS, fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))" }}>{m.lbl}</div>
+          <div style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))" }}>{m.lbl}</div>
         </div>
       ))}
     </div>
     <div className="rounded-xl p-3" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
-      <div style={{ fontFamily: FONT_SANS, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))", marginBottom: 8 }}>Drop-off — before vs after</div>
+      <div style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))", marginBottom: 8 }}>Drop-off — before vs after</div>
       <div className="flex items-end gap-1" style={{ height: 40 }}>
         {[{ h: "80%", t: "before" }, { h: "32%", t: "after" }, { h: "70%", t: "before" }, { h: "28%", t: "after" }, { h: "65%", t: "before" }, { h: "22%", t: "after" }].map((b, i) => (
-          <div key={i} className="flex-1 rounded-t"
-            style={{ height: b.h, background: b.t === "before" ? "hsl(var(--border))" : "rgba(99,102,241,0.55)" }} />
+          <div key={i} className="flex-1 rounded-t" style={{ height: b.h, background: b.t === "before" ? "hsl(var(--border))" : "rgba(99,102,241,0.55)" }} />
         ))}
       </div>
     </div>
-    <div className="rounded-xl px-3 py-2.5 flex items-center gap-3"
-      style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
-      <span className="relative flex h-2 w-2 flex-shrink-0">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#22c55e" }} />
-        <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "#22c55e" }} />
-      </span>
+    <div className="rounded-xl px-3 py-2.5 flex items-center gap-3" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
+      <span className="relative flex h-2 w-2 flex-shrink-0"><span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#22c55e" }} /><span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "#22c55e" }} /></span>
       <div>
-        <div style={{ fontFamily: FONT_SANS, fontSize: 11, fontWeight: 500, color: "hsl(var(--foreground))" }}>Maze test complete</div>
-        <div style={{ fontFamily: FONT_SANS, fontSize: 9, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>24 participants · 2 rounds</div>
+        <div style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 500, color: "hsl(var(--foreground))" }}>Maze test complete</div>
+        <div style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>24 participants · 2 rounds</div>
       </div>
     </div>
   </div>
@@ -183,10 +119,7 @@ const Process = () => {
     }, 2500);
   };
 
-  useEffect(() => {
-    startAuto();
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, []);
+  useEffect(() => { startAuto(); return () => { if (intervalRef.current) clearInterval(intervalRef.current); }; }, []);
 
   const handleStepClick = (i: number) => {
     if (i === active) return;
@@ -200,78 +133,28 @@ const Process = () => {
 
   return (
     <section id="process" className="pt-12 pb-24 px-6 lg:px-8 max-w-site mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-12"
-      >
-        {/* Section label */}
-        <p style={{
-          fontFamily: FONT_SANS, fontSize: 11, fontWeight: 600,
-          letterSpacing: "0.15em", textTransform: "uppercase",
-          color: "hsl(var(--muted-foreground))", marginBottom: 12,
-        }}>
-          Process
-        </p>
-
-        {/* Heading — DM Sans bold, only accent word in serif italic */}
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="mb-12">
+        <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>Process</p>
         <h2 style={{ margin: 0, lineHeight: 1.15 }}>
-          <span style={{
-            fontFamily: FONT_SANS,
-            fontSize: "clamp(28px, 4vw, 44px)",
-            fontWeight: 700,
-            color: "hsl(var(--foreground))",
-            letterSpacing: "-0.02em",
-          }}>
-            How I{" "}
-          </span>
-          <em style={{
-            fontFamily: FONT_SERIF,
-            fontSize: "clamp(28px, 4vw, 44px)",
-            fontStyle: "italic",
-            fontWeight: 400,
-            color: "#6366f1",
-          }}>
-            work
-          </em>
+          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>How I </span>
+          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>work</span>
         </h2>
       </motion.div>
 
-      {/* Stepper track */}
+      {/* Stepper */}
       <div className="relative flex items-start mb-6">
         <div className="absolute h-px bg-border z-0" style={{ top: 20, left: 20, right: 20 }} />
-        <div className="absolute h-px z-10" style={{
-          top: 20, left: 20,
-          width: `${(active / (steps.length - 1)) * 100}%`,
-          maxWidth: "calc(100% - 40px)",
-          background: "#6366f1",
-          transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)",
-        }} />
+        <div className="absolute h-px z-10" style={{ top: 20, left: 20, width: `${(active / (steps.length - 1)) * 100}%`, maxWidth: "calc(100% - 40px)", background: "#6366f1", transition: "width 0.4s cubic-bezier(0.16,1,0.3,1)" }} />
         {steps.map((s, i) => {
-          const isCompleted = i < active;
-          const isActive = i === active;
+          const isCompleted = i < active; const isActive = i === active;
           return (
-            <div key={i} className="flex-1 flex flex-col items-center relative z-20 cursor-pointer"
-              onClick={() => handleStepClick(i)}>
+            <div key={i} className="flex-1 flex flex-col items-center relative z-20 cursor-pointer" onClick={() => handleStepClick(i)}>
               <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2.5 transition-all duration-300"
-                style={{
-                  fontFamily: FONT_SANS, fontSize: 12, fontWeight: 500,
-                  background: isActive || isCompleted ? "#6366f1" : "hsl(var(--background))",
-                  border: `1.5px solid ${isActive || isCompleted ? "#6366f1" : "hsl(var(--border))"}`,
-                  color: isActive || isCompleted ? "#fff" : "hsl(var(--muted-foreground))",
-                  boxShadow: isActive ? "0 4px 12px rgba(99,102,241,0.25)" : "none",
-                  transform: isActive ? "scale(1.1)" : "scale(1)",
-                }}>
+                style={{ fontFamily: FONT_DISPLAY, fontSize: 10, fontWeight: 600, background: isActive || isCompleted ? "#6366f1" : "hsl(var(--background))", border: `1.5px solid ${isActive || isCompleted ? "#6366f1" : "hsl(var(--border))"}`, color: isActive || isCompleted ? "#fff" : "hsl(var(--muted-foreground))", boxShadow: isActive ? "0 4px 12px rgba(99,102,241,0.25)" : "none", transform: isActive ? "scale(1.1)" : "scale(1)" }}>
                 {isCompleted ? "✓" : String(i + 1).padStart(2, "0")}
               </div>
               <div className="text-center transition-colors duration-300 max-w-[90px] hidden sm:block"
-                style={{
-                  fontFamily: FONT_SANS,
-                  fontSize: 11, fontWeight: 500, lineHeight: 1.4,
-                  color: isActive ? "hsl(var(--foreground))" : isCompleted ? "#6366f1" : "hsl(var(--muted-foreground))",
-                }}>
+                style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 500, lineHeight: 1.4, color: isActive ? "hsl(var(--foreground))" : isCompleted ? "#6366f1" : "hsl(var(--muted-foreground))" }}>
                 {s.tag.split(" — ")[1]}
               </div>
             </div>
@@ -280,98 +163,28 @@ const Process = () => {
       </div>
 
       {/* Panel */}
-      <motion.div
-        className="rounded-2xl overflow-hidden relative"
-        style={{
-          background: "hsl(var(--card))",
-          border: "1px solid hsl(var(--border))",
-          boxShadow: "0 2px 24px rgba(0,0,0,0.08)",
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
-          style={{ background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
-
+      <motion.div className="rounded-2xl overflow-hidden relative"
+        style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", boxShadow: "0 2px 24px rgba(0,0,0,0.08)" }}
+        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
+        <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl" style={{ background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
         <div className="flex flex-col md:grid" style={{ gridTemplateColumns: "65fr 35fr", minHeight: 280 }}>
-
-          {/* Left text */}
-          <div
-            className="flex flex-col justify-center p-6 md:p-10"
-            style={{
-              borderBottom: "1px solid hsl(var(--border))",
-              opacity: animating ? 0 : 1,
-              transform: animating ? "translateY(6px)" : "translateY(0)",
-              transition: "opacity 0.22s ease, transform 0.22s ease",
-            }}
-          >
+          <div className="flex flex-col justify-center p-6 md:p-10"
+            style={{ borderBottom: "1px solid hsl(var(--border))", opacity: animating ? 0 : 1, transform: animating ? "translateY(6px)" : "translateY(0)", transition: "opacity 0.22s ease, transform 0.22s ease" }}>
             <style>{`@media(min-width:768px){.process-text-pane{border-right:1px solid hsl(var(--border)) !important;border-bottom:none !important;}}`}</style>
-
-            {/* Step tag */}
-            <p className="process-text-pane" style={{
-              fontFamily: FONT_SANS, fontSize: 10, fontWeight: 600,
-              textTransform: "uppercase", letterSpacing: "0.12em",
-              color: "hsl(var(--muted-foreground))", marginBottom: 10,
-            }}>{step.tag}</p>
-
-            {/* Step heading */}
+            <p className="process-text-pane" style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>{step.tag}</p>
             <h3 style={{ margin: "0 0 12px", lineHeight: 1.2 }}>
-              <span style={{
-                fontFamily: FONT_SANS,
-                fontSize: "clamp(20px, 2.5vw, 28px)",
-                fontWeight: 700,
-                color: "hsl(var(--foreground))",
-                letterSpacing: "-0.02em",
-              }}>
-                {step.title}{" "}
-              </span>
-              <em style={{
-                fontFamily: FONT_SERIF,
-                fontSize: "clamp(20px, 2.5vw, 28px)",
-                fontStyle: "italic",
-                fontWeight: 400,
-                color: "#6366f1",
-              }}>
-                {step.titleEm}
-              </em>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(16px, 2.2vw, 24px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>{step.title} </span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(16px, 2.2vw, 24px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>{step.titleEm}</span>
             </h3>
-
-            {/* Step description */}
-            <p style={{
-              fontFamily: FONT_SANS,
-              fontSize: 13, fontWeight: 400, lineHeight: 1.75,
-              color: "hsl(var(--muted-foreground))",
-              marginBottom: 20, maxWidth: 400,
-            }}>
-              {step.desc}
-            </p>
-
-            {/* Pills */}
+            <p style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", marginBottom: 20, maxWidth: 400 }}>{step.desc}</p>
             <div className="flex flex-wrap gap-1.5">
               {step.pills.map(pill => (
-                <span key={pill} style={{
-                  fontFamily: FONT_SANS,
-                  fontSize: 10, fontWeight: 500,
-                  padding: "4px 12px", borderRadius: 100,
-                  background: "rgba(99,102,241,0.08)",
-                  color: "#818cf8",
-                  border: "1px solid rgba(99,102,241,0.2)",
-                }}>
-                  {pill}
-                </span>
+                <span key={pill} style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, padding: "4px 12px", borderRadius: 100, background: "rgba(99,102,241,0.08)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)" }}>{pill}</span>
               ))}
             </div>
           </div>
-
-          {/* Right illustration — hidden on mobile */}
           <div className="hidden md:flex items-center justify-center p-8"
-            style={{
-              opacity: animating ? 0 : 1,
-              transform: animating ? "translateY(6px)" : "translateY(0)",
-              transition: "opacity 0.22s ease, transform 0.22s ease",
-            }}>
+            style={{ opacity: animating ? 0 : 1, transform: animating ? "translateY(6px)" : "translateY(0)", transition: "opacity 0.22s ease, transform 0.22s ease" }}>
             <IllusComponent />
           </div>
         </div>
