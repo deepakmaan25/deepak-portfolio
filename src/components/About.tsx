@@ -6,6 +6,7 @@ const skills = [
   "Usability Testing", "Journey Mapping", "Claude", "Prototyping", "Midjourney",
 ];
 
+// ── UPDATED experience entries ──
 const experiences = [
   {
     company: "Freelance / Self-employed",
@@ -13,31 +14,31 @@ const experiences = [
     duration: "2023 — Present",
     current: true,
     points: [
-      "End-to-end UX for 12+ client projects across fintech, health, and EdTech",
-      "AI-assisted research synthesis cutting analysis time by 3×",
+      "Led end-to-end UX across 12+ projects in EdTech, fintech, and job platforms",
+      "Research, wireframes, high-fidelity design, and usability testing — all of it, not just the screens",
       "Built and maintained Figma design systems for 3 long-term clients",
     ],
   },
   {
-    company: "Design Institute",
-    role: "BSc Interaction Design",
-    duration: "2020 — 2023",
+    company: "Zu-AI · Assessment Project",
+    role: "Product Design — Chat Experience Redesign",
+    duration: "March 2024 · 2 weeks",
     current: false,
     points: [
-      "Final year project: Redesigned a government portal, validated with 40+ users",
-      "Coursework spanning HCI, visual design, and front-end prototyping",
-      "Graduated with distinction",
+      "Redesigned the chat interface for an AI learning app with 100K+ students",
+      "33-participant research sprint — 10 interviews, 23 survey responses — in under a week",
+      "Shipped hi-fi prototype addressing trust, scannability, and personalization",
     ],
   },
   {
-    company: "Self-directed Learning",
-    role: "AI for Designers / Google UX Certificate",
-    duration: "2023 — 2024",
+    company: "Tech Japan (now Talendy)",
+    role: "UX Research Intern",
+    duration: "Sept – Nov 2024 · 2 months",
     current: false,
     points: [
-      "Completed Google UX Design Certificate (Coursera)",
-      "Explored AI-integrated workflows using Claude, Midjourney, and ChatGPT",
-      "Applied learnings immediately to active client projects",
+      "Sole researcher on a job platform used by IIT students to find roles in Japan",
+      "Documented 9 pain points across the platform — 6 solutions shipped to production",
+      "Reframing the WhatsApp finding as a visibility problem got it onto the priority list",
     ],
   },
 ];
@@ -53,7 +54,7 @@ const About = () => {
   return (
     <section id="about" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
 
-      {/* Header */}
+      {/* Header — kept as is, it's good */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -81,7 +82,7 @@ const About = () => {
         {/* LEFT */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-          {/* Photo card — always deep indigo, works in both modes */}
+          {/* Photo card */}
           <div
             onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
             onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
@@ -104,12 +105,13 @@ const About = () => {
               </div>
               <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>Product Designer · India · Open to remote</p>
             </div>
+            {/* Quote — kept, pairs well with new bio headline */}
             <p style={{ fontSize: 12, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>
               "Design starts in conversations, not Figma."
             </p>
           </div>
 
-          {/* Availability card — dark-mode aware */}
+          {/* Availability card */}
           <div
             onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
             onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
@@ -147,7 +149,7 @@ const About = () => {
         {/* RIGHT */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-          {/* Bio card */}
+          {/* Bio card — updated headline, body, and AI quote */}
           <div
             onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
             onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
@@ -161,20 +163,31 @@ const About = () => {
             }}
           >
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
+
+            {/* ── UPDATED bio headline ── */}
             <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.25, marginBottom: 12 }}>
-              Crafting experiences through{" "}
-              <em style={{ fontStyle: "italic", color: "#6366f1" }}>research, design, and AI.</em>
+              I don't start in Figma.{" "}
+              <em style={{ fontStyle: "italic", color: "#6366f1" }}>I start with the person who's struggling.</em>
             </h3>
+
+            {/* ── UPDATED bio body ── */}
             <p style={{ fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))" }}>
-              I'm Deepak — a product designer crafting digital experiences that balance user needs with business goals. I work at the intersection of UX research, interface design, and AI-powered creative workflows. Great design starts before the first wireframe — in conversations and empathy.
+              I'm Deepak — a product designer based in India, open to remote. I've spent the last few years doing UX research and product design across EdTech, fintech, and job platforms — mostly in early-stage products where the design decisions actually matter.
             </p>
+
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "16px 0" }} />
+
+            <p style={{ fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
+              My process starts with research. Not because I have to, but because I've learned the hard way that skipping it means designing the wrong thing very well.
+            </p>
+
+            {/* ── UPDATED AI quote ── */}
             <p style={{ fontSize: 14, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
-              "I leverage AI tools as force multipliers for research synthesis and ideation — not because it's trendy, but because it lets me spend more time on the thinking that actually matters."
+              "I use AI tools — Claude, Midjourney, others — to compress the repetitive parts of research and synthesis. The goal is to spend less time processing and more time understanding."
             </p>
           </div>
 
-          {/* Skills card — dark-mode aware */}
+          {/* Skills card — unchanged */}
           <div
             onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
             onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
@@ -206,7 +219,7 @@ const About = () => {
         </div>
       </motion.div>
 
-      {/* ── EXPERIENCE ACCORDION ── */}
+      {/* ── EXPERIENCE ACCORDION — updated entries ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
