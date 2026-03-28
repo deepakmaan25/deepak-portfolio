@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Sun, Moon, Menu, X, Download } from "lucide-react";
 
+const FONT_BODY = "'Aileron', sans-serif";
+const FONT_DISPLAY = "'Unbounded', sans-serif";
+
 const navLinks = [
   { label: "Work", href: "/#work" },
   { label: "About", href: "/#about" },
@@ -30,125 +33,74 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location]);
+  useEffect(() => { setMenuOpen(false); }, [location]);
 
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div
-        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}
-        className="flex items-center justify-between h-16"
-      >
-        {/* Logo — DM Sans, not serif */}
-        <Link
-          to="/"
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 17,
-            fontWeight: 600,
-            color: "hsl(var(--foreground))",
-            textDecoration: "none",
-            letterSpacing: "-0.01em",
-          }}
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}
+        className="flex items-center justify-between h-16">
+
+        {/* Logo — Unbounded */}
+        <Link to="/" style={{ fontFamily: FONT_DISPLAY, fontSize: 15, fontWeight: 600, color: "hsl(var(--foreground))", textDecoration: "none", letterSpacing: "-0.02em" }}
           onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
-          onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
-        >
+          onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}>
           Deepak Maan
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
+            <a key={l.label} href={l.href}
+              style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 400, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
-              onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
-            >
+              onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}>
               {l.label}
             </a>
           ))}
-
-          <a
-            href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+            target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13, fontWeight: 500,
-              padding: "7px 16px", borderRadius: 100,
-              border: "1px solid hsl(var(--border))",
-              color: "hsl(var(--foreground))",
-              textDecoration: "none",
-              transition: "background 0.2s",
-            }}
+            style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 100, border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))", textDecoration: "none", transition: "background 0.2s" }}
             onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--secondary))")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-          >
-            Resume
-            <Download size={12} />
+            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+            Resume <Download size={12} />
           </a>
-
-          <button
-            onClick={toggleTheme}
+          <button onClick={toggleTheme}
             className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-            aria-label="Toggle theme"
-          >
+            aria-label="Toggle theme">
             {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
           </button>
         </nav>
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
-          <button
-            onClick={toggleTheme}
+          <button onClick={toggleTheme}
             className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Toggle theme"
-          >
+            aria-label="Toggle theme">
             {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
           </button>
-          <button
-            onClick={() => setMenuOpen((o) => !o)}
+          <button onClick={() => setMenuOpen((o) => !o)}
             className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Toggle menu"
-          >
+            aria-label="Toggle menu">
             {menuOpen ? <X size={14} /> : <Menu size={14} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden bg-background border-b border-border">
           <nav className="flex flex-col px-6 py-4 gap-4">
             {navLinks.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", textDecoration: "none" }}
-                onClick={() => setMenuOpen(false)}
-              >
-                {l.label}
-              </a>
+              <a key={l.label} href={l.href}
+                style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 400, color: "hsl(var(--foreground))", textDecoration: "none" }}
+                onClick={() => setMenuOpen(false)}>{l.label}</a>
             ))}
-            <a
-              href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#6366f1", textDecoration: "none" }}
-              onClick={() => setMenuOpen(false)}
-            >
+            <a href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+              target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 500, color: "#6366f1", textDecoration: "none" }}
+              onClick={() => setMenuOpen(false)}>
               Resume ↗
             </a>
           </nav>
