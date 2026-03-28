@@ -214,12 +214,11 @@ function Fade({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
 }
 
 function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
-  const c = Math.min(stats.length, 4);
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${c}, 1fr)`,
+        gridTemplateColumns: "repeat(2, 1fr)",
         gap: 0,
         border: "1px solid hsl(var(--border))",
         borderRadius: 16,
@@ -232,15 +231,15 @@ function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
           key={i}
           style={{
             background: "hsl(var(--card))",
-            padding: "28px 24px",
-            borderRight:
-              i < stats.length - 1 ? "1px solid hsl(var(--border))" : "none",
+            padding: "22px 20px",
+            borderRight: i % 2 === 0 ? "1px solid hsl(var(--border))" : "none",
+            borderBottom: i < stats.length - 2 ? "1px solid hsl(var(--border))" : "none",
           }}
         >
           <div
             style={{
               fontFamily: "'DM Serif Display', serif",
-              fontSize: "clamp(28px,4vw,44px)",
+              fontSize: "clamp(24px,4vw,40px)",
               fontStyle: "italic",
               color: "#6366f1",
               lineHeight: 1,
@@ -856,9 +855,9 @@ export default function CaseStudyDetail() {
             style={{
               borderTop: "1px solid hsl(var(--border))",
               paddingTop: 24,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "16px 0",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "20px 16px",
             }}
           >
             {[
@@ -870,13 +869,10 @@ export default function CaseStudyDetail() {
               <div
                 key={item.label}
                 style={{
-                  paddingRight: "clamp(16px,3vw,28px)",
-                  marginRight: "clamp(16px,3vw,28px)",
-                  borderRight:
-                    i < arr.length - 1
-                      ? "1px solid hsl(var(--border))"
-                      : "none",
-                  flexShrink: 0,
+                  paddingRight: 0,
+                  marginRight: 0,
+                  borderRight: "none",
+                  minWidth: 0,
                 }}
               >
                 <div
