@@ -1,249 +1,312 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
 
 const skills = [
-  "User Research",
-  "Figma",
-  "FigJam",
-  "Figma Make",
-  "Prototyping",
-  "Design Systems",
-  "A/B Testing",
-  "User Interviews",
-  "Usability Testing",
-  "Wireframing",
-  "Adobe Photoshop",
-  "Adobe Illustrator",
-  "Prompt Writing",
-  "Claude / AI Tools",
-  "Midjourney",
-  "Notion",
-  "Miro",
-  "Power BI",
+  "User Research", "Figma", "FigJam", "Figma Make",
+  "Prototyping", "Design Systems", "A/B Testing", "User Interviews",
+  "Usability Testing", "Claude / AI Tools", "Midjourney", "Prompt Writing",
+  "Adobe Photoshop", "Adobe Illustrator", "Notion", "Miro",
 ];
 
-const experience = [
+const experiences = [
   {
-    role: "Design Analyst",
     company: "JSW Steel",
-    period: "Aug 2025 – Present",
-    type: "Full-time",
-    desc: "Designing end-to-end monthly steel market intelligence reports, translating complex data into Power BI–driven insight narratives. Researching global data center market trends to predict steel consumption across regions.",
+    role: "Design Analyst",
+    duration: "Aug 2025 — Present",
+    current: true,
+    points: [
+      "Designing end-to-end monthly steel market intelligence reports, structuring complex data into Power BI–driven insight narratives for the CMO",
+      "Mapped district-wise sales potential using historical demand analysis, improving regional sales projections and opportunity sizing",
+      "Researched the Global/Indian data center market to predict steel consumption trends across regions and steel categories",
+    ],
   },
   {
-    role: "UX Researcher",
     company: "Tech Japan (Talendy)",
-    period: "Sep 2024 – Nov 2024",
-    type: "Internship",
-    desc: "Ran 10 IIT student interviews, documented 9 platform pain points, and designed fixes that shipped to production — including job description layout, dark mode accessibility, and a built-in communication tool.",
+    role: "UX Research Intern",
+    duration: "Sep – Nov 2024 · 2 months",
+    current: false,
+    points: [
+      "Sole researcher on a job platform used by IIT students to find roles in Japan — ran 10 1:1 interviews across 6 IITs",
+      "Documented 9 platform pain points; multiple fixes shipped to production including job description layout, dark mode accessibility, and a built-in communication tool",
+      "Reframing the WhatsApp finding as a visibility problem — 'you have no data after someone applies' — got it onto the priority list",
+    ],
   },
   {
-    role: "Product Designer",
     company: "EVeez",
-    period: "Oct 2023 – Apr 2024",
-    type: "Internship",
-    desc: "Led design of multiple landing pages and the homepage, improving visual hierarchy and conversion-focused flows, resulting in a 12% increase in user conversion rate.",
+    role: "Product Designer",
+    duration: "Oct 2023 – Apr 2024 · 8 months",
+    current: false,
+    points: [
+      "Led design of multiple high-impact landing pages and the homepage, improving usability, visual hierarchy, and conversion-focused user flows",
+      "Resulted in a 12% increase in user conversion rate through research-backed design iterations",
+      "Collaborated closely with developers and product managers to ensure smooth implementation",
+    ],
   },
   {
-    role: "Head of Design",
     company: "CyberLabs, IIT ISM Dhanbad",
-    period: "May 2023 – Apr 2025",
-    type: "Campus",
-    desc: "Led the UI/UX division, organised design workshops, and mentored 50+ students across the institute.",
+    role: "Head of Design",
+    duration: "May 2023 – Apr 2025 · 2 years",
+    current: false,
+    points: [
+      "Led the UI/UX division of CyberLabs — the tech society of IIT ISM Dhanbad",
+      "Organised design workshops and mentored 50+ students across the institute",
+      "Drove creative direction for campus digital products and internal design initiatives",
+    ],
   },
 ];
 
 const About = () => {
+  const [openIndex, setOpenIndex] = useState(0);
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? -1 : i);
+
+  const lift = (el: HTMLDivElement, up: boolean) => {
+    el.style.transform = up ? "translateY(-3px)" : "translateY(0)";
+  };
+
   return (
-    <section id="about" className="py-24 bg-background">
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "0 clamp(20px, 5vw, 60px)",
-        }}
+    <section id="about" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
+
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="mb-10"
       >
-        {/* Section label */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="font-body text-indigo-500 text-xs font-medium tracking-widest uppercase mb-4"
-        >
-          About
-        </motion.p>
+        <p className="type-label text-muted-foreground mb-3">About</p>
+        <h2 className="font-normal text-foreground"
+          style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(32px, 4vw, 44px)", lineHeight: 1.1 }}>
+          A designer who{" "}
+          <em style={{ fontStyle: "italic", color: "#6366f1" }}>listens</em> first.
+        </h2>
+      </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-start">
-          {/* LEFT — Bio + links */}
-          <div>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-foreground mb-6"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.1 }}
-            >
-              Bridging research,{" "}
-              <span className="font-heading italic text-indigo-500">design,</span>{" "}
-              and impact
-            </motion.h2>
+      {/* ── BENTO GRID ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        className="about-bento"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 56, alignItems: "stretch" }}
+      >
+        {/* LEFT */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-body text-muted-foreground space-y-4"
-              style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.75 }}
-            >
-              <p>
-                I'm a Product Designer with hands-on experience across UI/UX design,
-                UX research, and data-driven decision making — working on SaaS and
-                consumer-facing products.
-              </p>
-              <p>
-                My work combines qualitative user research with quantitative insights
-                to deliver interfaces that improve usability, conversion, and business
-                outcomes. I've led end-to-end design initiatives — from problem
-                discovery and user interviews to wireframing, prototyping, and
-                high-fidelity visual design.
-              </p>
-              <p>
-                I'm particularly interested in roles where design, research, and data
-                intersect, and where design decisions are tied to measurable outcomes.
-              </p>
-            </motion.div>
-
-            {/* Education */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mt-8 pt-8 border-t border-border"
-            >
-              <p className="font-body text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
-                Education
-              </p>
-              <div className="space-y-3">
-                <div>
-                  <p className="font-body font-medium text-foreground text-sm">
-                    B.Tech, Environmental Engineering
-                  </p>
-                  <p className="font-body text-muted-foreground text-sm font-light">
-                    IIT (ISM) Dhanbad · 2021 – 2025
-                  </p>
-                </div>
-                <div>
-                  <p className="font-body font-medium text-foreground text-sm">
-                    Google UX Design Certificate
-                  </p>
-                  <p className="font-body text-muted-foreground text-sm font-light">
-                    Coursera · 2022 – 2023
-                  </p>
-                </div>
+          {/* Photo card */}
+          <div
+            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
+            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
+            style={{
+              flex: 1, borderRadius: 20, padding: 28,
+              background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)",
+              display: "flex", flexDirection: "column", justifyContent: "space-between",
+              position: "relative", overflow: "hidden", minHeight: 320,
+              transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s",
+              cursor: "default",
+            }}
+          >
+            <div style={{ position: "absolute", top: -40, right: -40, width: 150, height: 150, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.35), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -40, left: -20, width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -10, right: -5, fontFamily: "'DM Serif Display', serif", fontSize: 96, fontStyle: "italic", color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none" }}>DM</div>
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 32, fontWeight: 400, color: "#fff", lineHeight: 1.05 }}>
+                Deepak<em style={{ fontStyle: "italic", color: "#a5b4fc", display: "block" }}>Maan</em>
               </div>
-            </motion.div>
-
-            {/* Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap gap-3 mt-8"
-            >
-              {[
-                { label: "LinkedIn", href: "https://www.linkedin.com/in/deepakmaan/" },
-                { label: "Behance", href: "https://www.behance.net/deepakmaan1" },
-                { label: "GitHub", href: "https://github.com/deepakmaan25?tab=repositories" },
-              ].map((l) => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-body font-medium text-indigo-500 hover:text-indigo-700 transition-colors"
-                >
-                  {l.label}
-                  <ExternalLink size={12} />
-                </a>
-              ))}
-            </motion.div>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>Product Designer · India · Open to remote</p>
+            </div>
+            <p style={{ fontSize: 12, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.6, position: "relative", zIndex: 1 }}>
+              "Design starts in conversations, not Figma."
+            </p>
           </div>
 
-          {/* RIGHT — Experience + Skills */}
-          <div>
-            {/* Experience */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <p className="font-body text-xs font-medium tracking-widest uppercase text-muted-foreground mb-6">
-                Experience
-              </p>
-              <div className="space-y-6">
-                {experience.map((exp, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 12 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.1 * i }}
-                    className="flex gap-4"
-                  >
-                    <div className="w-1 rounded-full bg-indigo-200 dark:bg-indigo-800 flex-shrink-0 mt-1" style={{ minHeight: 40 }} />
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-body font-medium text-foreground text-sm">
-                          {exp.role}
-                        </span>
-                        <span className="font-body text-xs px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
-                          {exp.type}
-                        </span>
-                      </div>
-                      <p className="font-body text-muted-foreground text-xs font-light mt-0.5 mb-2">
-                        {exp.company} · {exp.period}
-                      </p>
-                      <p className="font-body text-muted-foreground text-sm font-light leading-relaxed">
-                        {exp.desc}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+          {/* Availability card */}
+          <div
+            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
+            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
+            style={{
+              borderRadius: 20, padding: "22px 24px",
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
+              flexShrink: 0,
+              transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 6 }}>Status</p>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 18, fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.2 }}>
+                Open to new <em style={{ fontStyle: "italic", color: "#6366f1" }}>opportunities</em>
               </div>
-            </motion.div>
-
-            {/* Skills */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-10"
-            >
-              <p className="font-body text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
-                Skills & Tools
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="font-body text-xs px-3 py-1.5 rounded-full border border-border text-muted-foreground hover:border-indigo-300 hover:text-indigo-600 transition-colors cursor-default"
-                    style={{ fontWeight: 400 }}
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 500, padding: "4px 10px", borderRadius: 100, background: "rgba(34,197,94,0.12)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.25)", marginTop: 10 }}>
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500" />
+                </span>
+                Available now
               </div>
-            </motion.div>
+            </div>
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 32, fontWeight: 400, color: "#6366f1", lineHeight: 1 }}>
+                5<em style={{ fontStyle: "normal", fontSize: 18 }}>+</em>
+              </div>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))", marginTop: 3 }}>Products</div>
+            </div>
           </div>
         </div>
-      </div>
+
+        {/* RIGHT */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+
+          {/* Bio card */}
+          <div
+            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
+            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
+            style={{
+              flex: 1, borderRadius: 20, padding: 28,
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.04)",
+              transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s",
+              cursor: "default",
+            }}
+          >
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
+
+            <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, fontWeight: 400, color: "hsl(var(--foreground))", lineHeight: 1.25, marginBottom: 12 }}>
+              I don't start in Figma.{" "}
+              <em style={{ fontStyle: "italic", color: "#6366f1" }}>I start with the person who's struggling.</em>
+            </h3>
+
+            <p style={{ fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))" }}>
+              I'm Deepak — a Product Designer from IIT ISM Dhanbad, based in India and open to remote. I've worked across AI, SaaS, job platforms, and consumer products — researching what's broken, designing what fixes it, and making sure it actually ships.
+            </p>
+
+            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "16px 0" }} />
+
+            <p style={{ fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
+              Google UX Certified. Led design at CyberLabs, IIT ISM — mentored 50+ students. Currently a Design Analyst at JSW Steel, where design meets data and business strategy.
+            </p>
+
+            <p style={{ fontSize: 14, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
+              "I use AI tools — Claude, Midjourney, Figma Make — to compress the repetitive parts of research and synthesis. The goal is to spend less time processing and more time understanding."
+            </p>
+          </div>
+
+          {/* Skills card */}
+          <div
+            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
+            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
+            style={{
+              borderRadius: 20, padding: 24,
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              flexShrink: 0,
+              transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default",
+            }}
+          >
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 8 }}>Skills & Tools</p>
+            <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 18, fontWeight: 400, color: "hsl(var(--foreground))", marginBottom: 12 }}>
+              Research · Design · <em style={{ fontStyle: "italic", color: "#6366f1" }}>AI</em>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+              {skills.map(skill => (
+                <span
+                  key={skill}
+                  style={{ fontSize: 11, fontWeight: 500, padding: "4px 10px", borderRadius: 100, background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)", cursor: "default", transition: "all 0.2s" }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "#6366f1"; el.style.color = "#fff"; el.style.borderColor = "#6366f1"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "rgba(99,102,241,0.1)"; el.style.color = "#818cf8"; el.style.borderColor = "rgba(99,102,241,0.2)"; }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── EXPERIENCE ACCORDION ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 20 }}>
+          <div>
+            <p className="type-label text-muted-foreground mb-2">Experience</p>
+            <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(24px, 3vw, 32px)", fontWeight: 400, color: "hsl(var(--foreground))" }}>
+              Where I've <em style={{ fontStyle: "italic", color: "#6366f1" }}>worked</em>
+            </h3>
+          </div>
+          <span style={{ fontSize: 12, color: "hsl(var(--muted-foreground))" }}>4 roles · 1.5 years</span>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {experiences.map((exp, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                onClick={() => toggle(i)}
+                style={{
+                  borderRadius: 14,
+                  overflow: "hidden",
+                  background: "hsl(var(--card))",
+                  border: `1.5px solid ${isOpen ? "rgba(99,102,241,0.35)" : "hsl(var(--border))"}`,
+                  cursor: "pointer",
+                  transition: "border-color 0.25s, box-shadow 0.25s",
+                  boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.08)" : "none",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", gap: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{
+                      width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
+                      background: isOpen ? "#6366f1" : exp.current ? "#22c55e" : "hsl(var(--border))",
+                      boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.2)" : exp.current ? "0 0 0 3px rgba(34,197,94,0.2)" : "none",
+                      transition: "all 0.25s",
+                    }} />
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: isOpen ? "#818cf8" : "hsl(var(--foreground))", transition: "color 0.2s" }}>
+                        {exp.company}
+                      </div>
+                      <div style={{ fontSize: 12, color: "#818cf8", marginTop: 2 }}>{exp.role}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                    <span style={{
+                      fontSize: 11, fontWeight: exp.current ? 600 : 400,
+                      color: exp.current ? "#818cf8" : "hsl(var(--muted-foreground))",
+                      padding: "3px 10px", borderRadius: 100,
+                      background: exp.current ? "rgba(99,102,241,0.1)" : "transparent",
+                      border: exp.current ? "1px solid rgba(99,102,241,0.2)" : "none",
+                    }}>
+                      {exp.duration}
+                    </span>
+                    <span style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", display: "inline-block", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>▼</span>
+                  </div>
+                </div>
+                <div style={{ maxHeight: isOpen ? 200 : 0, overflow: "hidden", transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
+                  <div style={{ padding: "0 22px 18px", borderTop: "1px solid hsl(var(--border))" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, paddingTop: 14 }}>
+                      {exp.points.map((point, j) => (
+                        <div key={j} style={{ display: "flex", gap: 10, fontSize: 13, color: "hsl(var(--muted-foreground))", lineHeight: 1.7 }}>
+                          <span style={{ color: "#6366f1", flexShrink: 0, opacity: 0.5 }}>—</span>
+                          <span>{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+
     </section>
   );
 };
