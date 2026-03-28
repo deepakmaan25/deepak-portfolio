@@ -981,116 +981,116 @@ export default function CaseStudyDetail() {
         {/* Overview */}
         <Section type="overview" heading="The Problem">
           <Fade delay={0.05}>
-            <StatGrid stats={cs.stats} />
+            <StatGrid stats={cs.stats ?? []} />
           </Fade>
-          <Fade delay={0.08}>
-            <RichBody text={cs.overview.problem} />
-          </Fade>
-          <Fade delay={0.1}>
-            <RichBody text={cs.overview.description} />
-          </Fade>
-          <Fade delay={0.12}>
-            <RichBody text={cs.overview.contribution} />
-          </Fade>
+          {cs.overview?.problem && (
+            <Fade delay={0.08}><RichBody text={cs.overview.problem} /></Fade>
+          )}
+          {cs.overview?.description && (
+            <Fade delay={0.1}><RichBody text={cs.overview.description} /></Fade>
+          )}
+          {cs.overview?.contribution && (
+            <Fade delay={0.12}><RichBody text={cs.overview.contribution} /></Fade>
+          )}
           <ImageSlot caption="Project overview" index={0} />
         </Section>
 
         {/* Research */}
-        <Section type="research" heading={cs.research.heading}>
-          <Fade delay={0.08}>
-            <RichBody text={cs.research.body} />
-          </Fade>
-          <Fade delay={0.1}>
-            <Quotes quotes={cs.research.quotes} />
-          </Fade>
+        <Section type="research" heading={cs.research?.heading ?? "Research & Insights"}>
+          {cs.research?.body && (
+            <Fade delay={0.08}><RichBody text={cs.research.body} /></Fade>
+          )}
+          {cs.research?.quotes?.length > 0 && (
+            <Fade delay={0.1}><Quotes quotes={cs.research.quotes} /></Fade>
+          )}
           <ImageSlot caption="Research findings and pain point map" index={0} />
         </Section>
 
         {/* Process */}
         <Section
           type="process"
-          heading={cs.process.heading}
-          subheading={cs.process.intro.split("\n\n")[0]}
+          heading={cs.process?.heading ?? "Design Process"}
+          subheading={cs.process?.intro ? cs.process.intro.split("\n\n")[0] : undefined}
         >
-          <Fade delay={0.08}>
-            <RichBody text={cs.process.intro} />
-          </Fade>
-          <Fade delay={0.1}>
-            <Pillars pillars={cs.process.pillars} />
-          </Fade>
-          <Fade delay={0.12}>
-            <Steps steps={cs.process.steps} />
-          </Fade>
+          {cs.process?.intro && (
+            <Fade delay={0.08}><RichBody text={cs.process.intro} /></Fade>
+          )}
+          {cs.process?.pillars?.length > 0 && (
+            <Fade delay={0.1}><Pillars pillars={cs.process.pillars} /></Fade>
+          )}
+          {cs.process?.steps?.length > 0 && (
+            <Fade delay={0.12}><Steps steps={cs.process.steps} /></Fade>
+          )}
           <ImageSlot caption="Wireframe to high-fidelity progression" index={0} />
         </Section>
 
         {/* Solutions */}
-        {cs.solutions.map((sol, i) => (
+        {(cs.solutions ?? []).map((sol, i) => (
           <Section
             key={i}
             type="solution"
-            heading={sol.title}
+            heading={sol.title ?? `Solution ${i + 1}`}
             subheading={sol.subtitle}
           >
-            <Fade delay={0.06}>
-              <p
-                style={{
-                  fontSize: 15,
-                  lineHeight: 1.8,
-                  color: "hsl(var(--muted-foreground))",
-                  fontStyle: "italic",
-                  marginBottom: 20,
-                  paddingLeft: 16,
-                  borderLeft: "2px solid rgba(99,102,241,0.25)",
-                }}
-              >
-                {sol.problem}
-              </p>
-            </Fade>
+            {sol.problem && (
+              <Fade delay={0.06}>
+                <p
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.8,
+                    color: "hsl(var(--muted-foreground))",
+                    fontStyle: "italic",
+                    marginBottom: 20,
+                    paddingLeft: 16,
+                    borderLeft: "2px solid rgba(99,102,241,0.25)",
+                  }}
+                >
+                  {sol.problem}
+                </p>
+              </Fade>
+            )}
             <Fade delay={0.08}>
-              {sol.body.map((para, pi) => (
+              {(sol.body ?? []).map((para, pi) => (
                 <RichBody key={pi} text={para} />
               ))}
             </Fade>
-            {sol.metrics && (
+            {sol.metrics?.length > 0 && (
               <Fade delay={0.1}>
                 <StatGrid stats={sol.metrics} />
               </Fade>
             )}
             <ImageSlot
-              caption={`${sol.title} — design solution`}
+              caption={`${sol.title ?? "Solution"} — design solution`}
               index={i}
             />
           </Section>
         ))}
 
         {/* Impact */}
-        <Section type="impact" heading={cs.impact.heading}>
-          <Fade delay={0.08}>
-            <RichBody text={cs.impact.body} />
-          </Fade>
-          <Fade delay={0.1}>
-            <StatGrid stats={cs.impact.metrics} />
-          </Fade>
-          {cs.impact.quotes && (
-            <Fade delay={0.12}>
-              <Quotes quotes={cs.impact.quotes} />
-            </Fade>
+        <Section type="impact" heading={cs.impact?.heading ?? "Impact & Results"}>
+          {cs.impact?.body && (
+            <Fade delay={0.08}><RichBody text={cs.impact.body} /></Fade>
+          )}
+          {cs.impact?.metrics?.length > 0 && (
+            <Fade delay={0.1}><StatGrid stats={cs.impact.metrics} /></Fade>
+          )}
+          {cs.impact?.quotes?.length > 0 && (
+            <Fade delay={0.12}><Quotes quotes={cs.impact.quotes} /></Fade>
           )}
           <ImageSlot caption="Impact metrics and results" index={0} />
         </Section>
 
         {/* Reflection */}
-        <Section type="reflection" heading={cs.reflection.heading}>
-          <Fade delay={0.08}>
-            <RichBody text={cs.reflection.body} />
-          </Fade>
-          <Fade delay={0.1}>
-            <Learnings learnings={cs.reflection.learnings} />
-          </Fade>
-          <Fade delay={0.12}>
-            <FutureList items={cs.reflection.futureList} />
-          </Fade>
+        <Section type="reflection" heading={cs.reflection?.heading ?? "Reflection"}>
+          {cs.reflection?.body && (
+            <Fade delay={0.08}><RichBody text={cs.reflection.body} /></Fade>
+          )}
+          {cs.reflection?.learnings?.length > 0 && (
+            <Fade delay={0.1}><Learnings learnings={cs.reflection.learnings} /></Fade>
+          )}
+          {cs.reflection?.futureList?.length > 0 && (
+            <Fade delay={0.12}><FutureList items={cs.reflection.futureList} /></Fade>
+          )}
         </Section>
 
         {/* Tools strip */}
