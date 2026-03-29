@@ -44,6 +44,9 @@ const testimonials = [
   },
 ];
 
+// Duplicate for seamless loop
+const allCards = [...testimonials, ...testimonials];
+
 // ── Socials ───────────────────────────────────────────────────────────────────
 const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/deepakmaan/", icon: Linkedin },
@@ -58,9 +61,14 @@ const Contact = () => {
   const contactRef = useRef(null);
   const contactInView = useInView(contactRef, { once: true, margin: "-60px" });
 
+  // Card width + gap in px — must match CSS
+  const CARD_W = 340;
+  const GAP = 12;
+  const totalWidth = testimonials.length * (CARD_W + GAP);
+
   return (
     <>
-      {/* ── TESTIMONIALS — horizontal scroll strip ────────────────────────── */}
+      {/* ── TESTIMONIALS — auto-scroll marquee ───────────────────────────── */}
       <section style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
@@ -70,102 +78,124 @@ const Contact = () => {
         <div style={{ position: "relative" }}>
           {/* Left fade */}
           <div style={{
-            position: "absolute", left: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
-            background: "linear-gradient(to right, hsl(var(--background)), transparent)",
+            position: "absolute", left: 0, top: 0, bottom: 0, width: 120, zIndex: 2,
+            background: "linear-gradient(to right, hsl(var(--background)) 20%, transparent)",
             pointerEvents: "none",
           }} />
           {/* Right fade */}
           <div style={{
-            position: "absolute", right: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
-            background: "linear-gradient(to left, hsl(var(--background)), transparent)",
+            position: "absolute", right: 0, top: 0, bottom: 0, width: 120, zIndex: 2,
+            background: "linear-gradient(to left, hsl(var(--background)) 20%, transparent)",
             pointerEvents: "none",
           }} />
 
-          {/* Scrollable row */}
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              paddingLeft: "clamp(20px,5vw,80px)",
-              paddingRight: "clamp(20px,5vw,80px)",
-              paddingBottom: 4,
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="testimonial-scroll"
-          >
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                style={{
-                  flexShrink: 0,
-                  width: "clamp(280px, 30vw, 360px)",
-                  height: 188,
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: 16,
-                  padding: "18px 20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  transition: "border-color 0.2s",
-                  cursor: "default",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))"; }}
-              >
-                {/* Quote */}
-                <p style={{
-                  fontFamily: F, fontSize: 13, lineHeight: 1.75,
-                  color: "hsl(var(--muted-foreground))",
-                  margin: 0,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 4,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                } as React.CSSProperties}>
-                  "{t.text}"
-                </p>
+          {/* Marquee track */}
+          <div style={{ overflow: "hidden" }}>
+            <div
+              className="testimonial-marquee"
+              style={{
+                display: "flex",
+                gap: GAP,
+                width: "max-content",
+                animation: `testimonialScroll ${testimonials.length * 5}s linear infinite`,
+              }}
+            >
+              {allCards.map((t, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: CARD_W,
+                    flexShrink: 0,
+                    height: 188,
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 16,
+                    padding: "18px 20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    transition: "border-color 0.2s",
+                    cursor: "default",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))";
+                  }}
+                >
+                  {/* Quote */}
+                  <p style={{
+                    fontFamily: F, fontSize: 13, lineHeight: 1.75,
+                    color: "hsl(var(--muted-foreground))",
+                    margin: 0,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 4,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  } as React.CSSProperties}>
+                    "{t.text}"
+                  </p>
 
-                {/* Author */}
-                <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid hsl(var(--border))" }}>
+                  {/* Author */}
                   <div style={{
-                    width: 30, height: 30, borderRadius: "50%",
-                    background: "rgba(99,102,241,0.1)",
-                    border: "1px solid rgba(99,102,241,0.2)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: FD, fontSize: 9, fontWeight: 700,
-                    color: "#6366f1", flexShrink: 0,
+                    display: "flex", alignItems: "center", gap: 10,
+                    paddingTop: 12,
+                    borderTop: "1px solid hsl(var(--border))",
                   }}>
-                    {t.handle}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                      {t.name}
+                    <div style={{
+                      width: 30, height: 30, borderRadius: "50%",
+                      background: "rgba(99,102,241,0.1)",
+                      border: "1px solid rgba(99,102,241,0.2)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: FD, fontSize: 9, fontWeight: 700,
+                      color: "#6366f1", flexShrink: 0,
+                    }}>
+                      {t.handle}
                     </div>
-                    <div style={{ fontFamily: F, fontSize: 11, color: "hsl(var(--muted-foreground))", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                      {t.role}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        fontFamily: F, fontSize: 12, fontWeight: 600,
+                        color: "hsl(var(--foreground))", lineHeight: 1.2,
+                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                      }}>
+                        {t.name}
+                      </div>
+                      <div style={{
+                        fontFamily: F, fontSize: 11,
+                        color: "hsl(var(--muted-foreground))", marginTop: 1,
+                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                      }}>
+                        {t.role}
+                      </div>
                     </div>
+                    <span style={{
+                      fontFamily: F, fontSize: 9, fontWeight: 600,
+                      letterSpacing: "0.06em", textTransform: "uppercase",
+                      color: "rgba(99,102,241,0.7)",
+                      background: "rgba(99,102,241,0.07)",
+                      border: "1px solid rgba(99,102,241,0.15)",
+                      padding: "2px 8px", borderRadius: 100,
+                      flexShrink: 0, whiteSpace: "nowrap",
+                    }}>
+                      {t.context}
+                    </span>
                   </div>
-                  <span style={{
-                    fontFamily: F, fontSize: 9, fontWeight: 600,
-                    letterSpacing: "0.06em", textTransform: "uppercase",
-                    color: "rgba(99,102,241,0.7)",
-                    background: "rgba(99,102,241,0.07)",
-                    border: "1px solid rgba(99,102,241,0.15)",
-                    padding: "2px 8px", borderRadius: 100,
-                    flexShrink: 0, whiteSpace: "nowrap",
-                  }}>
-                    {t.context}
-                  </span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <style>{`.testimonial-scroll::-webkit-scrollbar { display: none; }`}</style>
+        <style>{`
+          @keyframes testimonialScroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-${totalWidth}px); }
+          }
+          .testimonial-marquee:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
       </section>
 
       {/* ── CONTACT + FOOTER ─────────────────────────────────────────────── */}
@@ -195,22 +225,37 @@ const Contact = () => {
           >
             {/* Left — CTA */}
             <div>
-              <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 14 }}>
+              <p style={{
+                fontFamily: F, fontSize: 11, fontWeight: 600,
+                letterSpacing: "0.14em", textTransform: "uppercase",
+                color: "#6366f1", marginBottom: 14,
+              }}>
                 Get in touch
               </p>
-              <h2 style={{ fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 700, color: "white", letterSpacing: "-0.025em", lineHeight: 1.05, margin: "0 0 6px" }}>
+              <h2 style={{
+                fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 700,
+                color: "white", letterSpacing: "-0.025em", lineHeight: 1.05,
+                margin: "0 0 6px",
+              }}>
                 Have a project
               </h2>
-              <h2 style={{ fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.025em", lineHeight: 1.05, margin: "0 0 20px" }}>
+              <h2 style={{
+                fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 800,
+                color: "#6366f1", letterSpacing: "-0.025em", lineHeight: 1.05,
+                margin: "0 0 20px",
+              }}>
                 in mind?
               </h2>
-              <p style={{ fontFamily: F, fontSize: 14, color: "#555555", lineHeight: 1.75, maxWidth: 400, marginBottom: 32 }}>
-                Open to full-time roles, freelance projects, and interesting collaborations. If you're building something worth caring about — let's talk.
+              <p style={{
+                fontFamily: F, fontSize: 14, color: "#555555",
+                lineHeight: 1.75, maxWidth: 400, marginBottom: 32,
+              }}>
+                Open to full-time roles, freelance projects, and interesting collaborations.
+                If you're building something worth caring about — let's talk.
               </p>
 
               {/* CTA row */}
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {/* Primary */}
                 <a
                   href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak,"
                   style={{
@@ -228,7 +273,6 @@ const Contact = () => {
                   Open to work
                 </a>
 
-                {/* Secondary */}
                 <a
                   href="https://cal.com/deepakmaan"
                   target="_blank"
@@ -252,11 +296,7 @@ const Contact = () => {
             </div>
 
             {/* Right — 2×2 social grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 10,
-            }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -274,17 +314,13 @@ const Contact = () => {
                   }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "white";
-                    el.style.borderColor = "#333333";
-                    el.style.background = "#1A1A1A";
-                    el.style.transform = "translateY(-2px)";
+                    el.style.color = "white"; el.style.borderColor = "#333333";
+                    el.style.background = "#1A1A1A"; el.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={e => {
                     const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "#888888";
-                    el.style.borderColor = "#252525";
-                    el.style.background = "#111111";
-                    el.style.transform = "translateY(0)";
+                    el.style.color = "#888888"; el.style.borderColor = "#252525";
+                    el.style.background = "#111111"; el.style.transform = "translateY(0)";
                   }}
                 >
                   <s.icon size={15} style={{ flexShrink: 0, color: "#6366f1" }} />
