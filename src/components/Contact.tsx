@@ -8,7 +8,7 @@ const FD = "'Unbounded', sans-serif";
 // ── Testimonials ─────────────────────────────────────────────────────────────
 const testimonials = [
   {
-    name: "Chanderkant K.",
+    name: "Chanderkant Sharma",
     handle: "CK",
     role: "Founder, Korzi",
     context: "Grull & Fino.club",
@@ -54,11 +54,12 @@ const socials = [
   { label: "Email", href: "mailto:dipumaan2002@gmail.com", icon: Mail },
 ];
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 const Contact = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const contactRef = useRef(null);
   const contactInView = useInView(contactRef, { once: true, margin: "-60px" });
+  const headingRef = useRef(null);
+  const headingInView = useInView(headingRef, { once: true, margin: "-60px" });
 
   const CARD_W = 340;
   const GAP = 12;
@@ -73,37 +74,52 @@ const Contact = () => {
         padding: "clamp(40px,5vw,64px) 0",
         overflow: "hidden",
       }}>
-        {/*
-          Max-width wrapper just for the fades — mirrors the 1200px + clamp padding
-          of every other section so fades sit exactly at the content boundary.
-        */}
+
+        {/* Heading — aligned to section padding */}
+        <motion.div
+          ref={headingRef}
+          initial={{ opacity: 0, y: 16 }}
+          animate={headingInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            paddingLeft: "clamp(20px,5vw,80px)",
+            paddingRight: "clamp(20px,5vw,80px)",
+            marginBottom: 32,
+          }}
+        >
+          <h2 style={{ margin: 0, lineHeight: 1.1 }}>
+            <span style={{ fontFamily: FD, fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>
+              What It's Like to{" "}
+            </span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>
+              Work With Me
+            </span>
+          </h2>
+        </motion.div>
+
+        {/* Marquee */}
         <div style={{ position: "relative" }}>
 
-          {/* Left fade — starts at section left-padding boundary */}
+          {/* Left fade — starts exactly at section left padding */}
           <div style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: "calc(clamp(20px, 5vw, 80px) + 80px)",
+            position: "absolute", left: 0, top: 0, bottom: 0,
+            width: "clamp(20px, 5vw, 80px)",
             zIndex: 2,
-            background: "linear-gradient(to right, hsl(var(--background)) 40%, transparent 100%)",
+            background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)",
             pointerEvents: "none",
           }} />
 
           {/* Right fade — mirrors left */}
           <div style={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: "calc(clamp(20px, 5vw, 80px) + 80px)",
+            position: "absolute", right: 0, top: 0, bottom: 0,
+            width: "clamp(20px, 5vw, 80px)",
             zIndex: 2,
-            background: "linear-gradient(to left, hsl(var(--background)) 40%, transparent 100%)",
+            background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)",
             pointerEvents: "none",
           }} />
 
-          {/* Marquee track */}
           <div style={{ overflow: "hidden" }}>
             <div
               className="testimonial-marquee"
@@ -121,7 +137,6 @@ const Contact = () => {
                   style={{
                     width: CARD_W,
                     flexShrink: 0,
-                    height: 188,
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: 16,
@@ -129,16 +144,14 @@ const Contact = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
+                    gap: 14,
                     transition: "border-color 0.2s",
                     cursor: "default",
                   }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))";
-                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))"; }}
                 >
+                  {/* Quote */}
                   <p style={{
                     fontFamily: F, fontSize: 13, lineHeight: 1.75,
                     color: "hsl(var(--muted-foreground))",
@@ -151,10 +164,16 @@ const Contact = () => {
                     "{t.text}"
                   </p>
 
+                  {/* Author row — allow wrap so pill drops to next line */}
                   <div style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    paddingTop: 12, borderTop: "1px solid hsl(var(--border))",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 10,
+                    paddingTop: 12,
+                    borderTop: "1px solid hsl(var(--border))",
+                    flexWrap: "wrap",
                   }}>
+                    {/* Avatar */}
                     <div style={{
                       width: 30, height: 30, borderRadius: "50%",
                       background: "rgba(99,102,241,0.1)",
@@ -165,30 +184,34 @@ const Contact = () => {
                     }}>
                       {t.handle}
                     </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
+
+                    {/* Name + role — takes as much space as needed */}
+                    <div style={{ flex: 1, minWidth: 120 }}>
                       <div style={{
                         fontFamily: F, fontSize: 12, fontWeight: 600,
-                        color: "hsl(var(--foreground))", lineHeight: 1.2,
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                        color: "hsl(var(--foreground))", lineHeight: 1.25,
                       }}>
                         {t.name}
                       </div>
                       <div style={{
                         fontFamily: F, fontSize: 11,
                         color: "hsl(var(--muted-foreground))", marginTop: 1,
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                       }}>
                         {t.role}
                       </div>
                     </div>
+
+                    {/* Context pill — wraps to new line if no room */}
                     <span style={{
                       fontFamily: F, fontSize: 9, fontWeight: 600,
                       letterSpacing: "0.06em", textTransform: "uppercase",
                       color: "rgba(99,102,241,0.7)",
                       background: "rgba(99,102,241,0.07)",
                       border: "1px solid rgba(99,102,241,0.15)",
-                      padding: "2px 8px", borderRadius: 100,
-                      flexShrink: 0, whiteSpace: "nowrap",
+                      padding: "3px 8px", borderRadius: 100,
+                      flexShrink: 0,
+                      alignSelf: "flex-end",
+                      marginLeft: "auto",
                     }}>
                       {t.context}
                     </span>
