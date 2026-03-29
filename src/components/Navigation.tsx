@@ -59,14 +59,14 @@ const Navigation = () => {
               {l.label}
             </a>
           ))}
-          <a href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
-            target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5"
-            style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 100, border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))", textDecoration: "none", transition: "background 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--secondary))")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
-            Resume <Download size={12} />
-          </a>
+        <a href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+  target="_blank" rel="noopener noreferrer"
+  className="inline-flex items-center gap-1.5"
+  style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 100, background: "#6366f1", color: "#fff", textDecoration: "none", transition: "background 0.2s, opacity 0.2s" }}
+  onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
+  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>
+  Resume <Download size={12} />
+</a>
           <button onClick={toggleTheme}
             className="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
             aria-label="Toggle theme">
