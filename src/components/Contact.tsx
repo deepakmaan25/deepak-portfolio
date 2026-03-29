@@ -44,7 +44,6 @@ const testimonials = [
   },
 ];
 
-// Duplicate for seamless loop
 const allCards = [...testimonials, ...testimonials];
 
 // ── Socials ───────────────────────────────────────────────────────────────────
@@ -61,31 +60,46 @@ const Contact = () => {
   const contactRef = useRef(null);
   const contactInView = useInView(contactRef, { once: true, margin: "-60px" });
 
-  // Card width + gap in px — must match CSS
   const CARD_W = 340;
   const GAP = 12;
   const totalWidth = testimonials.length * (CARD_W + GAP);
 
   return (
     <>
-      {/* ── TESTIMONIALS — auto-scroll marquee ───────────────────────────── */}
+      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
       <section style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
         padding: "clamp(40px,5vw,64px) 0",
         overflow: "hidden",
       }}>
+        {/*
+          Max-width wrapper just for the fades — mirrors the 1200px + clamp padding
+          of every other section so fades sit exactly at the content boundary.
+        */}
         <div style={{ position: "relative" }}>
-          {/* Left fade */}
+
+          {/* Left fade — starts at section left-padding boundary */}
           <div style={{
-            position: "absolute", left: 0, top: 0, bottom: 0, width: 120, zIndex: 2,
-            background: "linear-gradient(to right, hsl(var(--background)) 20%, transparent)",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: "calc(clamp(20px, 5vw, 80px) + 80px)",
+            zIndex: 2,
+            background: "linear-gradient(to right, hsl(var(--background)) 40%, transparent 100%)",
             pointerEvents: "none",
           }} />
-          {/* Right fade */}
+
+          {/* Right fade — mirrors left */}
           <div style={{
-            position: "absolute", right: 0, top: 0, bottom: 0, width: 120, zIndex: 2,
-            background: "linear-gradient(to left, hsl(var(--background)) 20%, transparent)",
+            position: "absolute",
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: "calc(clamp(20px, 5vw, 80px) + 80px)",
+            zIndex: 2,
+            background: "linear-gradient(to left, hsl(var(--background)) 40%, transparent 100%)",
             pointerEvents: "none",
           }} />
 
@@ -97,6 +111,7 @@ const Contact = () => {
                 display: "flex",
                 gap: GAP,
                 width: "max-content",
+                paddingLeft: "clamp(20px, 5vw, 80px)",
                 animation: `testimonialScroll ${testimonials.length * 5}s linear infinite`,
               }}
             >
@@ -124,7 +139,6 @@ const Contact = () => {
                     (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))";
                   }}
                 >
-                  {/* Quote */}
                   <p style={{
                     fontFamily: F, fontSize: 13, lineHeight: 1.75,
                     color: "hsl(var(--muted-foreground))",
@@ -137,11 +151,9 @@ const Contact = () => {
                     "{t.text}"
                   </p>
 
-                  {/* Author */}
                   <div style={{
                     display: "flex", alignItems: "center", gap: 10,
-                    paddingTop: 12,
-                    borderTop: "1px solid hsl(var(--border))",
+                    paddingTop: 12, borderTop: "1px solid hsl(var(--border))",
                   }}>
                     <div style={{
                       width: 30, height: 30, borderRadius: "50%",
@@ -201,7 +213,6 @@ const Contact = () => {
       {/* ── CONTACT + FOOTER ─────────────────────────────────────────────── */}
       <footer id="contact" style={{ background: "#0C0C0F" }}>
 
-        {/* CTA block */}
         <div style={{
           maxWidth: 1200, margin: "0 auto",
           paddingLeft: "clamp(20px,5vw,80px)",
@@ -215,77 +226,38 @@ const Contact = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={contactInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 40,
-              alignItems: "center",
-            }}
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}
             className="contact-grid"
           >
-            {/* Left — CTA */}
+            {/* Left */}
             <div>
-              <p style={{
-                fontFamily: F, fontSize: 11, fontWeight: 600,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: "#6366f1", marginBottom: 14,
-              }}>
+              <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 14 }}>
                 Get in touch
               </p>
-              <h2 style={{
-                fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 700,
-                color: "white", letterSpacing: "-0.025em", lineHeight: 1.05,
-                margin: "0 0 6px",
-              }}>
+              <h2 style={{ fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 700, color: "white", letterSpacing: "-0.025em", lineHeight: 1.05, margin: "0 0 6px" }}>
                 Have a project
               </h2>
-              <h2 style={{
-                fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 800,
-                color: "#6366f1", letterSpacing: "-0.025em", lineHeight: 1.05,
-                margin: "0 0 20px",
-              }}>
+              <h2 style={{ fontFamily: FD, fontSize: "clamp(24px,4vw,48px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.025em", lineHeight: 1.05, margin: "0 0 20px" }}>
                 in mind?
               </h2>
-              <p style={{
-                fontFamily: F, fontSize: 14, color: "#555555",
-                lineHeight: 1.75, maxWidth: 400, marginBottom: 32,
-              }}>
-                Open to full-time roles, freelance projects, and interesting collaborations.
-                If you're building something worth caring about — let's talk.
+              <p style={{ fontFamily: F, fontSize: 14, color: "#555555", lineHeight: 1.75, maxWidth: 400, marginBottom: 32 }}>
+                Open to full-time roles, freelance projects, and interesting collaborations. If you're building something worth caring about — let's talk.
               </p>
-
-              {/* CTA row */}
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 <a
                   href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak,"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 8,
-                    fontFamily: F, fontSize: 13, fontWeight: 600,
-                    background: "#6366f1", color: "white",
-                    padding: "12px 22px", borderRadius: 100,
-                    textDecoration: "none",
-                    transition: "background 0.2s, transform 0.2s",
-                  }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: F, fontSize: 13, fontWeight: 600, background: "#6366f1", color: "white", padding: "12px 22px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, transform 0.2s" }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#818cf8"; el.style.transform = "translateY(-1px)"; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.transform = "translateY(0)"; }}
                 >
                   <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#a5f3fc", display: "inline-block", flexShrink: 0 }} />
                   Open to work
                 </a>
-
                 <a
                   href="https://cal.com/deepakmaan"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 8,
-                    fontFamily: F, fontSize: 13, fontWeight: 500,
-                    background: "transparent", color: "#666666",
-                    padding: "12px 22px", borderRadius: 100,
-                    border: "1px solid #2A2A2A",
-                    textDecoration: "none",
-                    transition: "color 0.2s, border-color 0.2s",
-                  }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: F, fontSize: 13, fontWeight: 500, background: "transparent", color: "#666666", padding: "12px 22px", borderRadius: 100, border: "1px solid #2A2A2A", textDecoration: "none", transition: "color 0.2s, border-color 0.2s" }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "white"; el.style.borderColor = "#444"; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#666666"; el.style.borderColor = "#2A2A2A"; }}
                 >
@@ -303,25 +275,9 @@ const Contact = () => {
                   href={s.href}
                   target={s.href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noopener noreferrer"
-                  style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    fontFamily: F, fontSize: 13, fontWeight: 500,
-                    color: "#888888", textDecoration: "none",
-                    padding: "14px 18px", borderRadius: 14,
-                    border: "1px solid #252525",
-                    background: "#111111",
-                    transition: "color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s",
-                  }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "white"; el.style.borderColor = "#333333";
-                    el.style.background = "#1A1A1A"; el.style.transform = "translateY(-2px)";
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "#888888"; el.style.borderColor = "#252525";
-                    el.style.background = "#111111"; el.style.transform = "translateY(0)";
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: F, fontSize: 13, fontWeight: 500, color: "#888888", textDecoration: "none", padding: "14px 18px", borderRadius: 14, border: "1px solid #252525", background: "#111111", transition: "color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s" }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "white"; el.style.borderColor = "#333333"; el.style.background = "#1A1A1A"; el.style.transform = "translateY(-2px)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#888888"; el.style.borderColor = "#252525"; el.style.background = "#111111"; el.style.transform = "translateY(0)"; }}
                 >
                   <s.icon size={15} style={{ flexShrink: 0, color: "#6366f1" }} />
                   {s.label}
@@ -332,31 +288,15 @@ const Contact = () => {
         </div>
 
         {/* Bottom bar */}
-        <div style={{
-          maxWidth: 1200, margin: "0 auto",
-          paddingLeft: "clamp(20px,5vw,80px)",
-          paddingRight: "clamp(20px,5vw,80px)",
-          paddingTop: 18, paddingBottom: 22,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          flexWrap: "wrap", gap: 12,
-        }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,80px)", paddingRight: "clamp(20px,5vw,80px)", paddingTop: 18, paddingBottom: 22, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ fontFamily: FD, fontSize: 12, fontWeight: 600, color: "#2E2E2E", letterSpacing: "-0.01em" }}>
-              Deepak Maan
-            </span>
+            <span style={{ fontFamily: FD, fontSize: 12, fontWeight: 600, color: "#2E2E2E", letterSpacing: "-0.01em" }}>Deepak Maan</span>
             <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#222", display: "block" }} />
-            <span style={{ fontFamily: F, fontSize: 11, color: "#2E2E2E" }}>
-              Product Designer · {new Date().getFullYear()}
-            </span>
+            <span style={{ fontFamily: F, fontSize: 11, color: "#2E2E2E" }}>Product Designer · {new Date().getFullYear()}</span>
           </div>
           <button
             onClick={scrollToTop}
-            style={{
-              fontFamily: F, fontSize: 11, color: "#333333",
-              background: "transparent", border: "none", cursor: "pointer",
-              display: "flex", alignItems: "center", gap: 5,
-              transition: "color 0.2s", padding: 0,
-            }}
+            style={{ fontFamily: F, fontSize: 11, color: "#333333", background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, transition: "color 0.2s", padding: 0 }}
             onMouseEnter={e => (e.currentTarget.style.color = "white")}
             onMouseLeave={e => (e.currentTarget.style.color = "#333333")}
           >
@@ -364,7 +304,6 @@ const Contact = () => {
           </button>
         </div>
 
-        {/* Responsive */}
         <style>{`
           @media (max-width: 768px) {
             .contact-grid { grid-template-columns: 1fr !important; }
