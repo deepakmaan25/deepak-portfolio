@@ -50,6 +50,11 @@ export interface CaseStudy {
     futureList: string[];
     tools: string[];
   };
+ images?: {
+    src: string;
+    ratio: number;
+    caption?: string;
+  }[];
   nextProject: string;
 }
 
@@ -253,6 +258,15 @@ export const caseStudies: CaseStudy[] = [
       tools: ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"],
     },
 
+   images: [
+      { src: "/ZA1_Hero_Image.png", ratio: 51.9, caption: "Zu-AI chat experience — overview" },
+      { src: "/ZA2_Research.png", ratio: 81.3, caption: "Research findings and pain point map" },
+      { src: "/ZA3_Wireframes.png", ratio: 77.7, caption: "Wireframe to high-fidelity progression" },
+      { src: "/ZA4_Redesign.png", ratio: 72.6, caption: "Chat interface redesign — visual hierarchy and quick actions" },
+      { src: "/ZA5_Dashboard.png", ratio: 59.1, caption: "ChatBot dashboard — conversation management" },
+      { src: "/ZA6_Accessibility.png", ratio: 59.1, caption: "Accessibility and personalization settings" },
+      { src: "/ZA7_Key_decisions.png", ratio: 48.7, caption: "Key design decisions and impact metrics" },
+    ],
     nextProject: "tech-japan",
   },
 
