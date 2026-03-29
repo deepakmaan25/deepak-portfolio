@@ -56,7 +56,7 @@ function RichBody({ text }: { text: string }) {
   );
 }
 
-function ImageSlot({ caption, index = 0 }: { caption?: string; index?: number }) {
+function ImageSlot({ caption, index = 0, src, ratio = 52 }: { caption?: string; index?: number; src?: string; ratio?: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
@@ -66,21 +66,29 @@ function ImageSlot({ caption, index = 0 }: { caption?: string; index?: number })
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       style={{ margin: "32px 0", width: "100%" }}
     >
-      <div style={{ position: "relative", width: "100%", paddingTop: "52%", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
-          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
-          <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 56, height: 56, borderRadius: 16, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(99,102,241,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-              </svg>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <p style={{ fontFamily: FD, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(99,102,241,0.5)", marginBottom: 4 }}>Figma Screenshot</p>
-              <p style={{ fontFamily: F, fontSize: 12, color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Coming soon</p>
+      <div style={{ position: "relative", width: "100%", paddingTop: `${ratio}%`, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
+        {src ? (
+          <img
+            src={src}
+            alt={caption ?? "Case study image"}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", borderRadius: 20 }}
+          />
+        ) : (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
+            <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
+            <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(99,102,241,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+                </svg>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <p style={{ fontFamily: FD, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(99,102,241,0.5)", marginBottom: 4 }}>Figma Screenshot</p>
+                <p style={{ fontFamily: F, fontSize: 12, color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Coming soon</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       {caption && (
         <figcaption style={{ marginTop: 10, fontFamily: F, fontSize: 12, color: "hsl(var(--muted-foreground))", textAlign: "center", fontStyle: "italic", lineHeight: 1.5, opacity: 0.7 }}>
