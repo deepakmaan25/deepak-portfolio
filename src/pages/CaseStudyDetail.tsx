@@ -374,20 +374,19 @@ export default function CaseStudyDetail() {
           {cs.overview?.problem && <Fade delay={0.08}><RichBody text={cs.overview.problem} /></Fade>}
           {cs.overview?.description && <Fade delay={0.1}><RichBody text={cs.overview.description} /></Fade>}
           {cs.overview?.contribution && <Fade delay={0.12}><RichBody text={cs.overview.contribution} /></Fade>}
-          <ImageSlot caption="Project overview" index={0} />
-        </Section>
+<ImageSlot src={cs.images?.[0]?.src} ratio={cs.images?.[0]?.ratio ?? 52} caption={cs.images?.[0]?.caption ?? "Project overview"} index={0} />        </Section>
 
         <Section type="research" heading={cs.research?.heading ?? "Research & Insights"}>
           {cs.research?.body && <Fade delay={0.08}><RichBody text={cs.research.body} /></Fade>}
           {cs.research?.quotes?.length > 0 && <Fade delay={0.1}><Quotes quotes={cs.research.quotes} /></Fade>}
-          <ImageSlot caption="Research findings and pain point map" index={0} />
+<ImageSlot src={cs.images?.[1]?.src} ratio={cs.images?.[1]?.ratio ?? 52} caption={cs.images?.[1]?.caption ?? "Research findings and pain point map"} index={0} />
         </Section>
 
         <Section type="process" heading={cs.process?.heading ?? "Design Process"} subheading={cs.process?.intro ? cs.process.intro.split("\n\n")[0] : undefined}>
           {cs.process?.intro && <Fade delay={0.08}><RichBody text={cs.process.intro} /></Fade>}
           {cs.process?.pillars?.length > 0 && <Fade delay={0.1}><Pillars pillars={cs.process.pillars} /></Fade>}
           {cs.process?.steps?.length > 0 && <Fade delay={0.12}><Steps steps={cs.process.steps} /></Fade>}
-          <ImageSlot caption="Wireframe to high-fidelity progression" index={0} />
+<ImageSlot src={cs.images?.[2]?.src} ratio={cs.images?.[2]?.ratio ?? 52} caption={cs.images?.[2]?.caption ?? "Wireframe to high-fidelity progression"} index={0} />
         </Section>
 
         {(cs.solutions ?? []).map((sol, i) => (
@@ -401,7 +400,7 @@ export default function CaseStudyDetail() {
               {(sol.body ?? []).map((para, pi) => <RichBody key={pi} text={para} />)}
             </Fade>
             {sol.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={sol.metrics} /></Fade>}
-            <ImageSlot caption={`${sol.title ?? "Solution"} — design solution`} index={i} />
+<ImageSlot src={cs.images?.[3 + i]?.src} ratio={cs.images?.[3 + i]?.ratio ?? 52} caption={cs.images?.[3 + i]?.caption ?? `${sol.title ?? "Solution"} — design solution`} index={i} />
           </Section>
         ))}
 
@@ -409,7 +408,7 @@ export default function CaseStudyDetail() {
           {cs.impact?.body && <Fade delay={0.08}><RichBody text={cs.impact.body} /></Fade>}
           {cs.impact?.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={cs.impact.metrics} /></Fade>}
           {cs.impact?.quotes?.length > 0 && <Fade delay={0.12}><Quotes quotes={cs.impact.quotes} /></Fade>}
-          <ImageSlot caption="Impact metrics and results" index={0} />
+<ImageSlot src={cs.images?.[6]?.src} ratio={cs.images?.[6]?.ratio ?? 52} caption={cs.images?.[6]?.caption ?? "Impact metrics and results"} index={0} />
         </Section>
 
         <Section type="reflection" heading={cs.reflection?.heading ?? "Reflection"}>
