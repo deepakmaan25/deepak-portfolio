@@ -62,9 +62,9 @@ const OrbitCanvas = () => {
   }, []);
 
   return (
-    <div className="relative flex-shrink-0" style={{ width: 300, height: 300 }}>
+    <div className="relative flex-shrink-0" aria-hidden="true" style={{ width: 300, height: 300 }}>
       {[{ size: 136, opacity: 0.2 }, { size: 236, opacity: 0.2 }, { size: 298, opacity: 0.07 }].map((ring, i) => (
-        <div key={i} className="absolute rounded-full" style={{ width: ring.size, height: ring.size, top: cy - ring.size / 2, left: cx - ring.size / 2, border: `1px dashed rgba(99,102,241,${ring.opacity})`, pointerEvents: "none" }} />
+        <div key={i} className="absolute rounded-full" aria-hidden="true" style={{ width: ring.size, height: ring.size, top: cy - ring.size / 2, left: cx - ring.size / 2, border: `1px dashed rgba(99,102,241,${ring.opacity})`, pointerEvents: "none" }} />
       ))}
       <div className="absolute rounded-full overflow-hidden" style={{ width: 76, height: 76, top: cy - 38, left: cx - 38, boxShadow: "0 0 0 5px rgba(99,102,241,0.08), 0 6px 24px rgba(99,102,241,0.2)", zIndex: 10 }}>
         <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
