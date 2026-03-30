@@ -78,7 +78,7 @@ const Contact = () => {
       <section style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
-        padding: "clamp(40px,5vw,64px) 0",
+        padding: "clamp(40px,5vw,32px) 0",
         overflow: "hidden",
       }}>
 
@@ -234,8 +234,8 @@ const Contact = () => {
 
         <div style={{
           maxWidth: 1200, margin: "0 auto",
-          paddingLeft: "clamp(20px,5vw,80px)",
-          paddingRight: "clamp(20px,5vw,80px)",
+          paddingLeft: "clamp(20px,5vw,32px)",
+          paddingRight: "clamp(20px,5vw,32px)",
           paddingTop: "clamp(48px,7vw,88px)",
           paddingBottom: "clamp(40px,6vw,72px)",
           borderBottom: "1px solid #1A1A1A",
