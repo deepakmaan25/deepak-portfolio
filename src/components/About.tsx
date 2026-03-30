@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Github, Linkedin, ExternalLink } from "lucide-react";
 
 const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
@@ -16,6 +17,13 @@ const experiences = [
   { company: "Tech Japan (Talendy)", role: "UX Research Intern", duration: "Sep – Nov 2024 · 2 months", current: false, points: ["Sole researcher on a job platform used by IIT students to find roles in Japan — ran 10 1:1 interviews across 6 IITs", "Documented 9 platform pain points; multiple fixes shipped to production including job description layout, dark mode accessibility, and a built-in communication tool", "Reframing the WhatsApp finding as a visibility problem got it onto the priority list"] },
   { company: "EVeez", role: "Product Designer", duration: "Oct 2023 – Apr 2024 · 8 months", current: false, points: ["Led design of multiple high-impact landing pages and the homepage, improving usability, visual hierarchy, and conversion-focused user flows", "Resulted in a 12% increase in user conversion rate through research-backed design iterations", "Collaborated closely with developers and product managers to ensure smooth implementation"] },
   { company: "CyberLabs, IIT ISM Dhanbad", role: "Head of Design", duration: "May 2023 – Apr 2025 · 2 years", current: false, points: ["Led the UI/UX division of CyberLabs — the tech society of IIT ISM Dhanbad", "Organised design workshops and mentored 50+ students across the institute", "Drove creative direction for campus digital products and internal design initiatives"] },
+];
+
+// Social links for the blue card (no email — that lives in footer)
+const cardSocials = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/deepakmaan/", icon: Linkedin },
+  { label: "GitHub", href: "https://github.com/deepakmaan25", icon: Github },
+  { label: "Behance", href: "https://www.behance.net/deepakmaan1", icon: ExternalLink },
 ];
 
 const About = () => {
@@ -39,11 +47,16 @@ const About = () => {
         className="about-bento" style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 56, alignItems: "stretch" }}>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {/* ── Blue identity card ── */}
           <div onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)} onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
             style={{ flex: 1, borderRadius: 20, padding: 28, background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", overflow: "hidden", minHeight: 320, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}>
+
+            {/* Decorative blobs */}
             <div style={{ position: "absolute", top: -40, right: -40, width: 150, height: 150, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.35), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -40, left: -20, width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -10, right: -5, fontFamily: FONT_DISPLAY, fontSize: 72, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
+
+            {/* Top: name block */}
             <div style={{ position: "relative", zIndex: 1 }}>
               <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
               <div style={{ lineHeight: 1.1 }}>
@@ -52,9 +65,60 @@ const About = () => {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.6, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>Product Designer · India · Open to remote</p>
             </div>
-            <p style={{ fontFamily: FONT_BODY, fontSize: 12, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.7, position: "relative", zIndex: 1 }}>"Design starts in conversations, not Figma."</p>
+
+            {/* Bottom: social pills + quote */}
+            <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* Social pills row */}
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {cardSocials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: FONT_BODY,
+                      fontSize: 11,
+                      fontWeight: 500,
+                      color: "rgba(255,255,255,0.65)",
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      padding: "5px 11px",
+                      borderRadius: 100,
+                      textDecoration: "none",
+                      transition: "background 0.2s, color 0.2s, border-color 0.2s",
+                      backdropFilter: "blur(4px)",
+                    }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background = "rgba(255,255,255,0.16)";
+                      el.style.color = "#fff";
+                      el.style.borderColor = "rgba(255,255,255,0.25)";
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.background = "rgba(255,255,255,0.08)";
+                      el.style.color = "rgba(255,255,255,0.65)";
+                      el.style.borderColor = "rgba(255,255,255,0.12)";
+                    }}
+                  >
+                    <s.icon size={10} style={{ flexShrink: 0 }} />
+                    {s.label} ↗
+                  </a>
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p style={{ fontFamily: FONT_BODY, fontSize: 12, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.7, margin: 0 }}>
+                "Design starts in conversations, not Figma."
+              </p>
+            </div>
           </div>
 
+          {/* ── Status card ── */}
           <div onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)} onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
             style={{ borderRadius: 20, padding: "22px 24px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexShrink: 0, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}>
             <div>
@@ -76,6 +140,7 @@ const About = () => {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {/* ── Bio card ── */}
           <div onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)} onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
             style={{ flex: 1, borderRadius: 20, padding: 28, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", boxShadow: "0 2px 16px rgba(0,0,0,0.04)", transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}>
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
@@ -89,6 +154,7 @@ const About = () => {
             <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>"I use AI tools — Claude, Midjourney, Figma Make — to compress the repetitive parts of research and synthesis."</p>
           </div>
 
+          {/* ── Skills card ── */}
           <div onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)} onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
             style={{ borderRadius: 20, padding: 24, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", flexShrink: 0, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}>
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 8 }}>Skills & Tools</p>
@@ -109,6 +175,7 @@ const About = () => {
         </div>
       </motion.div>
 
+      {/* ── Experience accordion ── */}
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 20 }}>
           <div>
