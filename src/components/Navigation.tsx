@@ -8,7 +8,7 @@ const FONT_DISPLAY = "'Unbounded', sans-serif";
 const navLinks = [
   { label: "Work", href: "/#work" },
   { label: "About", href: "/#about" },
-  { label: "Contact", href: "mailto:dipumaan2002@gmail.com" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Navigation = () => {
