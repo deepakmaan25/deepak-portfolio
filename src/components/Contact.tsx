@@ -113,7 +113,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Marquee */}
-        <div style={{ position: "relative" }}>
+        <div   style={{     maxWidth: 1200,     margin: "0 auto",     paddingLeft: "clamp(20px,5vw,80px)",     paddingRight: "clamp(20px,5vw,80px)",     position: "relative",   }} >
           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 80px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 80px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
 
@@ -124,7 +124,6 @@ const Contact = () => {
                 display: "flex",
                 gap: GAP,
                 width: "max-content",
-                paddingLeft: "clamp(20px, 5vw, 80px)",
                 animation: `testimonialScroll ${testimonials.length * 5}s linear infinite`,
               }}
             >
