@@ -480,7 +480,7 @@ export const caseStudies: CaseStudy[] = [
       { src: "/06-resume-management.png",      ratio: 72.55, caption: "Solution 3: Multiple resume management — upload, label, and select per application" },
       { src: "/07-save-all-flow.png",          ratio: 82.85, caption: "Solution 4: Save all profile flow — one action captures every section with unsaved-change indicators" },
       { src: "/08-communication-tool.png",     ratio: 64.95, caption: "Solution 5: Built-in communication tool — every conversation stays inside the platform" },
-      { src: "/09-rebranding-survey.png",      ratio: 90.7,  caption: "Additional research: Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
+      { src: "/09-rebranding-survey.png",      ratio: 90.70,  caption: "Additional research: Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
     ],
     nextProject: "zu-ai",
   },
