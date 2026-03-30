@@ -114,14 +114,15 @@ const Contact = () => {
 
         {/* Marquee */}
         <div   style={{     maxWidth: 1200,     margin: "0 auto",     paddingLeft: "clamp(20px,5vw,80px)",     paddingRight: "clamp(20px,5vw,80px)",     position: "relative",   }} >
-          <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 80px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 80px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", left: "clamp(20px,5vw,80px)", top: 0, bottom: 0, width: "72px", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, rgba(12,12,15,0.9) 40%, transparent 100%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", right: "clamp(20px,5vw,80px)", top: 0, bottom: 0, width: "72px", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, rgba(12,12,15,0.9) 40%, transparent 100%)", pointerEvents: "none" }} />
 
           <div style={{ overflow: "hidden" }}>
             <div
               className="testimonial-marquee"
               style={{
                 display: "flex",
+                paddingLeft: "6px",
                 gap: GAP,
                 width: "max-content",
                 animation: `testimonialScroll ${testimonials.length * 5}s linear infinite`,
