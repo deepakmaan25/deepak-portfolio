@@ -75,7 +75,7 @@ const Contact = () => {
         overflow: "hidden",
       }}>
 
-        {/* Heading — aligned to section padding */}
+        {/* Heading — left-aligned, matches section pattern */}
         <motion.div
           ref={headingRef}
           initial={{ opacity: 0, y: 16 }}
@@ -89,11 +89,38 @@ const Contact = () => {
             marginBottom: 32,
           }}
         >
+          {/* Small label — same pattern as About / Experience */}
+          <p style={{
+            fontFamily: F,
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "hsl(var(--muted-foreground))",
+            marginBottom: 10,
+            margin: "0 0 10px",
+          }}>
+            Testimonials
+          </p>
+
+          {/* Main heading — same size/weight pattern as "Where I've worked" */}
           <h2 style={{ margin: 0, lineHeight: 1.1 }}>
-            <span style={{ fontFamily: FD, fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>
+            <span style={{
+              fontFamily: FD,
+              fontSize: "clamp(18px,2.5vw,28px)",
+              fontWeight: 700,
+              color: "hsl(var(--foreground))",
+              letterSpacing: "-0.02em",
+            }}>
               What It's Like to{" "}
             </span>
-            <span style={{ fontFamily: FD, fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>
+            <span style={{
+              fontFamily: FD,
+              fontSize: "clamp(18px,2.5vw,28px)",
+              fontWeight: 800,
+              color: "#6366f1",
+              letterSpacing: "-0.02em",
+            }}>
               Work With Me
             </span>
           </h2>
@@ -102,7 +129,7 @@ const Contact = () => {
         {/* Marquee */}
         <div style={{ position: "relative" }}>
 
-          {/* Left fade — starts exactly at section left padding */}
+          {/* Left fade */}
           <div style={{
             position: "absolute", left: 0, top: 0, bottom: 0,
             width: "clamp(20px, 5vw, 80px)",
@@ -111,7 +138,7 @@ const Contact = () => {
             pointerEvents: "none",
           }} />
 
-          {/* Right fade — mirrors left */}
+          {/* Right fade */}
           <div style={{
             position: "absolute", right: 0, top: 0, bottom: 0,
             width: "clamp(20px, 5vw, 80px)",
@@ -164,7 +191,7 @@ const Contact = () => {
                     "{t.text}"
                   </p>
 
-                  {/* Author row — allow wrap so pill drops to next line */}
+                  {/* Author row */}
                   <div style={{
                     display: "flex",
                     alignItems: "flex-start",
@@ -185,7 +212,7 @@ const Contact = () => {
                       {t.handle}
                     </div>
 
-                    {/* Name + role — takes as much space as needed */}
+                    {/* Name + role */}
                     <div style={{ flex: 1, minWidth: 120 }}>
                       <div style={{
                         fontFamily: F, fontSize: 12, fontWeight: 600,
@@ -201,7 +228,7 @@ const Contact = () => {
                       </div>
                     </div>
 
-                    {/* Context pill — wraps to new line if no room */}
+                    {/* Context pill */}
                     <span style={{
                       fontFamily: F, fontSize: 9, fontWeight: 600,
                       letterSpacing: "0.06em", textTransform: "uppercase",
