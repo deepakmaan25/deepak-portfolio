@@ -123,7 +123,7 @@ function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
       border: "1px solid hsl(var(--border))",
       borderRadius: 20,
       overflow: "hidden",
-      margin: "28px 0",
+      margin: "36px 0",
     }}>
       {stats.map((s, i) => {
         const isLastAndAlone = isOdd && i === stats.length - 1;
