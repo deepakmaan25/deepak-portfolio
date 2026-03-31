@@ -118,14 +118,14 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full pt-16" style={{ background: "hsl(var(--background))" }}>
+    <section className="w-full pt-10 md:pt-16" style={{ background: "hsl(var(--background))" }}>
 
       {/* Hero grid */}
-      <div className="max-w-site mx-auto px-6 lg:px-8 border-b border-border">
+      <div className="max-w-site mx-auto px-4 md:px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center py-10 md:py-14 md:pr-8">
+          <div className="flex flex-col justify-center py-6 md:py-14 md:pr-8">
             <div className="mb-5">
               <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
@@ -180,7 +180,7 @@ const Hero = () => {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
             <div key={s.label} style={{
-              padding: "24px 28px",
+              padding: "16px 20px",
               borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
               borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
             }}>
@@ -195,7 +195,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll cue */}
-      <div className="flex flex-col items-center gap-[5px] py-3 max-w-site mx-auto">
+      <div className="flex flex-col items-center gap-[5px] py-2 max-w-site mx-auto">
         <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
         <span style={{ fontFamily: FONT_BODY, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Scroll to explore</span>
         <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
