@@ -118,14 +118,14 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full pt-10 md:pt-16" style={{ background: "hsl(var(--background))" }}>
+    <section className="w-full pt-4 md:pt-16" style={{ background: "hsl(var(--background))" }}>
 
       {/* Hero grid */}
       <div className="max-w-site mx-auto px-4 md:px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center py-6 md:py-14 md:pr-8">
+          <div className="flex flex-col justify-center py-3 md:py-14 md:pr-8">
             <div className="mb-5">
               <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
