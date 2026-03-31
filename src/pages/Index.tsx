@@ -5,6 +5,7 @@ import CaseStudies from "@/components/CaseStudies";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
+import creative_side from "@/components/creative_side";
 
 const Index = () => {
   return (
