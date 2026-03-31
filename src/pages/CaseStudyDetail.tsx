@@ -408,7 +408,7 @@ export default function CaseStudyDetail() {
           {cs.impact?.body && <Fade delay={0.08}><RichBody text={cs.impact.body} /></Fade>}
           {cs.impact?.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={cs.impact.metrics} /></Fade>}
           {cs.impact?.quotes?.length > 0 && <Fade delay={0.12}><Quotes quotes={cs.impact.quotes} /></Fade>}
-<ImageSlot src={cs.images?.[6]?.src} ratio={cs.images?.[6]?.ratio ?? 52} caption={cs.images?.[6]?.caption ?? "Impact metrics and results"} index={0} />
+{cs.images && cs.images.length > 0 && (() => {   const last = cs.images![cs.images!.length - 1];   return <ImageSlot src={last.src} ratio={last.ratio ?? 52} caption={last.caption ?? "Impact metrics and results"} index={0} />; })()}
         </Section>
 
         <Section type="reflection" heading={cs.reflection?.heading ?? "Reflection"}>
