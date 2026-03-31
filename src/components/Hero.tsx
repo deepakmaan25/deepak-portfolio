@@ -118,14 +118,14 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "clamp(8px, 2vw, 64px)" }}>
+    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "clamp(8px, 2vw, 32px)" }}>
 
       {/* Hero grid */}
       <div className="max-w-site mx-auto px-4 md:px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center pt-1 pb-5 md:py-14 md:pr-8">
+          <div className="flex flex-col justify-center pt-2 pb-6 md:py-14 md:pr-8">
             <div className="mb-5">
               <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
@@ -136,7 +136,7 @@ const Hero = () => {
                 fontWeight: 700,
                 color: "var(--role-color, #6366f1)",
                 lineHeight: 1.1,
-                minHeight: 48,
+                minHeight: "clamp(32px, 6vw, 56px)",
                 letterSpacing: "-0.03em",
                 opacity: roleVisible ? 1 : 0,
                 transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
@@ -150,11 +150,11 @@ const Hero = () => {
 
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 20px" }} />
 
-            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: 520, marginBottom: 28 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: 520, marginBottom: 20 }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
               <a href="#work" className="inline-flex items-center justify-center px-6 py-3 rounded-full transition-all hover:-translate-y-[1px]"
                 style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, background: "hsl(var(--foreground))", color: "hsl(var(--primary-foreground))", textDecoration: "none" }}>
                 View Work ↓
@@ -180,7 +180,7 @@ const Hero = () => {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
             <div key={s.label} style={{
-              padding: "16px 20px",
+              padding: "14px 14px",
               borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
               borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
             }}>
@@ -195,7 +195,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll cue */}
-      <div className="flex flex-col items-center gap-[5px] py-2 max-w-site mx-auto">
+      <div className="flex flex-col items-center gap-[4px] py-1.5 max-w-site mx-auto">
         <div className="w-px h-6" style={{ background: "hsl(var(--border))", animation: "scrollGrow 2s ease-in-out infinite" }} />
         <span style={{ fontFamily: FONT_BODY, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", opacity: 0.5 }}>Scroll to explore</span>
         <style>{`@keyframes scrollGrow{0%,100%{transform:scaleY(0.2);opacity:0.3;}50%{transform:scaleY(1);opacity:1;}}`}</style>
