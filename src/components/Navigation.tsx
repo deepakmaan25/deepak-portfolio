@@ -40,7 +40,7 @@ const Navigation = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent md:bg-transparent bg-background/95"}`}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px)" }}
-        className="flex items-center justify-between h-16">
+        className="flex items-center justify-between h-16 md:h-16 h-12">
 
         {/* Logo — Unbounded */}
         <Link to="/" style={{ fontFamily: FONT_DISPLAY, fontSize: 15, fontWeight: 600, color: "hsl(var(--foreground))", textDecoration: "none", letterSpacing: "-0.02em" }}
