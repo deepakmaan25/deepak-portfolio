@@ -64,7 +64,7 @@ function ImageSlot({ caption, index = 0, src, ratio = 52 }: { caption?: string; 
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      style={{ margin: "32px 0", width: "100%" }}
+      style={{ margin: "36px 0 0", width: "100%" }}
     >
       <div style={{ position: "relative", width: "100%", paddingTop: `${ratio}%`, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
         {src ? (
@@ -123,7 +123,7 @@ function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
       border: "1px solid hsl(var(--border))",
       borderRadius: 20,
       overflow: "hidden",
-      margin: "32px 0",
+      margin: "28px 0",
     }}>
       {stats.map((s, i) => {
         const isLastAndAlone = isOdd && i === stats.length - 1;
@@ -152,7 +152,7 @@ function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
 
 function Quotes({ quotes }: { quotes: { text: string }[] }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "32px 0" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "28px 0" }}>
       {quotes.map((q, i) => (
         <blockquote key={i} style={{
           position: "relative", padding: "22px 24px 22px 56px",
@@ -170,7 +170,7 @@ function Quotes({ quotes }: { quotes: { text: string }[] }) {
 
 function Pillars({ pillars }: { pillars: { icon: string; title: string; description: string }[] }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, margin: "32px 0" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, margin: "28px 0" }}>
       {pillars.map((p, i) => (
         <div key={i}
           style={{ padding: "24px 22px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 18, transition: "border-color 0.2s, transform 0.25s", cursor: "default", position: "relative", overflow: "hidden" }}
@@ -189,7 +189,7 @@ function Pillars({ pillars }: { pillars: { icon: string; title: string; descript
 
 function Steps({ steps }: { steps: { week: string; label: string; items: string[] }[] }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12, margin: "32px 0" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12, margin: "28px 0" }}>
       {steps.map((step, i) => (
         <div key={i} style={{ padding: "24px 22px", border: "1px solid hsl(var(--border))", borderRadius: 18, background: "hsl(var(--card))", position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
@@ -213,7 +213,7 @@ function Steps({ steps }: { steps: { week: string; label: string; items: string[
 
 function Learnings({ learnings }: { learnings: { title: string; description: string }[] }) {
   return (
-    <div style={{ display: "grid", gap: 10, margin: "32px 0" }}>
+    <div style={{ display: "grid", gap: 10, margin: "28px 0" }}>
       {learnings.map((l, i) => (
         <div key={i}
           style={{ padding: "24px 28px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 18, borderLeft: "3px solid rgba(99,102,241,0.4)", position: "relative", overflow: "hidden", transition: "border-left-color 0.2s" }}
@@ -231,7 +231,7 @@ function Learnings({ learnings }: { learnings: { title: string; description: str
 
 function FutureList({ items }: { items: string[] }) {
   return (
-    <div style={{ marginTop: 32, padding: "28px 32px", background: "hsl(var(--card))", borderRadius: 20, border: "1px solid hsl(var(--border))", position: "relative", overflow: "hidden" }}>
+    <div style={{ marginTop: 28, padding: "28px 32px", background: "hsl(var(--card))", borderRadius: 20, border: "1px solid hsl(var(--border))", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg, #6366f1, #818cf8)" }} />
       <p style={{ fontFamily: F, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 16 }}>If I had more time</p>
       <ul style={{ display: "flex", flexDirection: "column", gap: 10, listStyle: "none", padding: 0 }}>
@@ -263,7 +263,7 @@ function Section({ type, heading, subheading, children }: {
   children: React.ReactNode;
 }) {
   return (
-    <article style={{ padding: "clamp(48px,7vw,80px) 0", borderBottom: "1px solid hsl(var(--border))" }}>
+    <article style={{ padding: "clamp(56px,7vw,96px) 0 clamp(48px,6vw,80px)", borderBottom: "1px solid hsl(var(--border))" }}>
       <Fade>
         <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6366f1", marginBottom: 10 }}>
           {sectionLabel[type]}
@@ -324,7 +324,7 @@ export default function CaseStudyDetail() {
 
       {/* Hero */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
-        <div style={{ ...innerStyle, paddingTop: "clamp(32px,5vw,80px)", paddingBottom: "clamp(24px,4vw,52px)" }}>
+        <div style={{ ...innerStyle, paddingTop: "clamp(32px,5vw,80px)", paddingBottom: "clamp(32px,5vw,64px)" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 20 }}>
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#6366f1", display: "block" }} />
             {cs.tag}
@@ -418,7 +418,7 @@ export default function CaseStudyDetail() {
         </Section>
 
         {/* Tools */}
-        <div style={{ padding: "24px 0", borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ padding: "28px 0 48px", borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>Tools used</span>
           {cs.reflection.tools.map((t) => (
             <span key={t} style={{ fontFamily: F, display: "inline-flex", padding: "4px 14px", borderRadius: 100, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>{t}</span>
