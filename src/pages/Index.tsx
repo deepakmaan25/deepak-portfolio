@@ -2,10 +2,10 @@ import Hero from "@/components/Hero";
 import ProofBar from "@/components/ProofBar";
 import ToolsMarquee from "@/components/ToolsMarquee";
 import CaseStudies from "@/components/CaseStudies";
+import CreativeSide from "@/components/CreativeSide";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
-import creative_side from "@/components/creative_side";
 
 const Index = () => {
   return (
@@ -15,6 +15,7 @@ const Index = () => {
         <ProofBar />
         <ToolsMarquee />
         <CaseStudies />
+        <CreativeSide />
         <Process />
         <About />
         <Contact />
