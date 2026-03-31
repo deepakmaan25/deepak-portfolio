@@ -87,46 +87,53 @@ const OrbitCanvas = () => {
   );
 };
 
-// ── Stat cards — 4 cards, near-monochrome, accent only on the number ──────────
-// Colors are dialled to almost neutral — just a whisper of tint on the bg,
-// accent lives only on the suffix "+", everything else is foreground/muted.
+// ── 4 stat cards — minimal color, just enough to distinguish ─────────────────
+// Accent is only used on the suffix "+". Card bg is near-neutral.
 const statsMeta = [
   {
     target: 12,  decimals: 0, delay: 0,   suffix: "+",
     label: "Projects shipped",
-    sub:   "UX · Product · Branding",
+    sub: "UX · Product · Branding",
     accentLight: "#6366f1",
     accentDark:  "#818cf8",
-    // Very faint indigo tint — barely perceptible
-    bgLight: "linear-gradient(135deg,rgba(99,102,241,0.035) 0%,rgba(99,102,241,0.015) 100%)",
-    bgDark:  "linear-gradient(135deg,rgba(99,102,241,0.07) 0%,rgba(99,102,241,0.03) 100%)",
+    // Very faint tint — barely there
+    bgLight: "linear-gradient(135deg, #f8f8fe 0%, #f3f2fd 100%)",
+    bgDark:  "linear-gradient(135deg, rgba(99,102,241,0.055) 0%, rgba(99,102,241,0.025) 100%)",
+    borderLight: "rgba(99,102,241,0.10)",
+    borderDark:  "rgba(99,102,241,0.12)",
   },
   {
     target: 50,  decimals: 0, delay: 80,  suffix: "+",
     label: "User interviews",
-    sub:   "IITs · Startups · Enterprise",
-    accentLight: "#6366f1",
-    accentDark:  "#818cf8",
-    bgLight: "linear-gradient(135deg,rgba(99,102,241,0.028) 0%,rgba(99,102,241,0.010) 100%)",
-    bgDark:  "linear-gradient(135deg,rgba(99,102,241,0.06) 0%,rgba(99,102,241,0.025) 100%)",
+    sub: "IIT students · Founders · PMs",
+    accentLight: "#7c3aed",
+    accentDark:  "#a78bfa",
+    bgLight: "linear-gradient(135deg, #f9f8ff 0%, #f4f2fe 100%)",
+    bgDark:  "linear-gradient(135deg, rgba(124,58,237,0.055) 0%, rgba(124,58,237,0.025) 100%)",
+    borderLight: "rgba(124,58,237,0.10)",
+    borderDark:  "rgba(124,58,237,0.12)",
   },
   {
-    target: 8,   decimals: 0, delay: 160, suffix: "+",
+    target: 33,  decimals: 0, delay: 160, suffix: "+",
+    label: "Users researched",
+    sub: "Interviews · Surveys · Tests",
+    accentLight: "#2563eb",
+    accentDark:  "#60a5fa",
+    bgLight: "linear-gradient(135deg, #f7f9ff 0%, #eef3fe 100%)",
+    bgDark:  "linear-gradient(135deg, rgba(37,99,235,0.055) 0%, rgba(37,99,235,0.025) 100%)",
+    borderLight: "rgba(37,99,235,0.10)",
+    borderDark:  "rgba(37,99,235,0.12)",
+  },
+  {
+    target: 8,   decimals: 0, delay: 240, suffix: "+",
     label: "Research methods",
-    sub:   "Contextual · Affinity · MoSCoW",
-    accentLight: "#6366f1",
-    accentDark:  "#818cf8",
-    bgLight: "linear-gradient(135deg,rgba(99,102,241,0.028) 0%,rgba(99,102,241,0.010) 100%)",
-    bgDark:  "linear-gradient(135deg,rgba(99,102,241,0.06) 0%,rgba(99,102,241,0.025) 100%)",
-  },
-  {
-    target: 9,   decimals: 0, delay: 240, suffix: "",
-    label: "Pain points documented",
-    sub:   "Per project, evidence-backed",
-    accentLight: "#6366f1",
-    accentDark:  "#818cf8",
-    bgLight: "linear-gradient(135deg,rgba(99,102,241,0.035) 0%,rgba(99,102,241,0.015) 100%)",
-    bgDark:  "linear-gradient(135deg,rgba(99,102,241,0.07) 0%,rgba(99,102,241,0.03) 100%)",
+    sub: "Contextual · Affinity · MoSCoW",
+    accentLight: "#0891b2",
+    accentDark:  "#22d3ee",
+    bgLight: "linear-gradient(135deg, #f5fbfe 0%, #ecf7fc 100%)",
+    bgDark:  "linear-gradient(135deg, rgba(8,145,178,0.055) 0%, rgba(8,145,178,0.025) 100%)",
+    borderLight: "rgba(8,145,178,0.10)",
+    borderDark:  "rgba(8,145,178,0.12)",
   },
 ];
 
@@ -170,7 +177,7 @@ const Hero = () => {
   const values = [v0, v1, v2, v3];
 
   return (
-    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(6px,3vw,28px))" }}>
+    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(6px, 3vw, 28px))" }}>
 
       {/* ── Hero grid ── */}
       <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
@@ -185,11 +192,11 @@ const Hero = () => {
 
               <span className="block" style={{
                 fontFamily: FONT_DISPLAY,
-                fontSize: "clamp(22px,5.5vw,48px)",
+                fontSize: "clamp(22px, 5.5vw, 48px)",
                 fontWeight: 700,
                 color: "#6366f1",
                 lineHeight: 1.1,
-                minHeight: "clamp(40px,11vw,66px)",
+                minHeight: "clamp(40px, 11vw, 66px)",
                 letterSpacing: "-0.03em",
                 opacity: roleVisible ? 1 : 0,
                 transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
@@ -198,14 +205,14 @@ const Hero = () => {
                 {roles[roleIndex]}
               </span>
 
-              <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px,1.2vw,15px)", fontWeight: 400, lineHeight: 1.6, color: "hsl(var(--foreground))", marginTop: 8, opacity: 0.75 }}>
+              <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.6, color: "hsl(var(--foreground))", marginTop: 8, opacity: 0.75 }}>
                 Designing products people actually want to come back to.
               </p>
             </div>
 
             <div style={{ width: 24, height: 1.5, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "0 0 16px" }} />
 
-            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(12px,1.1vw,14px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "88%", marginBottom: 20 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(12px, 1.1vw, 14px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "88%", marginBottom: 20 }}>
               I research what's actually breaking, design what actually fixes it,
               and use AI to do it faster — without cutting corners on the thinking.
             </p>
@@ -239,16 +246,31 @@ const Hero = () => {
         className="max-w-site mx-auto border-b border-border"
         style={{ padding: "12px clamp(20px,5vw,32px)" }}
       >
-        {/*
-          Desktop: 4 columns
-          Mobile:  2 columns (2×2 grid)
-          Controlled entirely via inline grid + media query in <style>
-        */}
-        <div className="stats-grid" style={{ display: "grid", gap: "clamp(6px,1.2vw,10px)" }}>
+        <div
+          className="stats-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "clamp(6px, 1.2vw, 10px)",
+          }}
+        >
           {statsMeta.map((s, i) => {
             const accent  = isDark ? s.accentDark  : s.accentLight;
             const bg      = isDark ? s.bgDark      : s.bgLight;
-            // Border: just the standard border token — no colored border
+            const border  = isDark ? s.borderDark  : s.borderLight;
+            const numCol  = isDark ? "hsl(var(--foreground))" : "hsl(var(--foreground))";
+            const lblCol  = "hsl(var(--foreground))";
+            const subCol  = "hsl(var(--muted-foreground))";
+            const hoverBorder = isDark
+              ? border.replace("0.12", "0.28")
+              : border.replace("0.10", "0.24");
+            const shadow      = isDark
+              ? "0 2px 10px rgba(0,0,0,0.22)"
+              : "0 1px 6px rgba(0,0,0,0.05)";
+            const hoverShadow = isDark
+              ? "0 6px 20px rgba(0,0,0,0.32)"
+              : "0 4px 16px rgba(0,0,0,0.09)";
+
             return (
               <div
                 key={s.label}
@@ -256,68 +278,89 @@ const Hero = () => {
                   padding: "12px 14px",
                   borderRadius: 12,
                   background: bg,
-                  border: "1px solid hsl(var(--border))",
-                  // Subtle neutral shadow only — no colored glow
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)",
-                  transition: "border-color 0.2s, box-shadow 0.2s, transform 0.22s cubic-bezier(0.16,1,0.3,1)",
+                  border: `1px solid ${border}`,
+                  boxShadow: shadow,
+                  transition: "border-color 0.22s, box-shadow 0.22s, transform 0.25s cubic-bezier(0.16,1,0.3,1)",
                   cursor: "default",
-                  position: "relative",
-                  overflow: "hidden",
+                  // Horizontal layout: number block | divider | label+sub stack
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLDivElement;
-                  el.style.borderColor = "rgba(99,102,241,0.28)";
-                  el.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08), 0 6px 18px rgba(0,0,0,0.07)";
+                  el.style.borderColor = hoverBorder;
+                  el.style.boxShadow = hoverShadow;
                   el.style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLDivElement;
-                  el.style.borderColor = "hsl(var(--border))";
-                  el.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)";
+                  el.style.borderColor = border;
+                  el.style.boxShadow = shadow;
                   el.style.transform = "translateY(0)";
                 }}
               >
-                {/* Small accent dot top-right — sole color accent on card */}
-                <div style={{
-                  position: "absolute", top: 10, right: 12,
-                  width: 4, height: 4, borderRadius: "50%",
-                  background: accent, opacity: 0.35,
-                }} />
-
-                {/* Number — foreground color, accent only on suffix */}
+                {/* Number — left, dominant */}
                 <div style={{
                   fontFamily: FONT_DISPLAY,
-                  fontSize: "clamp(20px,2.2vw,26px)",
+                  fontSize: "clamp(20px, 2vw, 26px)",
                   fontWeight: 300,
                   fontVariantNumeric: "tabular-nums",
                   letterSpacing: "-0.04em",
                   lineHeight: 1,
-                  color: "hsl(var(--foreground))",
-                  marginBottom: 5,
+                  color: numCol,
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
                 }}>
                   {values[i]}
-                  {s.suffix && (
-                    <span style={{ fontSize: "0.5em", color: accent, marginLeft: 1, fontWeight: 700 }}>
-                      {s.suffix}
-                    </span>
-                  )}
+                  <span style={{
+                    fontSize: "0.44em",
+                    fontWeight: 700,
+                    color: accent,
+                    marginLeft: 1,
+                  }}>
+                    {s.suffix}
+                  </span>
                 </div>
 
-                {/* Label — slightly bold */}
+                {/* Thin vertical divider */}
                 <div style={{
-                  fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600,
-                  color: "hsl(var(--foreground))", lineHeight: 1.3, marginBottom: 2,
-                  opacity: 0.85,
-                }}>
-                  {s.label}
-                </div>
+                  width: 1,
+                  alignSelf: "stretch",
+                  background: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)",
+                  flexShrink: 0,
+                  borderRadius: 1,
+                }} />
 
-                {/* Sub — purely muted, smallest */}
-                <div style={{
-                  fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400,
-                  color: "hsl(var(--muted-foreground))", lineHeight: 1.4,
-                }}>
-                  {s.sub}
+                {/* Label + sub — vertically aligned beside number */}
+                <div style={{ minWidth: 0 }}>
+                  <div style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: "clamp(10px, 0.9vw, 11px)",
+                    fontWeight: 600,
+                    color: lblCol,
+                    lineHeight: 1.3,
+                    marginBottom: 2,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}>
+                    {s.label}
+                  </div>
+                  <div style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: "clamp(9px, 0.8vw, 10px)",
+                    fontWeight: 400,
+                    color: subCol,
+                    lineHeight: 1.4,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    opacity: 0.8,
+                  }}>
+                    {s.sub}
+                  </div>
                 </div>
               </div>
             );
@@ -336,11 +379,21 @@ const Hero = () => {
             0%,100% { transform: scaleY(0.2); opacity: 0.3; }
             50%      { transform: scaleY(1);   opacity: 1;   }
           }
+
           /* Desktop: 4 columns */
-          .stats-grid { grid-template-columns: repeat(4, 1fr); }
-          /* Mobile: 2×2 grid */
-          @media (max-width: 540px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          /* Tablet: 2 columns */
+          @media (max-width: 768px) {
+            .stats-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+
+          /* Mobile small: still 2 columns but tighter */
+          @media (max-width: 400px) {
+            .stats-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: 6px !important;
+            }
           }
         `}</style>
       </div>
