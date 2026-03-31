@@ -32,7 +32,7 @@ const About = () => {
   const lift = (el: HTMLDivElement, up: boolean) => { el.style.transform = up ? "translateY(-3px)" : "translateY(0)"; };
 
   return (
-    <section id="about" className="py-24 px-6 lg:px-8 max-w-site mx-auto">
+    <section id="about" className="py-20 max-md:py-14 px-6 lg:px-8 max-w-site mx-auto">
 
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="mb-10">
         <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>About</p>
@@ -44,7 +44,7 @@ const About = () => {
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="about-bento" style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 56, alignItems: "stretch" }}>
+        className="about-bento" style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 40, alignItems: "stretch" }}>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {/* ── Blue identity card ── */}
