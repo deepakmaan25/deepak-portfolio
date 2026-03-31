@@ -118,7 +118,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(8px, 4vw, 32px))" }}>
+    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(6px, 3vw, 28px))" }}>
 
       {/* Hero grid */}
       <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
@@ -136,7 +136,7 @@ const Hero = () => {
                 fontWeight: 700,
                 color: "var(--role-color, #6366f1)",
                 lineHeight: 1.1,
-                minHeight: "clamp(32px, 6vw, 56px)",
+                minHeight: "clamp(48px, 12vw, 72px)",
                 letterSpacing: "-0.03em",
                 opacity: roleVisible ? 1 : 0,
                 transform: roleVisible ? "translateY(0)" : "translateY(-6px)",
@@ -150,7 +150,7 @@ const Hero = () => {
 
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 20px" }} />
 
-            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: 520, marginBottom: 20 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "90%", marginBottom: 20 }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
