@@ -318,7 +318,7 @@ const Hero = () => {
 
             {/* LEFT */}
             <div className="flex flex-col justify-center hero-left-padding md:py-14 md:pr-8">
-              <div className="mb-4">
+              <div className="mb-2">
                 <span className="block mb-2" style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>
                   I'm a
                 </span>
@@ -337,9 +337,9 @@ const Hero = () => {
                 </p>
               </div>
 
-              <div style={{ width: 24, height: 1.5, background: "#6366f1", opacity: 0.28, borderRadius: 2, margin: "0 0 16px" }} />
+              <div style={{ width: 24, height: 1.5, background: "#6366f1", opacity: 0.28, borderRadius: 2, margin: "0 0 10px" }} />
 
-              <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(12px,1.1vw,14px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "88%", marginBottom: 20 }}>
+              <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(12px,1.1vw,14px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "88%", marginBottom: 12 }}>
                 I research what's actually breaking, design what actually fixes it,
                 and use AI to do it faster — without cutting corners on the thinking.
               </p>
