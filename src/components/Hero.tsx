@@ -506,6 +506,7 @@ const Hero = () => {
            Mobile nav = h-12 = 48px → just that, no extra
            Desktop nav = h-16 = 64px → 64px + breathing room
         */
+        
         .hero-section {
   padding-top: 48px; /* mobile: exact nav height (h-12) */
 }
