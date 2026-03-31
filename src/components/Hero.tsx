@@ -118,24 +118,24 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(6px, 3vw, 28px))" }}>
+    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "48px" }}>
 
       {/* Hero grid */}
       <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center pt-3 pb-5 md:py-14 md:pr-8">
+          paddingTop: "48<div className="flex flex-col justify-center pt-6 pb-6 md:py-14 md:pr-8 max-w-[560px]">px"
             <div className="mb-5">
               <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
               {/* Role — Unbounded italic colored */}
               <span className="block" style={{
                 fontFamily: FONT_DISPLAY,
-                fontSize: "clamp(24px, 6vw, 52px)",
+                fontSize: "clamp(28px, 8.5vw, 52px)",
                 fontWeight: 700,
                 color: "var(--role-color, #6366f1)",
-                lineHeight: 1.1,
+                lineHeight: 1.15,
                 minHeight: "clamp(48px, 12vw, 72px)",
                 letterSpacing: "-0.03em",
                 opacity: roleVisible ? 1 : 0,
@@ -150,7 +150,7 @@ const Hero = () => {
 
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.35, borderRadius: 2, margin: "0 0 20px" }} />
 
-            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "90%", marginBottom: 20 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: "clamp(13px, 1.2vw, 15px)", fontWeight: 400, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", maxWidth: "95%", marginBottom: 20 }}>
               I research what's actually breaking, design what actually fixes it, and use AI to do it faster — without cutting corners on the thinking.
             </p>
 
