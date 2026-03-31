@@ -118,14 +118,14 @@ const Hero = () => {
   ];
 
   return (
-    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "clamp(8px, 2vw, 32px)" }}>
+    <section className="w-full" style={{ background: "hsl(var(--background))", paddingTop: "calc(48px + clamp(8px, 4vw, 32px))" }}>
 
       {/* Hero grid */}
-      <div className="max-w-site mx-auto px-4 md:px-6 lg:px-8 border-b border-border">
+      <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
         <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
           {/* LEFT */}
-          <div className="flex flex-col justify-center pt-2 pb-6 md:py-14 md:pr-8">
+          <div className="flex flex-col justify-center pt-3 pb-5 md:py-14 md:pr-8">
             <div className="mb-5">
               <span className="block mb-3" style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>I'm a</span>
 
@@ -177,12 +177,11 @@ const Hero = () => {
 
       {/* Stats row — editorial grid */}
       <div ref={statsRef} className="max-w-site mx-auto border-b border-border">
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 border-border">
           {stats.map((s, i) => (
             <div key={s.label} style={{
               padding: "14px 14px",
-              borderRight: i < 3 ? "1px solid hsl(var(--border))" : "none",
-              borderBottom: i < 2 ? "1px solid hsl(var(--border))" : "none",
+            
             }}>
               <div style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 600, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.03em", lineHeight: 1, color: "hsl(var(--foreground))", marginBottom: 8 }}>
                 {s.value}
