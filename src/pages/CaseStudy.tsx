@@ -102,47 +102,83 @@ const CaseStudy = () => {
           </div>
         )}
 
-        {/* Solutions */}
-        {(cs.solutions ?? []).map((sol, i) => (
-          <div key={i}>
-            <p className="type-label mb-3">SOLUTION {i + 1}</p>
-            <h2 className="text-[28px] font-bold text-foreground mb-2">{sol.title}</h2>
-            <p className="text-[16px] italic text-muted-foreground mb-4">{sol.subtitle}</p>
-            {sol.problem && (
-              <p className="type-body text-muted-foreground mb-4">{sol.problem}</p>
-            )}
-            {(sol.body ?? []).map((para, pi) => (
-              <p key={pi} className="type-body text-muted-foreground mb-3">{para}</p>
-            ))}
-            <div className="flex flex-wrap gap-2 mt-3">
-              {(sol.metrics ?? []).map((m, mi) => (
-                <span key={mi} className="inline-flex items-center px-4 py-2 bg-card border border-border rounded-full text-[14px] text-foreground font-medium">
-                  {m.value} {m.label}
-                </span>
-              ))}
-            </div>
-          </div>
+       {/* Solutions */}
+{(cs.solutions ?? []).map((sol, i) => {
+  // Hero=0, Research=1, Process=2, Solutions start at index 3
+  const solImage = cs.images?.[i + 3];
+  return (
+    <div key={i}>
+      <p className="type-label mb-3">SOLUTION {i + 1}</p>
+      <h2 className="text-[28px] font-bold text-foreground mb-2">{sol.title}</h2>
+      <p className="text-[16px] italic text-muted-foreground mb-4">{sol.subtitle}</p>
+      {sol.problem && (
+        <p className="type-body text-muted-foreground mb-4">{sol.problem}</p>
+      )}
+      {(sol.body ?? []).map((para, pi) => (
+        <p key={pi} className="type-body text-muted-foreground mb-3">{para}</p>
+      ))}
+      <div className="flex flex-wrap gap-2 mt-3">
+        {(sol.metrics ?? []).map((m, mi) => (
+          <span key={mi} className="inline-flex items-center px-4 py-2 bg-card border border-border rounded-full text-[14px] text-foreground font-medium">
+            {m.value} {m.label}
+          </span>
         ))}
+      </div>
 
-        {/* Impact */}
-        {cs.impact && (
-          <div>
-            <p className="type-label mb-3">IMPACT</p>
-            <h2 className="text-[28px] font-bold text-foreground mb-6">{cs.impact.heading}</h2>
-            <div className="flex flex-wrap gap-3 mb-6">
-              {(cs.impact.metrics ?? []).map((m, i) => (
-                <span key={i} className="inline-flex items-center px-4 py-2 bg-card border border-border rounded-full text-[14px] text-foreground font-medium">
-                  {m.value} {m.label}
-                </span>
-              ))}
-            </div>
-            {cs.impact.body && (
-              <p className="type-body text-muted-foreground">
-                {cs.impact.body.split("\n\n")[0]}
-              </p>
-            )}
-          </div>
+      {/* Image after each solution */}
+      {solImage && (
+        <div className="mt-8 rounded-2xl overflow-hidden border border-border">
+          <img
+            src={solImage.src}
+            alt={solImage.caption ?? `Solution ${i + 1} visual`}
+            className="w-full h-auto block"
+          />
+          {solImage.caption && (
+            <p className="px-4 py-3 text-[13px] text-muted-foreground border-t border-border bg-card">
+              {solImage.caption}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+})}
+
+       {/* Impact */}
+{cs.impact && (
+  <div>
+    <p className="type-label mb-3">IMPACT & RESULTS</p>
+    <h2 className="text-[28px] font-bold text-foreground mb-6">{cs.impact.heading}</h2>
+    <div className="flex flex-wrap gap-3 mb-6">
+      {(cs.impact.metrics ?? []).map((m, i) => (
+        <span key={i} className="inline-flex items-center px-4 py-2 bg-card border border-border rounded-full text-[14px] text-foreground font-medium">
+          {m.value} {m.label}
+        </span>
+      ))}
+    </div>
+    {cs.impact.body && (
+      <p className="type-body text-muted-foreground">
+        {cs.impact.body.split("\n\n")[0]}
+      </p>
+    )}
+
+    {/* Rebranding survey image — attached to impact/results */}
+    {cs.images && cs.images[cs.images.length - 1] && (
+      <div className="mt-8 rounded-2xl overflow-hidden border border-border">
+        <img
+          src={cs.images[cs.images.length - 1].src}
+          alt={cs.images[cs.images.length - 1].caption ?? "Impact analysis"}
+          className="w-full h-auto block"
+        />
+        {cs.images[cs.images.length - 1].caption && (
+          <p className="px-4 py-3 text-[13px] text-muted-foreground border-t border-border bg-card">
+            {cs.images[cs.images.length - 1].caption}
+          </p>
         )}
+      </div>
+    )}
+  </div>
+)}
 
         {/* Reflection */}
         {cs.reflection && (
