@@ -7,7 +7,7 @@ const proofItems = [
 
 const ProofBar = () => {
   return (
-    <section className="bg-surface py-5 border-b border-border">
+    <section className="bg-surface py-3 border-b border-border">
       <div className="max-w-site mx-auto px-6 grid grid-cols-2 gap-3 md:flex md:items-center md:justify-between">
         {proofItems.map((item, i) => (
           <span key={i} className="flex items-center gap-4 text-center md:text-left justify-center md:justify-start">
