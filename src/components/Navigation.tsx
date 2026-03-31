@@ -38,7 +38,7 @@ const Navigation = () => {
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent md:bg-transparent bg-background/95"}`}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px)" }}
         className="flex items-center justify-between h-16">
 
