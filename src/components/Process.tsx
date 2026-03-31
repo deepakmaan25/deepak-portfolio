@@ -132,7 +132,7 @@ const Process = () => {
   const step = steps[active];
 
   return (
-    <section id="process" className="pt-12 pb-24 px-6 lg:px-8 max-w-site mx-auto">
+    <section id="process" className="py-20 max-md:py-14 px-6 lg:px-8 max-w-site mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="mb-12">
         <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>Process</p>
         <h2 style={{ margin: 0, lineHeight: 1.15 }}>
