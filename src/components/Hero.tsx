@@ -507,25 +507,25 @@ const Hero = () => {
            Desktop nav = h-16 = 64px → 64px + breathing room
         */
         .hero-section {
-          padding-top: 48px; /* mobile: exact nav height, zero extra gap */
-        }
-        @media (min-width: 768px) {
-          .hero-section {
-            padding-top: calc(64px + 8px); /* desktop: nav + small breath */
-          }
-        }
+  padding-top: 48px; /* mobile: exact nav height (h-12) */
+}
+@media (min-width: 768px) {
+  .hero-section {
+    padding-top: calc(64px + 8px); /* desktop: nav + small breath */
+  }
+}
 
-        /* Mobile hero content top padding — replaces the old pt-3 */
-        .hero-left-padding {
-          padding-top: 16px;
-          padding-bottom: 20px;
-        }
-        @media (min-width: 768px) {
-          .hero-left-padding {
-            padding-top: 0;
-            padding-bottom: 0;
-          }
-        }
+/* Mobile hero content top padding */
+.hero-left-padding {
+  padding-top: 6px;
+  padding-bottom: 16px;
+}
+@media (min-width: 768px) {
+  .hero-left-padding {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
 
         /* Mobile marquee animation */
         @keyframes statsMobileScroll {
