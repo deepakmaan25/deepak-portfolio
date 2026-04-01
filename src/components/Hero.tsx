@@ -303,8 +303,8 @@ const Hero = () => {
         <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
           <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
-            {/* LEFT — no padding-top here, .hero-section handles the nav offset */}
-            <div className="flex flex-col justify-center py-8 md:py-14 md:pr-8">
+            {/* LEFT — pt-0 on mobile: .hero-section already offsets the nav. py-8 bottom only for breath. */}
+            <div className="flex flex-col justify-center pt-0 pb-8 md:py-14 md:pr-8">
               <div className="mb-2">
                 <span className="block mb-2" style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>
                   I'm a
