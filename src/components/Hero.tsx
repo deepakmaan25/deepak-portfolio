@@ -162,7 +162,6 @@ const statsMeta = [
   },
 ];
 
-// Duplicate for mobile marquee seamless loop
 const allStatsMobile = [...statsMeta, ...statsMeta];
 const MOBILE_CARD_W = 200;
 const MOBILE_GAP    = 10;
@@ -206,7 +205,6 @@ const Hero = () => {
   const v2 = useCounter(statsMeta[2].target, statsMeta[2].decimals, statsMeta[2].delay, statsVisible);
   const values = [v0, v1, v2];
 
-  // Shared card renderer — used by both desktop grid and mobile marquee
   const renderCard = (s: typeof statsMeta[0], i: number, key: string | number) => {
     const accent = isDark ? s.accentDark : s.accentLight;
     const bg     = isDark ? s.bgDark    : s.bgLight;
@@ -218,7 +216,6 @@ const Hero = () => {
           padding: "14px 16px",
           borderRadius: 12,
           background: bg,
-          // Very subtle border — no strong lines
           border: `1px solid ${border}`,
           boxShadow: isDark
             ? "0 1px 4px rgba(0,0,0,0.25)"
@@ -246,7 +243,6 @@ const Hero = () => {
           el.style.transform = "translateY(0)";
         }}
       >
-        {/* Icon container */}
         <div style={{
           flexShrink: 0,
           width: 40, height: 40,
@@ -258,14 +254,12 @@ const Hero = () => {
           <s.Icon color={accent} />
         </div>
 
-        {/* Thin vertical divider */}
         <div style={{
           width: 1, alignSelf: "stretch",
           background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
           flexShrink: 0,
         }} />
 
-        {/* Number + text */}
         <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{
             fontFamily: FONT_DISPLAY,
@@ -303,21 +297,14 @@ const Hero = () => {
 
   return (
     <>
-      {/*
-        paddingTop logic:
-        - Mobile nav height = h-12 = 48px
-        - Desktop nav height = h-16 = 64px
-        - We use a CSS class hero-pt that sets the correct value per breakpoint
-        — no more clamp() mixing both in one value
-      */}
       <section className="w-full hero-section" style={{ background: "hsl(var(--background))" }}>
 
         {/* ── Hero grid ── */}
         <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border">
           <div className="grid grid-cols-1 md:grid-cols-[65fr_35fr]">
 
-            {/* LEFT */}
-            <div className="flex flex-col justify-center hero-left-padding md:py-14 md:pr-8">
+            {/* LEFT — no padding-top here, .hero-section handles the nav offset */}
+            <div className="flex flex-col justify-center py-8 md:py-14 md:pr-8">
               <div className="mb-2">
                 <span className="block mb-2" style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>
                   I'm a
@@ -367,44 +354,26 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* ── Stats — desktop: 3-col grid, mobile: auto-scroll marquee ── */}
+        {/* ── Stats ── */}
         <div ref={statsRef}>
 
-          {/* DESKTOP — grid, no top/bottom border */}
+          {/* DESKTOP */}
           <div
             className="hidden md:block max-w-site mx-auto"
             style={{ padding: "12px clamp(20px,5vw,32px)" }}
           >
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3,1fr)",
-              gap: 10,
-            }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10 }}>
               {statsMeta.map((s, i) => renderCard(s, i, s.label))}
             </div>
           </div>
 
-          {/* MOBILE — horizontal auto-scroll marquee, no grid, no clipping */}
+          {/* MOBILE marquee */}
           <div
             className="md:hidden"
-            style={{
-              padding: "12px 0",
-              overflow: "hidden",
-              position: "relative",
-            }}
+            style={{ padding: "12px 0", overflow: "hidden", position: "relative" }}
           >
-            {/* Fade left */}
-            <div style={{
-              position: "absolute", left: 0, top: 0, bottom: 0, width: 20, zIndex: 2,
-              background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)",
-              pointerEvents: "none",
-            }} />
-            {/* Fade right */}
-            <div style={{
-              position: "absolute", right: 0, top: 0, bottom: 0, width: 20, zIndex: 2,
-              background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)",
-              pointerEvents: "none",
-            }} />
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 20, zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 20, zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
 
             <div
               className="stats-mobile-marquee"
@@ -425,64 +394,23 @@ const Hero = () => {
                   <div
                     key={i}
                     style={{
-                      width: MOBILE_CARD_W,
-                      flexShrink: 0,
-                      padding: "12px 14px",
-                      borderRadius: 12,
-                      background: bg,
-                      border: `1px solid ${border}`,
-                      boxShadow: isDark
-                        ? "0 1px 4px rgba(0,0,0,0.25)"
-                        : "0 1px 3px rgba(0,0,0,0.05)",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
+                      width: MOBILE_CARD_W, flexShrink: 0, padding: "12px 14px", borderRadius: 12,
+                      background: bg, border: `1px solid ${border}`,
+                      boxShadow: isDark ? "0 1px 4px rgba(0,0,0,0.25)" : "0 1px 3px rgba(0,0,0,0.05)",
+                      display: "flex", alignItems: "center", gap: 10,
                     }}
                   >
-                    {/* Icon */}
-                    <div style={{
-                      flexShrink: 0, width: 36, height: 36,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.025)",
-                      borderRadius: 9,
-                      border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)"}`,
-                    }}>
+                    <div style={{ flexShrink: 0, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.025)", borderRadius: 9, border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)"}` }}>
                       <s.Icon color={accent} />
                     </div>
-
-                    {/* Divider */}
-                    <div style={{
-                      width: 1, alignSelf: "stretch",
-                      background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
-                      flexShrink: 0,
-                    }} />
-
-                    {/* Text */}
+                    <div style={{ width: 1, alignSelf: "stretch", background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", flexShrink: 0 }} />
                     <div style={{ minWidth: 0 }}>
-                      <div style={{
-                        fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 300,
-                        fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em",
-                        lineHeight: 1, color: "hsl(var(--foreground))", marginBottom: 3,
-                      }}>
+                      <div style={{ fontFamily: FONT_DISPLAY, fontSize: 20, fontWeight: 300, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em", lineHeight: 1, color: "hsl(var(--foreground))", marginBottom: 3 }}>
                         {values[vi]}
-                        <span style={{ fontSize: "0.44em", fontWeight: 700, color: accent, marginLeft: 1 }}>
-                          {s.suffix}
-                        </span>
+                        <span style={{ fontSize: "0.44em", fontWeight: 700, color: accent, marginLeft: 1 }}>{s.suffix}</span>
                       </div>
-                      <div style={{
-                        fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600,
-                        color: "hsl(var(--foreground))", lineHeight: 1.3, marginBottom: 1,
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                      }}>
-                        {s.label}
-                      </div>
-                      <div style={{
-                        fontFamily: FONT_BODY, fontSize: 9, fontWeight: 400,
-                        color: "hsl(var(--muted-foreground))", lineHeight: 1.4,
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                      }}>
-                        {s.sub}
-                      </div>
+                      <div style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3, marginBottom: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.label}</div>
+                      <div style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 400, color: "hsl(var(--muted-foreground))", lineHeight: 1.4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.sub}</div>
                     </div>
                   </div>
                 );
@@ -502,33 +430,24 @@ const Hero = () => {
       </section>
 
       <style>{`
-        /* ── Nav-height-aware top padding ──────────────────────────────────
-           Mobile nav = h-12 = 48px → just that, no extra
-           Desktop nav = h-16 = 64px → 64px + breathing room
+        /*
+          SPACING — single source of truth.
+          Mobile:  nav h-12 = 48px  → section padding-top: 48px
+          Desktop: nav h-16 = 64px  → section padding-top: 72px (64 + 8 breath)
+          The inner column (.hero-left) uses py-8 on mobile for content breathing room —
+          this is NOT nav compensation, it's purely content spacing.
+          Do not add any extra pt-* on the inner column or the grid.
         */
-        
         .hero-section {
-  padding-top: 48px; /* mobile: exact nav height (h-12) */
-}
-@media (min-width: 768px) {
-  .hero-section {
-    padding-top: calc(64px + 8px); /* desktop: nav + small breath */
-  }
-}
+          padding-top: 48px;
+        }
+        @media (min-width: 768px) {
+          .hero-section {
+            padding-top: 72px;
+          }
+        }
 
-/* Mobile hero content top padding */
-.hero-left-padding {
-  padding-top: 6px;
-  padding-bottom: 16px;
-}
-@media (min-width: 768px) {
-  .hero-left-padding {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-}
-
-        /* Mobile marquee animation */
+        /* Mobile marquee */
         @keyframes statsMobileScroll {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-${mobileTotalW + MOBILE_GAP}px); }
