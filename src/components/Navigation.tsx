@@ -24,7 +24,6 @@ const Navigation = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    // Also toggle the "dark" class so useDarkMode() hook works in Hero/CreativeSide
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -51,6 +50,12 @@ const Navigation = () => {
           : "bg-transparent md:bg-transparent bg-background/95"
       }`}
     >
+      {/*
+        NAV HEIGHT — single source of truth:
+        Mobile:  h-12 = 48px  (matches .hero-section padding-top: 48px)
+        Desktop: h-16 = 64px  (matches .hero-section md:padding-top: 72px)
+        Do not add any extra py-* or height overrides anywhere else.
+      */}
       <div
         style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,5vw,32px)" }}
         className="flex items-center justify-between h-12 md:h-16"
@@ -58,7 +63,14 @@ const Navigation = () => {
         {/* Logo */}
         <Link
           to="/"
-          style={{ fontFamily: FONT_DISPLAY, fontSize: 15, fontWeight: 600, color: "hsl(var(--foreground))", textDecoration: "none", letterSpacing: "-0.02em" }}
+          style={{
+            fontFamily: FONT_DISPLAY,
+            fontSize: 15,
+            fontWeight: 600,
+            color: "hsl(var(--foreground))",
+            textDecoration: "none",
+            letterSpacing: "-0.02em",
+          }}
           onMouseEnter={e => (e.currentTarget.style.color = "#6366f1")}
           onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
         >
@@ -71,7 +83,14 @@ const Navigation = () => {
             <a
               key={l.label}
               href={l.href}
-              style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 400, color: "hsl(var(--muted-foreground))", textDecoration: "none", transition: "color 0.2s" }}
+              style={{
+                fontFamily: FONT_BODY,
+                fontSize: 14,
+                fontWeight: 400,
+                color: "hsl(var(--muted-foreground))",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
               onMouseEnter={e => (e.currentTarget.style.color = "hsl(var(--foreground))")}
               onMouseLeave={e => (e.currentTarget.style.color = "hsl(var(--muted-foreground))")}
             >
@@ -79,13 +98,22 @@ const Navigation = () => {
             </a>
           ))}
 
-          {/* Desktop Resume — filled indigo */}
           <a
             href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5"
-            style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, padding: "7px 16px", borderRadius: 100, background: "#6366f1", color: "#fff", textDecoration: "none", transition: "opacity 0.2s" }}
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: 13,
+              fontWeight: 500,
+              padding: "7px 16px",
+              borderRadius: 100,
+              background: "#6366f1",
+              color: "#fff",
+              textDecoration: "none",
+              transition: "opacity 0.2s",
+            }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
           >
@@ -120,7 +148,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile dropdown */}
       {menuOpen && (
         <div className="md:hidden bg-background border-b border-border">
           <nav className="flex flex-col px-6 py-4 gap-4">
@@ -128,24 +156,34 @@ const Navigation = () => {
               <a
                 key={l.label}
                 href={l.href}
-                style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 400, color: "hsl(var(--foreground))", textDecoration: "none" }}
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: "hsl(var(--foreground))",
+                  textDecoration: "none",
+                }}
                 onClick={() => setMenuOpen(false)}
               >
                 {l.label}
               </a>
             ))}
 
-            {/* Mobile Resume — matches desktop style */}
             <a
               href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 self-start"
               style={{
-                fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500,
-                padding: "8px 18px", borderRadius: 100,
-                background: "#6366f1", color: "#fff",
-                textDecoration: "none", transition: "opacity 0.2s",
+                fontFamily: FONT_BODY,
+                fontSize: 13,
+                fontWeight: 500,
+                padding: "8px 18px",
+                borderRadius: 100,
+                background: "#6366f1",
+                color: "#fff",
+                textDecoration: "none",
+                transition: "opacity 0.2s",
               }}
               onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
