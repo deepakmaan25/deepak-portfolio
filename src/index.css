@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Aileron:wght@300;400;600;700&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Aileron self-hosted via @fontsource — import in main.tsx:
-   import "@fontsource/aileron/300.css";
-   import "@fontsource/aileron/400.css";
-   import "@fontsource/aileron/600.css";
-   import "@fontsource/aileron/700.css";
-   import "@fontsource/aileron/400-italic.css";
-*/
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -199,7 +191,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Section labels */
   .type-label {
     font-family: 'Aileron', sans-serif;
     font-size: 11px;
@@ -209,7 +200,6 @@
     color: hsl(var(--muted-foreground));
   }
 
-  /* Display headings — Unbounded */
   .type-h1 {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(36px, 5vw, 64px);
@@ -236,7 +226,6 @@
     letter-spacing: -0.01em;
   }
 
-  /* Body */
   .type-body {
     font-family: 'Aileron', sans-serif;
     font-size: 16px;
@@ -424,7 +413,17 @@ html {
   .cs-pillars-grid { grid-template-columns: 1fr !important; }
   .footer-grid { flex-direction: column !important; gap: 32px !important; }
   .max-w-site { padding-left: 16px !important; padding-right: 16px !important; }
-  section { padding-top: 48px !important; padding-bottom: 48px !important; }
+
+  /*
+    HERO SPACING FIX
+    The old rule `section { padding-top: 48px !important }` was stacking on top of
+    .hero-section's own padding-top: 48px (set in Hero.tsx), creating ~144px of dead
+    space on mobile. Fixed by:
+    1. Scoping the section rule to non-hero sections only
+    2. Explicitly overriding .hero-section to 12px on small screens
+  */
+  section:not(.hero-section) { padding-top: 48px !important; padding-bottom: 48px !important; }
+  .hero-section { padding-top: 12px !important; }
 }
 
 @media (max-width: 768px) {
