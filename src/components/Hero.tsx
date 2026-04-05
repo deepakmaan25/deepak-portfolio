@@ -47,13 +47,28 @@ const getT = (pos: number, lx: number, ly: number) => {
 
 // ── Card data ─────────────────────────────────────────────────────────────────
 const CARD_DATA = [
-  { id:0, accent:"#6366f1", bg:"linear-gradient(145deg,#1a1a2e,#141418)", tag:"Product Design · Mobile",    metric:"40%",     metricSize:26, title:"Zu-AI — Chat Experience Redesign", sub:"Faster Scanning · 100K+ Students"   },
-  { id:1, accent:"#03a552", bg:"linear-gradient(145deg,#0f1f1a,#141418)", tag:"UX Research · Web Platform", metric:"80%",     metricSize:26, title:"Tech Japan — Platform Redesign",   sub:"Improved Navigation · IIT Students" },
-  { id:2, accent:"#f59e0b", bg:"linear-gradient(145deg,#1a1520,#141418)", tag:"Design Analytics · Data",    metric:"Power BI",metricSize:15, title:"JSW Steel — Data Design",           sub:"CMO Intelligence · Market Analysis" },
+  {
+    id:0, accent:"#6366f1", tag:"Product Design · Mobile", metric:"40%", metricSize:26,
+    title:"Zu-AI — Chat Experience Redesign", sub:"Faster Scanning · 100K+ Students",
+    bgDark:"linear-gradient(145deg,#1a1a2e,#141418)",
+    bgLight:"linear-gradient(145deg,#2a2a48,#1c1c30)",
+  },
+  {
+    id:1, accent:"#03a552", tag:"UX Research · Web Platform", metric:"80%", metricSize:26,
+    title:"Tech Japan — Platform Redesign", sub:"Improved Navigation · IIT Students",
+    bgDark:"linear-gradient(145deg,#0f1f1a,#141418)",
+    bgLight:"linear-gradient(145deg,#163326,#1a2820)",
+  },
+  {
+    id:2, accent:"#f59e0b", tag:"Design Analytics · Data", metric:"Power BI", metricSize:15,
+    title:"JSW Steel — Data Design", sub:"CMO Intelligence · Market Analysis",
+    bgDark:"linear-gradient(145deg,#1a1520,#141418)",
+    bgLight:"linear-gradient(145deg,#2c2010,#201808)",
+  },
 ];
 
 // ── Card Scene ────────────────────────────────────────────────────────────────
-const CardScene = ({ mobile = false }: { mobile?: boolean }) => {
+const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark?: boolean }) => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const orderRef = useRef([0, 1, 2]);
   const animRef  = useRef(false);
@@ -192,12 +207,16 @@ const CardScene = ({ mobile = false }: { mobile?: boolean }) => {
             {/* Front */}
             <div style={{
               position:"absolute", inset:0, borderRadius:20,
-              background:card.bg,
+              background: isDark ? card.bgDark : card.bgLight,
               backfaceVisibility:"hidden", WebkitBackfaceVisibility:"hidden",
               padding:24,
               display:"flex", flexDirection:"column", justifyContent:"space-between",
-              border:"1px solid rgba(99,102,241,0.22)",
-              boxShadow:"-18px 18px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.2), 0 0 40px rgba(99,102,241,0.07)",
+              border: isDark
+                ? "1px solid rgba(99,102,241,0.22)"
+                : `1px solid ${card.accent}55`,
+              boxShadow: isDark
+                ? "-18px 18px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,0,0,0.2), 0 0 40px rgba(99,102,241,0.07)"
+                : `-22px 24px 52px rgba(0,0,0,0.38), 0 0 0 1px rgba(0,0,0,0.1), 8px -4px 28px rgba(0,0,0,0.12), 0 0 44px ${card.accent}18`,
             }}>
               <div>
                 <div style={{ fontSize:8, fontWeight:700, letterSpacing:"0.13em", textTransform:"uppercase", color:card.accent, display:"flex", alignItems:"center", gap:5, fontFamily:FONT_BODY }}>
@@ -290,8 +309,8 @@ const Hero = () => {
         {/* Dot-grid atmosphere — class-based so mask-image works reliably */}
         <div className={`hero-dot-grid ${isDark ? "hero-dot-grid--dark" : "hero-dot-grid--light"}`} aria-hidden="true" />
 
-        {/* Soft indigo glow behind card area */}
-        <div className="hero-glow" aria-hidden="true" />
+        {/* Soft accent glow — follows card area */}
+        <div className={`hero-glow ${isDark ? "hero-glow--dark" : "hero-glow--light"}`} aria-hidden="true" />
 
         {/* ── Main grid ── */}
         <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border" style={{ position:"relative", zIndex:1 }}>
@@ -352,7 +371,7 @@ const Hero = () => {
 
             {/* RIGHT — desktop only, inside grid */}
             <div className="hero-right-desktop" style={{ position:"relative", zIndex:1 }}>
-              <CardScene />
+              <CardScene isDark={isDark} />
             </div>
 
           </div>
@@ -360,7 +379,7 @@ const Hero = () => {
 
         {/* Mobile card scene — outside grid, only on mobile */}
         <div className="hero-mobile-cards" style={{ position:"relative", zIndex:1 }}>
-          <CardScene mobile />
+          <CardScene mobile isDark={isDark} />
         </div>
 
         {/* Scroll cue */}
@@ -448,10 +467,11 @@ const Hero = () => {
           right: 4%; top: 8%;
           width: 460px; height: 460px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%);
           pointer-events: none;
           z-index: 0;
         }
+        .hero-glow--dark  { background: radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 70%); }
+        .hero-glow--light { background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 65%); }
 
         /* ── Light mode: stronger card shadows for separation ── */
         :root:not(.dark) .hero-card-front {
