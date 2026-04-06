@@ -53,6 +53,8 @@ const CaseStudies = () => {
       width: "45%",
       opacity: isActive ? 1 : 0,
       transition: "opacity 0.4s 0.2s ease",
+      mixBlendMode: isDark ? "screen" : "multiply",
+opacity: isDark ? 0.08 : 0.18,
     }}
   >
    <img
@@ -65,7 +67,7 @@ const CaseStudies = () => {
     objectPosition: "left center",
     borderRadius: "0 16px 16px 0",
     opacity: 0.18,
-    mixBlendMode: "multiply",
+const isDark = document.documentElement.classList.contains("dark");
     maskImage: "linear-gradient(to right, transparent 0%, black 40%)",
     WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)",
   } as React.CSSProperties}
