@@ -9,20 +9,6 @@ const cardColors = [
   "bg-card-orange",
 ];
 
-// EduPath dashboard wireframe placeholder
-const EduPathPlaceholder = () => (
-  <div className="w-full h-full flex rounded-xl overflow-hidden" style={{ background: "#F0F4FF" }}>
-    <div className="w-[20%] h-full" style={{ background: "rgba(99,102,241,0.08)" }} />
-    <div className="flex-1 p-4 flex flex-col gap-3">
-      <div className="h-8 rounded-md w-full" style={{ background: "rgba(99,102,241,0.06)" }} />
-      <div className="flex-1 grid grid-cols-3 gap-2.5">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="rounded-lg" style={{ background: "rgba(99,102,241,0.1)" }} />
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) => {
   const ref = useRef(null);
@@ -37,8 +23,6 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
     const rect = imageRef.current.getBoundingClientRect();
     setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   }, []);
-
-  const isEduPath = cs.slug === "edupath-learning-system";
 
   return (
     <motion.div
@@ -97,13 +81,11 @@ const WorkCard = ({ cs, index }: { cs: typeof caseStudies[0]; index: number }) =
               onMouseLeave={() => setShowCursor(false)}
               onMouseMove={handleMouseMove}
             >
-              {isEduPath ? (
-                <EduPathPlaceholder />
-              ) : cs.image ? (
-                <img src={cs.image} alt={cs.title} loading="lazy" className="w-full h-full object-cover rounded-xl" />
-              ) : (
-                <span className="text-[13px] text-muted-foreground">Project Mockup</span>
-              )}
+            {cs.image ? (
+  <img src={cs.image} alt={cs.title} loading="lazy" className="w-full h-full object-cover rounded-xl" />
+) : (
+  <span className="text-[13px] text-muted-foreground">Project Mockup</span>
+)}
 
               {showCursor && (
                 <div
@@ -135,7 +117,7 @@ const Work = () => {
         className="flex items-baseline justify-between mb-12"
       >
         <div>
-          <p className="type-label mb-3">WORK</p>
+          <p className="type-label mb-3">SELECTED WORK</p>
           <h2 className="type-h2">Selected Case Studies</h2>
         </div>
         <span className="text-[14px] text-muted-foreground hidden md:block">({String(caseStudies.length).padStart(2, "0")})</span>
