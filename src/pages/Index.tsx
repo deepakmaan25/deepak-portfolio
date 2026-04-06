@@ -2,8 +2,8 @@ import Hero from "@/components/Hero";
 import ProofBar from "@/components/ProofBar";
 import ToolsMarquee from "@/components/ToolsMarquee";
 import CaseStudies from "@/components/CaseStudies";
-import CreativeSide from "@/components/CreativeSide";
 import About from "@/components/About";
+import CreativeSide from "@/components/CreativeSide";
 import Contact from "@/components/Contact";
 
 const Index = () => {
@@ -14,8 +14,8 @@ const Index = () => {
         <ProofBar />
         <ToolsMarquee />
         <CaseStudies />
-        <CreativeSide />
         <About />
+        <CreativeSide />
         <Contact />
       </main>
     </div>
