@@ -56,6 +56,7 @@ export interface CaseStudy {
     caption?: string;
   }[];
   nextProject: string;
+  image?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -268,6 +269,7 @@ export const caseStudies: CaseStudy[] = [
       { src: "/ZA7_Key_decisions.png", ratio: 48.7, caption: "Key design decisions and impact metrics" },
     ],
     nextProject: "tech-japan",
+    image: "/ZA1_Hero_Image.png",
   },
 
   // ─────────────────────────────────────────────
@@ -483,6 +485,7 @@ export const caseStudies: CaseStudy[] = [
       { src: "/TJ-rebranding-survey.png",      ratio: 90.70,  caption: "Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
     ],
     nextProject: "zu-ai",
+    image: "/06-resume-management.png",
   },
 ];
 

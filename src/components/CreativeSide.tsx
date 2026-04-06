@@ -13,12 +13,15 @@ const FD = "'Unbounded', sans-serif";
 //   year     → optional year string
 // ─────────────────────────────────────────────────────────────────────────────
 const artworks = [
-  { src: "/art/placeholder-1.jpg", title: "Celestial Drift", category: "Poster Design", year: "2024" },
-  { src: "/art/placeholder-2.jpg", title: "Fractured Light", category: "Photo Manipulation", year: "2024" },
-  { src: "/art/placeholder-3.jpg", title: "Neon Reverie", category: "Illustration", year: "2023" },
-  { src: "/art/placeholder-4.jpg", title: "Void Architecture", category: "Poster Design", year: "2024" },
-  { src: "/art/placeholder-5.jpg", title: "Signal Lost", category: "Photo Manipulation", year: "2023" },
-  { src: "/art/placeholder-6.jpg", title: "Ember Protocol", category: "Poster Design", year: "2024" },
+  { src: "/visual/art-virat.png",       title: "Virat",        category: "Photo Manipulation", year: "2024" },
+  { src: "/visual/art-sidhu.png",       title: "Sidhu",        category: "Photo Manipulation", year: "2024" },
+  { src: "/visual/art-samurai.png",     title: "Samurai",      category: "Illustration",       year: "2024" },
+  { src: "/visual/art-15aug.png",       title: "15 August",    category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-dancer.png",      title: "Dancer",       category: "Illustration",       year: "2024" },
+  { src: "/visual/art-mothers-day.jpg", title: "Mother's Day", category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-no1-team.jpg",    title: "No. 1 Team",   category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-rs45.png",        title: "RS 45",        category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-icw.png",         title: "ICW",          category: "Poster Design",      year: "2024" },
 ];
 
 // Duplicate for seamless loop

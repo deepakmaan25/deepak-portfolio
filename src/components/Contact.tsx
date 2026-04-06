@@ -35,12 +35,12 @@ const testimonials = [
     context: "Product Design",
     text: "We went from a rough idea to a fully designed product ready for development. Brand identity, component system, all major flows — quality well above what I expected, and he moved fast without cutting corners.",
   },
-    {
+  {
     name: "Krishan Vir Singh",
     handle: "KS",
     role: "Founder, EAL",
     context: "UI/UX Design",
-    text: "We went from a rough idea to a fully designed product ready for development. Brand identity, component system, all major flows — quality well above what I expected, and he moved fast without cutting corners.",
+    text: "We hired Deepak to design the end to end user flow for out App, he understood the requirements and target users and made the user journey through the app seamless and we were able to ship the final UI within 3 months.", // ← get this from him
   },
   {
     name: "Amaresh",
