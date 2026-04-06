@@ -23,8 +23,8 @@ const CaseStudies = () => {
       <motion.div ref={headerRef} initial={{ opacity: 0, y: 20 }} animate={headerInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="mb-10">
         <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>Selected Work</p>
         <h2 style={{ margin: 0, lineHeight: 1.15 }}>
-          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>Projects I'm </span>
-          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>proud of</span>
+       <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>Selected </span>
+<span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>Case Studies</span>
         </h2>
       </motion.div>
 
@@ -44,7 +44,32 @@ const CaseStudies = () => {
               <span className="absolute pointer-events-none select-none" style={{ fontFamily: FONT_DISPLAY, fontSize: 110, fontWeight: 800, lineHeight: 1, bottom: -16, right: -8, color: style.watermark, transform: isActive ? "scale(1.08) translate(-4px,-8px)" : "none", transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)", opacity: isActive ? 0.5 : 1, letterSpacing: "-0.04em" }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-
+{/* Image — visible only when active */}
+{cs.image && (
+  <div
+    className="absolute pointer-events-none"
+    style={{
+      top: 0, right: 0, bottom: 0,
+      width: "45%",
+      opacity: isActive ? 1 : 0,
+      transition: "opacity 0.4s 0.2s ease",
+    }}
+  >
+    <img
+      src={cs.image}
+      alt={cs.title}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        objectPosition: "left center",
+        borderRadius: "0 16px 16px 0",
+        maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 100%)",
+        WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 100%)",
+      }}
+    />
+  </div>
+)}
               <div className="flex flex-col" style={{ gap: 6 }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cs.tag}</p>
                 <h3 style={{ margin: 0, lineHeight: 1.25 }}>
