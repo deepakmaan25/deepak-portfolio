@@ -485,8 +485,7 @@ export const caseStudies: CaseStudy[] = [
       { src: "/TJ-rebranding-survey.png",      ratio: 90.70,  caption: "Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
     ],
     nextProject: "zu-ai",
-    image: "/01-project-overview.png",
-  },
+image: "/06-resume-management.png",  
 ];
 
 export default caseStudies;
