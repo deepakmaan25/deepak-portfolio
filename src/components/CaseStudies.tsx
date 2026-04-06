@@ -36,7 +36,7 @@ const CaseStudies = () => {
         </h2>
       </motion.div>
 
-      {/* Desktop filmstrip */}
+      {/* ── Desktop filmstrip ─────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
@@ -48,7 +48,6 @@ const CaseStudies = () => {
           const style = cardStyles[i] ?? cardStyles[0];
           const isActive = activeIndex === i;
           const heroOutcome = cs.outcomes?.[0];
-          const isDark = document.documentElement.classList.contains("dark");
 
           return (
             <Link
@@ -65,7 +64,7 @@ const CaseStudies = () => {
               }}
               onMouseEnter={() => setActiveIndex(i)}
             >
-              {/* Watermark */}
+              {/* Watermark number */}
               <span
                 className="absolute pointer-events-none select-none"
                 style={{
@@ -85,7 +84,7 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Project image — fades in when active */}
+              {/* Project image — stays visible while active */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
@@ -95,7 +94,7 @@ const CaseStudies = () => {
                     bottom: 0,
                     width: "45%",
                     opacity: isActive ? 1 : 0,
-                    transition: "opacity 0.4s 0.2s ease",
+                    transition: "opacity 0.4s 0.15s ease",
                   }}
                 >
                   <img
@@ -107,16 +106,16 @@ const CaseStudies = () => {
                       objectFit: "cover",
                       objectPosition: "left center",
                       borderRadius: "0 16px 16px 0",
-                      opacity: isDark ? 0.08 : 0.18,
-                      mixBlendMode: isDark ? "screen" : "multiply",
-                      maskImage: "linear-gradient(to right, transparent 0%, black 40%)",
-                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)",
+                      opacity: 0.2,
+                      mixBlendMode: "multiply",
+                      maskImage: "linear-gradient(to right, transparent 0%, black 45%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%)",
                     } as React.CSSProperties}
                   />
                 </div>
               )}
 
-              {/* Top content */}
+              {/* Top — tag + title + tagline */}
               <div className="flex flex-col" style={{ gap: 6 }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {cs.tag}
@@ -136,7 +135,7 @@ const CaseStudies = () => {
                 </p>
               </div>
 
-              {/* Bottom content */}
+              {/* Bottom — metric + pills + CTA */}
               <div className="relative flex flex-col" style={{ gap: 4, zIndex: 2 }}>
                 {heroOutcome && (
                   <>
@@ -153,6 +152,7 @@ const CaseStudies = () => {
                     </div>
                   </>
                 )}
+
                 <div
                   className="flex flex-wrap"
                   style={{ gap: 5, opacity: isActive ? 1 : 0, maxHeight: isActive ? 60 : 0, overflow: "hidden", marginTop: isActive ? 10 : 0, transition: "opacity 0.3s 0.2s, max-height 0.4s, margin-top 0.3s" }}
@@ -166,6 +166,7 @@ const CaseStudies = () => {
                     </span>
                   ))}
                 </div>
+
                 <div
                   className="inline-flex items-center"
                   style={{ gap: 8, fontFamily: FONT_BODY, fontSize: 12, fontWeight: 600, color: style.accent, opacity: isActive ? 1 : 0, marginTop: isActive ? 12 : 0, transition: "opacity 0.3s 0.25s, margin-top 0.3s", width: "fit-content" }}
@@ -184,7 +185,7 @@ const CaseStudies = () => {
         })}
       </motion.div>
 
-      {/* Mobile stacked */}
+      {/* ── Mobile stacked ────────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
@@ -194,7 +195,6 @@ const CaseStudies = () => {
         {caseStudies.map((cs, i) => {
           const style = cardStyles[i] ?? cardStyles[0];
           const heroOutcome = cs.outcomes?.[0];
-          const isDark = document.documentElement.classList.contains("dark");
 
           return (
             <Link
@@ -225,8 +225,8 @@ const CaseStudies = () => {
                       objectFit: "cover",
                       objectPosition: "left center",
                       borderRadius: "0 16px 16px 0",
-                      opacity: isDark ? 0.06 : 0.12,
-                      mixBlendMode: isDark ? "screen" : "multiply",
+                      opacity: 0.12,
+                      mixBlendMode: "multiply",
                       maskImage: "linear-gradient(to right, transparent 0%, black 50%)",
                       WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 50%)",
                     } as React.CSSProperties}
