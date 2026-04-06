@@ -15,7 +15,6 @@ const Index = () => {
         <ToolsMarquee />
         <CaseStudies />
         <CreativeSide />
-        <Process />
         <About />
         <Contact />
       </main>
