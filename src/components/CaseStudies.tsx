@@ -55,19 +55,21 @@ const CaseStudies = () => {
       transition: "opacity 0.4s 0.2s ease",
     }}
   >
-    <img
-      src={cs.image}
-      alt={cs.title}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        objectPosition: "left center",
-        borderRadius: "0 16px 16px 0",
-        maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 100%)",
-        WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 100%)",
-      }}
-    />
+   <img
+  src={cs.image}
+  alt={cs.title}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    objectPosition: "left center",
+    borderRadius: "0 16px 16px 0",
+    opacity: 0.18,
+    mixBlendMode: "multiply",
+    maskImage: "linear-gradient(to right, transparent 0%, black 40%)",
+    WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)",
+  } as React.CSSProperties}
+/>
   </div>
 )}
               <div className="flex flex-col" style={{ gap: 6 }}>
