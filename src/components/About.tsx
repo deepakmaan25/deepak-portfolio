@@ -18,7 +18,7 @@ const skillGroups = [
     color: "#0ea5e9",
     colorBg: "rgba(14,165,233,0.08)",
     colorBorder: "rgba(14,165,233,0.18)",
-    skills: ["Figma", "FigJam", "Figma Make", "Prototyping", "Design Systems", "Adobe Photoshop", "Adobe Illustrator"],
+    skills: ["Figma", "FigJam", "Figma Make", "Prototyping", "Design Systems", "Photoshop", "Illustrator"],
   },
   {
     label: "AI",
@@ -92,14 +92,11 @@ const cardSocials = [
 const About = () => {
   const [openIndex, setOpenIndex] = useState(0);
   const toggle = (i: number) => setOpenIndex(openIndex === i ? -1 : i);
-  const lift = (el: HTMLDivElement, up: boolean) => {
-    el.style.transform = up ? "translateY(-3px)" : "translateY(0)";
-  };
 
   return (
     <section id="about" className="py-20 max-md:py-14 px-6 lg:px-8 max-w-site mx-auto">
 
-      {/* Section header */}
+      {/* ── Section header ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +112,7 @@ const About = () => {
         </h2>
       </motion.div>
 
-      {/* Bento grid */}
+      {/* ── Bento grid ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -124,65 +121,71 @@ const About = () => {
         className="about-bento"
         style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 40, alignItems: "stretch" }}
       >
-        {/* Left column */}
+
+        {/* ── LEFT COLUMN ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-          {/* Blue identity card */}
-          <div
-            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
-            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
-            style={{ flex: 1, borderRadius: 20, padding: 28, background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", overflow: "hidden", minHeight: 320, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}
-          >
-            {/* Decorative blobs */}
-            <div style={{ position: "absolute", top: -40, right: -40, width: 150, height: 150, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.35), transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: -40, left: -20, width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: -10, right: -5, fontFamily: FONT_DISPLAY, fontSize: 72, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
+          {/* Identity card — content left, photo right full height */}
+          <div style={{ flex: 1, borderRadius: 20, overflow: "hidden", background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)", display: "flex", flexDirection: "row", position: "relative", minHeight: 280 }}>
 
-            {/* Name block */}
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
-              <div style={{ lineHeight: 1.1 }}>
-                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
-                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan</span>
-              </div>
-              <p style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.6, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>Product Designer · India · Open to remote</p>
-            </div>
+            {/* Blobs */}
+            <div style={{ position: "absolute", top: -30, right: 120, width: 110, height: 110, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.32), transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
+            <div style={{ position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
+            <div style={{ position: "absolute", bottom: -8, left: 16, fontFamily: FONT_DISPLAY, fontSize: 64, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em", zIndex: 1 }}>DM</div>
 
-            {/* Social pills + quote */}
-            <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                {cardSocials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: FONT_BODY, fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "5px 11px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s, border-color 0.2s", backdropFilter: "blur(4px)" }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; el.style.borderColor = "rgba(255,255,255,0.25)"; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; el.style.borderColor = "rgba(255,255,255,0.12)"; }}
-                  >
-                    <s.icon size={10} style={{ flexShrink: 0 }} />
-                    {s.label} ↗
-                  </a>
-                ))}
+            {/* Content */}
+            <div style={{ flex: 1, padding: "24px 12px 22px 24px", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", zIndex: 2, minWidth: 0 }}>
+              <div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
+                <div style={{ lineHeight: 1.1, marginBottom: 5 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
+                </div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
+                  Product Designer · India · Open to remote
+                </p>
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                  {cardSocials.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
+                      onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
+                      onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}
+                    >
+                      <s.icon size={9} style={{ flexShrink: 0 }} />
+                      {s.label} ↗
+                    </a>
+                  ))}
+                </div>
               </div>
-              <p style={{ fontFamily: FONT_BODY, fontSize: 12, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.7, margin: 0 }}>
+              <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65, margin: 0 }}>
                 "Design starts in conversations, not Figma."
               </p>
+            </div>
+
+            {/* Photo — full card height, right side, square with card's border radius on right */}
+            <div style={{ width: "38%", maxWidth: 120, flexShrink: 0, position: "relative", overflow: "hidden" }}>
+              {/* Fade from gradient into photo */}
+              <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 44, background: "linear-gradient(to right, #312e81, transparent)", zIndex: 2, pointerEvents: "none" }} />
+              <img
+                src="/deepak.png"
+                alt="Deepak Maan"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.82) saturate(0.85)" }}
+                onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              />
             </div>
           </div>
 
           {/* Status card */}
-          <div
-            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
-            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
-            style={{ borderRadius: 20, padding: "22px 24px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexShrink: 0, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}
-          >
+          <div style={{ borderRadius: 20, padding: "18px 20px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexShrink: 0 }}>
             <div>
-              <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 6 }}>Status</p>
+              <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 6 }}>Status</p>
               <div style={{ lineHeight: 1.3, marginBottom: 10 }}>
-                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>Open to new </span>
-                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 12, fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>opportunities</span>
+                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 11, fontWeight: 600, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>Open to new </span>
+                <span style={{ fontFamily: FONT_DISPLAY, fontSize: 11, fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>opportunities</span>
               </div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT_BODY, fontSize: 11, fontWeight: 500, padding: "4px 10px", borderRadius: 100, background: "rgba(34,197,94,0.12)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.25)" }}>
                 <span className="relative flex h-1.5 w-1.5">
@@ -193,106 +196,66 @@ const About = () => {
               </div>
             </div>
             <div style={{ textAlign: "right", flexShrink: 0 }}>
-              <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 700, color: "#6366f1", lineHeight: 1, letterSpacing: "-0.03em" }}>5<span style={{ fontSize: 16 }}>+</span></div>
-              <div style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))", marginTop: 3 }}>Products</div>
+              <div style={{ fontFamily: FONT_DISPLAY, fontSize: 26, fontWeight: 700, color: "#6366f1", lineHeight: 1, letterSpacing: "-0.03em" }}>5<span style={{ fontSize: 14 }}>+</span></div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--muted-foreground))", marginTop: 3 }}>Products</div>
             </div>
           </div>
         </div>
 
-        {/* Right column */}
+        {/* ── RIGHT COLUMN ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
           {/* Bio card */}
-          <div
-            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
-            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
-            style={{ flex: 1, borderRadius: 20, padding: 28, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", boxShadow: "0 2px 16px rgba(0,0,0,0.04)", transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}
-          >
-            <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
+          <div style={{ flex: 1, borderRadius: 20, padding: 26, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
             <h3 style={{ margin: "0 0 14px", lineHeight: 1.3 }}>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(13px, 1.6vw, 17px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>I don't start in Figma. </span>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(13px, 1.6vw, 17px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>I start with the person who's struggling.</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>I don't start in Figma. </span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>I start with the person who's struggling.</span>
             </h3>
-            <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 0 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 0 }}>
               I'm Deepak — a Product Designer from IIT ISM Dhanbad, based in India and open to remote. I've worked across AI, SaaS, job platforms, and consumer products — researching what's broken, designing what fixes it, and making sure it actually ships.
             </p>
-            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "16px 0" }} />
-            <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
+            <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "14px 0" }} />
+            <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
               Google UX Certified. Led design at CyberLabs, IIT ISM — mentored 50+ students. Currently a Design Analyst at JSW Steel, where design meets data and business strategy.
             </p>
-            <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
               "I use AI tools — Claude, Midjourney, Figma Make — to compress the repetitive parts of research and synthesis."
             </p>
           </div>
 
-          {/* Skills card — grouped by category */}
-          <div
-            onMouseEnter={e => lift(e.currentTarget as HTMLDivElement, true)}
-            onMouseLeave={e => lift(e.currentTarget as HTMLDivElement, false)}
-            style={{ borderRadius: 20, padding: 24, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", flexShrink: 0, transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}
-          >
-            <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>
+          {/* Skills card — Hybrid 3: 2×2 grid, top colour bar + dot + label */}
+          <div style={{ borderRadius: 20, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", padding: 20, flexShrink: 0 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 14 }}>
               Skills & Tools
             </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
               {skillGroups.map((group) => (
-                <div key={group.label} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                  {/* Category label */}
-                  <div style={{ flexShrink: 0, paddingTop: 3 }}>
-                    <span style={{
-                      fontFamily: FONT_BODY,
-                      fontSize: 9,
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: group.color,
-                      background: group.colorBg,
-                      border: `1px solid ${group.colorBorder}`,
-                      padding: "3px 8px",
-                      borderRadius: 100,
-                      display: "inline-block",
-                      minWidth: 60,
-                      textAlign: "center",
-                    }}>
-                      {group.label}
-                    </span>
-                  </div>
-
-                  {/* Skills for this group */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5, flex: 1 }}>
-                    {group.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        style={{
-                          fontFamily: FONT_BODY,
-                          fontSize: 11,
-                          fontWeight: 400,
-                          padding: "4px 10px",
-                          borderRadius: 6,
-                          background: "hsl(var(--muted))",
-                          color: "hsl(var(--foreground))",
-                          border: "1px solid hsl(var(--border))",
-                          cursor: "default",
-                          transition: "all 0.2s",
-                          lineHeight: 1.4,
-                        }}
-                        onMouseEnter={e => {
-                          const el = e.currentTarget as HTMLSpanElement;
-                          el.style.background = group.colorBg;
-                          el.style.color = group.color;
-                          el.style.borderColor = group.colorBorder;
-                        }}
-                        onMouseLeave={e => {
-                          const el = e.currentTarget as HTMLSpanElement;
-                          el.style.background = "hsl(var(--muted))";
-                          el.style.color = "hsl(var(--foreground))";
-                          el.style.borderColor = "hsl(var(--border))";
-                        }}
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                <div
+                  key={group.label}
+                  style={{ borderRadius: 10, overflow: "hidden", background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}
+                >
+                  {/* Top colour bar */}
+                  <div style={{ height: 3, background: group.color, width: "100%" }} />
+                  <div style={{ padding: "10px 11px 12px" }}>
+                    {/* Category label row */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 7 }}>
+                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: group.color, flexShrink: 0 }} />
+                      <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 700, color: group.color, letterSpacing: "0.04em" }}>{group.label}</span>
+                    </div>
+                    {/* Skill pills */}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                      {group.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400, padding: "3px 7px", borderRadius: 5, background: "hsl(var(--background))", color: "hsl(var(--muted-foreground))", border: "1px solid hsl(var(--border))", lineHeight: 1.4, cursor: "default", transition: "all 0.18s" }}
+                          onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = group.colorBg; el.style.color = group.color; el.style.borderColor = group.colorBorder; }}
+                          onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "hsl(var(--background))"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -301,7 +264,7 @@ const About = () => {
         </div>
       </motion.div>
 
-      {/* Experience accordion */}
+      {/* ── Experience accordion ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -328,7 +291,7 @@ const About = () => {
                 onClick={() => toggle(i)}
                 style={{ borderRadius: 14, overflow: "hidden", background: "hsl(var(--card))", border: `1.5px solid ${isOpen ? "rgba(99,102,241,0.35)" : "hsl(var(--border))"}`, cursor: "pointer", transition: "border-color 0.25s, box-shadow 0.25s", boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.08)" : "none" }}
               >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", gap: 12 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, background: isOpen ? "#6366f1" : exp.current ? "#22c55e" : "hsl(var(--border))", boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.2)" : exp.current ? "0 0 0 3px rgba(34,197,94,0.2)" : "none", transition: "all 0.25s" }} />
                     <div>
@@ -343,8 +306,8 @@ const About = () => {
                     <span style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", display: "inline-block", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>▼</span>
                   </div>
                 </div>
-                <div style={{ maxHeight: isOpen ? 240 : 0, overflow: "hidden", transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
-                  <div style={{ padding: "0 22px 18px", borderTop: "1px solid hsl(var(--border))" }}>
+                <div style={{ maxHeight: isOpen ? 260 : 0, overflow: "hidden", transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
+                  <div style={{ padding: "0 20px 16px", borderTop: "1px solid hsl(var(--border))" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 14 }}>
                       {exp.points.map((point, j) => (
                         <div key={j} style={{ display: "flex", gap: 10, fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))" }}>
@@ -360,6 +323,14 @@ const About = () => {
           })}
         </div>
       </motion.div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .about-bento {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
