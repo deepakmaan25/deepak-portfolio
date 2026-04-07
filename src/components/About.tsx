@@ -144,27 +144,28 @@ const About = () => {
            {/* ── DESKTOP: content left, photo vertically centered right ── */}
 <div
   className="id-desktop"
-  style={{
-    display: "flex",
-    flexDirection: "row",
-    gap: 16,
-    padding: 24,
-    height: "100%",
-    minHeight: 280,
-    position: "relative",
-    zIndex: 2,
-  }}
+style={{
+  display: "flex",
+  gap: 20,
+  padding: 24,
+  height: "100%",
+  minHeight: 300,
+  alignItems: "stretch", // IMPORTANT
+  position: "relative",
+  zIndex: 2,
+}}
 >
   {/* Left: full content stack */}
   <div
-    style={{
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      minWidth: 0,
-    }}
-  >
+  style={{
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    height: "100%",
+    minWidth: 0,
+  }}
+>
     <div>
       <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>
         About
@@ -221,27 +222,27 @@ const About = () => {
       </div>
     </div>
 
-    <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65, margin: 0 }}>
+    <p style={{ marginTop: "auto", fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>
       "Design starts in conversations, not Figma."
     </p>
   </div>
 
   {/* Right: photo + caption, vertically centered, dynamic size */}
-  <div
-    style={{
-      flexShrink: 0,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "clamp(6px, 0.8vw, 8px)",
-      minWidth: 0,
-    }}
-  >
+ <div
+  style={{
+    width: "clamp(90px, 10vw, 120px)",
+    flexShrink: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  }}
+>
     <div
       style={{
-        width: "clamp(72px, 9.5vw, 100px)",
-        height: "clamp(86px, 11.4vw, 120px)",
+       width: "clamp(80px, 10vw, 110px)",
+height: "clamp(96px, 12vw, 130px)",
         borderRadius: "clamp(8px, 1.1vw, 12px)",
         overflow: "hidden",
         border: "1.5px solid rgba(165,180,252,0.22)",
