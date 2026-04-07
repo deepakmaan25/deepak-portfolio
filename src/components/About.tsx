@@ -240,11 +240,7 @@ style={{
         borderRadius: "12px",
         overflow: "hidden",
         border: "1.5px solid rgba(165,180,252,0.22)",
-        @media (max-width: 768px) {
-  .id-image-inline {
-    display: none !important;
-  }
-}
+    
       }}
     >
       <img
@@ -546,18 +542,27 @@ height: "clamp(96px, 12vw, 130px)",
       </motion.div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .about-bento { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 769px) {
-          .id-desktop { display: flex !important; }
-          .id-mobile  { display: none !important; }
-        }
-        @media (max-width: 768px) {
-          .id-desktop { display: none !important; }
-          .id-mobile  { display: flex !important; }
-        }
-      `}</style>
+  @media (max-width: 768px) {
+    .about-bento { grid-template-columns: 1fr !important; }
+    .id-desktop { display: none !important; }
+    .id-mobile  { display: flex !important; }
+
+    /* ADD THIS */
+    .id-image-inline {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .id-desktop { display: flex !important; }
+    .id-mobile  { display: none !important; }
+
+    /* ADD THIS */
+    .id-image-desktop {
+      display: none !important;
+    }
+  }
+`}</style>
     </section>
   );
 };
