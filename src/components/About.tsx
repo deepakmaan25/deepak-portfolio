@@ -221,6 +221,58 @@ style={{
         ))}
       </div>
     </div>
+    {/* Desktop inline image (below links) */}
+<div className="id-image-inline">
+  <div
+    style={{
+      width: "clamp(90px, 10vw, 120px)",
+      marginTop: 14,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      gap: 6,
+    }}
+  >
+    <div
+      style={{
+        width: "clamp(80px, 10vw, 110px)",
+        height: "clamp(96px, 12vw, 130px)",
+        borderRadius: "12px",
+        overflow: "hidden",
+        border: "1.5px solid rgba(165,180,252,0.22)",
+        @media (max-width: 768px) {
+  .id-image-inline {
+    display: none !important;
+  }
+}
+      }}
+    >
+      <img
+        src="/deepak.png"
+        alt="Deepak Maan"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "top center",
+          display: "block",
+          filter: "brightness(0.9) saturate(0.88)",
+        }}
+      />
+    </div>
+
+    <span
+      style={{
+        fontFamily: FONT_BODY,
+        fontSize: 10,
+        color: "rgba(255,255,255,0.28)",
+        fontStyle: "italic",
+      }}
+    >
+      Product Designer
+    </span>
+  </div>
+</div>
 
     <p style={{ marginTop: "auto", fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>
       "Design starts in conversations, not Figma."
@@ -228,7 +280,8 @@ style={{
   </div>
 
   {/* Right: photo + caption, vertically centered, dynamic size */}
- <div
+<div
+  className="id-image-desktop"
   style={{
     width: "clamp(90px, 10vw, 120px)",
     flexShrink: 0,
@@ -247,6 +300,11 @@ height: "clamp(96px, 12vw, 130px)",
         overflow: "hidden",
         border: "1.5px solid rgba(165,180,252,0.22)",
         flexShrink: 0,
+        @media (min-width: 769px) {
+  .id-image-desktop {
+    display: none !important;
+  }
+}
       }}
     >
       <img
