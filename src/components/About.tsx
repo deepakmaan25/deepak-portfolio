@@ -296,11 +296,7 @@ height: "clamp(96px, 12vw, 130px)",
         overflow: "hidden",
         border: "1.5px solid rgba(165,180,252,0.22)",
         flexShrink: 0,
-        @media (min-width: 769px) {
-  .id-image-desktop {
-    display: none !important;
-  }
-}
+       
       }}
     >
       <img
@@ -541,26 +537,18 @@ height: "clamp(96px, 12vw, 130px)",
         </div>
       </motion.div>
 
-      <style>{`
+    <style>{`
   @media (max-width: 768px) {
     .about-bento { grid-template-columns: 1fr !important; }
     .id-desktop { display: none !important; }
     .id-mobile  { display: flex !important; }
-
-    /* ADD THIS */
-    .id-image-inline {
-      display: none !important;
-    }
+    .id-image-inline { display: none !important; }
   }
 
   @media (min-width: 769px) {
     .id-desktop { display: flex !important; }
     .id-mobile  { display: none !important; }
-
-    /* ADD THIS */
-    .id-image-desktop {
-      display: none !important;
-    }
+    .id-image-desktop { display: none !important; }
   }
 `}</style>
     </section>
