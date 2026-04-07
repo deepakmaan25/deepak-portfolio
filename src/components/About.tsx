@@ -125,148 +125,148 @@ const About = () => {
         {/* ── LEFT COLUMN ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-  {/* ── Identity card — Layout B1 ── */}
-<div
-  style={{
-    flex: 1,
-    borderRadius: 20,
-    overflow: "hidden",
-    background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)",
-    position: "relative",
-    minHeight: 300,
-  }}
->
-  {/* Blobs */}
-  <div style={{ position: "absolute", top: -30, right: -30, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.32), transparent 70%)", pointerEvents: "none" }} />
-  <div style={{ position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
-  <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FONT_DISPLAY, fontSize: 68, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
-
-  {/* ── DESKTOP: content left, photo vertically centered right ── */}
-  <div
-    className="id-desktop"
-    style={{
-      display: "flex",
-      flexDirection: "row",
-      gap: 16,
-      padding: 24,
-      height: "100%",
-      minHeight: 280,
-      position: "relative",
-      zIndex: 2,
-    }}
-  >
-    {/* Left: full content stack */}
-    <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0 }}>
-      <div>
-        <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
-        <div style={{ lineHeight: 1.1, marginBottom: 6 }}>
-          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
-          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
-        </div>
-        <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
-          Product Designer · India · Open to remote
-        </p>
-        <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-          {cardSocials.map((s) => (
-            
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}
-            >
-              <s.icon size={9} style={{ flexShrink: 0 }} />
-              {s.label} ↗
-            </a>
-          ))}
-        </div>
-      </div>
-      <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65, margin: 0 }}>
-        "Design starts in conversations, not Figma."
-      </p>
-    </div>
-
-    {/* Right: photo + caption, vertically centered */}
-    <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-      <div style={{ width: 88, height: 106, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)", flexShrink: 0 }}>
-        <img
-          src="/deepak.png"
-          alt="Deepak Maan"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
-          onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
-        />
-      </div>
-      <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>
-        Product Designer
-      </span>
-    </div>
-  </div>
-
-  {/* ── MOBILE: everything vertically centered in a single column ── */}
-  <div
-    className="id-mobile"
-    style={{
-      display: "none",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      padding: "26px 22px",
-      gap: 16,
-      position: "relative",
-      zIndex: 2,
-    }}
-  >
-    {/* Name + role */}
-    <div style={{ width: "100%" }}>
-      <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 8 }}>About</p>
-      <div style={{ lineHeight: 1.1, marginBottom: 5 }}>
-        <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
-        <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
-      </div>
-      <p style={{ fontFamily: FONT_BODY, fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>
-        Product Designer · India · Open to remote
-      </p>
-    </div>
-
-    {/* Photo + caption */}
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
-      <div style={{ width: 96, height: 116, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
-        <img
-          src="/deepak.png"
-          alt="Deepak Maan"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
-          onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
-        />
-      </div>
-      <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
-        Product Designer
-      </span>
-    </div>
-
-    {/* Social links */}
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: "100%" }}>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
-        {cardSocials.map((s) => (
-          
-            key={s.label}
-            href={s.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "5px 11px", borderRadius: 100, textDecoration: "none" }}
+          {/* ── Identity card — Layout B1 ── */}
+          <div
+            style={{
+              flex: 1,
+              borderRadius: 20,
+              overflow: "hidden",
+              background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)",
+              position: "relative",
+              minHeight: 300,
+            }}
           >
-            <s.icon size={9} style={{ flexShrink: 0 }} />
-            {s.label} ↗
-          </a>
-        ))}
-      </div>
-      <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>
-        "Design starts in conversations, not Figma."
-      </p>
-    </div>
-  </div>
-</div>
+            {/* Blobs */}
+            <div style={{ position: "absolute", top: -30, right: -30, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.32), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FONT_DISPLAY, fontSize: 68, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
+
+            {/* ── DESKTOP: content left, photo vertically centered right ── */}
+            <div
+              className="id-desktop"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 16,
+                padding: 24,
+                height: "100%",
+                minHeight: 280,
+                position: "relative",
+                zIndex: 2,
+              }}
+            >
+              {/* Left: full content stack */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0 }}>
+                <div>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
+                  <div style={{ lineHeight: 1.1, marginBottom: 6 }}>
+                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
+                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
+                  </div>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
+                    Product Designer · India · Open to remote
+                  </p>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {cardSocials.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}
+                      >
+                        <s.icon size={9} style={{ flexShrink: 0 }} />
+                        {s.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65, margin: 0 }}>
+                  "Design starts in conversations, not Figma."
+                </p>
+              </div>
+
+              {/* Right: photo + caption, vertically centered */}
+              <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                <div style={{ width: 88, height: 106, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)", flexShrink: 0 }}>
+                  <img
+                    src="/deepak.png"
+                    alt="Deepak Maan"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
+                  />
+                </div>
+                <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>
+                  Product Designer
+                </span>
+              </div>
+            </div>
+
+            {/* ── MOBILE: everything vertically centered in a single column ── */}
+            <div
+              className="id-mobile"
+              style={{
+                display: "none",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                padding: "26px 22px",
+                gap: 16,
+                position: "relative",
+                zIndex: 2,
+              }}
+            >
+              {/* Name + role */}
+              <div style={{ width: "100%" }}>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 8 }}>About</p>
+                <div style={{ lineHeight: 1.1, marginBottom: 5 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
+                </div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>
+                  Product Designer · India · Open to remote
+                </p>
+              </div>
+
+              {/* Photo + caption */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
+                <div style={{ width: 96, height: 116, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
+                  <img
+                    src="/deepak.png"
+                    alt="Deepak Maan"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
+                  />
+                </div>
+                <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
+                  Product Designer
+                </span>
+              </div>
+
+              {/* Social links + quote — all centered */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: "100%" }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
+                  {cardSocials.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "5px 11px", borderRadius: 100, textDecoration: "none" }}
+                    >
+                      <s.icon size={9} style={{ flexShrink: 0 }} />
+                      {s.label} ↗
+                    </a>
+                  ))}
+                </div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>
+                  "Design starts in conversations, not Figma."
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* ── Status card ── */}
           <div style={{ borderRadius: 20, padding: "18px 20px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexShrink: 0 }}>
@@ -324,15 +324,12 @@ const About = () => {
                   key={group.label}
                   style={{ borderRadius: 10, overflow: "hidden", background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}
                 >
-                  {/* Top colour bar */}
                   <div style={{ height: 3, background: group.color, width: "100%" }} />
                   <div style={{ padding: "10px 11px 12px" }}>
-                    {/* Category label */}
                     <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
                       <div style={{ width: 5, height: 5, borderRadius: "50%", background: group.color, flexShrink: 0 }} />
                       <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 700, color: group.color, letterSpacing: "0.04em" }}>{group.label}</span>
                     </div>
-                    {/* Skill pills */}
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                       {group.skills.map((skill) => (
                         <span
@@ -414,14 +411,9 @@ const About = () => {
       </motion.div>
 
       <style>{`
-        /* Bento: single column on mobile */
         @media (max-width: 768px) {
-          .about-bento {
-            grid-template-columns: 1fr !important;
-          }
+          .about-bento { grid-template-columns: 1fr !important; }
         }
-
-        /* Identity card layout switch */
         @media (min-width: 769px) {
           .id-desktop { display: flex !important; }
           .id-mobile  { display: none !important; }
