@@ -188,21 +188,42 @@ const About = () => {
                 </p>
               </div>
 
-              {/* Right: photo + caption, vertically centered */}
-              <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                <div style={{ width: 88, height: 106, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)", flexShrink: 0 }}>
-                  <img
-                    src="/deepak.png"
-                    alt="Deepak Maan"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
-                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
-                  />
-                </div>
-                <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>
-                  Product Designer
-                </span>
-              </div>
-            </div>
+           {/* Right: photo + caption, vertically centered, DYNAMIC SIZE */}
+<div style={{ 
+  flexShrink: 0, 
+  display: "flex", 
+  flexDirection: "column", 
+  alignItems: "center", 
+  justifyContent: "center", 
+  gap: "clamp(6px, 0.8vw, 8px)",
+  minWidth: 0 
+}}>
+  <div style={{ 
+    width: "clamp(72px, 9.5vw, 100px)", 
+    height: "clamp(86px, 11.4vw, 120px)", 
+    borderRadius: "clamp(8px, 1.1vw, 12px)", 
+    overflow: "hidden", 
+    border: "1.5px solid rgba(165,180,252,0.22)", 
+    flexShrink: 0 
+  }}>
+    <img
+      src="/deepak.png"
+      alt="Deepak Maan"
+      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+      onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
+    />
+  </div>
+  <span style={{ 
+    fontFamily: FONT_BODY, 
+    fontSize: "clamp(8px, 1.1vw, 9.5px)", 
+    color: "rgba(255,255,255,0.28)", 
+    fontStyle: "italic", 
+    textAlign: "center", 
+    lineHeight: 1.4 
+  }}>
+    Product Designer
+  </span>
+</div>
 
             {/* ── MOBILE: everything vertically centered in a single column ── */}
             <div
@@ -232,7 +253,7 @@ const About = () => {
 
               {/* Photo + caption */}
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
-                <div style={{ width: 96, height: 116, borderRadius: 10, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
+                <div style={{    width: "clamp(84px, 11vw, 104px)",    height: "clamp(100px, 13.3vw, 124px)",    borderRadius: "clamp(9px, 1.2vw, 11px)",    overflow: "hidden",    border: "1.5px solid rgba(165,180,252,0.22)"  }}>
                   <img
                     src="/deepak.png"
                     alt="Deepak Maan"
