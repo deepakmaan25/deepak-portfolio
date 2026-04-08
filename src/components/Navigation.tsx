@@ -150,12 +150,12 @@ const Navigation = () => {
               ))}
 
               <a
-                href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
+                href="https://drive.google.com/file/d/1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   fontFamily: FONT_BODY, fontSize: 12, fontWeight: 500,
-                  padding: "6px 14px", borderRadius: 100,
+                  padding: "6px 18px", borderRadius: 100,
                   background: "#6366f1", color: "#fff",
                   textDecoration: "none",
                   display: "inline-flex", alignItems: "center", gap: 6,
