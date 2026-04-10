@@ -72,15 +72,13 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const orderRef = useRef([0, 1, 2]);
   const animRef  = useRef(false);
-  const readyRef = useRef(false);   // gates parallax RAF until entrance done
+  const readyRef = useRef(false);
   const mouseRef = useRef({ tx: 0, ty: 0, lx: 0, ly: 0 });
   const rafRef   = useRef(0);
   const [topIdx, setTopIdx] = useState(0);
   const [dotsVisible, setDotsVisible] = useState(false);
 
-  // ── Entrance: JS-driven so all 3 stack positions are visible from start ──
   useEffect(() => {
-    // Immediately set each card at its correct stack position, just shifted down + invisible
     CARD_DATA.forEach((_, idx) => {
       const el = cardRefs.current[idx];
       if (!el) return;
@@ -100,7 +98,6 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
       }, delays[idx]);
     });
 
-    // After all cards landed, clear transitions and hand off to parallax RAF
     const readyTimer = setTimeout(() => {
       CARD_DATA.forEach((_, idx) => {
         const el = cardRefs.current[idx];
@@ -116,7 +113,6 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
     };
   }, []); // eslint-disable-line
 
-  // ── Parallax RAF — desktop only, gated by readyRef ──
   useEffect(() => {
     if (mobile) return;
     const onMove = (e: MouseEvent) => {
@@ -145,7 +141,6 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
     };
   }, [mobile]);
 
-  // ── Flip ──
   const flipToFront = (targetIdx: number) => {
     if (animRef.current || !readyRef.current) return;
     const currentPos = orderRef.current.indexOf(targetIdx);
@@ -306,13 +301,9 @@ const Hero = () => {
     <>
       <section className="w-full hero-section" style={{ background:"hsl(var(--background))", position:"relative", overflow:"hidden" }}>
 
-        {/* Dot-grid atmosphere — class-based so mask-image works reliably */}
         <div className={`hero-dot-grid ${isDark ? "hero-dot-grid--dark" : "hero-dot-grid--light"}`} aria-hidden="true" />
-
-        {/* Soft accent glow — follows card area */}
         <div className={`hero-glow ${isDark ? "hero-glow--dark" : "hero-glow--light"}`} aria-hidden="true" />
 
-        {/* ── Main grid ── */}
         <div className="max-w-site mx-auto px-5 md:px-6 lg:px-8 border-b border-border" style={{ position:"relative", zIndex:1 }}>
           <div className="hero-grid">
 
@@ -332,7 +323,6 @@ const Hero = () => {
                 </span>
               </div>
 
-              {/* Role row — line hidden on mobile via CSS */}
               <div className="hero-role-row" style={{ display:"flex", alignItems:"center", gap:14, marginBottom:24 }}>
                 <div
                   className="hero-role-line"
@@ -355,21 +345,49 @@ const Hero = () => {
                 and use AI to do it faster — without cutting corners on the thinking.
               </p>
 
+              {/* ── CTA BUTTONS ── */}
               <div className="hero-btns flex flex-wrap items-center gap-2.5">
-                <a href="#work" className="inline-flex items-center justify-center rounded-full transition-all hover:-translate-y-[1px]"
-                  style={{ fontFamily:FONT_BODY, fontSize:12, fontWeight:500, padding:"10px 22px", background:"hsl(var(--foreground))", color:"hsl(var(--primary-foreground))", textDecoration:"none" }}>
+
+                {/* PRIMARY: solid indigo fill — unmissable */}
+                <a
+                  href="#work"
+                  className="inline-flex items-center justify-center rounded-full transition-all"
+                  style={{
+                    fontFamily:FONT_BODY, fontSize:12, fontWeight:600,
+                    padding:"11px 24px",
+                    background:"#6366f1",
+                    color:"#ffffff",
+                    textDecoration:"none",
+                    transition:"background 0.2s, transform 0.2s",
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="#4f46e5"; el.style.transform="translateY(-1px)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="#6366f1"; el.style.transform="translateY(0)"; }}
+                >
                   View Work ↓
                 </a>
-                <a href="#contact" className="inline-flex items-center justify-center rounded-full transition-all duration-200"
-                  style={{ fontFamily:FONT_BODY, fontSize:12, fontWeight:500, padding:"10px 22px", border:"1.5px solid hsl(var(--border))", color:"hsl(var(--foreground))", background:"transparent", textDecoration:"none" }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="hsl(var(--foreground))"; el.style.color="hsl(var(--primary-foreground))"; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="transparent"; el.style.color="hsl(var(--foreground))"; }}>
+
+                {/* SECONDARY: indigo-tinted border — visible but clearly secondary */}
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center rounded-full transition-all duration-200"
+                  style={{
+                    fontFamily:FONT_BODY, fontSize:12, fontWeight:500,
+                    padding:"11px 24px",
+                    border:"1.5px solid rgba(99,102,241,0.45)",
+                    color:"hsl(var(--foreground))",
+                    background:"transparent",
+                    textDecoration:"none",
+                    transition:"background 0.2s, color 0.2s, border-color 0.2s",
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="#6366f1"; el.style.color="#ffffff"; el.style.borderColor="#6366f1"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background="transparent"; el.style.color="hsl(var(--foreground))"; el.style.borderColor="rgba(99,102,241,0.45)"; }}
+                >
                   Let's Talk
                 </a>
               </div>
             </div>
 
-            {/* RIGHT — desktop only, inside grid */}
+            {/* RIGHT — desktop only */}
             <div className="hero-right-desktop" style={{ position:"relative", zIndex:1 }}>
               <CardScene isDark={isDark} />
             </div>
@@ -377,7 +395,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Mobile card scene — outside grid, only on mobile */}
+        {/* Mobile card scene */}
         <div className="hero-mobile-cards" style={{ position:"relative", zIndex:1 }}>
           <CardScene mobile isDark={isDark} />
         </div>
@@ -393,93 +411,54 @@ const Hero = () => {
       </section>
 
       <style>{`
-        /* ── Nav offset ── */
         .hero-section { padding-top: 48px; }
         @media (min-width: 768px) { .hero-section { padding-top: 72px; } }
 
-        /* ── Grid ── */
-        .hero-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-        }
-        @media (min-width: 768px) {
-          .hero-grid { grid-template-columns: 54fr 46fr; }
-        }
+        .hero-grid { display: grid; grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .hero-grid { grid-template-columns: 54fr 46fr; } }
 
-        /* ── Desktop right — flex centering ── */
-        .hero-right-desktop {
-          display: none;
-        }
+        .hero-right-desktop { display: none; }
         @media (min-width: 768px) {
           .hero-right-desktop {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 40px 0;
+            display: flex; align-items: center; justify-content: flex-end; padding: 40px 0;
           }
         }
 
-        /* ── Mobile card scene — hidden on desktop ── */
         .hero-mobile-cards {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 20px 0 8px;
-          overflow: visible;
+          display: flex; justify-content: center; align-items: center;
+          padding: 20px 0 8px; overflow: visible;
         }
-        @media (min-width: 768px) {
-          .hero-mobile-cards { display: none !important; }
-        }
+        @media (min-width: 768px) { .hero-mobile-cards { display: none !important; } }
 
-        /* ── Mobile: center all text ── */
         @media (max-width: 767px) {
-          .hero-left {
-            align-items: center;
-            text-align: center;
-          }
+          .hero-left { align-items: center; text-align: center; }
           .hero-eyebrow { text-align: center; }
           .hero-btns { justify-content: center; }
           .hero-role-row { justify-content: center; }
-          /* Hide the expanding line on mobile — it offsets center alignment */
           .hero-role-line { display: none; }
         }
 
-        /* ── Dot grid atmosphere ── */
         .hero-dot-grid {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
+          position: absolute; inset: 0; pointer-events: none; z-index: 0;
           background-size: 36px 36px;
           -webkit-mask-image: radial-gradient(ellipse 78% 78% at 50% 45%, black 10%, transparent 72%);
-          mask-image:         radial-gradient(ellipse 78% 78% at 50% 45%, black 10%, transparent 72%);
+          mask-image: radial-gradient(ellipse 78% 78% at 50% 45%, black 10%, transparent 72%);
         }
-        .hero-dot-grid--dark {
-          background-image: radial-gradient(circle, rgba(99,102,241,0.22) 1px, transparent 1px);
-        }
-        .hero-dot-grid--light {
-          background-image: radial-gradient(circle, rgba(99,102,241,0.14) 1px, transparent 1px);
-        }
+        .hero-dot-grid--dark  { background-image: radial-gradient(circle, rgba(99,102,241,0.22) 1px, transparent 1px); }
+        .hero-dot-grid--light { background-image: radial-gradient(circle, rgba(99,102,241,0.14) 1px, transparent 1px); }
 
-        /* ── Soft glow ── */
         .hero-glow {
-          position: absolute;
-          right: 4%; top: 8%;
-          width: 460px; height: 460px;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 0;
+          position: absolute; right: 4%; top: 8%;
+          width: 460px; height: 460px; border-radius: 50%; pointer-events: none; z-index: 0;
         }
         .hero-glow--dark  { background: radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 70%); }
         .hero-glow--light { background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 65%); }
 
-        /* ── Light mode: stronger card shadows for separation ── */
         :root:not(.dark) .hero-card-front {
           box-shadow: -14px 18px 44px rgba(0,0,0,0.32), 0 0 0 1px rgba(0,0,0,0.16) !important;
           border-color: rgba(99,102,241,0.35) !important;
         }
 
-        /* ── Scroll cue ── */
         @keyframes scrollGrow {
           0%,100% { transform: scaleY(0.2); opacity: 0.3; }
           50%     { transform: scaleY(1);   opacity: 1; }
