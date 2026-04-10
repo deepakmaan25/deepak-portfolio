@@ -40,7 +40,7 @@ const testimonials = [
     handle: "KS",
     role: "Founder, EAL",
     context: "UI/UX Design",
-    text: "We hired Deepak to design the end to end user flow for out App, he understood the requirements and target users and made the user journey through the app seamless and we were able to ship the final UI within 3 months.", // ← get this from him
+    text: "We hired Deepak to design the end to end user flow for our App, he understood the requirements and target users and made the user journey through the app seamless and we were able to ship the final UI within 3 months.",
   },
   {
     name: "Amaresh",
@@ -113,7 +113,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Marquee */}
-        <div   style={{     maxWidth: 1200,     margin: "0 auto",     paddingLeft: "clamp(20px,5vw,32px)",     paddingRight: "clamp(20px,5vw,80px)",     position: "relative",   }} >
+        <div style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,32px)", paddingRight: "clamp(20px,5vw,80px)", position: "relative" }}>
           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 32px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px, 5vw, 32px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
 
@@ -142,7 +142,6 @@ const Contact = () => {
                   onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))"; }}
                 >
-                  {/* Quote */}
                   <p style={{
                     fontFamily: F, fontSize: 13, lineHeight: 1.75,
                     color: "hsl(var(--muted-foreground))", margin: 0,
@@ -154,17 +153,11 @@ const Contact = () => {
                     "{t.text}"
                   </p>
 
-                  {/* Author row — no wrap, pill truncates */}
                   <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    paddingTop: 12,
-                    borderTop: "1px solid hsl(var(--border))",
-                    flexWrap: "nowrap",
-                    minWidth: 0,
+                    display: "flex", alignItems: "center", gap: 10,
+                    paddingTop: 12, borderTop: "1px solid hsl(var(--border))",
+                    flexWrap: "nowrap", minWidth: 0,
                   }}>
-                    {/* Avatar */}
                     <div style={{
                       width: 30, height: 30, borderRadius: "50%",
                       background: "rgba(99,102,241,0.1)",
@@ -175,26 +168,14 @@ const Contact = () => {
                     }}>
                       {t.handle}
                     </div>
-
-                    {/* Name + role — never shrinks or wraps */}
                     <div style={{ flexShrink: 0 }}>
-                      <div style={{
-                        fontFamily: F, fontSize: 12, fontWeight: 600,
-                        color: "hsl(var(--foreground))", lineHeight: 1.25,
-                        whiteSpace: "nowrap",
-                      }}>
+                      <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "nowrap" }}>
                         {t.name}
                       </div>
-                      <div style={{
-                        fontFamily: F, fontSize: 11,
-                        color: "hsl(var(--muted-foreground))", marginTop: 1,
-                        whiteSpace: "nowrap",
-                      }}>
+                      <div style={{ fontFamily: F, fontSize: 11, color: "hsl(var(--muted-foreground))", marginTop: 1, whiteSpace: "nowrap" }}>
                         {t.role}
                       </div>
                     </div>
-
-                    {/* Context pill — pushes right, truncates if space is tight */}
                     <span style={{
                       fontFamily: F, fontSize: 9, fontWeight: 600,
                       letterSpacing: "0.06em", textTransform: "uppercase",
@@ -202,12 +183,9 @@ const Contact = () => {
                       background: "rgba(99,102,241,0.07)",
                       border: "1px solid rgba(99,102,241,0.15)",
                       padding: "3px 8px", borderRadius: 100,
-                      marginLeft: "auto",
-                      flexShrink: 1,
-                      minWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
+                      marginLeft: "auto", flexShrink: 1,
+                      minWidth: 0, overflow: "hidden",
+                      textOverflow: "ellipsis", whiteSpace: "nowrap",
                     }}>
                       {t.context}
                     </span>
@@ -223,9 +201,7 @@ const Contact = () => {
             0%   { transform: translateX(0); }
             100% { transform: translateX(-${totalWidth}px); }
           }
-          .testimonial-marquee:hover {
-            animation-play-state: paused;
-          }
+          .testimonial-marquee:hover { animation-play-state: paused; }
         `}</style>
       </section>
 
@@ -248,7 +224,7 @@ const Contact = () => {
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}
             className="contact-grid"
           >
-            {/* Left — heading + body copy only (no CTA buttons here) */}
+            {/* Left — heading + body */}
             <div>
               <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 14 }}>
                 Get in touch
@@ -264,11 +240,13 @@ const Contact = () => {
               </p>
             </div>
 
-            {/* Right — CTA row on top, then 2×2 social grid below */}
+            {/* Right — CTA row + social grid */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
 
-              {/* CTA buttons — full-width grid, matches social grid width exactly */}
+              {/* CTA buttons */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+
+                {/* PRIMARY — solid indigo fill */}
                 <a
                   href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak,"
                   style={{
@@ -286,6 +264,7 @@ const Contact = () => {
                   Open to work
                 </a>
 
+                {/* SECONDARY — indigo-tinted border, clearly readable on dark bg */}
                 <a
                   href="https://cal.com/deepakmaan"
                   target="_blank"
@@ -293,21 +272,22 @@ const Contact = () => {
                   style={{
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                     fontFamily: F, fontSize: 13, fontWeight: 500,
-                    background: "transparent", color: "#aaaaaa",
+                    background: "rgba(99,102,241,0.08)",
+                    color: "#c7d2fe",
                     padding: "14px 0", borderRadius: 14,
-                    border: "1px solid #2E2E2E",
+                    border: "1px solid rgba(99,102,241,0.3)",
                     textDecoration: "none",
-                    transition: "color 0.2s, border-color 0.2s, background 0.2s",
+                    transition: "color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s",
                   }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "white"; el.style.borderColor = "#444444"; el.style.background = "#1A1A1A"; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#aaaaaa"; el.style.borderColor = "#2E2E2E"; el.style.background = "transparent"; }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "white"; el.style.borderColor = "rgba(99,102,241,0.6)"; el.style.background = "rgba(99,102,241,0.18)"; el.style.transform = "translateY(-1px)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "#c7d2fe"; el.style.borderColor = "rgba(99,102,241,0.3)"; el.style.background = "rgba(99,102,241,0.08)"; el.style.transform = "translateY(0)"; }}
                 >
                   <Calendar size={13} />
                   Schedule a call
                 </a>
               </div>
 
-              {/* 2×2 social links — improved default visibility */}
+              {/* 2×2 social links */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {socials.map((s) => (
                   <a
@@ -318,11 +298,9 @@ const Contact = () => {
                     style={{
                       display: "flex", alignItems: "center", gap: 10,
                       fontFamily: F, fontSize: 13, fontWeight: 500,
-                      color: "#aaaaaa",
-                      textDecoration: "none",
+                      color: "#aaaaaa", textDecoration: "none",
                       padding: "14px 18px", borderRadius: 14,
-                      border: "1px solid #2E2E2E",
-                      background: "#161616",
+                      border: "1px solid #2E2E2E", background: "#161616",
                       transition: "color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s",
                     }}
                     onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.color = "white"; el.style.borderColor = "#444444"; el.style.background = "#222222"; el.style.transform = "translateY(-2px)"; }}
