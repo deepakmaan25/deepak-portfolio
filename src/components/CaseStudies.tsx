@@ -30,8 +30,13 @@ const CaseStudies = () => {
         <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
           Selected Work
         </p>
+        {/*
+          Heading fix: "Selected" uses FONT_BODY (Aileron) at weight 500 — scannable, clear.
+          "Case Studies" keeps FONT_DISPLAY (Unbounded) at weight 700 — the anchor word gets the emphasis.
+          Previously both used FONT_DISPLAY 700 which rendered the whole heading as a heavy display block.
+        */}
         <h2 style={{ margin: 0, lineHeight: 1.15 }}>
-          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>Selected </span>
+          <span style={{ fontFamily: FONT_BODY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 500, color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}>Selected </span>
           <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>Case Studies</span>
         </h2>
       </motion.div>
@@ -84,15 +89,12 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Project image — stays visible while active */}
+              {/* Project image */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    width: "45%",
+                    top: 0, right: 0, bottom: 0, width: "45%",
                     opacity: isActive ? 1 : 0,
                     transition: "opacity 0.4s 0.15s ease",
                   }}
@@ -101,10 +103,8 @@ const CaseStudies = () => {
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "left center",
+                      width: "100%", height: "100%",
+                      objectFit: "cover", objectPosition: "left center",
                       borderRadius: "0 16px 16px 0",
                       opacity: 0.2,
                       mixBlendMode: "multiply",
@@ -212,18 +212,13 @@ const CaseStudies = () => {
 
               {/* Mobile image */}
               {cs.image && (
-                <div
-                  className="absolute pointer-events-none"
-                  style={{ top: 0, right: 0, bottom: 0, width: "40%" }}
-                >
+                <div className="absolute pointer-events-none" style={{ top: 0, right: 0, bottom: 0, width: "40%" }}>
                   <img
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "left center",
+                      width: "100%", height: "100%",
+                      objectFit: "cover", objectPosition: "left center",
                       borderRadius: "0 16px 16px 0",
                       opacity: 0.12,
                       mixBlendMode: "multiply",
