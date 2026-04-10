@@ -55,8 +55,8 @@ const experiences = [
     current: false,
     points: [
       "Shipped 6 solutions to production in 2 months; job description layout redesign, save-all profile flow, multiple resume management, and a built-in communication tool that replaced a fragmented WhatsApp-based post-application workflow.",
-      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting; both from observed usability sessions, not projections.",
-      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list; same insight, completely different reception.",
+      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting - both from observed usability sessions, not projections.",
+      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list - same insight, completely different reception.",
     ],
   },
   {
@@ -65,7 +65,7 @@ const experiences = [
     duration: "Oct 2023 – Apr 2024 · 8 months",
     current: false,
     points: [
-      "Redesigned the homepage and 4 landing pages for Eveez— ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
+      "Redesigned the homepage and 4 landing pages for an EV startup — ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
       "Sole designer on the team — owned the full process from first sketch to stakeholder sign-off, including usability reviews and iteration cycles.",
     ],
   },
@@ -75,7 +75,7 @@ const experiences = [
     duration: "May 2023 – Apr 2025 · 2 years",
     current: false,
     points: [
-      "Led the UI/UX division of CyberLabs- Tech society of IIT ISM Dhanbad — organizing design workshops and mentoring 50+ students across the institute.",
+      "Led the UI/UX division of CyberLabs: tech society of IIT ISM Dhanbad  organizing design workshops and mentoring 50+ students across the institute.",
       "Won WOC 4.0: led the winning design strategy for a competitive open problem statement at IIT Dhanbad.",
       "Selected as the only designer across 23 IITs for an early-stage startup role.",
     ],
@@ -406,11 +406,11 @@ const About = () => {
               <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>I don't start in Figma. </span>
               <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>I start with the person who's struggling.</span>
             </h3>
-            <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 0 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 0 }}>
               I'm Deepak — a Product Designer from IIT ISM Dhanbad, based in India and open to remote. I've worked across AI, SaaS, job platforms, and consumer products — researching what's broken, designing what fixes it, and making sure it actually ships.
             </p>
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "14px 0" }} />
-            <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
               Google UX Certified. Led design at CyberLabs, IIT ISM — mentored 50+ students. Currently a Design Analyst at JSW Steel, where design meets data and business strategy.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
