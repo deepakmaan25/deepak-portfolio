@@ -8,6 +8,11 @@ const FONT_DISPLAY = "'Unbounded', sans-serif";
 const NAV_H_MOBILE  = 48;
 const NAV_H_DESKTOP = 64;
 
+// ── Single source of truth for resume link ────────────────────────────────────
+// Direct download URL — recruiter gets the PDF immediately without a Drive preview step
+// Update the file ID here if you upload a new version
+const RESUME_URL = "https://drive.google.com/uc?export=download&id=1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W";
+
 const navLinks = [
   { label: "Work",    href: "/#work"   },
   { label: "About",   href: "/#about"  },
@@ -59,12 +64,10 @@ const Navigation = () => {
     ? "hsl(230,12%,11%)"
     : "hsl(249,33%,98%)";
 
-  // Shared style for the compact icon buttons — overrides the min-height:44px
-  // that index.css applies to all buttons on ≤1024px screens.
   const iconBtnStyle: React.CSSProperties = {
     width: 32,
     height: 32,
-    minHeight: "unset",   // <-- the key override
+    minHeight: "unset",
     borderRadius: "50%",
     border: "1px solid hsl(var(--border))",
     background: "transparent",
@@ -78,9 +81,29 @@ const Navigation = () => {
     padding: 0,
   };
 
+  // ── Shared resume button style ─────────────────────────────────────────────
+  const resumeBtnStyle: React.CSSProperties = {
+    fontFamily: FONT_BODY,
+    fontSize: 12,
+    fontWeight: 500,
+    padding: "6px 16px",
+    borderRadius: 100,
+    background: "transparent",
+    color: "hsl(var(--foreground))",
+    border: "1px solid hsl(var(--border))",
+    textDecoration: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+    lineHeight: 1,
+    minHeight: "unset",
+    transition: "color 0.2s, border-color 0.2s, background 0.2s",
+    cursor: "pointer",
+  };
+
   return (
     <>
-      {/* ── Header shell — explicit pixel height, flex-centered ── */}
+      {/* ── Header shell ── */}
       <header
         style={{
           position: "fixed",
@@ -88,7 +111,7 @@ const Navigation = () => {
           zIndex: 50,
           height: navH,
           display: "flex",
-          alignItems: "center",           // vertically centers the inner row
+          alignItems: "center",
           transition: "background 0.3s, border-bottom-color 0.3s",
           background: scrolled ? scrolledBg : solidBg,
           backdropFilter: scrolled ? "blur(12px)" : "none",
@@ -96,7 +119,6 @@ const Navigation = () => {
           borderBottom: scrolled ? "1px solid hsl(var(--border))" : "1px solid transparent",
         }}
       >
-        {/* Inner row — fills header height, space-between logo + controls */}
         <div
           style={{
             maxWidth: 1200,
@@ -149,21 +171,23 @@ const Navigation = () => {
                 </a>
               ))}
 
+              {/* Resume — outlined ghost style, downloads PDF directly */}
               <a
-                href="https://drive.google.com/file/d/1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: FONT_BODY, fontSize: 12, fontWeight: 500,
-                  padding: "6px 18px", borderRadius: 100,
-                  background: "#6366f1", color: "#fff",
-                  textDecoration: "none",
-                  display: "inline-flex", alignItems: "center", gap: 6,
-                  lineHeight: 1, minHeight: "unset",
-                  transition: "opacity 0.2s",
+                href={RESUME_URL}
+                download="Deepak_Maan_Resume.pdf"
+                style={resumeBtnStyle}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "#6366f1";
+                  el.style.borderColor = "rgba(99,102,241,0.5)";
+                  el.style.background = "rgba(99,102,241,0.06)";
                 }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-                onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "hsl(var(--foreground))";
+                  el.style.borderColor = "hsl(var(--border))";
+                  el.style.background = "transparent";
+                }}
               >
                 Resume <Download size={11} />
               </a>
@@ -180,7 +204,7 @@ const Navigation = () => {
             </nav>
           )}
 
-          {/* ── Mobile controls — 32×32 buttons, no min-height ── */}
+          {/* ── Mobile controls ── */}
           {!isDesktop && (
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <button onClick={toggleTheme} aria-label="Toggle theme" style={iconBtnStyle}>
@@ -194,7 +218,7 @@ const Navigation = () => {
         </div>
       </header>
 
-      {/* ── Mobile dropdown — sits immediately below the fixed header ── */}
+      {/* ── Mobile dropdown ── */}
       {menuOpen && !isDesktop && (
         <div
           style={{
@@ -221,14 +245,16 @@ const Navigation = () => {
               </a>
             ))}
 
+            {/* Mobile resume — same file, same download behaviour */}
             <a
-              href="https://drive.google.com/file/d/1tWK-Bwp1GitmStoG1zW5VvXjg-2zU4-3/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={RESUME_URL}
+              download="Deepak_Maan_Resume.pdf"
               style={{
                 fontFamily: FONT_BODY, fontSize: 12, fontWeight: 500,
                 padding: "8px 16px", borderRadius: 100,
-                background: "#6366f1", color: "#fff",
+                background: "transparent",
+                color: "hsl(var(--foreground))",
+                border: "1px solid hsl(var(--border))",
                 textDecoration: "none",
                 display: "inline-flex", alignItems: "center", gap: 6,
                 alignSelf: "flex-start", lineHeight: 1, minHeight: "unset",
