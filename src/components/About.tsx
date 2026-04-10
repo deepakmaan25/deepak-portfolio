@@ -45,7 +45,7 @@ const experiences = [
     current: true,
     points: [
       "Designed and delivered 12+ monthly steel market intelligence reports in Power BI, translating dense pricing and demand data into executive-ready visual narratives for 500+ stakeholders across business units.",
-      "Deep-dived into India's booming data center market to quantify steel consumption potential — modeled demand through 2030 and surfaced a 1 MTPA opportunity, flagged as a near-term revenue lever for JSW's growth strategy.",
+      "Deep-dived into India's booming data center market to quantify steel consumption potential; modeled demand through 2030 and surfaced a 1 MTPA opportunity, flagged as a near-term revenue lever for JSW's growth strategy.",
     ],
   },
   {
@@ -54,9 +54,9 @@ const experiences = [
     duration: "Sep – Nov 2024 · 2 months",
     current: false,
     points: [
-      "Shipped 6 solutions to production in 2 months — job description layout redesign, WCAG 2.1 AA accessibility fixes, save-all profile flow, multiple resume management, and a built-in communication tool that replaced a fragmented WhatsApp-based post-application workflow.",
-      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting — both from observed usability sessions, not projections.",
-      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list — same insight, completely different reception.",
+      "Shipped 6 solutions to production in 2 months; job description layout redesign, save-all profile flow, multiple resume management, and a built-in communication tool that replaced a fragmented WhatsApp-based post-application workflow.",
+      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting; both from observed usability sessions, not projections.",
+      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list; same insight, completely different reception.",
     ],
   },
   {
@@ -65,7 +65,7 @@ const experiences = [
     duration: "Oct 2023 – Apr 2024 · 8 months",
     current: false,
     points: [
-      "Redesigned the homepage and 4 landing pages for an EV startup — ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
+      "Redesigned the homepage and 4 landing pages for Eveez— ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
       "Sole designer on the team — owned the full process from first sketch to stakeholder sign-off, including usability reviews and iteration cycles.",
     ],
   },
@@ -75,8 +75,8 @@ const experiences = [
     duration: "May 2023 – Apr 2025 · 2 years",
     current: false,
     points: [
-      "Led the UI/UX division of CyberLabs — the tech society of IIT ISM Dhanbad — organizing design workshops and mentoring 50+ students across the institute.",
-      "Won WOC 4.0 — led the winning design strategy for a competitive open problem statement at IIT Dhanbad.",
+      "Led the UI/UX division of CyberLabs- Tech society of IIT ISM Dhanbad — organizing design workshops and mentoring 50+ students across the institute.",
+      "Won WOC 4.0: led the winning design strategy for a competitive open problem statement at IIT Dhanbad.",
       "Selected as the only designer across 23 IITs for an early-stage startup role.",
     ],
   },
