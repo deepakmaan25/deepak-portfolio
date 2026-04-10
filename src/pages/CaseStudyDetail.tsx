@@ -112,7 +112,6 @@ function Fade({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
   );
 }
 
-// ── StatGrid — last item spans full width when count is odd ──────────────────
 function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
   const isOdd = stats.length % 2 !== 0;
   return (
@@ -137,7 +136,6 @@ function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
             position: "relative",
             overflow: "hidden",
           }}>
-            {/* Subtle watermark */}
             <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FD, fontSize: 64, fontWeight: 800, color: "rgba(99,102,241,0.04)", lineHeight: 1, userSelect: "none", pointerEvents: "none" }}>
               {s.value.replace(/[^0-9%x+×]/gi, "") || s.value.slice(0, 2)}
             </div>
@@ -246,6 +244,110 @@ function FutureList({ items }: { items: string[] }) {
   );
 }
 
+// ── Work With Me CTA — shown at the end of every case study ──────────────────
+function WorkWithMe() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        margin: "clamp(48px,7vw,80px) 0 0",
+        padding: "clamp(32px,5vw,56px) clamp(24px,4vw,48px)",
+        background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.03) 100%)",
+        border: "1px solid rgba(99,102,241,0.2)",
+        borderRadius: 24,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 32,
+        flexWrap: "wrap",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Subtle watermark */}
+      <div style={{
+        position: "absolute", bottom: -16, right: -8,
+        fontFamily: FD, fontSize: 120, fontWeight: 800,
+        color: "rgba(99,102,241,0.04)", lineHeight: 1,
+        userSelect: "none", pointerEvents: "none",
+        letterSpacing: "-0.04em",
+      }}>
+        DM
+      </div>
+
+      {/* Left — copy */}
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <p style={{
+          fontFamily: F, fontSize: 11, fontWeight: 600,
+          letterSpacing: "0.14em", textTransform: "uppercase",
+          color: "#6366f1", marginBottom: 10,
+        }}>
+          Liked what you saw?
+        </p>
+        <h3 style={{ margin: "0 0 10px", lineHeight: 1.15 }}>
+          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>
+            Let's build something{" "}
+          </span>
+          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>
+            worth using.
+          </span>
+        </h3>
+        <p style={{
+          fontFamily: F, fontSize: 14, lineHeight: 1.7,
+          color: "hsl(var(--muted-foreground))",
+          maxWidth: 420, margin: 0,
+        }}>
+          Open to full-time roles, freelance projects, and interesting collaborations.
+        </p>
+      </div>
+
+      {/* Right — CTAs */}
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", position: "relative", zIndex: 1, flexShrink: 0 }}>
+        <a
+          href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak, I just read your case study and would love to connect."
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            fontFamily: F, fontSize: 13, fontWeight: 600,
+            background: "#6366f1", color: "#ffffff",
+            padding: "12px 24px", borderRadius: 100,
+            textDecoration: "none",
+            transition: "background 0.2s, transform 0.2s",
+          }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#4f46e5"; el.style.transform = "translateY(-1px)"; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.transform = "translateY(0)"; }}
+        >
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#a5f3fc", display: "inline-block", flexShrink: 0 }} />
+          Work with me
+        </a>
+        <a
+          href="https://cal.com/deepakmaan"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            fontFamily: F, fontSize: 13, fontWeight: 500,
+            background: "transparent", color: "hsl(var(--foreground))",
+            padding: "12px 24px", borderRadius: 100,
+            border: "1.5px solid rgba(99,102,241,0.35)",
+            textDecoration: "none",
+            transition: "background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s",
+          }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.color = "#ffffff"; el.style.borderColor = "#6366f1"; el.style.transform = "translateY(-1px)"; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; el.style.borderColor = "rgba(99,102,241,0.35)"; el.style.transform = "translateY(0)"; }}
+        >
+          Schedule a call →
+        </a>
+      </div>
+    </motion.div>
+  );
+}
+
 const sectionLabel = {
   overview: "Overview",
   research: "Research & Insights",
@@ -335,7 +437,7 @@ export default function CaseStudyDetail() {
           </h1>
           <p style={{ fontFamily: F, fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.7, color: "hsl(var(--muted-foreground))", maxWidth: 640, marginBottom: 44, fontWeight: 400 }}>{cs.tagline}</p>
 
-          {/* Meta — 4 col on desktop, 2×2 on mobile */}
+          {/* Meta row */}
           <div className="cs-meta-row" style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 28, display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {[
               { label: "Role", value: cs.role },
@@ -374,19 +476,20 @@ export default function CaseStudyDetail() {
           {cs.overview?.problem && <Fade delay={0.08}><RichBody text={cs.overview.problem} /></Fade>}
           {cs.overview?.description && <Fade delay={0.1}><RichBody text={cs.overview.description} /></Fade>}
           {cs.overview?.contribution && <Fade delay={0.12}><RichBody text={cs.overview.contribution} /></Fade>}
-<ImageSlot src={cs.images?.[0]?.src} ratio={cs.images?.[0]?.ratio ?? 52} caption={cs.images?.[0]?.caption ?? "Project overview"} index={0} />        </Section>
+          <ImageSlot src={cs.images?.[0]?.src} ratio={cs.images?.[0]?.ratio ?? 52} caption={cs.images?.[0]?.caption ?? "Project overview"} index={0} />
+        </Section>
 
         <Section type="research" heading={cs.research?.heading ?? "Research & Insights"}>
           {cs.research?.body && <Fade delay={0.08}><RichBody text={cs.research.body} /></Fade>}
           {cs.research?.quotes?.length > 0 && <Fade delay={0.1}><Quotes quotes={cs.research.quotes} /></Fade>}
-<ImageSlot src={cs.images?.[1]?.src} ratio={cs.images?.[1]?.ratio ?? 52} caption={cs.images?.[1]?.caption ?? "Research findings and pain point map"} index={0} />
+          <ImageSlot src={cs.images?.[1]?.src} ratio={cs.images?.[1]?.ratio ?? 52} caption={cs.images?.[1]?.caption ?? "Research findings and pain point map"} index={0} />
         </Section>
 
         <Section type="process" heading={cs.process?.heading ?? "Design Process"} subheading={cs.process?.intro ? cs.process.intro.split("\n\n")[0] : undefined}>
           {cs.process?.intro && <Fade delay={0.08}><RichBody text={cs.process.intro} /></Fade>}
           {cs.process?.pillars?.length > 0 && <Fade delay={0.1}><Pillars pillars={cs.process.pillars} /></Fade>}
           {cs.process?.steps?.length > 0 && <Fade delay={0.12}><Steps steps={cs.process.steps} /></Fade>}
-<ImageSlot src={cs.images?.[2]?.src} ratio={cs.images?.[2]?.ratio ?? 52} caption={cs.images?.[2]?.caption ?? "Wireframe to high-fidelity progression"} index={0} />
+          <ImageSlot src={cs.images?.[2]?.src} ratio={cs.images?.[2]?.ratio ?? 52} caption={cs.images?.[2]?.caption ?? "Wireframe to high-fidelity progression"} index={0} />
         </Section>
 
         {(cs.solutions ?? []).map((sol, i) => (
@@ -400,7 +503,7 @@ export default function CaseStudyDetail() {
               {(sol.body ?? []).map((para, pi) => <RichBody key={pi} text={para} />)}
             </Fade>
             {sol.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={sol.metrics} /></Fade>}
-<ImageSlot src={cs.images?.[3 + i]?.src} ratio={cs.images?.[3 + i]?.ratio ?? 52} caption={cs.images?.[3 + i]?.caption ?? `${sol.title ?? "Solution"} — design solution`} index={i} />
+            <ImageSlot src={cs.images?.[3 + i]?.src} ratio={cs.images?.[3 + i]?.ratio ?? 52} caption={cs.images?.[3 + i]?.caption ?? `${sol.title ?? "Solution"} — design solution`} index={i} />
           </Section>
         ))}
 
@@ -408,7 +511,10 @@ export default function CaseStudyDetail() {
           {cs.impact?.body && <Fade delay={0.08}><RichBody text={cs.impact.body} /></Fade>}
           {cs.impact?.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={cs.impact.metrics} /></Fade>}
           {cs.impact?.quotes?.length > 0 && <Fade delay={0.12}><Quotes quotes={cs.impact.quotes} /></Fade>}
-{cs.images && cs.images.length > 0 && (() => {   const last = cs.images![cs.images!.length - 1];   return <ImageSlot src={last.src} ratio={last.ratio ?? 52} caption={last.caption ?? "Impact metrics and results"} index={0} />; })()}
+          {cs.images && cs.images.length > 0 && (() => {
+            const last = cs.images![cs.images!.length - 1];
+            return <ImageSlot src={last.src} ratio={last.ratio ?? 52} caption={last.caption ?? "Impact metrics and results"} index={0} />;
+          })()}
         </Section>
 
         <Section type="reflection" heading={cs.reflection?.heading ?? "Reflection"}>
@@ -418,16 +524,20 @@ export default function CaseStudyDetail() {
         </Section>
 
         {/* Tools */}
-        <div style={{ padding: "28px 0 48px", borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ padding: "28px 0 0", borderTop: "1px solid hsl(var(--border))", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}>Tools used</span>
           {cs.reflection.tools.map((t) => (
             <span key={t} style={{ fontFamily: F, display: "inline-flex", padding: "4px 14px", borderRadius: 100, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12, fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>{t}</span>
           ))}
         </div>
+
+        {/* ── Work With Me CTA — sits after tools, before next project ── */}
+        <WorkWithMe />
+
       </div>
 
       {/* Next project */}
-      <section style={{ background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", textAlign: "center" }}>
+      <section style={{ background: "hsl(var(--card))", borderTop: "1px solid hsl(var(--border))", marginTop: "clamp(48px,7vw,80px)", textAlign: "center" }}>
         <div style={{ ...innerStyle, paddingTop: "clamp(56px,8vw,96px)", paddingBottom: "clamp(56px,8vw,96px)" }}>
           <p style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
           <Link to={`/case-study/${nextCs.slug}`} style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 20, textDecoration: "none", color: "inherit" }}>
@@ -443,6 +553,15 @@ export default function CaseStudyDetail() {
           </Link>
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .cs-meta-row { grid-template-columns: repeat(2, 1fr) !important; gap: 20px 0; }
+          .cs-meta-row > div { border-right: none !important; padding-left: 0 !important; padding-right: 0 !important; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 16px; }
+          .cs-meta-row > div:nth-child(2n) { padding-left: 20px !important; }
+          .cs-meta-row > div:last-child, .cs-meta-row > div:nth-last-child(2):nth-child(2n+1) { border-bottom: none; }
+        }
+      `}</style>
     </div>
   );
 }
