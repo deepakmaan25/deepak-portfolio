@@ -2,6 +2,9 @@ name: Compress Visual Art Images
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   compress:
     runs-on: ubuntu-latest
