@@ -68,7 +68,7 @@ const Lightbox = ({ item, onClose }: { item: LightboxItem; onClose: () => void }
         <button
           onClick={onClose}
           style={{
-            position: "absolute", top: 12, left: 12, zIndex: 10,
+            position: "absolute", top: 12, right: 12, zIndex: 10,
             width: 32, height: 32, borderRadius: "50%",
             background: "rgba(0,0,0,0.55)",
             border: "1px solid rgba(255,255,255,0.12)",
