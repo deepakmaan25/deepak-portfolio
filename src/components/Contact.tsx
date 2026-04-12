@@ -236,7 +236,7 @@ const Contact = () => {
                 in mind?
               </h2>
               <p style={{ fontFamily: F, fontSize: 14, color: "#555555", lineHeight: 1.75, maxWidth: 400, marginBottom: 0 }}>
-                Open to full-time roles, freelance projects, and interesting collaborations. If you're building something worth caring about — let's talk.
+                Open to full-time roles, freelance projects, and interesting collaborations. If you're building something worth caring about, let's talk.
               </p>
             </div>
 
