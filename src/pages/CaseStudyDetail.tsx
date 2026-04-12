@@ -542,7 +542,7 @@ export default function CaseStudyDetail() {
           <p style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
           <Link to={`/case-study/${nextCs.slug}`} style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 20, textDecoration: "none", color: "inherit" }}>
             <h3 style={{ margin: 0, lineHeight: 1.1 }}>
-              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title}: — </span>
+              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title}: </span>
               <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{nextCs.subtitle}</span>
             </h3>
             <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
