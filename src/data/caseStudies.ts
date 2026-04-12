@@ -60,226 +60,16 @@ export interface CaseStudy {
 }
 
 export const caseStudies: CaseStudy[] = [
-  {
-    slug: "zu-ai",
-    title: "Zu-AI",
-    subtitle: "Chat Experience Redesign",
-    tagline:
-      "Redesigning an AI learning assistant so 100K+ students could actually trust it, navigate it, and make it their own",
-    tag: "Product Design · Mobile App",
-    platform: "Mobile App (iOS / Android)",
-    year: "2024",
-    role: "Product Designer",
-    timeline: "March 2024 · 2 Weeks",
-    color: "#f0eeff",
-
-    outcomes: [
-      { value: "40%", label: "Faster Scanning" },
-      { value: "3×", label: "Task Completion" },
-      { value: "50%", label: "Less Context-Switching" },
-    ],
-
-    stats: [
-      { value: "33", label: "Research participants" },
-      { value: "10", label: "User interviews" },
-      { value: "23", label: "Survey responses" },
-      { value: "2 wks", label: "Research to hi-fi" },
-    ],
-
-    overview: {
-      problem:
-        "Zu-AI had 100K+ students using it as a learning tool. The concept was solid — an AI tutor that makes studying feel less like work. But the experience wasn't delivering on that promise.\n\nStudents were dealing with walls of unformatted text, a chatbot with no memory between sessions, and no way to personalize anything. There was also a quieter problem: they didn't know when to trust what the AI said. No disclaimer. No caveats. No signal that it could be wrong. For a learning tool, that matters.\n\nEngagement was low. Sessions were getting abandoned before students found what they came for.",
-      description:
-        "I redesigned the chat interface from the ground up — improving visual hierarchy, building a conversation dashboard for persistent context, and adding accessibility controls that let students make it their own. The hard constraint: I couldn't touch the AI model. Every problem had to be solved at the interface layer.",
-      contribution:
-        "Sole designer on this brief. Over two weeks, I ran research with 33 participants — 10 interviews and 23 survey responses — and took the project from problem definition to high-fidelity prototype with usability testing.",
-    },
-
-    research: {
-      heading: "What I Found",
-      body:
-        "I started with app store reviews before talking to anyone — 100+ across iOS and Android. That's a deliberate methodology choice: it gives me enough signal to direct interviews toward real friction, rather than asking users to narrate their experience from scratch. I went into every session already knowing where to dig.\n\nTwo patterns dominated both the reviews and the interviews.\n\n**Information overload** — 60% of survey respondents flagged this. Responses arrived as long, unbroken blocks of text. No headings, no visual hierarchy, nothing to help you find the part that mattered. Students weren't reading — they were skimming and giving up.\n\n**No sense of personalization** — 40% wanted the app to feel like it knew them. It remembered nothing between sessions. Responses felt generic. There was no way to adjust text size, switch to dark mode, or even change how the AI addressed you.\n\nSmaller issues that compounded: no visible encryption in settings, no disclaimer that the AI could make mistakes, friction when switching subjects mid-session. None were showstoppers alone. Together, they created an experience that felt untrustworthy and unfinished.",
-      quotes: [
-        {
-          text: "Sometimes it's hard to explain what I need help with, and the chatbot doesn't always understand me. It would be great if it could suggest study resources or explain concepts with visuals.",
-        },
-        {
-          text: "I want to feel like I'm talking to a friend when I use it, but it feels too robotic.",
-        },
-        {
-          text: "I wish it could understand my schedule better. It's frustrating having to repeat my tasks every time I log in.",
-        },
-      ],
-    },
-
-    process: {
-      heading: "What I Was Working With",
-      intro:
-        "Three constraints shaped every decision. I couldn't touch the AI model itself — accuracy and content were out of scope. The timeline was two weeks, research to high-fidelity. And the design system had to align with Microsoft Fluent 2.\n\nThat last constraint was actually useful. It meant style decisions weren't up for debate. Every choice had to be justified by the research, not by what looked interesting. That's a good discipline to have when you're working fast.",
-      constraints:
-        "Couldn't change the AI model — content and accuracy out of scope. Two weeks from research to high-fidelity. Design system aligned with Microsoft Fluent 2.",
-      pillars: [
-        {
-          icon: "🔍",
-          title: "Build Trust Through Transparency",
-          description:
-            "Students needed to know when to rely on the AI — and when to verify what it told them.",
-        },
-        {
-          icon: "🧠",
-          title: "Reduce Cognitive Load",
-          description:
-            "Information overload was the number one complaint. Responses needed structure, not just better writing.",
-        },
-        {
-          icon: "🎨",
-          title: "Enable Personalization",
-          description:
-            "The chat needed to feel like a learning tool that adapted to the student, not a generic Q&A box.",
-        },
-      ],
-      steps: [
-        {
-          week: "Week 1",
-          label: "Empathize & Analyze",
-          items: [
-            "10 contextual interviews with active Zu-AI users",
-            "Analyzed 100+ app store reviews across Android and iOS",
-            "Survey circulated to 23 users for quantitative validation",
-            "Competitive analysis: ChatGPT, Duolingo, Khan Academy",
-          ],
-        },
-        {
-          week: "Week 2",
-          label: "Ideate, Design & Test",
-          items: [
-            "Lo-fi wireframes across 3 concept directions",
-            "Direction selected on research alignment, not aesthetics",
-            "High-fidelity mockups in Figma",
-            "Usability testing with 5 users — iterated before final delivery",
-          ],
-        },
-      ],
-    },
-
-    solutions: [
-      {
-        title: "Solution 1: Chat Interface Redesign",
-        subtitle: "Visual hierarchy that makes scanning effortless",
-        problem:
-          "The issue wasn't that responses were too long — it was that everything looked identical. Same weight, same size, no entry points for someone scanning. A student looking for the answer to a specific sub-question had no choice but to read the whole thing.",
-        body: [
-          "I restructured responses into digestible sections with clear headings and visual separators between concepts. Typography now differentiates heading, body, and code blocks. Color-coding distinguishes message types — explanations, examples, actions. Inline formatting gives the eye somewhere to land immediately.",
-          "The quick-action buttons — 'Explain this further,' 'Show an example' — weren't in the original brief. I added them during testing after noticing students pausing between messages, not because they were reading carefully, but because they were figuring out what to ask next. That pause was friction. The quick actions removed it entirely. They ended up being the most-used feature in testing — which told me the interaction model mattered more than the visual system I'd spent most of week two on.",
-        ],
-        metrics: [
-          { value: "40%", label: "Faster info location in usability tests" },
-          { value: "3×", label: "Improvement in task completion speed" },
-        ],
-      },
-      {
-        title: "Solution 2: ChatBot Dashboard",
-        subtitle: "Persistent context across all your subjects",
-        problem:
-          "Every new session started from a blank. If you were studying Math one day and Physics the next, the thread of each topic — how you'd been framing questions, where you'd left off — was gone. There was no way to pick up where you stopped.",
-        body: [
-          "I decided to treat conversations as persistent contexts, not temporary sessions — the same mental model students already had for their notes. Visual conversation cards per subject show a preview of the last message and a timestamp. Quick-switch between ongoing threads without losing context. Search for past explanations. Bookmarking for things worth keeping. Auto-categorization by subject with recently-accessed chats surfaced first.",
-          "The framing that drove the design: your study context should work the way your notes do. You don't start a new notebook every day.",
-        ],
-        metrics: [
-          { value: "50%", label: "Faster multi-topic study sessions" },
-        ],
-      },
-      {
-        title: "Solution 3: Accessibility and Personalization",
-        subtitle: "An experience that adapts to every student",
-        problem:
-          "Students studying late needed dark mode. Students with visual impairments needed larger text. Students who'd been using the app for months wanted it to feel like theirs. None of that was possible. The experience was identical for everyone, regardless of need or preference.",
-        body: [
-          "Dark/light mode toggle, four text size presets, background color options, theme selection. Custom avatars for user and AI. Name personalization. Chat bubble styles. WCAG 2.1 AA compliance across all interactive elements.",
-          "Two trust features came directly from the research and almost didn't make the cut: a visible encryption badge in settings, and an inline disclaimer: 'AI can make mistakes, verify important information.' I nearly cut the disclaimer as too small a detail. In testing, it was one of the things users mentioned most. Setting honest expectations turned out to increase trust more than anything visual I'd designed. Transparency isn't just an ethical choice — it's a design element that directly affects how safe a product feels to use.",
-        ],
-        metrics: [
-          { value: "30%", label: "Projected DAU increase (benchmarked)" },
-        ],
-      },
-    ],
-
-    impact: {
-      heading: "Results",
-      body:
-        "Testing was done with 5 users — worth being upfront about what that means. The directional percentages are drawn from comparable learning and productivity apps: Duolingo, Notion, and published usability research on structured versus unstructured text interfaces. Five-person tests don't produce statistically significant numbers. What they gave me was clear directional signal that the solutions were addressing real needs, and confidence in the decisions made.\n\nThe sessions also surfaced what still needed work — which is the part of testing that matters most.",
-      quotes: [
-        {
-          text: "The new chat feels like talking to a real tutor, not a robot.",
-        },
-        {
-          text: "I can finally customize it the way I like — makes studying at night so much better.",
-        },
-        {
-          text: "Quick prompts are a game-changer. I don't have to think about what to ask next.",
-        },
-      ],
-      metrics: [
-        { value: "40%", label: "Faster information scanning" },
-        { value: "3×", label: "Task completion speed" },
-        { value: "50%", label: "Reduction in context-switching time" },
-        { value: "30%", label: "Projected DAU increase (benchmarked)" },
-      ],
-    },
-
-    reflection: {
-      heading: "What I Took Away",
-      body:
-        "The disclaimer moment was the most unexpected part of this project. I added it as a small gesture of honesty — almost an afterthought. It became the thing users mentioned most positively in testing. That taught me something I hadn't expected: transparency is a design element, not just an ethical obligation. Trust went up because expectations went down. Setting realistic limits on what the AI could do made the whole product feel more honest.\n\nThe quick-action buttons were a last-minute addition during testing. They became the most-used feature. I'd gone into that test thinking visual hierarchy was the main deliverable. I came out knowing the interaction model mattered more. That's a meaningful reordering of priorities.\n\nThe hardest constraint on this project, not being able to fix the AI itself, turned out to be the most useful. It forced every decision into the interface layer: information architecture, visual hierarchy, interaction patterns. Nothing could lean on 'the AI will handle it.' That discipline is something I'd impose even when it's not required.",
-      learnings: [
-        {
-          title: "Transparency is a design element",
-          description:
-            "'AI can make mistakes' increased trust because it set honest expectations. Designing for honesty — not perfection — is what makes a product feel safe.",
-        },
-        {
-          title: "Test your assumptions about what matters",
-          description:
-            "Quick-action buttons were a last-minute testing addition — and became the most-used feature. The interaction model mattered more than the visual system I'd prioritized.",
-        },
-        {
-          title: "Constraints force better decisions",
-          description:
-            "Not being able to fix the AI pushed every solution into the interface layer: information architecture, visual hierarchy, interaction patterns. Boundaries clarify thinking.",
-        },
-      ],
-      futureList: [
-        "Onboarding flow to surface personalization before users hit the chat for the first time — right now every accessibility feature is buried in settings",
-        "Voice input — came up in interviews more than expected and worth prototyping seriously",
-        "Collaborative features: shared study sessions using the same AI tutor",
-        "Learning progress dashboard — not just conversation history, but showing students what they've actually covered and retained over time",
-      ],
-      tools: ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"],
-    },
-
-    images: [
-      { src: "/ZA1_Hero_Image.png", ratio: 51.9, caption: "Zu-AI chat experience — overview" },
-      { src: "/ZA2_Research.png", ratio: 81.3, caption: "Research findings and pain point map" },
-      { src: "/ZA3_Wireframes.png", ratio: 77.7, caption: "Wireframe to high-fidelity progression" },
-      { src: "/ZA4_Redesign.png", ratio: 72.6, caption: "Chat interface redesign — visual hierarchy and quick actions" },
-      { src: "/ZA5_Dashboard.png", ratio: 59.1, caption: "ChatBot dashboard — conversation management" },
-      { src: "/ZA6_Accessibility.png", ratio: 59.1, caption: "Accessibility and personalization settings" },
-      { src: "/ZA7_Key_decisions.png", ratio: 48.7, caption: "Key design decisions and impact metrics" },
-    ],
-    nextProject: "tech-japan",
-    image: "/ZA1_Hero_Image.png",
-  },
 
   // ─────────────────────────────────────────────
-  // TECH JAPAN
+  // TECH JAPAN  (order: 1)
   // ─────────────────────────────────────────────
   {
     slug: "tech-japan",
     title: "Tech Japan",
     subtitle: "UX Research & Platform Redesign",
     tagline:
-      "Two months embedded in a job platform used by IIT students — finding what was breaking their trust, and fixing it",
+      "Two months embedded in a job platform used by IIT students, finding what was breaking their trust, and fixing it",
     tag: "UX Research · Web Platform",
     platform: "Web (Desktop + Mobile)",
     year: "2024",
@@ -315,7 +105,7 @@ export const caseStudies: CaseStudy[] = [
         "Before talking to anyone, I walked through the platform myself end-to-end — created an account, built a profile, browsed listings, started an application. That gave me a baseline and meant I could follow up on specific moments in interviews rather than asking users to describe their general experience.\n\nNine pain points emerged across 10 interviews and 50+ survey responses.\n\n**Dark mode contrast**, 7 of 10 users. Text was so low-contrast in dark mode that entire sections were unreadable. This hit hardest for students studying late, the users most likely to have dark mode on.\n\n**Broken company links**, 6 of 10 users. Clicking through to a company page returned an error at the exact moment a student was deciding whether to trust a company enough to apply. The critical thing I flagged to the team: an error page at that moment doesn't read as a bug. It reads as a red flag about the company itself. Legitimacy and trust failure, not a technical inconvenience.\n\n**Job description layout**, 4 of 10 users. All the information was present but presented as one long unformatted block. Fine if you're reading carefully. Impossible if you're quickly assessing whether a role is worth pursuing.\n\n**Post-application communication via WhatsApp**, 4 of 10 users. Once someone applied, everything moved off-platform. Users found it unprofessional. The larger issue I framed for the team: Tech Japan had zero visibility into what happened after someone applied. Every offer, every rejection, every follow-up — all happening in an app they had no access to.\n\n**Multiple resumes**, 3 of 10 users. IIT students apply across product, software engineering, design, and analytics tracks. Each needs a different resume. The platform allowed one.\n\n**Save All profile flow**, 2 of 10 users. Each profile section required a separate save. Miss one and the data was gone silently. Two users described abandoning profile completion because of it.",
       quotes: [
         {
-          text: "While clicking on a company's link, it takes you to a new page, but you can't see any meaningful data — it shows an error every time. It leads to doubting the company's legitimacy.",
+          text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data — it shows an error every time. It leads to doubting the company's legitimacy.",
         },
         {
           text: "Once I apply, all communication happens on WhatsApp, which feels unprofessional. The flow kind of hinders.",
@@ -484,11 +274,11 @@ export const caseStudies: CaseStudy[] = [
       { src: "/TJ-rebranding-survey.png",            ratio: 90.70, caption: "Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
     ],
     nextProject: "buzztro",
-    image: "/06-resume-management.png",
+    image: "/04-job-description-before-after.png",
   },
 
   // ─────────────────────────────────────────────
-  // BUZZTRO
+  // BUZZTRO  (order: 2)
   // ─────────────────────────────────────────────
   {
     slug: "buzztro",
@@ -690,7 +480,221 @@ export const caseStudies: CaseStudy[] = [
       { src: "/buzztro/order-details.png",            ratio: 60, caption: "Order summary — tracking and pool status in one place" },
     ],
     nextProject: "zu-ai",
-    image: "/buzztro/hero.png",
+    image: "/buzztro/pdp-overview.png",
+  },
+
+  // ─────────────────────────────────────────────
+  // ZU-AI  (order: 3)
+  // ─────────────────────────────────────────────
+  {
+    slug: "zu-ai",
+    title: "Zu-AI",
+    subtitle: "Chat Experience Redesign",
+    tagline:
+      "Redesigning an AI learning assistant so 100K+ students could actually trust it, navigate it, and make it their own",
+    tag: "Product Design · Mobile App",
+    platform: "Mobile App (iOS / Android)",
+    year: "2024",
+    role: "Product Designer",
+    timeline: "March 2024 · 2 Weeks",
+    color: "#f0eeff",
+
+    outcomes: [
+      { value: "40%", label: "Faster Scanning" },
+      { value: "3×", label: "Task Completion" },
+      { value: "50%", label: "Less Context-Switching" },
+    ],
+
+    stats: [
+      { value: "33", label: "Research participants" },
+      { value: "10", label: "User interviews" },
+      { value: "23", label: "Survey responses" },
+      { value: "2 wks", label: "Research to hi-fi" },
+    ],
+
+    overview: {
+      problem:
+        "Zu-AI had 100K+ students using it as a learning tool. The concept was solid — an AI tutor that makes studying feel less like work. But the experience wasn't delivering on that promise.\n\nStudents were dealing with walls of unformatted text, a chatbot with no memory between sessions, and no way to personalize anything. There was also a quieter problem: they didn't know when to trust what the AI said. No disclaimer. No caveats. No signal that it could be wrong. For a learning tool, that matters.\n\nEngagement was low. Sessions were getting abandoned before students found what they came for.",
+      description:
+        "I redesigned the chat interface from the ground up — improving visual hierarchy, building a conversation dashboard for persistent context, and adding accessibility controls that let students make it their own. The hard constraint: I couldn't touch the AI model. Every problem had to be solved at the interface layer.",
+      contribution:
+        "Sole designer on this brief. Over two weeks, I ran research with 33 participants — 10 interviews and 23 survey responses — and took the project from problem definition to high-fidelity prototype with usability testing.",
+    },
+
+    research: {
+      heading: "What I Found",
+      body:
+        "I started with app store reviews before talking to anyone — 100+ across iOS and Android. That's a deliberate methodology choice: it gives me enough signal to direct interviews toward real friction, rather than asking users to narrate their experience from scratch. I went into every session already knowing where to dig.\n\nTwo patterns dominated both the reviews and the interviews.\n\n**Information overload** — 60% of survey respondents flagged this. Responses arrived as long, unbroken blocks of text. No headings, no visual hierarchy, nothing to help you find the part that mattered. Students weren't reading — they were skimming and giving up.\n\n**No sense of personalization** — 40% wanted the app to feel like it knew them. It remembered nothing between sessions. Responses felt generic. There was no way to adjust text size, switch to dark mode, or even change how the AI addressed you.\n\nSmaller issues that compounded: no visible encryption in settings, no disclaimer that the AI could make mistakes, friction when switching subjects mid-session. None were showstoppers alone. Together, they created an experience that felt untrustworthy and unfinished.",
+      quotes: [
+        {
+          text: "Sometimes it's hard to explain what I need help with, and the chatbot doesn't always understand me. It would be great if it could suggest study resources or explain concepts with visuals.",
+        },
+        {
+          text: "I want to feel like I'm talking to a friend when I use it, but it feels too robotic.",
+        },
+        {
+          text: "I wish it could understand my schedule better. It's frustrating having to repeat my tasks every time I log in.",
+        },
+      ],
+    },
+
+    process: {
+      heading: "What I Was Working With",
+      intro:
+        "Three constraints shaped every decision. I couldn't touch the AI model itself — accuracy and content were out of scope. The timeline was two weeks, research to high-fidelity. And the design system had to align with Microsoft Fluent 2.\n\nThat last constraint was actually useful. It meant style decisions weren't up for debate. Every choice had to be justified by the research, not by what looked interesting. That's a good discipline to have when you're working fast.",
+      constraints:
+        "Couldn't change the AI model — content and accuracy out of scope. Two weeks from research to high-fidelity. Design system aligned with Microsoft Fluent 2.",
+      pillars: [
+        {
+          icon: "🔍",
+          title: "Build Trust Through Transparency",
+          description:
+            "Students needed to know when to rely on the AI — and when to verify what it told them.",
+        },
+        {
+          icon: "🧠",
+          title: "Reduce Cognitive Load",
+          description:
+            "Information overload was the number one complaint. Responses needed structure, not just better writing.",
+        },
+        {
+          icon: "🎨",
+          title: "Enable Personalization",
+          description:
+            "The chat needed to feel like a learning tool that adapted to the student, not a generic Q&A box.",
+        },
+      ],
+      steps: [
+        {
+          week: "Week 1",
+          label: "Empathize & Analyze",
+          items: [
+            "10 contextual interviews with active Zu-AI users",
+            "Analyzed 100+ app store reviews across Android and iOS",
+            "Survey circulated to 23 users for quantitative validation",
+            "Competitive analysis: ChatGPT, Duolingo, Khan Academy",
+          ],
+        },
+        {
+          week: "Week 2",
+          label: "Ideate, Design & Test",
+          items: [
+            "Lo-fi wireframes across 3 concept directions",
+            "Direction selected on research alignment, not aesthetics",
+            "High-fidelity mockups in Figma",
+            "Usability testing with 5 users — iterated before final delivery",
+          ],
+        },
+      ],
+    },
+
+    solutions: [
+      {
+        title: "Solution 1: Chat Interface Redesign",
+        subtitle: "Visual hierarchy that makes scanning effortless",
+        problem:
+          "The issue wasn't that responses were too long — it was that everything looked identical. Same weight, same size, no entry points for someone scanning. A student looking for the answer to a specific sub-question had no choice but to read the whole thing.",
+        body: [
+          "I restructured responses into digestible sections with clear headings and visual separators between concepts. Typography now differentiates heading, body, and code blocks. Color-coding distinguishes message types — explanations, examples, actions. Inline formatting gives the eye somewhere to land immediately.",
+          "The quick-action buttons — 'Explain this further,' 'Show an example' — weren't in the original brief. I added them during testing after noticing students pausing between messages, not because they were reading carefully, but because they were figuring out what to ask next. That pause was friction. The quick actions removed it entirely. They ended up being the most-used feature in testing — which told me the interaction model mattered more than the visual system I'd spent most of week two on.",
+        ],
+        metrics: [
+          { value: "40%", label: "Faster info location in usability tests" },
+          { value: "3×", label: "Improvement in task completion speed" },
+        ],
+      },
+      {
+        title: "Solution 2: ChatBot Dashboard",
+        subtitle: "Persistent context across all your subjects",
+        problem:
+          "Every new session started from blank. If you were studying Math one day and Physics the next, the thread of each topic — how you'd been framing questions, where you'd left off — was gone. There was no way to pick up where you stopped.",
+        body: [
+          "I decided to treat conversations as persistent contexts, not temporary sessions — the same mental model students already had for their notes. Visual conversation cards per subject show a preview of the last message and a timestamp. Quick-switch between ongoing threads without losing context. Search for past explanations. Bookmarking for things worth keeping. Auto-categorization by subject with recently-accessed chats surfaced first.",
+          "The framing that drove the design: your study context should work the way your notes do. You don't start a new notebook every day.",
+        ],
+        metrics: [
+          { value: "50%", label: "Faster multi-topic study sessions" },
+        ],
+      },
+      {
+        title: "Solution 3: Accessibility and Personalization",
+        subtitle: "An experience that adapts to every student",
+        problem:
+          "Students studying late needed dark mode. Students with visual impairments needed larger text. Students who'd been using the app for months wanted it to feel like theirs. None of that was possible. The experience was identical for everyone, regardless of need or preference.",
+        body: [
+          "Dark/light mode toggle, four text size presets, background color options, theme selection. Custom avatars for user and AI. Name personalization. Chat bubble styles. WCAG 2.1 AA compliance across all interactive elements.",
+          "Two trust features came directly from the research and almost didn't make the cut: a visible encryption badge in settings, and an inline disclaimer: 'AI can make mistakes, verify important information.' I nearly cut the disclaimer as too small a detail. In testing, it was one of the things users mentioned most. Setting honest expectations turned out to increase trust more than anything visual I'd designed. Transparency isn't just an ethical choice — it's a design element that directly affects how safe a product feels to use.",
+        ],
+        metrics: [
+          { value: "30%", label: "Projected DAU increase (benchmarked)" },
+        ],
+      },
+    ],
+
+    impact: {
+      heading: "Results",
+      body:
+        "Testing was done with 5 users — worth being upfront about what that means. The directional percentages are drawn from comparable learning and productivity apps: Duolingo, Notion, and published usability research on structured versus unstructured text interfaces. Five-person tests don't produce statistically significant numbers. What they gave me was clear directional signal that the solutions were addressing real needs, and confidence in the decisions made.\n\nThe sessions also surfaced what still needed work — which is the part of testing that matters most.",
+      quotes: [
+        {
+          text: "The new chat feels like talking to a real tutor, not a robot.",
+        },
+        {
+          text: "I can finally customize it the way I like — makes studying at night so much better.",
+        },
+        {
+          text: "Quick prompts are a game-changer. I don't have to think about what to ask next.",
+        },
+      ],
+      metrics: [
+        { value: "40%", label: "Faster information scanning" },
+        { value: "3×", label: "Task completion speed" },
+        { value: "50%", label: "Reduction in context-switching time" },
+        { value: "30%", label: "Projected DAU increase (benchmarked)" },
+      ],
+    },
+
+    reflection: {
+      heading: "What I Took Away",
+      body:
+        "The disclaimer moment was the most unexpected part of this project. I added it as a small honesty feature — almost an afterthought. It became the thing users mentioned most positively in testing. That taught me something I hadn't expected: transparency is a design element, not just an ethical obligation. Trust went up because expectations went down. Setting realistic limits on what the AI could do made the whole product feel more honest.\n\nThe quick-action buttons were a last-minute addition during testing. They became the most-used feature. I'd gone into that test thinking visual hierarchy was the main deliverable. I came out knowing the interaction model mattered more. That's a meaningful reordering of priorities.\n\nThe hardest constraint on this project, not being able to fix the AI itself, turned out to be the most useful. It forced every decision into the interface layer: information architecture, visual hierarchy, interaction patterns. Nothing could lean on 'the AI will handle it.' That discipline is something I'd impose even when it's not required.",
+      learnings: [
+        {
+          title: "Transparency is a design element",
+          description:
+            "'AI can make mistakes' increased trust because it set honest expectations. Designing for honesty — not perfection — is what makes a product feel safe.",
+        },
+        {
+          title: "Test your assumptions about what matters",
+          description:
+            "Quick-action buttons were a last-minute testing addition — and became the most-used feature. The interaction model mattered more than the visual system I'd prioritized.",
+        },
+        {
+          title: "Constraints force better decisions",
+          description:
+            "Not being able to fix the AI pushed every solution into the interface layer: information architecture, visual hierarchy, interaction patterns. Boundaries clarify thinking.",
+        },
+      ],
+      futureList: [
+        "Onboarding flow to surface personalization before users hit the chat for the first time — right now every accessibility feature is buried in settings",
+        "Voice input — came up in interviews more than expected and worth prototyping seriously",
+        "Collaborative features: shared study sessions using the same AI tutor",
+        "Learning progress dashboard — not just conversation history, but showing students what they've actually covered and retained over time",
+      ],
+      tools: ["Figma", "Photoshop", "Google Forms", "Zoom", "Microsoft Fluent 2"],
+    },
+
+    images: [
+      { src: "/ZA1_Hero_Image.png", ratio: 51.9, caption: "Zu-AI chat experience — overview" },
+      { src: "/ZA2_Research.png", ratio: 81.3, caption: "Research findings and pain point map" },
+      { src: "/ZA3_Wireframes.png", ratio: 77.7, caption: "Wireframe to high-fidelity progression" },
+      { src: "/ZA4_Redesign.png", ratio: 72.6, caption: "Chat interface redesign — visual hierarchy and quick actions" },
+      { src: "/ZA5_Dashboard.png", ratio: 59.1, caption: "ChatBot dashboard — conversation management" },
+      { src: "/ZA6_Accessibility.png", ratio: 59.1, caption: "Accessibility and personalization settings" },
+      { src: "/ZA7_Key_decisions.png", ratio: 48.7, caption: "Key design decisions and impact metrics" },
+    ],
+    nextProject: "tech-japan",
+    image: "/ZA4_Redesign.png",
   },
 ];
 
