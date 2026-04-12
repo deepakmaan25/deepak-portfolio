@@ -432,7 +432,7 @@ export default function CaseStudyDetail() {
             {cs.tag}
           </div>
           <h1 style={{ margin: "0 0 20px", lineHeight: 1.05 }}>
-            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title}: — </span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title}: </span>
             <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{cs.subtitle}</span>
           </h1>
           <p style={{ fontFamily: F, fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.7, color: "hsl(var(--muted-foreground))", maxWidth: 640, marginBottom: 44, fontWeight: 400 }}>{cs.tagline}</p>
