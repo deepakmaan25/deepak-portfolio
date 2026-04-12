@@ -174,7 +174,6 @@ const Navigation = () => {
               {/* Resume — outlined ghost style, downloads PDF directly */}
               <a
                 href={RESUME_URL}
-                download="Deepak_Maan_Resume.pdf"
                 style={resumeBtnStyle}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLAnchorElement;
