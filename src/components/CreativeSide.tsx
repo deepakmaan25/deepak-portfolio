@@ -6,15 +6,15 @@ const F = "'Aileron', sans-serif";
 const FD = "'Unbounded', sans-serif";
 
 const artworks = [
-  { src: "/visual/art-virat.png",       title: "Virat",        category: "Photo Manipulation", year: "2024" },
-  { src: "/visual/art-sidhu.png",       title: "Sidhu",        category: "Illustration",       year: "2024" },
-  { src: "/visual/art-samurai.png",     title: "Samurai",      category: "Illustration",       year: "2024" },
-  { src: "/visual/art-15aug.png",       title: "15 August",    category: "Poster Design",      year: "2024" },
-  { src: "/visual/art-dancer.png",      title: "Dancer",       category: "Illustration",       year: "2024" },
+  { src: "/visual/art-virat.jpg",       title: "Virat",        category: "Photo Manipulation", year: "2024" },
+  { src: "/visual/art-sidhu.jpg",       title: "Sidhu",        category: "Illustration",       year: "2024" },
+  { src: "/visual/art-samurai.jpg",     title: "Samurai",      category: "Illustration",       year: "2024" },
+  { src: "/visual/art-15aug.jpg",       title: "15 August",    category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-dancer.jpg",      title: "Dancer",       category: "Illustration",       year: "2024" },
   { src: "/visual/art-mothers-day.jpg", title: "Mother's Day", category: "Illustration",       year: "2024" },
   { src: "/visual/art-no1-team.jpg",    title: "No. 1 Team",   category: "Photo Manipulation", year: "2024" },
-  { src: "/visual/art-rs45.png",        title: "RS 45",        category: "Poster Design",      year: "2024" },
-  { src: "/visual/art-icw.png",         title: "ICW",          category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-rs45.jpg",        title: "RS 45",        category: "Poster Design",      year: "2024" },
+  { src: "/visual/art-icw.jpg",         title: "ICW",          category: "Poster Design",      year: "2024" },
 ];
 
 const allArtworks = [...artworks, ...artworks];
