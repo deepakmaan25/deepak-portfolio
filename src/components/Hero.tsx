@@ -49,13 +49,13 @@ const getT = (pos: number, lx: number, ly: number) => {
 const CARD_DATA = [
   {
     id:0, accent:"#6366f1", tag:"Product Design · Mobile", metric:"40%", metricSize:26,
-    title:"Zu-AI — Chat Experience Redesign", sub:"Faster Scanning · 100K+ Students",
+    title:"Zu-AI: Chat Experience Redesign", sub:"Faster Scanning · 100K+ Students",
     bgDark:"linear-gradient(145deg,#1a1a2e,#141418)",
     bgLight:"linear-gradient(145deg,#2a2a48,#1c1c30)",
   },
   {
     id:1, accent:"#03a552", tag:"UX Research · Web Platform", metric:"80%", metricSize:26,
-    title:"Tech Japan — Platform Redesign", sub:"Improved Navigation · IIT Students",
+    title:"Tech Japan: Platform Redesign", sub:"Improved Navigation · IIT Students",
     bgDark:"linear-gradient(145deg,#0f1f1a,#141418)",
     bgLight:"linear-gradient(145deg,#163326,#1a2820)",
   },
