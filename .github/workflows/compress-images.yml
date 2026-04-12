@@ -8,12 +8,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compress images with ImageMagick
+      - name: Install ImageMagick
+        run: sudo apt-get install -y imagemagick
+
+      - name: Compress images
         run: |
           for f in public/visual/*.png public/visual/*.jpg public/visual/*.jpeg; do
             [ -f "$f" ] || continue
             before=$(stat -c%s "$f")
-            convert "$f" -resize "900x>" -quality 78 "$f"
+            magick "$f" -resize "900x>" -quality 78 "$f"
             after=$(stat -c%s "$f")
             echo "$f: $(( before/1024 ))kb → $(( after/1024 ))kb"
           done
