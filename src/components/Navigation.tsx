@@ -8,10 +8,7 @@ const FONT_DISPLAY = "'Unbounded', sans-serif";
 const NAV_H_MOBILE  = 48;
 const NAV_H_DESKTOP = 64;
 
-// ── Single source of truth for resume link ────────────────────────────────────
-// Direct download URL — recruiter gets the PDF immediately without a Drive preview step
-// Update the file ID here if you upload a new version
-const RESUME_URL = "https://drive.google.com/uc?export=download&id=1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W";
+const RESUME_URL = "https://drive.google.com/file/d/1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W/view";
 
 const navLinks = [
   { label: "Work",    href: "/#work"   },
@@ -81,23 +78,22 @@ const Navigation = () => {
     padding: 0,
   };
 
-  // ── Shared resume button style ─────────────────────────────────────────────
   const resumeBtnStyle: React.CSSProperties = {
     fontFamily: FONT_BODY,
     fontSize: 12,
-    fontWeight: 500,
-    padding: "6px 16px",
+    fontWeight: 600,
+    padding: "10px 16px",
     borderRadius: 100,
-    background: "transparent",
-    color: "hsl(var(--foreground))",
-    border: "1px solid hsl(var(--border))",
+    background: "#6366f1",
+    color: "#ffffff",
+    border: "1px solid #6366f1",
     textDecoration: "none",
     display: "inline-flex",
     alignItems: "center",
     gap: 6,
     lineHeight: 1,
     minHeight: "unset",
-    transition: "color 0.2s, border-color 0.2s, background 0.2s",
+    transition: "background 0.2s, border-color 0.2s, transform 0.2s",
     cursor: "pointer",
   };
 
@@ -171,21 +167,22 @@ const Navigation = () => {
                 </a>
               ))}
 
-              {/* Resume — outlined ghost style, downloads PDF directly */}
               <a
                 href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={resumeBtnStyle}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.color = "#6366f1";
-                  el.style.borderColor = "rgba(99,102,241,0.5)";
-                  el.style.background = "rgba(99,102,241,0.06)";
+                  el.style.background = "#4f46e5";
+                  el.style.borderColor = "#4f46e5";
+                  el.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.color = "hsl(var(--foreground))";
-                  el.style.borderColor = "hsl(var(--border))";
-                  el.style.background = "transparent";
+                  el.style.background = "#6366f1";
+                  el.style.borderColor = "#6366f1";
+                  el.style.transform = "translateY(0)";
                 }}
               >
                 Resume <Download size={11} />
@@ -244,16 +241,16 @@ const Navigation = () => {
               </a>
             ))}
 
-            {/* Mobile resume — same file, same download behaviour */}
             <a
               href={RESUME_URL}
-              download="Deepak_Maan_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                fontFamily: FONT_BODY, fontSize: 12, fontWeight: 500,
-                padding: "8px 16px", borderRadius: 100,
-                background: "transparent",
-                color: "hsl(var(--foreground))",
-                border: "1px solid hsl(var(--border))",
+                fontFamily: FONT_BODY, fontSize: 12, fontWeight: 600,
+                padding: "10px 16px", borderRadius: 100,
+                background: "#6366f1",
+                color: "#ffffff",
+                border: "1px solid #6366f1",
                 textDecoration: "none",
                 display: "inline-flex", alignItems: "center", gap: 6,
                 alignSelf: "flex-start", lineHeight: 1, minHeight: "unset",
