@@ -60,10 +60,10 @@ const CARD_DATA = [
     bgLight:"linear-gradient(145deg,#163326,#1a2820)",
   },
   {
-    id:2, accent:"#f59e0b", tag:"Design Analytics · Data", metric:"Power BI", metricSize:15,
-    title:"JSW Steel — Data Design", sub:"CMO Intelligence · Market Analysis",
-    bgDark:"linear-gradient(145deg,#1a1520,#141418)",
-    bgLight:"linear-gradient(145deg,#2c2010,#201808)",
+     id:2, accent:"#ea580c", tag:"Product Design · E-commerce", metric:"40+", metricSize:26,
+    title:"Buzztro: Collective Buying Platform", sub:"5 Flows Shipped · Zero to Production",
+    bgDark:"linear-gradient(145deg,#1c1208,#141418)",
+    bgLight:"linear-gradient(145deg,#2c1a08,#201208)",
   },
 ];
 
@@ -238,12 +238,40 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
                       ))}
                     </div>
                   )}
-                  {card.id === 2 && (
-                    <div>
-                      <div style={{ display:"flex", alignItems:"flex-end", gap:5, height:80, paddingBottom:4 }}>
-                        {[45,62,80,95,70,100].map((h,i) => <div key={i} style={{ flex:1, background:`rgba(245,158,11,${0.12+i*0.09})`, borderRadius:"3px 3px 0 0", height:`${h}%` }} />)}
+{card.id === 2 && (
+                    <div style={{ display:"flex", flexDirection:"column", gap:9 }}>
+                      {/* Product row */}
+                      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                        <div style={{ width:32, height:32, borderRadius:7, background:"rgba(234,88,12,0.18)", border:"1px solid rgba(234,88,12,0.28)", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                          <div style={{ width:14, height:18, borderRadius:"3px 3px 5px 5px", background:"rgba(234,88,12,0.7)" }} />
+                        </div>
+                        <div style={{ flex:1 }}>
+                          <div style={{ fontSize:7.5, color:"rgba(255,255,255,0.55)", fontFamily:FONT_BODY, marginBottom:3 }}>Copper Jug · 1L</div>
+                          <div style={{ display:"flex", justifyContent:"space-between", fontSize:7, fontFamily:FONT_BODY, marginBottom:4 }}>
+                            <span style={{ color:"rgba(234,88,12,0.6)" }}>₹599</span>
+                            <span style={{ color:"rgba(255,255,255,0.3)" }}>→ ₹449</span>
+                          </div>
+                          {/* Pool bar */}
+                          <div style={{ height:4, borderRadius:2, background:"rgba(255,255,255,0.08)", overflow:"hidden" }}>
+                            <div style={{ height:"100%", width:"76%", borderRadius:2, background:"rgba(234,88,12,0.75)" }} />
+                          </div>
+                        </div>
                       </div>
-                      <div style={{ fontSize:7, color:"rgba(245,158,11,0.5)", letterSpacing:"0.08em", fontFamily:FONT_BODY, marginTop:5 }}>STEEL MARKET INTELLIGENCE</div>
+                      {/* Pool status */}
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                        <span style={{ fontSize:7, color:"rgba(234,88,12,0.65)", fontFamily:FONT_BODY }}>47 joined</span>
+                        <span style={{ fontSize:7, color:"rgba(255,255,255,0.25)", fontFamily:FONT_BODY }}>3 more to unlock</span>
+                      </div>
+                      {/* Second product, dimmer */}
+                      <div style={{ display:"flex", alignItems:"center", gap:8, opacity:0.45 }}>
+                        <div style={{ width:32, height:32, borderRadius:7, background:"rgba(234,88,12,0.1)", border:"1px solid rgba(234,88,12,0.15)", flexShrink:0 }} />
+                        <div style={{ flex:1 }}>
+                          <div style={{ height:5, borderRadius:2, background:"rgba(255,255,255,0.07)", marginBottom:5, width:"60%" }} />
+                          <div style={{ height:4, borderRadius:2, background:"rgba(255,255,255,0.05)", overflow:"hidden" }}>
+                            <div style={{ height:"100%", width:"38%", borderRadius:2, background:"rgba(234,88,12,0.4)" }} />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
