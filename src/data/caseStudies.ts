@@ -483,8 +483,213 @@ export const caseStudies: CaseStudy[] = [
       { src: "/08-communication-tool.png",          ratio: 64.95, caption: "Solution 5: Built-in communication tool — every conversation stays inside the platform" },
       { src: "/TJ-rebranding-survey.png",           ratio: 90.70, caption: "Rebranding survey — 71% awareness gap and brand perception across 50+ IIT students" },
     ],
-    nextProject: "zu-ai",
+    nextProject: "buzztro",
     image: "/06-resume-management.png",
+  },
+  // ─────────────────────────────────────────────
+  // BUZZTRO
+  // ─────────────────────────────────────────────
+  {
+    slug: "buzztro",
+    title: "Buzztro",
+    subtitle: "Collective Buying Platform",
+    tagline:
+      "Designing a group-buying e-commerce experience from zero to shipped — where the price drops as more people commit",
+    tag: "Product Design · E-commerce",
+    platform: "Web (Desktop + Mobile)",
+    year: "2024",
+    role: "Lead Product Designer",
+    timeline: "Early 2024 · 2 Months",
+    color: "#fff4ec",
+
+    outcomes: [
+      { value: "40+", label: "Screens Designed" },
+      { value: "5", label: "Core Flows Shipped" },
+      { value: "2", label: "Months End-to-End" },
+    ],
+
+    stats: [
+      { value: "40+", label: "Screens designed" },
+      { value: "5", label: "Core flows shipped" },
+      { value: "1", label: "Solo designer" },
+      { value: "2 mo", label: "Zero to production" },
+    ],
+
+    overview: {
+      problem:
+        "Buzztro's model is collective buying — shoppers pool demand so that when enough people commit, the unit price drops and everyone wins. The mechanic is simple on paper: more buyers, lower price.\n\nBut no one on the team had seen this pattern land cleanly in the Indian market. Pinduoduo had scaled it aggressively in China. Meesho and DealShare had circled the space here. None translated directly. The risk was threefold: the pool mechanic feels confusing ('why is the price changing?'), pushy ('join now or lose it'), or invisible — users shop like it's a normal store and miss the benefit entirely.\n\nThe design problem wasn't building an e-commerce app. It was making a conditional, community-driven pricing model feel trustworthy and rewarding rather than confusing or pressuring.",
+      description:
+        "I designed the full buying experience around pool progress as the unifying metaphor — a single visual language that follows the user from the product card through PDP, cart, checkout, and order status. The price isn't fixed; it's a live consequence of how many people have joined, and every screen communicates that clearly.",
+      contribution:
+        "Solo designer on a 2-month freelance contract, reporting directly to the founder. Competitor research, information architecture, flows, wireframes, and high-fidelity design across 40+ screens. Shipped to production and ran for several months before the company paused on funding.",
+    },
+
+    research: {
+      heading: "Understanding the Problem",
+      body:
+        "Before opening Figma, I mapped how group-buying platforms handle the pool mechanic across markets — Pinduoduo, Meesho, DealShare, and Groupon in its original deal-of-the-day era. I was looking less at visual style and more at which moments they explained, which they hid, and where the experience broke down.\n\n**Three things I kept seeing break across every platform:**\n\n**The price doesn't match the label.** Most group-buy platforms show a discounted price on the card, but that price is conditional — you only get it if the pool fills. When users noticed this discrepancy at checkout, trust collapsed entirely. The fix had to happen upstream: the discount should never look like a promise until it actually is one.\n\n**The pool status is buried.** How many people have joined? How many more are needed? When does the pool close? These are the questions that decide whether a user commits — and they were routinely hidden behind a tap or only shown after add-to-cart. Users should see pool state before they even click in.\n\n**Post-purchase is an afterthought.** A pool either fills or it doesn't. Most platforms treat the waiting state as an edge case and ship generic order-confirmed screens. But for collective buying, waiting is the product — that's where the shopper lives for hours or days after payment. It needed its own design.",
+      quotes: [
+        {
+          text: "The price isn't a number on the card. It's a promise the platform can only keep if the community keeps it first. The design has to make that feel exciting, not scary.",
+        },
+      ],
+    },
+
+    process: {
+      heading: "Design Approach",
+      intro:
+        "One principle I committed to early: pool progress should be the single most visible element on any Buzztro screen where a product exists. Not the discount, not the CTA, not the photo — the progress bar.\n\nThis sounds obvious in hindsight, but it wasn't the founder's starting instinct and it wasn't what most competitors were doing. Most group-buy platforms hero the discounted price and treat the pool as supporting information. I inverted it: the price is the consequence, the pool is the cause, and the cause should lead.",
+      pillars: [
+        {
+          icon: "📊",
+          title: "Show the State, Not the Sell",
+          description:
+            "Every product surface shows pool progress first. Users always know where they stand before they see what it costs.",
+        },
+        {
+          icon: "⏱️",
+          title: "Urgency Without Pressure",
+          description:
+            "No flashing timers, no red everything. Pool progress uses motion and color sparingly — it rewards rather than stresses.",
+        },
+        {
+          icon: "🤝",
+          title: "Commit, Don't Transact",
+          description:
+            "Checkout language shifts from 'Buy now' to 'Join the pool.' Small, deliberate, and signals exactly what the user is doing.",
+        },
+      ],
+      steps: [
+        {
+          week: "Week 1",
+          label: "Research & Architecture",
+          items: [
+            "Competitor teardown: Pinduoduo, Meesho, DealShare, Groupon — mapped where each hid or explained the pool mechanic",
+            "Information architecture for the full buying journey: card → PDP → cart → checkout → post-purchase",
+            "Lo-fi wireframes exploring 3 configurations of the pool progress indicator on the product card",
+            "Founder alignment on the core design principle: pool progress leads, price follows",
+          ],
+        },
+        {
+          week: "Week 2–8",
+          label: "Design & Ship",
+          items: [
+            "High-fidelity screens across 5 core flows: product grid, PDP, booking checkout, order checkout, post-purchase states",
+            "Component library for the pieces that repeated most — progress bar, gauge, cart card, checkout summary",
+            "Iteration rounds directly with founder — tight feedback loop, decisions in hours not days",
+            "Shipped to production — ran live for several months before company paused on funding",
+          ],
+        },
+      ],
+    },
+
+    solutions: [
+      {
+        title: "Solution 01 — The Product Card",
+        subtitle: "Pool progress as the primary signal",
+        problem:
+          "The card is the workhorse of any e-commerce UI. On Buzztro, it had to carry three things a normal card doesn't: current pool fill, the conditional price it unlocks, and how close the user is to the next price tier — all without becoming cluttered.",
+        body: [
+          "I tested a few configurations — a circular progress ring, a stacked layout with the bar below the CTA, and a minimal variant that hid progress until hover. The version that shipped places the progress indicator prominently beneath the product title, with the current price on one side and the target discounted price on the other. A 'X joined · Y more to unlock' label completes the picture.",
+          "The trade-off: cards became taller than a standard grid card. I pushed back on the instinct to shrink them. If the progress indicator isn't readable at a glance, the product isn't Buzztro anymore — it's a worse Amazon. The extra height is the entire business model made visible.",
+        ],
+      },
+      {
+        title: "Solution 02 — Product Detail Page",
+        subtitle: "Making the group mechanic the hero",
+        problem:
+          "On a standard PDP, the hierarchy is: image, title, price, CTA, everything else. On Buzztro, 'price' isn't a static value — it's the output of a live community pool. That required a fundamentally different information hierarchy.",
+        body: [
+          "I reworked the PDP so the live pool state sits directly under the title — a larger, more detailed version of the card progress indicator, with the current price clearly shown alongside the discounted target price the pool will unlock.",
+          "The circular gauge became the signature visual of the whole product — one glance and a user understands the entire mechanic without reading a word of explanatory copy. Below the fold, the PDP returns to familiar e-commerce patterns: gallery, specifications, reviews, related products. Once the mechanic is clear, everything else should feel as boring and trustworthy as any other shop. Novelty is only for the thing that's actually new.",
+        ],
+      },
+      {
+        title: "Solution 03 — Booking Checkout",
+        subtitle: "A pre-commitment flow that earns trust at every step",
+        problem:
+          "Buzztro's checkout is not a standard transaction — it's a conditional commitment. The user is paying today for something that ships only if the pool fills. That single difference rewrites almost every trust signal the user expects from a checkout flow.",
+        body: [
+          "The flow settled at a clear multi-step structure — address, payment, review — with a persistent summary that keeps pool state visible throughout. The user never loses sight of what they're joining, even while filling in delivery details.",
+          "The most reviewed piece of copy in the entire project: a small note explaining what happens if the pool doesn't fill ('your payment is held and refunded automatically'). If that sentence was confusing, the entire trust story fell apart. Every word was tested. The CTA language also shifted: 'Pay & join the pool' instead of 'Pay now' — three extra words that did real work in every session where I watched someone click it.",
+        ],
+      },
+      {
+        title: "Solution 04 — Cart Experience",
+        subtitle: "A waiting room, not a holding area",
+        problem:
+          "A standard cart is a neutral holding area before checkout. Buzztro's cart is closer to a waiting room — items the user has committed to joining, each with its own live pool state, each potentially landing at a different final price.",
+        body: [
+          "I designed the cart with per-item pool status rather than a flat line-item list. Each row shows the product, current pool fill, and the price band it's sitting in. The totals section shows two numbers: what the user pays today at current pool levels, and what they'd pay if every pool fills. The gap between them is the potential savings — shown clearly, but without the exclamation-mark energy most deal platforms use. It's information, not a pitch.",
+          "The explicit refund language also appears here, before checkout. Setting that expectation early — not just in the final review step — reduced the cognitive surprise of 'wait, what happens if this doesn't work?' that I'd observed in early walkthroughs.",
+        ],
+      },
+      {
+        title: "Solution 05 — Post-Purchase States",
+        subtitle: "Designed as a product, not an edge case",
+        problem:
+          "Between 'payment complete' and 'order shipped,' a Buzztro customer lives in a waiting state that can last hours or days. If that state feels empty, users assume something broke. If it feels alive, they tell friends.",
+        body: [
+          "The order status screen shows live pool fill, a countdown to the pool close, the current price band, and a share CTA that lets users invite others to help fill the pool faster. That share action isn't a growth mechanic bolted on — it's the most useful thing a user can actually do in that moment, so it belongs front and center.",
+          "Two other states needed their own treatment: pool filled (savings confirmed, shipping begins — the celebration moment) and pool failed (the refund moment — clear and calm, with a nudge toward a similar pool the user might join instead). Neither can be a toast notification. Both are full screens. The waiting state is where the actual Buzztro experience lives.",
+        ],
+      },
+    ],
+
+    impact: {
+      heading: "Shipped & Live",
+      body:
+        "Buzztro launched and ran in production for several months — a complete end-to-end group-buying platform designed, built, and shipped in 8 weeks from a single designer working directly with the founder.\n\nThe biggest validation: the product actually worked. Users understood the pool mechanic without reading explanatory copy. The gauge did the explaining. The checkout flow held up. Post-purchase states handled the conditional nature of the product without generating confusion or support volume the team couldn't handle.\n\nThe company eventually paused on funding — a market and timing reality, not a product one. The design work remains the strongest evidence I have of what it looks like to own an entire product end-to-end, make the hard calls under constraint, and ship something that runs.",
+      metrics: [
+        { value: "40+", label: "Screens from zero to production" },
+        { value: "5", label: "Core flows shipped end-to-end" },
+        { value: "8 wks", label: "Research to live product" },
+        { value: "1", label: "Designer, direct to founder" },
+      ],
+    },
+
+    reflection: {
+      heading: "What I Took Away",
+      body:
+        "This was the first project where I owned every screen of a shipped product from zero. Two months, one designer, one founder, no safety net.\n\nThe pool progress bar wasn't just a component — it was the thesis of the entire product. Once I committed to making it the primary signal on every surface, every other decision got easier. Hierarchy questions became 'does this compete with the bar?' Copy questions became 'does this explain the bar or distract from it?' A single strong principle resolves a hundred small debates.\n\nThe post-purchase state nearly became an afterthought. I almost shipped a generic order-confirmed screen and moved on. Sitting with the flow as a user — realizing that 'waiting for the pool to fill' is where you actually live after you pay — changed that. That screen became the one I spent the most time on relative to its visual complexity. It's not complex. But it needed to be right.",
+      learnings: [
+        {
+          title: "Pick the one idea and follow it everywhere",
+          description:
+            "The pool progress bar was the thesis of the product, not just a component. Every layout decision, copy decision, and hierarchy call reduced to: 'does this serve the bar or compete with it?' One strong principle resolves a hundred small debates.",
+        },
+        {
+          title: "Novelty only where it earns its place",
+          description:
+            "Buzztro is a new kind of shopping, but most of the PDP still looks like a normal PDP. Users already know how to buy things. I needed to make the one new thing understandable — not reinvent everything else alongside it.",
+        },
+        {
+          title: "Working directly with a founder is fast and unforgiving",
+          description:
+            "No PM layer, no design review committee. Decisions happen in minutes and ship in days. Front-loading the reasoning — competitor teardowns, explicit trade-offs — meant we decided on substance, not taste.",
+        },
+      ],
+      futureList: [
+        "Onboarding flow — first-time users land on a PDP and have to infer the entire mechanic from the gauge. A proper first-run explainer woven into the first product visit (not a blocking modal) was the first item on the v2 list",
+        "Social proof in the waiting state — showing who else joined the pool (even just avatars and city names) would turn the waiting screen from a solo moment into a shared one, which is the whole point of collective buying",
+        "Redundant question auto-fill across applications — a pattern worth solving at the product level rather than leaving to individual users",
+      ],
+      tools: ["Figma", "Photoshop", "Whimsical"],
+    },
+
+    images: [
+      { src: "/buzztro/hero.png",                     ratio: 56,  caption: "Buzztro — collective buying platform, end-to-end product design" },
+      { src: "/buzztro/pdp-states.png",               ratio: 56,  caption: "Pool mechanic — price drop lifecycle across gauge states" },
+      { src: "/buzztro/booking-checkout-mobile.png",  ratio: 70,  caption: "Mobile booking checkout — the pre-commitment flow across all three steps" },
+      { src: "/buzztro/card-system.png",              ratio: 60,  caption: "Product card system — all states from empty pool to price unlocked" },
+      { src: "/buzztro/pdp-overview.png",             ratio: 65,  caption: "Product detail page — pool gauge as the primary hierarchy element" },
+      { src: "/buzztro/booking-checkout-desktop.png", ratio: 60,  caption: "Booking checkout — persistent pool summary anchored through every step" },
+      { src: "/buzztro/checkout-address.png",         ratio: 58,  caption: "Order checkout — address, payment, and review with inline trust signals" },
+      { src: "/buzztro/order-waiting.png",            ratio: 68,  caption: "Post-purchase waiting state — live pool fill, countdown, and share CTA" },
+      { src: "/buzztro/order-details.png",            ratio: 60,  caption: "Order summary — tracking and pool status in one place" },
+    ],
+    nextProject: "zu-ai",
+    image: "/buzztro/hero.png",
   },
 ];
 
