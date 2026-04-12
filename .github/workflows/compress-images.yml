@@ -7,11 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-      - run: npm install sharp
-      - run: node compress-images.js
+
+      - name: Compress images with ImageMagick
+        run: |
+          for f in public/visual/*.png public/visual/*.jpg public/visual/*.jpeg; do
+            [ -f "$f" ] || continue
+            before=$(stat -c%s "$f")
+            convert "$f" -resize "900x>" -quality 78 "$f"
+            after=$(stat -c%s "$f")
+            echo "$f: $(( before/1024 ))kb → $(( after/1024 ))kb"
+          done
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: compress visual art images"
