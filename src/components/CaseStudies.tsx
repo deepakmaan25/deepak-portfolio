@@ -7,9 +7,12 @@ const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
 
 const cardStyles = [
-  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)" },
+  // blue — Tech Japan (was index 1)
   { bg: "linear-gradient(145deg, #eaf3ff, #d8eafe)", tag: "rgba(37,99,235,0.45)", title: "#1e3a5f", accent: "#1d4ed8", desc: "rgba(30,58,95,0.5)", lbl: "rgba(37,99,235,0.4)", watermark: "rgba(37,99,235,0.07)", pillBg: "rgba(37,99,235,0.10)", pillColor: "#1d4ed8", pillBorder: "rgba(37,99,235,0.18)", border: "rgba(37,99,235,0.35)" },
+  // orange — Buzztro (was index 2)
   { bg: "linear-gradient(145deg, #fff4ec, #ffe8d3)", tag: "rgba(180,83,9,0.45)", title: "#431407", accent: "#c2410c", desc: "rgba(67,20,7,0.5)", lbl: "rgba(180,83,9,0.4)", watermark: "rgba(234,88,12,0.07)", pillBg: "rgba(234,88,12,0.10)", pillColor: "#c2410c", pillBorder: "rgba(234,88,12,0.18)", border: "rgba(234,88,12,0.35)" },
+  // purple — Zu-AI (was index 0)
+  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)" },
 ];
 
 const CaseStudies = () => {
@@ -122,7 +125,7 @@ const CaseStudies = () => {
                 </p>
                 <h3 style={{ margin: 0, lineHeight: 1.25 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: isActive ? 16 : 12, fontWeight: 700, color: style.title, letterSpacing: "-0.02em", transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
-                    {cs.title}{cs.subtitle && " — "}
+                    {cs.title}{cs.subtitle && ": "}
                   </span>
                   {cs.subtitle && (
                     <span style={{ fontFamily: FONT_DISPLAY, fontSize: isActive ? 16 : 12, fontWeight: 700, color: style.accent, letterSpacing: "-0.02em", transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
