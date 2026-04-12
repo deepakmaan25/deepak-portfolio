@@ -1,6 +1,6 @@
 name: Compress Visual Art Images
 on:
-  workflow_dispatch:   # run manually from Actions tab
+  workflow_dispatch:
 
 jobs:
   compress:
@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - run: npm install sharp
       - run: node compress-images.js
       - uses: stefanzweifel/git-auto-commit-action@v5
