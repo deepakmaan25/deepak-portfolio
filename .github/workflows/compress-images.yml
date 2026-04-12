@@ -1,0 +1,35 @@
+name: Compress Visual Art Images
+on:
+  workflow_dispatch:
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compress images
+        run: |
+          python3 << 'EOF'
+          from PIL import Image
+          import os, glob
+
+          for path in glob.glob("public/visual/*"):
+              if not path.lower().endswith((".png", ".jpg", ".jpeg")):
+                  continue
+              before = os.path.getsize(path)
+              img = Image.open(path).convert("RGB")
+              if img.width > 900:
+                  h = int(img.height * 900 / img.width)
+                  img = img.resize((900, h), Image.LANCZOS)
+              out = path.rsplit(".", 1)[0] + ".jpg"
+              img.save(out, "JPEG", quality=78, optimize=True)
+              if out != path:
+                  os.remove(path)
+              after = os.path.getsize(out)
+              print(f"{path}: {before//1024}kb → {after//1024}kb")
+          EOF
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: compress visual art images"
