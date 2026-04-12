@@ -369,8 +369,8 @@ const Hero = () => {
               </div>
 
               <p style={{ fontFamily:FONT_BODY, fontSize:"clamp(12px,1.1vw,13.5px)", fontWeight:400, lineHeight:1.9, color:"hsl(var(--muted-foreground))", maxWidth:"88%", marginBottom:30 }}>
-                I research what's actually breaking, design what actually fixes it,
-                and use AI to do it faster — without cutting corners on the thinking.
+                I start with the problem, figure out what's actually breaking,
+                and design what fixes it. AI helps me move faster without skipping the thinking.
               </p>
 
               {/* ── CTA BUTTONS ── */}
