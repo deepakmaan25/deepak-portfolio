@@ -33,11 +33,6 @@ const CaseStudies = () => {
         <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
           Selected Work
         </p>
-        {/*
-          Heading fix: "Selected" uses FONT_BODY (Aileron) at weight 500 — scannable, clear.
-          "Case Studies" keeps FONT_DISPLAY (Unbounded) at weight 700 — the anchor word gets the emphasis.
-          Previously both used FONT_DISPLAY 700 which rendered the whole heading as a heavy display block.
-        */}
         <h2 style={{ margin: 0, lineHeight: 1.15 }}>
           <span style={{ fontFamily: FONT_BODY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 500, color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}>Selected </span>
           <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.03em" }}>Case Studies</span>
@@ -92,12 +87,15 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Project image */}
+              {/* Project image — anchored to bottom-right corner only */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    top: 0, right: 0, bottom: 0, width: "45%",
+                    bottom: 0,
+                    right: 0,
+                    width: "52%",
+                    height: "58%",
                     opacity: isActive ? 1 : 0,
                     transition: "opacity 0.4s 0.15s ease",
                   }}
@@ -106,13 +104,17 @@ const CaseStudies = () => {
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%", height: "100%",
-                      objectFit: "cover", objectPosition: "left center",
-                      borderRadius: "0 16px 16px 0",
-                      opacity: 0.2,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "top left",
+                      borderRadius: "12px 0 16px 0",
+                      opacity: 0.22,
                       mixBlendMode: "multiply",
-                      maskImage: "linear-gradient(to right, transparent 0%, black 45%)",
-                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%)",
+                      maskImage: "linear-gradient(to bottom, transparent 0%, black 35%), linear-gradient(to right, transparent 0%, black 30%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 35%), linear-gradient(to right, transparent 0%, black 30%)",
+                      maskComposite: "intersect",
+                      WebkitMaskComposite: "destination-in",
                     } as React.CSSProperties}
                   />
                 </div>
@@ -213,20 +215,32 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Mobile image */}
+              {/* Mobile image — bottom-right corner only */}
               {cs.image && (
-                <div className="absolute pointer-events-none" style={{ top: 0, right: 0, bottom: 0, width: "40%" }}>
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    bottom: 0,
+                    right: 0,
+                    width: "45%",
+                    height: "50%",
+                  }}
+                >
                   <img
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%", height: "100%",
-                      objectFit: "cover", objectPosition: "left center",
-                      borderRadius: "0 16px 16px 0",
-                      opacity: 0.12,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "top left",
+                      borderRadius: "10px 0 16px 0",
+                      opacity: 0.14,
                       mixBlendMode: "multiply",
-                      maskImage: "linear-gradient(to right, transparent 0%, black 50%)",
-                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 50%)",
+                      maskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, transparent 0%, black 25%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, transparent 0%, black 25%)",
+                      maskComposite: "intersect",
+                      WebkitMaskComposite: "destination-in",
                     } as React.CSSProperties}
                   />
                 </div>
