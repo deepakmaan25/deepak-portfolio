@@ -7,9 +7,12 @@ const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
 
 const cardStyles = [
-  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)" },
+  // blue — Tech Japan (was index 1)
   { bg: "linear-gradient(145deg, #eaf3ff, #d8eafe)", tag: "rgba(37,99,235,0.45)", title: "#1e3a5f", accent: "#1d4ed8", desc: "rgba(30,58,95,0.5)", lbl: "rgba(37,99,235,0.4)", watermark: "rgba(37,99,235,0.07)", pillBg: "rgba(37,99,235,0.10)", pillColor: "#1d4ed8", pillBorder: "rgba(37,99,235,0.18)", border: "rgba(37,99,235,0.35)" },
+  // orange — Buzztro (was index 2)
   { bg: "linear-gradient(145deg, #fff4ec, #ffe8d3)", tag: "rgba(180,83,9,0.45)", title: "#431407", accent: "#c2410c", desc: "rgba(67,20,7,0.5)", lbl: "rgba(180,83,9,0.4)", watermark: "rgba(234,88,12,0.07)", pillBg: "rgba(234,88,12,0.10)", pillColor: "#c2410c", pillBorder: "rgba(234,88,12,0.18)", border: "rgba(234,88,12,0.35)" },
+  // purple — Zu-AI (was index 0)
+  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)" },
 ];
 
 const CaseStudies = () => {
@@ -89,32 +92,27 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Project image — bottom-left zone, below tagline, aligned with pills */}
+              {/* Project image */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    bottom: 0,
-                    left: 0,
-                    width: "58%",
-                    height: "52%",
+                    top: 0, right: 0, bottom: 0, width: "45%",
                     opacity: isActive ? 1 : 0,
                     transition: "opacity 0.4s 0.15s ease",
-                    overflow: "hidden",
-                    borderRadius: "0 0 0 16px",
                   }}
                 >
                   <img
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center top",
-                      opacity: 0.18,
-                      maskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, black 55%, transparent 100%)",
-                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, black 55%, transparent 100%)",
+                      width: "100%", height: "100%",
+                      objectFit: "cover", objectPosition: "left center",
+                      borderRadius: "0 16px 16px 0",
+                      opacity: 0.2,
+                      mixBlendMode: "multiply",
+                      maskImage: "linear-gradient(to right, transparent 0%, black 45%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 45%)",
                     } as React.CSSProperties}
                   />
                 </div>
@@ -127,7 +125,7 @@ const CaseStudies = () => {
                 </p>
                 <h3 style={{ margin: 0, lineHeight: 1.25 }}>
                   <span style={{ fontFamily: FONT_DISPLAY, fontSize: isActive ? 16 : 12, fontWeight: 700, color: style.title, letterSpacing: "-0.02em", transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
-                    {cs.title}{cs.subtitle && " — "}
+                    {cs.title}{cs.subtitle && ": "}
                   </span>
                   {cs.subtitle && (
                     <span style={{ fontFamily: FONT_DISPLAY, fontSize: isActive ? 16 : 12, fontWeight: 700, color: style.accent, letterSpacing: "-0.02em", transition: "font-size 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
@@ -215,27 +213,20 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Mobile image — bottom-left zone, below title */}
+              {/* Mobile image */}
               {cs.image && (
-                <div className="absolute pointer-events-none" style={{
-                  bottom: 0,
-                  left: 0,
-                  width: "52%",
-                  height: "45%",
-                  overflow: "hidden",
-                  borderRadius: "0 0 0 16px",
-                }}>
+                <div className="absolute pointer-events-none" style={{ top: 0, right: 0, bottom: 0, width: "40%" }}>
                   <img
                     src={cs.image}
                     alt={cs.title}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center top",
-                      opacity: 0.14,
-                      maskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, black 55%, transparent 100%)",
-                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, black 55%, transparent 100%)",
+                      width: "100%", height: "100%",
+                      objectFit: "cover", objectPosition: "left center",
+                      borderRadius: "0 16px 16px 0",
+                      opacity: 0.12,
+                      mixBlendMode: "multiply",
+                      maskImage: "linear-gradient(to right, transparent 0%, black 50%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 50%)",
                     } as React.CSSProperties}
                   />
                 </div>
