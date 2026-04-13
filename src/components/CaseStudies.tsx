@@ -7,12 +7,12 @@ const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
 
 const cardStyles = [
-  // blue — Tech Japan (was index 1)
-  { bg: "linear-gradient(145deg, #eaf3ff, #d8eafe)", tag: "rgba(37,99,235,0.45)", title: "#1e3a5f", accent: "#1d4ed8", desc: "rgba(30,58,95,0.5)", lbl: "rgba(37,99,235,0.4)", watermark: "rgba(37,99,235,0.07)", pillBg: "rgba(37,99,235,0.10)", pillColor: "#1d4ed8", pillBorder: "rgba(37,99,235,0.18)", border: "rgba(37,99,235,0.35)" },
-  // orange — Buzztro (was index 2)
-  { bg: "linear-gradient(145deg, #fff4ec, #ffe8d3)", tag: "rgba(180,83,9,0.45)", title: "#431407", accent: "#c2410c", desc: "rgba(67,20,7,0.5)", lbl: "rgba(180,83,9,0.4)", watermark: "rgba(234,88,12,0.07)", pillBg: "rgba(234,88,12,0.10)", pillColor: "#c2410c", pillBorder: "rgba(234,88,12,0.18)", border: "rgba(234,88,12,0.35)" },
-  // purple — Zu-AI (was index 0)
-  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)" },
+  // blue — Tech Japan
+  { bg: "linear-gradient(145deg, #eaf3ff, #d8eafe)", tag: "rgba(37,99,235,0.45)", title: "#1e3a5f", accent: "#1d4ed8", desc: "rgba(30,58,95,0.5)", lbl: "rgba(37,99,235,0.4)", watermark: "rgba(37,99,235,0.07)", pillBg: "rgba(37,99,235,0.10)", pillColor: "#1d4ed8", pillBorder: "rgba(37,99,235,0.18)", border: "rgba(37,99,235,0.35)", panelBg: "rgba(37,99,235,0.06)", panelBorder: "rgba(37,99,235,0.14)" },
+  // orange — Buzztro
+  { bg: "linear-gradient(145deg, #fff4ec, #ffe8d3)", tag: "rgba(180,83,9,0.45)", title: "#431407", accent: "#c2410c", desc: "rgba(67,20,7,0.5)", lbl: "rgba(180,83,9,0.4)", watermark: "rgba(234,88,12,0.07)", pillBg: "rgba(234,88,12,0.10)", pillColor: "#c2410c", pillBorder: "rgba(234,88,12,0.18)", border: "rgba(234,88,12,0.35)", panelBg: "rgba(194,65,12,0.06)", panelBorder: "rgba(194,65,12,0.14)" },
+  // purple — Zu-AI
+  { bg: "linear-gradient(145deg, #f0eeff, #e8e4fd)", tag: "rgba(79,70,229,0.45)", title: "#1e1b4b", accent: "#4f46e5", desc: "rgba(30,27,75,0.55)", lbl: "rgba(79,70,229,0.45)", watermark: "rgba(99,102,241,0.07)", pillBg: "rgba(99,102,241,0.10)", pillColor: "#4f46e5", pillBorder: "rgba(99,102,241,0.18)", border: "rgba(99,102,241,0.4)", panelBg: "rgba(79,70,229,0.06)", panelBorder: "rgba(79,70,229,0.14)" },
 ];
 
 const CaseStudies = () => {
@@ -67,7 +67,7 @@ const CaseStudies = () => {
               }}
               onMouseEnter={() => setActiveIndex(i)}
             >
-              {/* Watermark number */}
+              {/* Watermark number — fades out when active so it doesn't compete with the panel */}
               <span
                 className="absolute pointer-events-none select-none"
                 style={{
@@ -78,49 +78,56 @@ const CaseStudies = () => {
                   bottom: -16,
                   right: -8,
                   color: style.watermark,
-                  transform: isActive ? "scale(1.08) translate(-4px,-8px)" : "none",
-                  transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
-                  opacity: isActive ? 0.5 : 1,
+                  opacity: isActive ? 0 : 1,
                   letterSpacing: "-0.04em",
+                  transition: "opacity 0.3s",
                 }}
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* Project image — anchored to bottom-right corner only */}
+              {/* ── Option 1: Tinted illustration panel ──
+                  Sits in bottom-right corner inside a bordered inset.
+                  The panel background + border creates a clear visual boundary
+                  so the illustration never bleeds over the card content. */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    bottom: 0,
                     right: 0,
-                    width: "52%",
-                    height: "58%",
+                    bottom: 0,
+                    width: "42%",
+                    height: "64%",
+                    background: style.panelBg,
+                    borderTop: `1px solid ${style.panelBorder}`,
+                    borderLeft: `1px solid ${style.panelBorder}`,
+                    borderRadius: "12px 0 16px 0",
+                    overflow: "hidden",
                     opacity: isActive ? 1 : 0,
-                    transition: "opacity 0.4s 0.15s ease",
+                    transition: "opacity 0.4s 0.1s ease",
                   }}
                 >
                   <img
                     src={cs.image}
-                    alt={cs.title}
+                    alt=""
+                    aria-hidden="true"
                     style={{
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
                       objectPosition: "top left",
-                      borderRadius: "12px 0 16px 0",
-                      opacity: 0.22,
+                      opacity: 0.55,
                       mixBlendMode: "multiply",
-                      maskImage: "linear-gradient(to bottom, transparent 0%, black 35%), linear-gradient(to right, transparent 0%, black 30%)",
-                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 35%), linear-gradient(to right, transparent 0%, black 30%)",
-                      maskComposite: "intersect",
-                      WebkitMaskComposite: "destination-in",
+                      // Fade top edge into panel bg — left boundary is handled by the panel border
+                      maskImage: "linear-gradient(to bottom, transparent 0%, black 22%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 22%)",
                     } as React.CSSProperties}
                   />
                 </div>
               )}
 
-              {/* Top — tag + title + tagline */}
+              {/* Top — tag + title + tagline
+                  Tagline maxWidth shrinks to 56% when active to stay clear of the panel */}
               <div className="flex flex-col" style={{ gap: 6 }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {cs.tag}
@@ -135,13 +142,36 @@ const CaseStudies = () => {
                     </span>
                   )}
                 </h3>
-                <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.7, color: style.desc, margin: 0, opacity: isActive ? 1 : 0, maxHeight: isActive ? 80 : 0, overflow: "hidden", marginTop: isActive ? 8 : 0, transition: "opacity 0.3s 0.15s, max-height 0.4s, margin-top 0.3s" }}>
+                <p style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                  color: style.desc,
+                  margin: 0,
+                  opacity: isActive ? 1 : 0,
+                  maxHeight: isActive ? 80 : 0,
+                  overflow: "hidden",
+                  marginTop: isActive ? 8 : 0,
+                  // Constrain to left lane when active — panel occupies right 42%
+                  maxWidth: isActive ? "56%" : "100%",
+                  transition: "opacity 0.3s 0.15s, max-height 0.4s, margin-top 0.3s, max-width 0.4s",
+                }}>
                   {cs.tagline}
                 </p>
               </div>
 
-              {/* Bottom — metric + pills + CTA */}
-              <div className="relative flex flex-col" style={{ gap: 4, zIndex: 2 }}>
+              {/* Bottom — metric + pills + CTA
+                  maxWidth constrained to 56% when active so all bottom content
+                  stays in the left lane, panel gets the right 42% unobstructed */}
+              <div
+                className="relative flex flex-col"
+                style={{
+                  gap: 4,
+                  zIndex: 2,
+                  maxWidth: isActive ? "56%" : "100%",
+                  transition: "max-width 0.4s cubic-bezier(0.16,1,0.3,1)",
+                }}
+              >
                 {heroOutcome && (
                   <>
                     <div style={{ lineHeight: 1.1 }}>
@@ -208,39 +238,35 @@ const CaseStudies = () => {
               className="relative rounded-2xl overflow-hidden no-underline block"
               style={{ background: style.bg, borderLeft: `3px solid ${style.border}`, padding: "24px 20px" }}
             >
-              <span
-                className="absolute pointer-events-none select-none"
-                style={{ fontFamily: FONT_DISPLAY, fontSize: 70, fontWeight: 800, bottom: -8, right: -4, color: style.watermark, lineHeight: 1, opacity: 0.6, letterSpacing: "-0.04em" }}
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-
-              {/* Mobile image — bottom-right corner only */}
+              {/* Mobile tinted panel — bottom-right corner, always visible */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    bottom: 0,
                     right: 0,
-                    width: "45%",
-                    height: "50%",
+                    bottom: 0,
+                    width: "40%",
+                    height: "52%",
+                    background: style.panelBg,
+                    borderTop: `1px solid ${style.panelBorder}`,
+                    borderLeft: `1px solid ${style.panelBorder}`,
+                    borderRadius: "10px 0 16px 0",
+                    overflow: "hidden",
                   }}
                 >
                   <img
                     src={cs.image}
-                    alt={cs.title}
+                    alt=""
+                    aria-hidden="true"
                     style={{
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
                       objectPosition: "top left",
-                      borderRadius: "10px 0 16px 0",
-                      opacity: 0.14,
+                      opacity: 0.5,
                       mixBlendMode: "multiply",
-                      maskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, transparent 0%, black 25%)",
-                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 40%), linear-gradient(to right, transparent 0%, black 25%)",
-                      maskComposite: "intersect",
-                      WebkitMaskComposite: "destination-in",
+                      maskImage: "linear-gradient(to bottom, transparent 0%, black 25%)",
+                      WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 25%)",
                     } as React.CSSProperties}
                   />
                 </div>
@@ -260,7 +286,8 @@ const CaseStudies = () => {
                     </span>
                   )}
                 </h3>
-                <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: style.desc, margin: "0 0 16px" }}>
+                {/* Tagline right-padded to stay clear of the panel (panel is 40% wide) */}
+                <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: style.desc, margin: "0 0 16px", paddingRight: "44%" }}>
                   {cs.tagline}
                 </p>
                 {heroOutcome && (
