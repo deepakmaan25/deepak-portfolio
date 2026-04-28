@@ -66,12 +66,12 @@ function ImageSlot({ caption, index = 0, src, ratio = 52 }: { caption?: string; 
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       style={{ margin: "36px 0 0", width: "100%" }}
     >
-      <div style={{ position: "relative", width: "100%", ...(src ? {} : { paddingTop: `${ratio}%` }), background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
+      <div style={{ position: "relative", width: "100%", paddingTop: `${ratio}%`, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
         {src ? (
           <img
             src={src}
             alt={caption ?? "Case study image"}
-            style={{ display: "block", width: "100%", height: "auto", borderRadius: 20 }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", borderRadius: 20 }}
           />
         ) : (
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
@@ -115,27 +115,11 @@ function Fade({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
 function StatGrid({ stats }: { stats: { value: string; label: string }[] }) {
   const isOdd = stats.length % 2 !== 0;
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: 0,
-      border: "1px solid hsl(var(--border))",
-      borderRadius: 20,
-      overflow: "hidden",
-      margin: "36px 0",
-    }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 0, border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden", margin: "36px 0" }}>
       {stats.map((s, i) => {
         const isLastAndAlone = isOdd && i === stats.length - 1;
         return (
-          <div key={i} style={{
-            background: "hsl(var(--card))",
-            padding: "28px 28px",
-            gridColumn: isLastAndAlone ? "1 / -1" : undefined,
-            borderRight: !isLastAndAlone && i % 2 === 0 ? "1px solid hsl(var(--border))" : "none",
-            borderBottom: i < stats.length - (isOdd ? 1 : 2) ? "1px solid hsl(var(--border))" : "none",
-            position: "relative",
-            overflow: "hidden",
-          }}>
+          <div key={i} style={{ background: "hsl(var(--card))", padding: "28px 28px", gridColumn: isLastAndAlone ? "1 / -1" : undefined, borderRight: !isLastAndAlone && i % 2 === 0 ? "1px solid hsl(var(--border))" : "none", borderBottom: i < stats.length - (isOdd ? 1 : 2) ? "1px solid hsl(var(--border))" : "none", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FD, fontSize: 64, fontWeight: 800, color: "rgba(99,102,241,0.04)", lineHeight: 1, userSelect: "none", pointerEvents: "none" }}>
               {s.value.replace(/[^0-9%x+×]/gi, "") || s.value.slice(0, 2)}
             </div>
@@ -152,12 +136,7 @@ function Quotes({ quotes }: { quotes: { text: string }[] }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "28px 0" }}>
       {quotes.map((q, i) => (
-        <blockquote key={i} style={{
-          position: "relative", padding: "22px 24px 22px 56px",
-          background: "hsl(var(--card))", border: "1px solid hsl(var(--border))",
-          borderLeft: "3px solid rgba(99,102,241,0.5)", borderRadius: "0 16px 16px 0",
-          fontFamily: F, fontSize: 15, lineHeight: 1.8, color: "hsl(var(--foreground))", fontStyle: "italic",
-        }}>
+        <blockquote key={i} style={{ position: "relative", padding: "22px 24px 22px 56px", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderLeft: "3px solid rgba(99,102,241,0.5)", borderRadius: "0 16px 16px 0", fontFamily: F, fontSize: 15, lineHeight: 1.8, color: "hsl(var(--foreground))", fontStyle: "italic" }}>
           <span style={{ position: "absolute", left: 16, top: 12, fontFamily: FD, fontSize: 32, fontWeight: 800, color: "rgba(99,102,241,0.2)", lineHeight: 1, fontStyle: "normal", userSelect: "none" }}>"</span>
           {q.text}
         </blockquote>
@@ -244,103 +223,38 @@ function FutureList({ items }: { items: string[] }) {
   );
 }
 
-// ── Work With Me CTA — shown at the end of every case study ──────────────────
 function WorkWithMe() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        margin: "clamp(48px,7vw,80px) 0 0",
-        padding: "clamp(32px,5vw,56px) clamp(24px,4vw,48px)",
-        background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.03) 100%)",
-        border: "1px solid rgba(99,102,241,0.2)",
-        borderRadius: 24,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 32,
-        flexWrap: "wrap",
-        position: "relative",
-        overflow: "hidden",
-      }}
+      style={{ margin: "clamp(48px,7vw,80px) 0 0", padding: "clamp(32px,5vw,56px) clamp(24px,4vw,48px)", background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.03) 100%)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 24, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, flexWrap: "wrap", position: "relative", overflow: "hidden" }}
     >
-      {/* Subtle watermark */}
-      <div style={{
-        position: "absolute", bottom: -16, right: -8,
-        fontFamily: FD, fontSize: 120, fontWeight: 800,
-        color: "rgba(99,102,241,0.04)", lineHeight: 1,
-        userSelect: "none", pointerEvents: "none",
-        letterSpacing: "-0.04em",
-      }}>
-        DM
-      </div>
-
-      {/* Left — copy */}
+      <div style={{ position: "absolute", bottom: -16, right: -8, fontFamily: FD, fontSize: 120, fontWeight: 800, color: "rgba(99,102,241,0.04)", lineHeight: 1, userSelect: "none", pointerEvents: "none", letterSpacing: "-0.04em" }}>DM</div>
       <div style={{ position: "relative", zIndex: 1 }}>
-        <p style={{
-          fontFamily: F, fontSize: 11, fontWeight: 600,
-          letterSpacing: "0.14em", textTransform: "uppercase",
-          color: "#6366f1", marginBottom: 10,
-        }}>
-          Liked what you saw?
-        </p>
+        <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 10 }}>Liked what you saw?</p>
         <h3 style={{ margin: "0 0 10px", lineHeight: 1.15 }}>
-          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>
-            Let's build something{" "}
-          </span>
-          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>
-            worth using.
-          </span>
+          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>Let's build something </span>
+          <span style={{ fontFamily: FD, fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>worth using.</span>
         </h3>
-        <p style={{
-          fontFamily: F, fontSize: 14, lineHeight: 1.7,
-          color: "hsl(var(--muted-foreground))",
-          maxWidth: 420, margin: 0,
-        }}>
-          Open to full-time roles, freelance projects, and interesting collaborations.
-        </p>
+        <p style={{ fontFamily: F, fontSize: 14, lineHeight: 1.7, color: "hsl(var(--muted-foreground))", maxWidth: 420, margin: 0 }}>Open to full-time roles, freelance projects, and interesting collaborations.</p>
       </div>
-
-      {/* Right — CTAs */}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", position: "relative", zIndex: 1, flexShrink: 0 }}>
-        <a
-          href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak, I just read your case study and would love to connect."
-          style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            fontFamily: F, fontSize: 13, fontWeight: 600,
-            background: "#6366f1", color: "#ffffff",
-            padding: "12px 24px", borderRadius: 100,
-            textDecoration: "none",
-            transition: "background 0.2s, transform 0.2s",
-          }}
+        <a href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak, I just read your case study and would love to connect."
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: F, fontSize: 13, fontWeight: 600, background: "#6366f1", color: "#ffffff", padding: "12px 24px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, transform 0.2s" }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#4f46e5"; el.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.transform = "translateY(0)"; }}
-        >
+          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.transform = "translateY(0)"; }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#a5f3fc", display: "inline-block", flexShrink: 0 }} />
           Work with me
         </a>
-        <a
-          href="https://cal.com/deepakmaan"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            fontFamily: F, fontSize: 13, fontWeight: 500,
-            background: "transparent", color: "hsl(var(--foreground))",
-            padding: "12px 24px", borderRadius: 100,
-            border: "1.5px solid rgba(99,102,241,0.35)",
-            textDecoration: "none",
-            transition: "background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s",
-          }}
+        <a href="https://cal.com/deepakmaan" target="_blank" rel="noopener noreferrer"
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: F, fontSize: 13, fontWeight: 500, background: "transparent", color: "hsl(var(--foreground))", padding: "12px 24px", borderRadius: 100, border: "1.5px solid rgba(99,102,241,0.35)", textDecoration: "none", transition: "background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s" }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "#6366f1"; el.style.color = "#ffffff"; el.style.borderColor = "#6366f1"; el.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; el.style.borderColor = "rgba(99,102,241,0.35)"; el.style.transform = "translateY(0)"; }}
-        >
+          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.color = "hsl(var(--foreground))"; el.style.borderColor = "rgba(99,102,241,0.35)"; el.style.transform = "translateY(0)"; }}>
           Schedule a call →
         </a>
       </div>
@@ -358,10 +272,9 @@ const sectionLabel = {
   parallel: "Parallel Work",
 };
 
-function Section({ type, heading, subheading, children }: {
+function Section({ type, heading, children }: {
   type: keyof typeof sectionLabel;
   heading: string;
-  subheading?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -374,9 +287,6 @@ function Section({ type, heading, subheading, children }: {
           <h2 style={{ margin: "0 0 8px", lineHeight: 1.15 }}>
             <span style={{ fontFamily: FD, fontSize: "clamp(20px, 3vw, 32px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{heading}</span>
           </h2>
-          {subheading && (
-            <p style={{ fontFamily: F, fontSize: 16, color: "hsl(var(--muted-foreground))", fontStyle: "italic", lineHeight: 1.6 }}>{subheading}</p>
-          )}
         </div>
       </Fade>
       {children}
@@ -432,12 +342,11 @@ export default function CaseStudyDetail() {
             {cs.tag}
           </div>
           <h1 style={{ margin: "0 0 20px", lineHeight: 1.05 }}>
-            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title}: </span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title} — </span>
             <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{cs.subtitle}</span>
           </h1>
           <p style={{ fontFamily: F, fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.7, color: "hsl(var(--muted-foreground))", maxWidth: 640, marginBottom: 44, fontWeight: 400 }}>{cs.tagline}</p>
 
-          {/* Meta row */}
           <div className="cs-meta-row" style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: 28, display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {[
               { label: "Role", value: cs.role },
@@ -482,18 +391,24 @@ export default function CaseStudyDetail() {
         <Section type="research" heading={cs.research?.heading ?? "Research & Insights"}>
           {cs.research?.body && <Fade delay={0.08}><RichBody text={cs.research.body} /></Fade>}
           {cs.research?.quotes?.length > 0 && <Fade delay={0.1}><Quotes quotes={cs.research.quotes} /></Fade>}
-          <ImageSlot src={cs.images?.[1]?.src} ratio={cs.images?.[1]?.ratio ?? 52} caption={cs.images?.[1]?.caption ?? "Research findings and pain point map"} index={0} />
+          <ImageSlot src={cs.images?.[1]?.src} ratio={cs.images?.[1]?.ratio ?? 52} caption={cs.images?.[1]?.caption ?? "Research findings"} index={0} />
         </Section>
 
-        <Section type="process" heading={cs.process?.heading ?? "Design Process"} subheading={cs.process?.intro ? cs.process.intro.split("\n\n")[0] : undefined}>
+        {/* ── Process section: intro renders ONCE inside RichBody only ── */}
+        <Section type="process" heading={cs.process?.heading ?? "Design Process"}>
           {cs.process?.intro && <Fade delay={0.08}><RichBody text={cs.process.intro} /></Fade>}
           {cs.process?.pillars?.length > 0 && <Fade delay={0.1}><Pillars pillars={cs.process.pillars} /></Fade>}
           {cs.process?.steps?.length > 0 && <Fade delay={0.12}><Steps steps={cs.process.steps} /></Fade>}
-          <ImageSlot src={cs.images?.[2]?.src} ratio={cs.images?.[2]?.ratio ?? 52} caption={cs.images?.[2]?.caption ?? "Wireframe to high-fidelity progression"} index={0} />
+          <ImageSlot src={cs.images?.[2]?.src} ratio={cs.images?.[2]?.ratio ?? 52} caption={cs.images?.[2]?.caption ?? "Design process"} index={0} />
         </Section>
 
         {(cs.solutions ?? []).map((sol, i) => (
-          <Section key={i} type="solution" heading={sol.title ?? `Solution ${i + 1}`} subheading={sol.subtitle}>
+          <Section key={i} type="solution" heading={sol.title ?? `Solution ${i + 1}`}>
+            {sol.subtitle && (
+              <Fade delay={0.04}>
+                <p style={{ fontFamily: FD, fontSize: 14, fontWeight: 600, color: "#6366f1", marginBottom: 20, letterSpacing: "-0.01em" }}>{sol.subtitle}</p>
+              </Fade>
+            )}
             {sol.problem && (
               <Fade delay={0.06}>
                 <p style={{ fontFamily: F, fontSize: 15, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", fontStyle: "italic", marginBottom: 24, paddingLeft: 18, borderLeft: "2px solid rgba(99,102,241,0.3)" }}>{sol.problem}</p>
@@ -503,7 +418,7 @@ export default function CaseStudyDetail() {
               {(sol.body ?? []).map((para, pi) => <RichBody key={pi} text={para} />)}
             </Fade>
             {sol.metrics?.length > 0 && <Fade delay={0.1}><StatGrid stats={sol.metrics} /></Fade>}
-            <ImageSlot src={cs.images?.[3 + i]?.src} ratio={cs.images?.[3 + i]?.ratio ?? 52} caption={cs.images?.[3 + i]?.caption ?? `${sol.title ?? "Solution"} — design solution`} index={i} />
+            <ImageSlot src={cs.images?.[3 + i]?.src} ratio={cs.images?.[3 + i]?.ratio ?? 52} caption={cs.images?.[3 + i]?.caption ?? `${sol.title ?? "Solution"}`} index={i} />
           </Section>
         ))}
 
@@ -513,7 +428,7 @@ export default function CaseStudyDetail() {
           {cs.impact?.quotes?.length > 0 && <Fade delay={0.12}><Quotes quotes={cs.impact.quotes} /></Fade>}
           {cs.images && cs.images.length > 0 && (() => {
             const last = cs.images![cs.images!.length - 1];
-            return <ImageSlot src={last.src} ratio={last.ratio ?? 52} caption={last.caption ?? "Impact metrics and results"} index={0} />;
+            return <ImageSlot src={last.src} ratio={last.ratio ?? 52} caption={last.caption ?? "Impact"} index={0} />;
           })()}
         </Section>
 
@@ -531,9 +446,7 @@ export default function CaseStudyDetail() {
           ))}
         </div>
 
-        {/* ── Work With Me CTA — sits after tools, before next project ── */}
         <WorkWithMe />
-
       </div>
 
       {/* Next project */}
@@ -542,7 +455,7 @@ export default function CaseStudyDetail() {
           <p style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
           <Link to={`/case-study/${nextCs.slug}`} style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 20, textDecoration: "none", color: "inherit" }}>
             <h3 style={{ margin: 0, lineHeight: 1.1 }}>
-              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title}: </span>
+              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title} — </span>
               <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{nextCs.subtitle}</span>
             </h3>
             <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
