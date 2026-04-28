@@ -5,77 +5,68 @@ import { Github, Linkedin, ExternalLink } from "lucide-react";
 const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
 
-const skillGroups = [
-  {
-    label: "Research",
-    color: "#6366f1",
-    colorBg: "rgba(99,102,241,0.08)",
-    colorBorder: "rgba(99,102,241,0.18)",
-    skills: ["User Research", "User Interviews", "Usability Testing", "A/B Testing"],
-  },
-  {
-    label: "Design",
-    color: "#0ea5e9",
-    colorBg: "rgba(14,165,233,0.08)",
-    colorBorder: "rgba(14,165,233,0.18)",
-    skills: ["Figma", "FigJam", "Figma Make", "Prototyping", "Design Systems", "Photoshop", "Illustrator"],
-  },
-  {
-    label: "AI",
-    color: "#a855f7",
-    colorBg: "rgba(168,85,247,0.08)",
-    colorBorder: "rgba(168,85,247,0.18)",
-    skills: ["Claude / AI Tools", "Midjourney", "Prompt Writing"],
-  },
-  {
-    label: "Workflow",
-    color: "#10b981",
-    colorBg: "rgba(16,185,129,0.08)",
-    colorBorder: "rgba(16,185,129,0.18)",
-    skills: ["Notion", "Miro"],
-  },
+// ── Skills — Option B: core skills with proficiency bars + secondary pills ────
+const coreSkills = [
+  { label: "End-to-end product design", level: "Expert",   pct: 96, color: "#6366f1" },
+  { label: "User research",             level: "Expert",   pct: 90, color: "#6366f1" },
+  { label: "Figma / design systems",    level: "Expert",   pct: 93, color: "#6366f1" },
+  { label: "AI-assisted design",        level: "Advanced", pct: 80, color: "#a855f7" },
 ];
 
+const secondarySkills = [
+  { label: "Prototyping",    color: "#0ea5e9", bg: "rgba(14,165,233,0.08)",  border: "rgba(14,165,233,0.2)" },
+  { label: "Usability Testing", color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
+  { label: "A/B Testing",    color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
+  { label: "Midjourney",     color: "#a855f7", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.2)" },
+  { label: "FigJam",         color: "#0ea5e9", bg: "rgba(14,165,233,0.08)", border: "rgba(14,165,233,0.2)" },
+  { label: "Power BI",       color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Photoshop",      color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Illustrator",    color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Notion",         color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Miro",           color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+];
+
+// ── Experience ────────────────────────────────────────────────────────────────
 const experiences = [
   {
     company: "JSW Steel",
     role: "Design Analyst",
-    duration: "Aug 2025 · Present",
+    duration: "Aug 2025 — Present",
     current: true,
     points: [
       "Designed and delivered 12+ monthly steel market intelligence reports in Power BI, translating dense pricing and demand data into executive-ready visual narratives for 500+ stakeholders across business units.",
-      "Deep-dived into India's data center market to quantify steel consumption potential; modeled demand through 2030 and surfaced a 1 MTPA opportunity, flagged as a near-term revenue lever for JSW's growth strategy.",
+      "Deep-dived into India's data center market to quantify steel consumption potential, modeled demand through 2030 and surfaced a 1 MTPA opportunity, flagged as a near-term revenue lever for JSW's growth strategy.",
     ],
   },
   {
     company: "Tech Japan (Talendy)",
     role: "UX Research Intern",
-    duration: "Sep · Nov 2024 · 2 months",
+    duration: "Sep – Nov 2024 · 3 months",
     current: false,
     points: [
-      "Shipped 6 solutions to production in 2 months: job description layout redesign, save-all profile flow, multiple resume management, and a built-in communication tool that replaced a fragmented WhatsApp-based post-application workflow.",
-      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting. Both from observed usability sessions, not projections.",
-      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list. Same insight, completely different reception.",
+      "Shipped 6 solutions to production in 2 months: job description layout redesign, WCAG 2.1 AA accessibility fixes, save-all profile flow, multiple resume management, and a built-in communication tool that replaced a fragmented WhatsApp-based post-application workflow.",
+      "80% of users reported easier navigation post-redesign; 70% adopted new features without prompting, both from observed usability sessions, not projections.",
+      "Reframing the WhatsApp finding as a platform visibility problem got it onto the priority list.",
     ],
   },
   {
     company: "EVeez",
     role: "Product Designer",
-    duration: "Oct 2023 · Apr 2024 · 8 months",
+    duration: "Oct 2023 – Apr 2024 · 7 months",
     current: false,
     points: [
-      "Redesigned the homepage and 4 landing pages for an EV startup. Ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
-      "Sole designer on the team. Owned the full process from first sketch to stakeholder sign-off, including usability reviews and iteration cycles.",
+      "Redesigned the homepage and 4 landing pages for an EV startup, ran competitive analysis, built wireframes, and took everything through to developer-ready mockups, driving a 12% lift in conversion rate.",
+      "Sole designer on the team, owned the full process from first sketch to stakeholder sign-off, including usability reviews and iteration cycles.",
     ],
   },
   {
     company: "CyberLabs, IIT ISM Dhanbad",
     role: "Head of Design",
-    duration: "May 2023 · Apr 2025 · 2 years",
+    duration: "May 2023 – Apr 2025 · 2 years",
     current: false,
     points: [
-      "Led the UI/UX division of CyberLabs, the tech society of IIT ISM Dhanbad. Organized design workshops and mentored 50+ students across the institute.",
-      "Won WOC 4.0: led the winning design strategy for a competitive open problem statement at IIT Dhanbad.",
+      "Led the UI/UX division of CyberLabs, the tech society of IIT ISM Dhanbad, organizing design workshops and mentoring 50+ students across the institute.",
+      "Won WOC 4.0, led the winning design strategy for a competitive open problem statement at IIT Dhanbad.",
       "Selected as the only designer across 23 IITs for an early-stage startup role.",
     ],
   },
@@ -129,7 +120,7 @@ const About = () => {
             <div style={{ position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FONT_DISPLAY, fontSize: 68, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
 
-            {/* DESKTOP layout */}
+            {/* Desktop layout */}
             <div className="id-desktop" style={{ display: "flex", gap: 20, padding: 24, height: "100%", minHeight: 300, alignItems: "stretch", position: "relative", zIndex: 2 }}>
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16, height: "100%", minWidth: 0 }}>
                 <div>
@@ -138,27 +129,18 @@ const About = () => {
                     <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
                     <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
                   </div>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
-                    Product Designer · India · Open to remote
-                  </p>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>Product Designer · India · Open to remote</p>
                   <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
                     {cardSocials.map((s) => (
-                      <a
-                        key={s.label}
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                         style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
                         onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
-                        onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}
-                      >
-                        <s.icon size={9} style={{ flexShrink: 0 }} />
-                        {s.label} ↗
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}>
+                        <s.icon size={9} style={{ flexShrink: 0 }} />{s.label} ↗
                       </a>
                     ))}
                   </div>
                 </div>
-
                 <div className="id-image-inline">
                   <div style={{ width: "clamp(90px, 10vw, 120px)", marginTop: 14, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6 }}>
                     <div style={{ width: "clamp(80px, 10vw, 110px)", height: "clamp(96px, 12vw, 130px)", borderRadius: "12px", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
@@ -167,21 +149,18 @@ const About = () => {
                     <span style={{ fontFamily: FONT_BODY, fontSize: 10, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>Product Designer</span>
                   </div>
                 </div>
-
-                <p style={{ marginTop: "auto", fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>
-                  "Good design starts in conversations, not Figma."
-                </p>
+                <p style={{ marginTop: "auto", fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>"Design starts in conversations, not Figma."</p>
               </div>
-
               <div className="id-image-desktop" style={{ width: "clamp(90px, 10vw, 120px)", flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
                 <div style={{ width: "clamp(80px, 10vw, 110px)", height: "clamp(96px, 12vw, 130px)", borderRadius: "clamp(8px, 1.1vw, 12px)", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)", flexShrink: 0 }}>
-                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }} onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
+                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
                 </div>
                 <span style={{ fontFamily: FONT_BODY, fontSize: "clamp(8px, 1.1vw, 9.5px)", color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>Product Designer</span>
               </div>
             </div>
 
-            {/* MOBILE layout */}
+            {/* Mobile layout */}
             <div className="id-mobile" style={{ display: "none", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "26px 22px", gap: 16, position: "relative", zIndex: 2 }}>
               <div style={{ width: "100%" }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 8 }}>About</p>
@@ -193,22 +172,21 @@ const About = () => {
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
                 <div style={{ width: "clamp(84px, 11vw, 104px)", height: "clamp(100px, 13.3vw, 124px)", borderRadius: "clamp(9px, 1.2vw, 11px)", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
-                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }} onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
+                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
                 </div>
                 <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>Product Designer</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, width: "100%" }}>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
                   {cardSocials.map((s) => (
-                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "5px 11px", borderRadius: 100, textDecoration: "none" }}>
-                      <s.icon size={9} style={{ flexShrink: 0 }} />
-                      {s.label} ↗
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "5px 11px", borderRadius: 100, textDecoration: "none" }}>
+                      <s.icon size={9} style={{ flexShrink: 0 }} />{s.label} ↗
                     </a>
                   ))}
                 </div>
-                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>
-                  "Good design starts in conversations, not Figma."
-                </p>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>"Design starts in conversations, not Figma."</p>
               </div>
             </div>
           </div>
@@ -243,47 +221,50 @@ const About = () => {
           <div style={{ flex: 1, borderRadius: 20, padding: 26, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
             <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 10 }}>Bio</p>
             <h3 style={{ margin: "0 0 14px", lineHeight: 1.3 }}>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>I don't open Figma first. </span>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>I talk to the person who's stuck.</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>I don't start in Figma. </span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(12px, 1.4vw, 16px)", fontWeight: 700, color: "#6366f1", letterSpacing: "-0.02em" }}>I start with the person who's struggling.</span>
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 0 }}>
-              I'm Deepak, a Product Designer from IIT ISM Dhanbad, based in India and open to remote work. I've shipped across AI, SaaS, job platforms, and consumer products: researching what's broken, designing what fixes it, and making sure it actually reaches users.
+              I'm Deepak, a Product Designer from IIT ISM Dhanbad, based in India and open to remote. I've worked across AI, SaaS, job platforms, and consumer products: researching what's broken, designing what fixes it, and making sure it actually ships.
             </p>
             <div style={{ width: 28, height: 2, background: "#6366f1", opacity: 0.3, borderRadius: 2, margin: "14px 0" }} />
             <p style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, lineHeight: 1.8, color: "hsl(var(--muted-foreground))", marginBottom: 12 }}>
-              Google UX Certified. Led design at CyberLabs, IIT ISM, where I mentored 50+ students. Currently a Design Analyst at JSW Steel, translating market data into decisions business teams can act on.
+              Google UX Certified. Led design at CyberLabs, IIT ISM, mentored 50+ students. Currently a Design Analyst at JSW Steel, where design meets data and business strategy.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", fontStyle: "italic" }}>
-              "I use AI tools — Claude, Midjourney, Figma Make — to cut the repetitive parts of research and synthesis, so I can spend more time on the thinking that actually matters."
+              "I use AI tools — Claude, Midjourney, Figma Make — to compress the repetitive parts of research and synthesis."
             </p>
           </div>
 
-          {/* Skills card */}
+          {/* ── Skills card — Option B: core + secondary ── */}
           <div style={{ borderRadius: 20, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", padding: 20, flexShrink: 0 }}>
-            <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 14 }}>Skills & Tools</p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              {skillGroups.map((group) => (
-                <div key={group.label} style={{ borderRadius: 10, overflow: "hidden", background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}>
-                  <div style={{ height: 3, background: group.color, width: "100%" }} />
-                  <div style={{ padding: "10px 11px 12px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
-                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: group.color, flexShrink: 0 }} />
-                      <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 700, color: group.color, letterSpacing: "0.04em" }}>{group.label}</span>
-                    </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                      {group.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400, padding: "3px 7px", borderRadius: 5, background: "hsl(var(--background))", color: "hsl(var(--muted-foreground))", border: "1px solid hsl(var(--border))", lineHeight: 1.4, cursor: "default", transition: "all 0.18s" }}
-                          onMouseEnter={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = group.colorBg; el.style.color = group.color; el.style.borderColor = group.colorBorder; }}
-                          onMouseLeave={e => { const el = e.currentTarget as HTMLSpanElement; el.style.background = "hsl(var(--background))"; el.style.color = "hsl(var(--muted-foreground))"; el.style.borderColor = "hsl(var(--border))"; }}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 14 }}>
+              Skills & Tools
+            </p>
+
+            {/* Core — proficiency bars */}
+            <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Core</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
+              {coreSkills.map((skill) => (
+                <div key={skill.label}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 8, border: `0.5px solid ${skill.color}22`, background: `${skill.color}06` }}>
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: "hsl(var(--foreground))", minWidth: 130, flexShrink: 0 }}>{skill.label}</span>
+                  <div style={{ flex: 1, height: 4, background: "hsl(var(--border))", borderRadius: 2, overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${skill.pct}%`, background: skill.color, borderRadius: 2, transition: "width 0.6s ease" }} />
                   </div>
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: skill.color, flexShrink: 0, minWidth: 52, textAlign: "right" }}>{skill.level}</span>
                 </div>
+              ))}
+            </div>
+
+            {/* Secondary — pills */}
+            <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Also</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+              {secondarySkills.map((skill) => (
+                <span key={skill.label}
+                  style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 400, padding: "3px 8px", borderRadius: 5, background: skill.bg, color: skill.color, border: `1px solid ${skill.border}`, lineHeight: 1.4 }}>
+                  {skill.label}
+                </span>
               ))}
             </div>
           </div>
@@ -312,26 +293,11 @@ const About = () => {
           {experiences.map((exp, i) => {
             const isOpen = openIndex === i;
             return (
-              <div
-                key={i}
-                onClick={() => toggle(i)}
-                style={{
-                  borderRadius: 14, overflow: "hidden",
-                  background: "hsl(var(--card))",
-                  border: `1.5px solid ${isOpen ? "rgba(99,102,241,0.35)" : "hsl(var(--border))"}`,
-                  cursor: "pointer",
-                  transition: "border-color 0.25s, box-shadow 0.25s",
-                  boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.08)" : "none",
-                }}
-              >
+              <div key={i} onClick={() => toggle(i)}
+                style={{ borderRadius: 14, overflow: "hidden", background: "hsl(var(--card))", border: `1.5px solid ${isOpen ? "rgba(99,102,241,0.35)" : "hsl(var(--border))"}`, cursor: "pointer", transition: "border-color 0.25s, box-shadow 0.25s", boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.08)" : "none" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", gap: 12 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <div style={{
-                      width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
-                      background: isOpen ? "#6366f1" : exp.current ? "#22c55e" : "hsl(var(--border))",
-                      boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.2)" : exp.current ? "0 0 0 3px rgba(34,197,94,0.2)" : "none",
-                      transition: "all 0.25s",
-                    }} />
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, background: isOpen ? "#6366f1" : exp.current ? "#22c55e" : "hsl(var(--border))", boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.2)" : exp.current ? "0 0 0 3px rgba(34,197,94,0.2)" : "none", transition: "all 0.25s" }} />
                     <div>
                       <div style={{ fontFamily: FONT_BODY, fontSize: 14, fontWeight: 600, lineHeight: 1.4, color: isOpen ? "#818cf8" : "hsl(var(--foreground))", transition: "color 0.2s" }}>{exp.company}</div>
                       <div style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: 1.5, color: "#818cf8", marginTop: 2 }}>{exp.role}</div>
@@ -344,13 +310,12 @@ const About = () => {
                     <span style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", display: "inline-block", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>▼</span>
                   </div>
                 </div>
-
                 <div style={{ maxHeight: isOpen ? 320 : 0, overflow: "hidden", transition: "max-height 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
                   <div style={{ padding: "0 20px 16px", borderTop: "1px solid hsl(var(--border))" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 14 }}>
                       {exp.points.map((point, j) => (
                         <div key={j} style={{ display: "flex", gap: 10, fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))" }}>
-                          <span style={{ color: "#6366f1", flexShrink: 0, opacity: 0.5 }}>·</span>
+                          <span style={{ color: "#6366f1", flexShrink: 0, opacity: 0.5 }}>—</span>
                           <span>{point}</span>
                         </div>
                       ))}
