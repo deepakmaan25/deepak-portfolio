@@ -66,15 +66,16 @@ function ImageSlot({ caption, index = 0, src, ratio = 52 }: { caption?: string; 
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       style={{ margin: "36px 0 0", width: "100%" }}
     >
-      <div style={{ position: "relative", width: "100%", paddingTop: `${ratio}%`, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
+      {/* Container height is driven by the image — no fixed ratio, no clipping */}
+      <div style={{ width: "100%", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 20, overflow: "hidden" }}>
         {src ? (
           <img
             src={src}
             alt={caption ?? "Case study image"}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", borderRadius: 20 }}
+            style={{ display: "block", width: "100%", height: "auto", borderRadius: 20 }}
           />
         ) : (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
+          <div style={{ minHeight: 240, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, position: "relative" }}>
             <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
             <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
