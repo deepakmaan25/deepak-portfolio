@@ -6,26 +6,33 @@ import { Link } from "react-router-dom";
 
 type ImageSlotProps = {
   src?: string;
-  ratio?: string;
+  ratio?: string; // kept for API compatibility but no longer used for sizing
   caption?: string;
   alt?: string;
 };
 
-const ImageSlot = ({ src, ratio = "16/9", caption, alt = "" }: ImageSlotProps) => (
+// Container height is fully driven by the image's natural dimensions.
+// No fixed aspect ratio, no clipping — the border/radius wraps the real image height.
+const ImageSlot = ({ src, caption, alt = "" }: ImageSlotProps) => (
   <figure className="my-10">
-    <div
-      className="relative w-full overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]"
-      style={{ aspectRatio: ratio }}
-    >
+    <div className="w-full overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]">
       {src ? (
         <img
           src={src}
           alt={alt}
-          className="absolute inset-0 h-full w-full object-cover"
           loading="lazy"
+          style={{
+            display: "block",
+            width: "100%",
+            height: "auto",
+            borderRadius: "inherit",
+          }}
         />
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          style={{ minHeight: 200 }}
+          className="flex items-center justify-center"
+        >
           <span className="font-[Aileron] text-xs uppercase tracking-[0.2em] text-white/30">
             {alt || "Image placeholder"}
           </span>
