@@ -5,7 +5,7 @@ import { Github, Linkedin, ExternalLink } from "lucide-react";
 const FONT_BODY = "'Aileron', sans-serif";
 const FONT_DISPLAY = "'Unbounded', sans-serif";
 
-// ── Skills — Option B: core skills with proficiency bars + secondary pills ────
+// ── Skills — Option B ─────────────────────────────────────────────────────────
 const coreSkills = [
   { label: "End-to-end product design", level: "Expert",   pct: 96, color: "#6366f1" },
   { label: "User research",             level: "Expert",   pct: 90, color: "#6366f1" },
@@ -14,16 +14,16 @@ const coreSkills = [
 ];
 
 const secondarySkills = [
-  { label: "Prototyping",    color: "#0ea5e9", bg: "rgba(14,165,233,0.08)",  border: "rgba(14,165,233,0.2)" },
+  { label: "Prototyping",       color: "#0ea5e9", bg: "rgba(14,165,233,0.08)",  border: "rgba(14,165,233,0.2)" },
   { label: "Usability Testing", color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
-  { label: "A/B Testing",    color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
-  { label: "Midjourney",     color: "#a855f7", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.2)" },
-  { label: "FigJam",         color: "#0ea5e9", bg: "rgba(14,165,233,0.08)", border: "rgba(14,165,233,0.2)" },
-  { label: "Power BI",       color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
-  { label: "Photoshop",      color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
-  { label: "Illustrator",    color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
-  { label: "Notion",         color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
-  { label: "Miro",           color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "A/B Testing",       color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
+  { label: "Midjourney",        color: "#a855f7", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.2)" },
+  { label: "FigJam",            color: "#0ea5e9", bg: "rgba(14,165,233,0.08)", border: "rgba(14,165,233,0.2)" },
+  { label: "Power BI",          color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Photoshop",         color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Illustrator",       color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Notion",            color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Miro",              color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
 ];
 
 // ── Experience ────────────────────────────────────────────────────────────────
@@ -110,58 +110,69 @@ const About = () => {
         className="about-bento"
         style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 8, marginBottom: 40, alignItems: "stretch" }}
       >
-
         {/* ── LEFT COLUMN ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
           {/* Identity card */}
-          <div style={{ flex: 1, borderRadius: 20, overflow: "hidden", background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)", position: "relative", minHeight: 300 }}>
+          <div style={{ flex: 1, borderRadius: 20, overflow: "hidden", background: "linear-gradient(145deg, #1e1b4b, #312e81, #4338ca)", position: "relative", minHeight: 320 }}>
             <div style={{ position: "absolute", top: -30, right: -30, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(165,180,252,0.32), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -30, left: -20, width: 100, height: 100, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "absolute", bottom: -8, right: 12, fontFamily: FONT_DISPLAY, fontSize: 68, fontWeight: 800, color: "rgba(255,255,255,0.04)", lineHeight: 1, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>DM</div>
 
-            {/* Desktop layout */}
-            <div className="id-desktop" style={{ display: "flex", gap: 20, padding: 24, height: "100%", minHeight: 300, alignItems: "stretch", position: "relative", zIndex: 2 }}>
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16, height: "100%", minWidth: 0 }}>
-                <div>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
-                  <div style={{ lineHeight: 1.1, marginBottom: 6 }}>
-                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
-                    <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
-                  </div>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>Product Designer · India · Open to remote</p>
-                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                    {cardSocials.map((s) => (
-                      <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                        style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
-                        onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
-                        onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}>
-                        <s.icon size={9} style={{ flexShrink: 0 }} />{s.label} ↗
-                      </a>
-                    ))}
-                  </div>
+            {/* ── DESKTOP ── */}
+            <div
+              className="id-desktop"
+              style={{ flexDirection: "row", alignItems: "stretch", padding: 24, gap: 16, height: "100%", minHeight: 320, position: "relative", zIndex: 2 }}
+            >
+              {/* Text stack */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>About</p>
+                <div style={{ lineHeight: 1.1, marginBottom: 6 }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#fff", letterSpacing: "-0.03em", display: "block" }}>Deepak</span>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 700, color: "#a5b4fc", display: "block", letterSpacing: "-0.03em" }}>Maan.</span>
                 </div>
-                <div className="id-image-inline">
-                  <div style={{ width: "clamp(90px, 10vw, 120px)", marginTop: 14, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6 }}>
-                    <div style={{ width: "clamp(80px, 10vw, 110px)", height: "clamp(96px, 12vw, 130px)", borderRadius: "12px", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
-                      <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }} />
-                    </div>
-                    <span style={{ fontFamily: FONT_BODY, fontSize: 10, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>Product Designer</span>
-                  </div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 10, lineHeight: 1.5, color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
+                  Product Designer · India · Open to remote
+                </p>
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: "auto" }}>
+                  {cardSocials.map((s) => (
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center", gap: 4, fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 9px", borderRadius: 100, textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap" }}
+                      onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.16)"; el.style.color = "#fff"; }}
+                      onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(255,255,255,0.08)"; el.style.color = "rgba(255,255,255,0.65)"; }}>
+                      <s.icon size={9} style={{ flexShrink: 0 }} />{s.label} ↗
+                    </a>
+                  ))}
                 </div>
-                <p style={{ marginTop: "auto", fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>"Design starts in conversations, not Figma."</p>
+                <p style={{ marginTop: 20, fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.28)", lineHeight: 1.65 }}>
+                  "Design starts in conversations, not Figma."
+                </p>
               </div>
-              <div className="id-image-desktop" style={{ width: "clamp(90px, 10vw, 120px)", flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                <div style={{ width: "clamp(80px, 10vw, 110px)", height: "clamp(96px, 12vw, 130px)", borderRadius: "clamp(8px, 1.1vw, 12px)", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)", flexShrink: 0 }}>
-                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
-                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
+
+              {/* Photo — right column, vertically centered */}
+              <div
+                className="id-image-desktop"
+                style={{ flexShrink: 0, flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, width: "clamp(100px, 11vw, 130px)" }}
+              >
+                <div style={{ width: "clamp(92px, 10.5vw, 120px)", height: "clamp(112px, 13vw, 148px)", borderRadius: "clamp(10px, 1.2vw, 14px)", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.28)", boxShadow: "0 8px 32px rgba(0,0,0,0.35)", flexShrink: 0 }}>
+                  <img
+                    src="/deepak.png"
+                    alt="Deepak Maan"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.92) saturate(0.88)" }}
+                    onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }}
+                  />
                 </div>
-                <span style={{ fontFamily: FONT_BODY, fontSize: "clamp(8px, 1.1vw, 9.5px)", color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>Product Designer</span>
+                <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic", textAlign: "center", lineHeight: 1.4 }}>
+                  Product Designer
+                </span>
               </div>
             </div>
 
-            {/* Mobile layout */}
-            <div className="id-mobile" style={{ display: "none", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "26px 22px", gap: 16, position: "relative", zIndex: 2 }}>
+            {/* ── MOBILE ── */}
+            <div
+              className="id-mobile"
+              style={{ display: "none", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "26px 22px", gap: 16, position: "relative", zIndex: 2 }}
+            >
               <div style={{ width: "100%" }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 8 }}>About</p>
                 <div style={{ lineHeight: 1.1, marginBottom: 5 }}>
@@ -171,8 +182,9 @@ const About = () => {
                 <p style={{ fontFamily: FONT_BODY, fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>Product Designer · India · Open to remote</p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 7 }}>
-                <div style={{ width: "clamp(84px, 11vw, 104px)", height: "clamp(100px, 13.3vw, 124px)", borderRadius: "clamp(9px, 1.2vw, 11px)", overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
-                  <img src="/deepak.png" alt="Deepak Maan" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
+                <div style={{ width: 96, height: 116, borderRadius: 12, overflow: "hidden", border: "1.5px solid rgba(165,180,252,0.22)" }}>
+                  <img src="/deepak.png" alt="Deepak Maan"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block", filter: "brightness(0.9) saturate(0.88)" }}
                     onError={e => { (e.currentTarget.parentElement as HTMLDivElement).style.display = "none"; }} />
                 </div>
                 <span style={{ fontFamily: FONT_BODY, fontSize: 9, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>Product Designer</span>
@@ -186,7 +198,9 @@ const About = () => {
                     </a>
                   ))}
                 </div>
-                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>"Design starts in conversations, not Figma."</p>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 11, fontStyle: "italic", color: "rgba(255,255,255,0.26)", lineHeight: 1.65, margin: 0, textAlign: "center" }}>
+                  "Design starts in conversations, not Figma."
+                </p>
               </div>
             </div>
           </div>
@@ -236,13 +250,11 @@ const About = () => {
             </p>
           </div>
 
-          {/* ── Skills card — Option B: core + secondary ── */}
+          {/* Skills */}
           <div style={{ borderRadius: 20, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", padding: 20, flexShrink: 0 }}>
             <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 14 }}>
               Skills & Tools
             </p>
-
-            {/* Core — proficiency bars */}
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Core</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
               {coreSkills.map((skill) => (
@@ -250,14 +262,12 @@ const About = () => {
                   style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 8, border: `0.5px solid ${skill.color}22`, background: `${skill.color}06` }}>
                   <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: "hsl(var(--foreground))", minWidth: 130, flexShrink: 0 }}>{skill.label}</span>
                   <div style={{ flex: 1, height: 4, background: "hsl(var(--border))", borderRadius: 2, overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${skill.pct}%`, background: skill.color, borderRadius: 2, transition: "width 0.6s ease" }} />
+                    <div style={{ height: "100%", width: `${skill.pct}%`, background: skill.color, borderRadius: 2 }} />
                   </div>
                   <span style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 500, color: skill.color, flexShrink: 0, minWidth: 52, textAlign: "right" }}>{skill.level}</span>
                 </div>
               ))}
             </div>
-
-            {/* Secondary — pills */}
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Also</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
               {secondarySkills.map((skill) => (
@@ -271,7 +281,7 @@ const About = () => {
         </div>
       </motion.div>
 
-      {/* ── Experience accordion ── */}
+      {/* ── Experience ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -329,16 +339,23 @@ const About = () => {
       </motion.div>
 
       <style>{`
+        /* ── Responsive ── */
         @media (max-width: 768px) {
           .about-bento { grid-template-columns: 1fr !important; }
-          .id-desktop { display: none !important; }
-          .id-mobile  { display: flex !important; }
-          .id-image-inline { display: none !important; }
+          .id-desktop  { display: none !important; }
+          .id-mobile   { display: flex !important; }
         }
+
+        /*
+         * Desktop fix — the key change:
+         * id-desktop uses display:flex (row) so the photo column renders
+         * id-image-desktop uses display:flex (column) so it's visible and centered
+         * Neither is hidden on desktop
+         */
         @media (min-width: 769px) {
-          .id-desktop { display: flex !important; }
-          .id-mobile  { display: none !important; }
-          .id-image-desktop { display: none !important; }
+          .id-desktop       { display: flex !important; }
+          .id-mobile        { display: none !important; }
+          .id-image-desktop { display: flex !important; }
         }
       `}</style>
     </section>
