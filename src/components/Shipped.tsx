@@ -38,8 +38,8 @@ const projects: ShippedProject[] = [
   },
   {
     id: "design-system-website",
-    title: "Design System to Website",
-    problem: "A design system file sitting in Figma cannot prove it actually works. A live site can.",
+    title: "Kairo - Design System",
+    problem: "Built an live website transforming my Design System into an live website for non-designers to actuallly go through and explore the componenets.",
     description:
       "Built a complete design system from scratch: color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases that would have stayed invisible in a static file.",
     tech: ["Figma", "Figma Make"],
@@ -245,21 +245,56 @@ const ProjectModal = ({
             {project.description}
           </p>
 
-          {/* Tech stack */}
+          {/* Tech stack + CTA inline row */}
           <div style={{ marginBottom: 28 }}>
-            <p
-              style={{
-                fontFamily: FONT_BODY,
-                fontSize: 10,
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "hsl(var(--muted-foreground))",
-                margin: "0 0 10px",
-              }}
-            >
-              Built with
-            </p>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+              <p
+                style={{
+                  fontFamily: FONT_BODY,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "hsl(var(--muted-foreground))",
+                  margin: 0,
+                }}
+              >
+                Built with
+              </p>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: FONT_BODY,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#fff",
+                  background: "#6366f1",
+                  padding: "7px 14px",
+                  borderRadius: 7,
+                  textDecoration: "none",
+                  transition: "background 0.2s, transform 0.15s",
+                  flexShrink: 0,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#4f46e5";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#6366f1";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+                }}
+              >
+                Visit live project
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M2 8L8 2M8 2H4M8 2V6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </a>
+            </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {project.tech.map((t) => (
                 <span
@@ -319,45 +354,12 @@ const ProjectModal = ({
                     opacity: 0.5,
                   }}
                 >
-                  Product walkthrough — coming soon
+                  Product walkthrough, coming soon
                 </p>
               </>
             )}
           </div>
 
-          {/* CTA */}
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: FONT_BODY,
-              fontSize: 13,
-              fontWeight: 600,
-              color: "#fff",
-              background: "#6366f1",
-              padding: "10px 20px",
-              borderRadius: 8,
-              textDecoration: "none",
-              transition: "background 0.2s, transform 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#4f46e5";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#6366f1";
-              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-            }}
-          >
-            Visit live project
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-              <path d="M2 9L9 2M9 2H4.5M9 2V6.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </a>
         </motion.div>
       </motion.div>
     </AnimatePresence>
