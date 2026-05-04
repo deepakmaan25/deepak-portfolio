@@ -21,27 +21,27 @@ const projects: ShippedProject[] = [
   {
     id: "music-animation-generator",
     title: "Music Animation Generator",
-    problem: "Musicians had no fast way to turn a track into social-ready motion visuals.",
+    problem: "Upload a track, pick a visual engine, get a beat-synced animation ready to post.",
     description:
-      "Beat-synced motion visuals from uploaded audio. Designed the full system in Figma first — color tokens, component library, light/dark theming — then derived both the marketing site and Studio UI from that single system. Implemented the full upload, analyze, visualize, and export pipeline with real-time frequency extraction driving multiple WebGL visual engines.",
+      "A web tool that turns any uploaded track into customizable motion visuals for social video. Designed the full system in Figma first: color tokens, component library, light and dark theming. Derived both the marketing site and Studio UI from that single system, then built the full upload, analyze, visualize, and export pipeline. Real-time frequency extraction drives multiple WebGL visual engines. Users can switch engines, tweak motion and color parameters, and export in vertical, square, or horizontal formats.",
     tech: ["React", "TypeScript", "Web Audio API", "WebGL", "Supabase"],
     liveUrl: "https://suite-quake-51108117.figma.site/",
   },
   {
     id: "typematch",
     title: "TypeMatch",
-    problem: "Font selection is a decision system. Most tools treat it as a search box.",
+    problem: "Font selection is a decision, not a search. Most tools treat it as a search box.",
     description:
-      "Typography recommendation tool built on a scoring system — not a filter. Established the design system foundation first: typography scale, spacing tokens, dark mode, component states. Prioritized accessibility and state honesty: unavailable weights stay discoverable, loading, failure, and retry each have distinct states so the interface never misleads.",
+      "Typography recommendation tool built on a scoring system, not a filter. Established the design system foundation first: typography scale, spacing tokens, dark mode, component states. Prioritized accessibility and state honesty throughout: unavailable weights stay discoverable, and loading, failure, and retry each have distinct states so the interface never misleads the user.",
     tech: ["React", "TypeScript", "Google Fonts API", "Vercel"],
     liveUrl: "https://typematch-mu.vercel.app/",
   },
   {
     id: "design-system-website",
     title: "Design System to Website",
-    problem: "A static design system file cannot prove it works. Implementation does.",
+    problem: "A design system file sitting in Figma cannot prove it actually works. A live site can.",
     description:
-      "Built a complete design system — color tokens, spacing rhythm, elevation, component library with variants and states — then implemented it as an interactive website. Used implementation as a live audit: forcing the system into a real product exposed missing states, responsive gaps, and motion edge cases that would have stayed invisible in a static file.",
+      "Built a complete design system from scratch: color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases that would have stayed invisible in a static file.",
     tech: ["Figma", "Figma Make"],
     liveUrl: "https://grid-dizzy-54533031.figma.site/",
   },
@@ -442,7 +442,7 @@ const Shipped = () => {
               maxWidth: 480,
             }}
           >
-            Designed, built, and deployed end to end — using AI as a collaborative partner to move from idea to production.
+            Designed, built, and deployed end to end. AI as a collaborative partner throughout, from spec to production.
           </p>
         </motion.div>
 
@@ -451,12 +451,7 @@ const Shipped = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 12,
-          }}
-          className="max-md:grid-cols-1"
+          className="grid grid-cols-1 md:grid-cols-3 gap-3"
         >
           {projects.map((project, i) => (
             <ShippedCard
