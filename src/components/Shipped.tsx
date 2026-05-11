@@ -38,8 +38,8 @@ const projects: ShippedProject[] = [
   },
   {
     id: "design-system-website",
-    title: "Kairo - Design System",
-    problem: "Built an live website transforming my Design System into an live website for non-designers to actuallly go through and explore the componenets.",
+    title: "Design System Website",
+    problem: "A design system file sitting in Figma cannot prove it actually works. A live site can.",
     description:
       "Built a complete design system from scratch: color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases that would have stayed invisible in a static file.",
     tech: ["Figma", "Figma Make"],
@@ -245,9 +245,10 @@ const ProjectModal = ({
             {project.description}
           </p>
 
-          {/* Tech stack + CTA inline row */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+          {/* Tech stack + CTA — outer row aligns bottom of pills with bottom of button */}
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 28 }}>
+            {/* Left: label + pills stacked */}
+            <div>
               <p
                 style={{
                   fontFamily: FONT_BODY,
@@ -256,64 +257,67 @@ const ProjectModal = ({
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   color: "hsl(var(--muted-foreground))",
-                  margin: 0,
+                  margin: "0 0 10px",
                 }}
               >
                 Built with
               </p>
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontFamily: FONT_BODY,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "#fff",
-                  background: "#6366f1",
-                  padding: "7px 14px",
-                  borderRadius: 7,
-                  textDecoration: "none",
-                  transition: "background 0.2s, transform 0.15s",
-                  flexShrink: 0,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "#4f46e5";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "#6366f1";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-                }}
-              >
-                Visit live project
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <path d="M2 8L8 2M8 2H4M8 2V6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </a>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {project.tech.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontFamily: FONT_BODY,
+                      fontSize: 11,
+                      fontWeight: 500,
+                      padding: "4px 10px",
+                      borderRadius: 6,
+                      background: "hsl(var(--muted))",
+                      color: "hsl(var(--muted-foreground))",
+                      border: "1px solid hsl(var(--border))",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  style={{
-                    fontFamily: FONT_BODY,
-                    fontSize: 11,
-                    fontWeight: 500,
-                    padding: "4px 10px",
-                    borderRadius: 6,
-                    background: "hsl(var(--muted))",
-                    color: "hsl(var(--muted-foreground))",
-                    border: "1px solid hsl(var(--border))",
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+
+            {/* Right: button sits at flex-end, bottom-aligned with pills */}
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                fontFamily: FONT_BODY,
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#fff",
+                background: "#6366f1",
+                padding: "7px 14px",
+                borderRadius: 7,
+                textDecoration: "none",
+                transition: "background 0.2s, transform 0.15s",
+                flexShrink: 0,
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = "#4f46e5";
+                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = "#6366f1";
+                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+              }}
+            >
+              Visit live project
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 8L8 2M8 2H4M8 2V6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </a>
           </div>
 
           {/* Video slot */}
