@@ -293,11 +293,11 @@ export const caseStudies: CaseStudy[] = [
     timeline: "Early 2024 · 2 Months",
     color: "#fff4ec",
 
-    outcomes: [
-      { value: "40+", label: "Screens Designed" },
-      { value: "5", label: "Core Flows Shipped" },
-      { value: "2", label: "Months End-to-End" },
-    ],
+  outcomes: [
+  { value: "8 wks", label: "Shipped end-to-end" },
+  { value: "0→1",   label: "Full product ownership" },
+  { value: "1",     label: "Solo designer, direct to founder" },
+],
 
     stats: [
       { value: "40+", label: "Screens designed" },
