@@ -125,110 +125,46 @@ const Contact = () => {
           </h2>
         </motion.div>
 
+        {/* Single marquee — works on all screen sizes, card width shrinks on mobile via CSS */}
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,32px)", paddingRight: "clamp(20px,5vw,80px)", position: "relative" }}>
           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
-
-          {/* paddingBottom prevents card borders and shadows being clipped by overflow:hidden */}
           <div style={{ overflow: "hidden", paddingBottom: 8 }}>
             <div
               className="testimonial-marquee"
               style={{ display: "flex", gap: GAP, width: "max-content", animation: `testimonialScroll ${testimonials.length * 5}s linear infinite` }}
             >
               {allCards.map((t, i) => {
-                const gradientIndex = testimonials.findIndex(x => x.name === t.name) % AVATAR_GRADIENTS.length;
+                const gi = testimonials.findIndex(x => x.name === t.name) % AVATAR_GRADIENTS.length;
                 return (
                   <div
                     key={i}
-                    style={{
-                      width: CARD_W, flexShrink: 0,
-                      background: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: 16, padding: "18px 20px",
-                      display: "flex", flexDirection: "column",
-                      justifyContent: "space-between", gap: 14,
-                      transition: "border-color 0.2s", cursor: "default",
-                    }}
+                    className="t-card"
+                    style={{ width: CARD_W, flexShrink: 0, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 16, padding: "18px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 14, transition: "border-color 0.2s", cursor: "default" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))"; }}
                   >
-                    <p style={{
-                      fontFamily: F, fontSize: 13, lineHeight: 1.75,
-                      color: "hsl(var(--muted-foreground))", margin: 0,
-                      display: "-webkit-box",
-                      WebkitLineClamp: 4,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    } as React.CSSProperties}>
+                    <p style={{ fontFamily: F, fontSize: 13, lineHeight: 1.75, color: "hsl(var(--muted-foreground))", margin: 0, display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical", overflow: "hidden" } as React.CSSProperties}>
                       "{t.text}"
                     </p>
-
                     <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid hsl(var(--border))", flexWrap: "nowrap", minWidth: 0 }}>
-                      <div style={{
-                        width: 32, height: 32, borderRadius: "50%",
-                        flexShrink: 0, overflow: "hidden",
-                        background: t.photo ? "transparent" : AVATAR_GRADIENTS[gradientIndex],
-                        border: "1px solid rgba(99,102,241,0.2)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                      }}>
-                        {t.photo ? (
-                          <img
-                            src={t.photo}
-                            alt={t.name}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
-                            onError={e => {
-                              e.currentTarget.style.display = "none";
-                              const parent = e.currentTarget.parentElement as HTMLDivElement;
-                              parent.style.background = AVATAR_GRADIENTS[gradientIndex];
-                              const span = document.createElement("span");
-                              span.textContent = t.handle;
-                              span.style.cssText = `font-family: ${FD}; font-size: 9px; font-weight: 700; color: #fff;`;
-                              parent.appendChild(span);
-                            }}
-                          />
-                        ) : (
-                          <span style={{ fontFamily: FD, fontSize: 9, fontWeight: 700, color: "#fff" }}>{t.handle}</span>
-                        )}
+                      <div style={{ width: 32, height: 32, borderRadius: "50%", flexShrink: 0, overflow: "hidden", background: t.photo ? "transparent" : AVATAR_GRADIENTS[gi], border: "1px solid rgba(99,102,241,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        {t.photo
+                          ? <img src={t.photo} alt={t.name} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+                          : <span style={{ fontFamily: FD, fontSize: 9, fontWeight: 700, color: "#fff" }}>{t.handle}</span>}
                       </div>
-
-                      <div style={{ flexShrink: 0, minWidth: 0 }}>
+                      <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                          <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "wrap" }}>
-                            {t.name}
-                          </div>
+                          <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "nowrap" }}>{t.name}</div>
                           {t.linkedin && (
-                            <a
-                              href={t.linkedin}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={e => e.stopPropagation()}
-                              style={{ display: "inline-flex", flexShrink: 0, color: "#0077b5", transition: "opacity 0.2s", lineHeight: 1 }}
-                              onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-                              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-                              title={`${t.name} on LinkedIn`}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                              </svg>
+                            <a href={t.linkedin} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ display: "inline-flex", flexShrink: 0, color: "#0077b5", lineHeight: 1 }}>
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                             </a>
                           )}
                         </div>
-                        <div style={{ fontFamily: F, fontSize: 11, color: "hsl(var(--muted-foreground))", marginTop: 1, whiteSpace: "nowrap" }}>
-                          {t.role}
-                        </div>
+                        <div style={{ fontFamily: F, fontSize: 11, color: "hsl(var(--muted-foreground))", marginTop: 1, whiteSpace: "nowrap" }}>{t.role}</div>
                       </div>
-
-                      <span style={{
-                        fontFamily: F, fontSize: 9, fontWeight: 600,
-                        letterSpacing: "0.06em", textTransform: "uppercase",
-                        color: "rgba(99,102,241,0.7)",
-                        background: "rgba(99,102,241,0.07)",
-                        border: "1px solid rgba(99,102,241,0.15)",
-                        padding: "3px 8px", borderRadius: 100,
-                        marginLeft: "auto", flexShrink: 1,
-                        minWidth: 0, overflow: "hidden",
-                        textOverflow: "ellipsis", whiteSpace: "nowrap",
-                      }}>
+                      <span className="t-context-pill" style={{ fontFamily: F, fontSize: 9, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(99,102,241,0.7)", background: "rgba(99,102,241,0.07)", border: "1px solid rgba(99,102,241,0.15)", padding: "3px 8px", borderRadius: 100, marginLeft: "auto", flexShrink: 0, whiteSpace: "nowrap" }}>
                         {t.context}
                       </span>
                     </div>
@@ -245,6 +181,10 @@ const Contact = () => {
             100% { transform: translateX(-${totalWidth}px); }
           }
           .testimonial-marquee:hover { animation-play-state: paused; }
+          @media (max-width: 767px) {
+            .t-card { width: 260px !important; }
+            .t-context-pill { display: none; }
+          }
         `}</style>
       </section>
 
