@@ -193,7 +193,7 @@ const Contact = () => {
 
                       <div style={{ flexShrink: 0, minWidth: 0 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                          <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "nowrap" }}>
+                          <div style={{ fontFamily: F, fontSize: 10, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "nowrap" }}>
                             {t.name}
                           </div>
                           {t.linkedin && (
