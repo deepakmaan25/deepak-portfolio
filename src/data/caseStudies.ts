@@ -74,7 +74,7 @@ export const caseStudies: CaseStudy[] = [
     platform: "Web (Desktop + Mobile)",
     year: "2024",
     role: "UX Research Intern",
-    timeline: "September – November 2024 · 2 Months",
+    timeline: "September – November 2024 · 3 Months",
     color: "#eaf3ff",
 
     outcomes: [
@@ -288,9 +288,9 @@ export const caseStudies: CaseStudy[] = [
       "Designing a group-buying e-commerce experience from zero to shipped, where the price drops as more people commit",
     tag: "Product Design · E-commerce",
     platform: "Web (Desktop + Mobile)",
-    year: "2024",
+    year: "2025",
     role: "Lead Product Designer",
-    timeline: "Early 2024 · 2 Months",
+    timeline: "Early 2025 · 2 Months",
     color: "#fff4ec",
 
   outcomes: [
