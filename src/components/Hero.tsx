@@ -238,9 +238,8 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
                       ))}
                     </div>
                   )}
-{card.id === 2 && (
+                  {card.id === 2 && (
                     <div style={{ display:"flex", flexDirection:"column", gap:9 }}>
-                      {/* Product row */}
                       <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                         <div style={{ width:32, height:32, borderRadius:7, background:"rgba(234,88,12,0.18)", border:"1px solid rgba(234,88,12,0.28)", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
                           <div style={{ width:14, height:18, borderRadius:"3px 3px 5px 5px", background:"rgba(234,88,12,0.7)" }} />
@@ -251,18 +250,15 @@ const CardScene = ({ mobile = false, isDark = true }: { mobile?: boolean; isDark
                             <span style={{ color:"rgba(234,88,12,0.6)" }}>₹599</span>
                             <span style={{ color:"rgba(255,255,255,0.3)" }}>→ ₹449</span>
                           </div>
-                          {/* Pool bar */}
                           <div style={{ height:4, borderRadius:2, background:"rgba(255,255,255,0.08)", overflow:"hidden" }}>
                             <div style={{ height:"100%", width:"76%", borderRadius:2, background:"rgba(234,88,12,0.75)" }} />
                           </div>
                         </div>
                       </div>
-                      {/* Pool status */}
                       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                         <span style={{ fontSize:7, color:"rgba(234,88,12,0.65)", fontFamily:FONT_BODY }}>47 joined</span>
                         <span style={{ fontSize:7, color:"rgba(255,255,255,0.25)", fontFamily:FONT_BODY }}>3 more to unlock</span>
                       </div>
-                      {/* Second product, dimmer */}
                       <div style={{ display:"flex", alignItems:"center", gap:8, opacity:0.45 }}>
                         <div style={{ width:32, height:32, borderRadius:7, background:"rgba(234,88,12,0.1)", border:"1px solid rgba(234,88,12,0.15)", flexShrink:0 }} />
                         <div style={{ flex:1 }}>
@@ -368,15 +364,15 @@ const Hero = () => {
                 </span>
               </div>
 
+              {/* ── UPDATED TAGLINE ── */}
               <p style={{ fontFamily:FONT_BODY, fontSize:"clamp(12px,1.1vw,13.5px)", fontWeight:400, lineHeight:1.9, color:"hsl(var(--muted-foreground))", maxWidth:"88%", marginBottom:30 }}>
-                I start with the problem, figure out what's actually breaking,
-                and design what fixes it. AI helps me move faster without skipping the thinking.
+                Product designer specializing in AI products. I use AI throughout the process to research faster, design smarter, and ship without cutting corners.
               </p>
 
               {/* ── CTA BUTTONS ── */}
               <div className="hero-btns flex flex-wrap items-center gap-2.5">
 
-                {/* PRIMARY: solid indigo fill — unmissable */}
+                {/* PRIMARY: solid indigo fill */}
                 <a
                   href="#work"
                   className="inline-flex items-center justify-center rounded-full transition-all"
@@ -394,7 +390,7 @@ const Hero = () => {
                   View Work ↓
                 </a>
 
-                {/* SECONDARY: indigo-tinted border — visible but clearly secondary */}
+                {/* SECONDARY: indigo-tinted border */}
                 <a
                   href="#contact"
                   className="inline-flex items-center justify-center rounded-full transition-all duration-200"
