@@ -5,10 +5,6 @@ import { Github, Linkedin, Mail, ExternalLink, Calendar } from "lucide-react";
 const F = "'Aileron', sans-serif";
 const FD = "'Unbounded', sans-serif";
 
-// ── Testimonials ──────────────────────────────────────────────────────────────
-// To add a real headshot: set `photo` to the image path, e.g. "/headshots/ck.jpg"
-// To add LinkedIn verification: set `linkedin` to the profile URL
-// Without a photo, the avatar falls back to a gradient + initials automatically
 const testimonials = [
   {
     name: "Chanderkant Sharma",
@@ -66,7 +62,6 @@ const testimonials = [
   },
 ];
 
-// Gradient palette for initials avatars — cycles by index
 const AVATAR_GRADIENTS = [
   "linear-gradient(135deg, #6366f1, #818cf8)",
   "linear-gradient(135deg, #0ea5e9, #38bdf8)",
@@ -78,7 +73,6 @@ const AVATAR_GRADIENTS = [
 
 const allCards = [...testimonials, ...testimonials];
 
-// ── Socials ───────────────────────────────────────────────────────────────────
 const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/deepakmaan/",  icon: Linkedin },
   { label: "GitHub",   href: "https://github.com/deepakmaan25",           icon: Github },
@@ -99,7 +93,6 @@ const Contact = () => {
 
   return (
     <>
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
       <section style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
@@ -132,12 +125,12 @@ const Contact = () => {
           </h2>
         </motion.div>
 
-        {/* Marquee */}
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,32px)", paddingRight: "clamp(20px,5vw,80px)", position: "relative" }}>
           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
 
-          <div style={{ overflow: "hidden" }}>
+          {/* paddingBottom prevents card borders and shadows being clipped by overflow:hidden */}
+          <div style={{ overflow: "hidden", paddingBottom: 8 }}>
             <div
               className="testimonial-marquee"
               style={{ display: "flex", gap: GAP, width: "max-content", animation: `testimonialScroll ${testimonials.length * 5}s linear infinite` }}
@@ -159,7 +152,6 @@ const Contact = () => {
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(99,102,241,0.3)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--border))"; }}
                   >
-                    {/* Quote */}
                     <p style={{
                       fontFamily: F, fontSize: 13, lineHeight: 1.75,
                       color: "hsl(var(--muted-foreground))", margin: 0,
@@ -171,10 +163,7 @@ const Contact = () => {
                       "{t.text}"
                     </p>
 
-                    {/* Author row */}
                     <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid hsl(var(--border))", flexWrap: "nowrap", minWidth: 0 }}>
-
-                      {/* Avatar — real photo if available, else gradient + initials */}
                       <div style={{
                         width: 32, height: 32, borderRadius: "50%",
                         flexShrink: 0, overflow: "hidden",
@@ -188,7 +177,6 @@ const Contact = () => {
                             alt={t.name}
                             style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
                             onError={e => {
-                              // If image fails, hide it and show initials fallback
                               e.currentTarget.style.display = "none";
                               const parent = e.currentTarget.parentElement as HTMLDivElement;
                               parent.style.background = AVATAR_GRADIENTS[gradientIndex];
@@ -203,7 +191,6 @@ const Contact = () => {
                         )}
                       </div>
 
-                      {/* Name + role + LinkedIn */}
                       <div style={{ flexShrink: 0, minWidth: 0 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                           <div style={{ fontFamily: F, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.25, whiteSpace: "nowrap" }}>
@@ -231,7 +218,6 @@ const Contact = () => {
                         </div>
                       </div>
 
-                      {/* Context pill */}
                       <span style={{
                         fontFamily: F, fontSize: 9, fontWeight: 600,
                         letterSpacing: "0.06em", textTransform: "uppercase",
@@ -262,9 +248,7 @@ const Contact = () => {
         `}</style>
       </section>
 
-      {/* ── CONTACT + FOOTER ─────────────────────────────────────────────── */}
       <footer id="contact" style={{ background: "#0C0C0F" }}>
-
         <div style={{
           maxWidth: 1200, margin: "0 auto",
           paddingLeft: "clamp(20px,5vw,32px)",
@@ -281,7 +265,6 @@ const Contact = () => {
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}
             className="contact-grid"
           >
-            {/* Left */}
             <div>
               <p style={{ fontFamily: F, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1", marginBottom: 14 }}>
                 Get in touch
@@ -297,10 +280,8 @@ const Contact = () => {
               </p>
             </div>
 
-            {/* Right — CTAs + socials */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                {/* Primary */}
                 <a
                   href="mailto:dipumaan2002@gmail.com?subject=Let's Work Together&body=Hi Deepak,"
                   style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: F, fontSize: 13, fontWeight: 600, background: "#6366f1", color: "white", padding: "14px 0", borderRadius: 14, textDecoration: "none", transition: "background 0.2s, transform 0.2s" }}
@@ -310,7 +291,6 @@ const Contact = () => {
                   <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#a5f3fc", display: "inline-block", flexShrink: 0 }} />
                   Open to work
                 </a>
-                {/* Secondary */}
                 <a
                   href="https://cal.com/deepakmaan"
                   target="_blank"
@@ -324,7 +304,6 @@ const Contact = () => {
                 </a>
               </div>
 
-              {/* Social grid */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {socials.map((s) => (
                   <a
@@ -345,7 +324,6 @@ const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Bottom bar */}
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,80px)", paddingRight: "clamp(20px,5vw,80px)", paddingTop: 18, paddingBottom: 22, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ fontFamily: FD, fontSize: 12, fontWeight: 600, color: "#2E2E2E", letterSpacing: "-0.01em" }}>Deepak Maan</span>
