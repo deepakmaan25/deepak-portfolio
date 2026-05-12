@@ -17,6 +17,7 @@ const cardStyles = [
 
 const CaseStudies = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
 
@@ -50,6 +51,7 @@ const CaseStudies = () => {
         {caseStudies.map((cs, i) => {
           const style = cardStyles[i] ?? cardStyles[0];
           const isActive = activeIndex === i;
+          const isHovered = hoveredIndex === i;
           const heroOutcome = cs.outcomes?.[0];
 
           return (
@@ -63,11 +65,16 @@ const CaseStudies = () => {
                 padding: "28px 24px",
                 background: style.bg,
                 borderLeft: `3px solid ${isActive ? style.border : "transparent"}`,
-                transition: "flex 0.5s cubic-bezier(0.16,1,0.3,1), border-left-color 0.3s",
+                transform: isHovered ? "translateY(-4px)" : "translateY(0px)",
+                boxShadow: isHovered
+                  ? `0 12px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)`
+                  : "none",
+                transition: "flex 0.5s cubic-bezier(0.16,1,0.3,1), border-left-color 0.3s, transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease",
               }}
-              onMouseEnter={() => setActiveIndex(i)}
+              onMouseEnter={() => { setActiveIndex(i); setHoveredIndex(i); }}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              {/* Watermark number — fades out when active so it doesn't compete with the panel */}
+              {/* Watermark number */}
               <span
                 className="absolute pointer-events-none select-none"
                 style={{
@@ -86,10 +93,7 @@ const CaseStudies = () => {
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              {/* ── Option 1: Tinted illustration panel ──
-                  Sits in bottom-right corner inside a bordered inset.
-                  The panel background + border creates a clear visual boundary
-                  so the illustration never bleeds over the card content. */}
+              {/* Tinted illustration panel */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
@@ -118,7 +122,6 @@ const CaseStudies = () => {
                       objectPosition: "top left",
                       opacity: 0.55,
                       mixBlendMode: "multiply",
-                      // Fade top edge into panel bg — left boundary is handled by the panel border
                       maskImage: "linear-gradient(to bottom, transparent 0%, black 22%)",
                       WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 22%)",
                     } as React.CSSProperties}
@@ -126,8 +129,7 @@ const CaseStudies = () => {
                 </div>
               )}
 
-              {/* Top — tag + title + tagline
-                  Tagline maxWidth shrinks to 56% when active to stay clear of the panel */}
+              {/* Top — tag + title + tagline */}
               <div className="flex flex-col" style={{ gap: 6 }}>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: style.tag, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {cs.tag}
@@ -152,7 +154,6 @@ const CaseStudies = () => {
                   maxHeight: isActive ? 80 : 0,
                   overflow: "hidden",
                   marginTop: isActive ? 8 : 0,
-                  // Constrain to left lane when active — panel occupies right 42%
                   maxWidth: isActive ? "56%" : "100%",
                   transition: "opacity 0.3s 0.15s, max-height 0.4s, margin-top 0.3s, max-width 0.4s",
                 }}>
@@ -160,9 +161,7 @@ const CaseStudies = () => {
                 </p>
               </div>
 
-              {/* Bottom — metric + pills + CTA
-                  maxWidth constrained to 56% when active so all bottom content
-                  stays in the left lane, panel gets the right 42% unobstructed */}
+              {/* Bottom — metric + pills + CTA */}
               <div
                 className="relative flex flex-col"
                 style={{
@@ -238,15 +237,11 @@ const CaseStudies = () => {
               className="relative rounded-2xl overflow-hidden no-underline block"
               style={{ background: style.bg, borderLeft: `3px solid ${style.border}`, padding: "24px 20px" }}
             >
-              {/* Mobile tinted panel — bottom-right corner, always visible */}
               {cs.image && (
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    right: 0,
-                    bottom: 0,
-                    width: "40%",
-                    height: "52%",
+                    right: 0, bottom: 0, width: "40%", height: "52%",
                     background: style.panelBg,
                     borderTop: `1px solid ${style.panelBorder}`,
                     borderLeft: `1px solid ${style.panelBorder}`,
@@ -259,12 +254,8 @@ const CaseStudies = () => {
                     alt=""
                     aria-hidden="true"
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "top left",
-                      opacity: 0.5,
-                      mixBlendMode: "multiply",
+                      width: "100%", height: "100%", objectFit: "cover", objectPosition: "top left",
+                      opacity: 0.5, mixBlendMode: "multiply",
                       maskImage: "linear-gradient(to bottom, transparent 0%, black 25%)",
                       WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 25%)",
                     } as React.CSSProperties}
@@ -286,7 +277,6 @@ const CaseStudies = () => {
                     </span>
                   )}
                 </h3>
-                {/* Tagline right-padded to stay clear of the panel (panel is 40% wide) */}
                 <p style={{ fontFamily: FONT_BODY, fontSize: 13, lineHeight: 1.75, color: style.desc, margin: "0 0 16px", paddingRight: "44%" }}>
                   {cs.tagline}
                 </p>
