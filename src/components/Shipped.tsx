@@ -38,7 +38,7 @@ const projects: ShippedProject[] = [
   },
   {
     id: "design-system-website",
-    title: "Design System Website",
+    title: "Kairo Design System",
     problem: "A design system file sitting in Figma cannot prove it actually works. A live site can.",
     description:
       "Built a complete design system from scratch: color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases that would have stayed invisible in a static file.",
@@ -391,7 +391,7 @@ const Shipped = () => {
 
       <section
         id="shipped"
-        className="pt-20 pb-20 max-md:pt-14 max-md:pb-14 px-6 lg:px-8 max-w-site mx-auto"
+        className="pt-16 pb-16 max-md:pt-10 max-md:pb-10 px-6 lg:px-8 max-w-site mx-auto"
       >
         {/* Section header — mirrors CaseStudies pattern exactly */}
         <motion.div
