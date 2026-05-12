@@ -96,7 +96,7 @@ const Contact = () => {
       <section style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
-        padding: "clamp(32px,5vw,64px) 0",
+        padding: "clamp(28px,4vw,52px) 0",
         overflow: "hidden",
       }}>
 
