@@ -14,16 +14,16 @@ const coreSkills = [
 ];
 
 const secondarySkills = [
-  { label: "Prototyping",    color: "#0ea5e9", bg: "rgba(14,165,233,0.08)",  border: "rgba(14,165,233,0.2)" },
+  { label: "Prototyping",       color: "#0ea5e9", bg: "rgba(14,165,233,0.08)",  border: "rgba(14,165,233,0.2)" },
   { label: "Usability Testing", color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
-  { label: "A/B Testing",    color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
-  { label: "Midjourney",     color: "#a855f7", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.2)" },
-  { label: "FigJam",         color: "#0ea5e9", bg: "rgba(14,165,233,0.08)", border: "rgba(14,165,233,0.2)" },
-  { label: "Power BI",       color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
-  { label: "Photoshop",      color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
-  { label: "Illustrator",    color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
-  { label: "Notion",         color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
-  { label: "Miro",           color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "A/B Testing",       color: "#6366f1", bg: "rgba(99,102,241,0.08)", border: "rgba(99,102,241,0.2)" },
+  { label: "Midjourney",        color: "#a855f7", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.2)" },
+  { label: "FigJam",            color: "#0ea5e9", bg: "rgba(14,165,233,0.08)", border: "rgba(14,165,233,0.2)" },
+  { label: "Power BI",          color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Photoshop",         color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Illustrator",       color: "hsl(var(--muted-foreground))", bg: "hsl(var(--background))", border: "hsl(var(--border))" },
+  { label: "Notion",            color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+  { label: "Miro",              color: "#10b981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
 ];
 
 // ── Experience ────────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ const About = () => {
   const toggle = (i: number) => setOpenIndex(openIndex === i ? -1 : i);
 
   return (
-    <section id="about" className="py-20 max-md:py-14 px-6 lg:px-8 max-w-site mx-auto">
+    <section id="about" className="py-16 max-md:py-10 px-6 lg:px-8 max-w-site mx-auto">
 
       {/* ── Section header ── */}
       <motion.div
@@ -236,13 +236,11 @@ const About = () => {
             </p>
           </div>
 
-          {/* ── Skills card — Option B: core + secondary ── */}
+          {/* ── Skills card ── */}
           <div style={{ borderRadius: 20, background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", padding: 20, flexShrink: 0 }}>
             <p style={{ fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 14 }}>
               Skills & Tools
             </p>
-
-            {/* Core — proficiency bars */}
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Core</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
               {coreSkills.map((skill) => (
@@ -256,8 +254,6 @@ const About = () => {
                 </div>
               ))}
             </div>
-
-            {/* Secondary — pills */}
             <p style={{ fontFamily: FONT_BODY, fontSize: 10, color: "hsl(var(--muted-foreground))", marginBottom: 8, letterSpacing: "0.04em" }}>Also</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
               {secondarySkills.map((skill) => (
