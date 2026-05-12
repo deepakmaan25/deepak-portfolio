@@ -8,7 +8,7 @@ const FONT_DISPLAY = "'Unbounded', sans-serif";
 const NAV_H_MOBILE  = 48;
 const NAV_H_DESKTOP = 64;
 
-const RESUME_URL = "https://drive.google.com/file/d/1-MjBAU2YX4O9X9UGCSlNg68h_pTTW16W/view";
+const RESUME_URL = "https://drive.google.com/file/d/1-UNzIGh7NdJDh8nmDNkyTOh_3xniNxKz/view";
 
 const navLinks = [
   { label: "Work",    href: "/#work"   },
