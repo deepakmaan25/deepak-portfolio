@@ -25,7 +25,7 @@ const projects: ShippedProject[] = [
     description:
       "A web tool that turns any uploaded track into customizable motion visuals for social video. Designed the full system in Figma first: color tokens, component library, light and dark theming. Derived both the marketing site and Studio UI from that single system, then built the full upload, analyze, visualize, and export pipeline. Real-time frequency extraction drives multiple WebGL visual engines. Users can switch engines, tweak motion and color parameters, and export in vertical, square, or horizontal formats.",
     tech: ["React", "TypeScript", "Web Audio API", "WebGL", "Supabase"],
-    liveUrl: "https://suite-quake-51108117.figma.site/",
+    liveUrl: "https://musictoanimate.vercel.app/",
   },
   {
     id: "typematch",
