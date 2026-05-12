@@ -31,67 +31,31 @@ const categoryColors: Record<string, { bg: string; text: string; border: string 
 };
 const fallbackColor = { bg: "rgba(99,102,241,0.10)", text: "#818cf8", border: "rgba(99,102,241,0.20)" };
 
-// ── Lightbox ──────────────────────────────────────────────────────────────────
 type LightboxItem = { src: string; title: string; category: string; year?: string } | null;
 
 const Lightbox = ({ item, onClose }: { item: LightboxItem; onClose: () => void }) => {
   if (!item) return null;
   const color = categoryColors[item.category] ?? fallbackColor;
-
   return (
     <div
       onClick={onClose}
-      style={{
-        position: "fixed", inset: 0, zIndex: 1000,
-        background: "rgba(0,0,0,0.88)",
-        backdropFilter: "blur(8px)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "clamp(16px,4vw,48px)",
-        animation: "lbFadeIn 0.2s ease",
-      }}
+      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.88)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "clamp(16px,4vw,48px)", animation: "lbFadeIn 0.2s ease" }}
     >
       <div
         onClick={e => e.stopPropagation()}
-        style={{
-          position: "relative",
-          maxWidth: 720,
-          width: "100%",
-          borderRadius: 20,
-          overflow: "hidden",
-          background: "hsl(var(--card))",
-          border: "1px solid hsl(var(--border))",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
-          animation: "lbSlideUp 0.25s cubic-bezier(0.16,1,0.3,1)",
-        }}
+        style={{ position: "relative", maxWidth: 720, width: "100%", borderRadius: 20, overflow: "hidden", background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", boxShadow: "0 32px 80px rgba(0,0,0,0.6)", animation: "lbSlideUp 0.25s cubic-bezier(0.16,1,0.3,1)" }}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
-          style={{
-            position: "absolute", top: 12, right: 12, zIndex: 10,
-            width: 32, height: 32, borderRadius: "50%",
-            background: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.12)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer", color: "#fff",
-            transition: "background 0.2s",
-          }}
+          style={{ position: "absolute", top: 12, right: 12, zIndex: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#fff", transition: "background 0.2s" }}
           onMouseEnter={e => (e.currentTarget.style.background = "rgba(0,0,0,0.8)")}
           onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.55)")}
         >
           <X size={14} />
         </button>
-
-        {/* Image */}
         <div style={{ width: "100%", maxHeight: "70vh", overflow: "hidden", background: "hsl(var(--muted))" }}>
-          <img
-            src={item.src}
-            alt={item.title}
-            style={{ width: "100%", height: "auto", maxHeight: "70vh", objectFit: "contain", display: "block" }}
-          />
+          <img src={item.src} alt={item.title} style={{ width: "100%", height: "auto", maxHeight: "70vh", objectFit: "contain", display: "block" }} />
         </div>
-
-        {/* Footer */}
         <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <div>
             <p style={{ fontFamily: FD, fontSize: 14, fontWeight: 700, color: "hsl(var(--foreground))", margin: 0, letterSpacing: "-0.01em" }}>{item.title}</p>
@@ -106,13 +70,11 @@ const Lightbox = ({ item, onClose }: { item: LightboxItem; onClose: () => void }
   );
 };
 
-// ── Component ─────────────────────────────────────────────────────────────────
 const CreativeSide = () => {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
   const [lightbox, setLightbox] = useState<LightboxItem>(null);
 
-  // Only open lightbox for original artworks (not the duplicates used for loop)
   const openLightbox = (index: number) => {
     const original = artworks[index % artworks.length];
     setLightbox(original);
@@ -124,7 +86,7 @@ const CreativeSide = () => {
       style={{
         background: "hsl(var(--background))",
         borderTop: "1px solid hsl(var(--border))",
-        padding: "clamp(48px,6vw,80px) 0",
+        padding: "clamp(40px,5vw,64px) 0",
         overflow: "hidden",
       }}
     >
@@ -147,29 +109,15 @@ const CreativeSide = () => {
             Creative Side
           </p>
           <h2 style={{ margin: 0, lineHeight: 1.15 }}>
-            <span style={{ fontFamily: FD, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>
-              Beyond UX:{" "}
-            </span>
-            <span style={{ fontFamily: FD, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.03em" }}>
-              Visual Art
-            </span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.03em" }}>Beyond UX:{" "}</span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.03em" }}>Visual Art</span>
           </h2>
         </div>
-
         <a
           href="https://www.behance.net/deepakmaan1"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: 7,
-            fontFamily: F, fontSize: 12, fontWeight: 600,
-            color: "#6366f1", textDecoration: "none",
-            padding: "9px 18px", borderRadius: 100,
-            border: "1px solid rgba(99,102,241,0.25)",
-            background: "rgba(99,102,241,0.06)",
-            transition: "background 0.2s, border-color 0.2s",
-            flexShrink: 0,
-          }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: F, fontSize: 12, fontWeight: 600, color: "#6366f1", textDecoration: "none", padding: "9px 18px", borderRadius: 100, border: "1px solid rgba(99,102,241,0.25)", background: "rgba(99,102,241,0.06)", transition: "background 0.2s, border-color 0.2s", flexShrink: 0 }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.12)"; el.style.borderColor = "rgba(99,102,241,0.45)"; }}
           onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.06)"; el.style.borderColor = "rgba(99,102,241,0.25)"; }}
         >
@@ -184,10 +132,8 @@ const CreativeSide = () => {
         transition={{ duration: 0.5, delay: 0.15 }}
         style={{ maxWidth: 1200, margin: "0 auto", paddingLeft: "clamp(20px,5vw,32px)", paddingRight: "clamp(20px,5vw,32px)", position: "relative" }}
       >
-        {/* Fade edges */}
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
-
         <div style={{ overflow: "hidden" }}>
           <div
             className="creative-marquee"
@@ -199,27 +145,9 @@ const CreativeSide = () => {
                 <div
                   key={i}
                   onClick={() => openLightbox(i)}
-                  style={{
-                    width: CARD_W, flexShrink: 0,
-                    borderRadius: 16, overflow: "hidden",
-                    border: "1px solid hsl(var(--border))",
-                    background: "hsl(var(--card))",
-                    cursor: "pointer",
-                    transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.2s, box-shadow 0.35s",
-                    position: "relative",
-                  }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.transform = "translateY(-6px)";
-                    el.style.borderColor = "rgba(99,102,241,0.3)";
-                    el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.12)";
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLDivElement;
-                    el.style.transform = "translateY(0)";
-                    el.style.borderColor = "hsl(var(--border))";
-                    el.style.boxShadow = "none";
-                  }}
+                  style={{ width: CARD_W, flexShrink: 0, borderRadius: 16, overflow: "hidden", border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", cursor: "pointer", transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.2s, box-shadow 0.35s", position: "relative" }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(-6px)"; el.style.borderColor = "rgba(99,102,241,0.3)"; el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.12)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(0)"; el.style.borderColor = "hsl(var(--border))"; el.style.boxShadow = "none"; }}
                 >
                   <div style={{ width: "100%", height: CARD_H, background: "hsl(var(--muted))", overflow: "hidden", position: "relative" }}>
                     <img
@@ -242,7 +170,6 @@ const CreativeSide = () => {
                       }}
                     />
                   </div>
-
                   <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
                     <div style={{ minWidth: 0 }}>
                       <p style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: "hsl(var(--foreground))", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{art.title}</p>
@@ -259,7 +186,6 @@ const CreativeSide = () => {
         </div>
       </motion.div>
 
-      {/* ── Lightbox ── */}
       <Lightbox item={lightbox} onClose={() => setLightbox(null)} />
 
       <style>{`
