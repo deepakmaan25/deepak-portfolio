@@ -248,7 +248,29 @@ const About = () => {
               "Design starts in conversations, not Figma."
             </p>
 
-            {/* Social links — clearly navigation, not skill badges */}
+            {/* Skill level badges — above social links */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+              {coreSkills.map((skill) => (
+                <span
+                  key={skill.label}
+                  style={{
+                    fontFamily: FONT_BODY,
+                    fontSize: 10,
+                    fontWeight: 500,
+                    padding: "3px 9px",
+                    borderRadius: 20,
+                    background: skill.levelBg,
+                    color: skill.levelColor,
+                    border: `1px solid ${skill.levelBorder}`,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {skill.label}
+                </span>
+              ))}
+            </div>
+
+            {/* Social links — indigo-tinted border to distinguish from skill badges */}
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
               {socials.map((s) => (
                 <a
@@ -263,8 +285,8 @@ const About = () => {
                     textDecoration: "none",
                     padding: "5px 12px",
                     borderRadius: 7,
-                    border: "1px solid hsl(var(--border))",
-                    background: "hsl(var(--background))",
+                    border: "1px solid rgba(99,102,241,0.35)",
+                    background: "rgba(99,102,241,0.04)",
                     transition: "border-color 0.2s, color 0.2s, background 0.2s",
                   }}
                   onMouseEnter={e => {
@@ -299,34 +321,16 @@ const About = () => {
                 <div
                   key={skill.label}
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto",
-                    alignItems: "start",
-                    gap: 10,
                     padding: "9px 0",
                     borderBottom: i < coreSkills.length - 1 ? "0.5px solid hsl(var(--border))" : "none",
                   }}
                 >
-                  <div>
-                    <div style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 3, lineHeight: 1.3 }}>
-                      {skill.label}
-                    </div>
-                    <div style={{ fontFamily: FONT_BODY, fontSize: 10.5, color: "hsl(var(--muted-foreground))", lineHeight: 1.55 }}>
-                      {skill.evidence}
-                    </div>
+                  <div style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 3, lineHeight: 1.3 }}>
+                    {skill.label}
                   </div>
-                  <span style={{
-                    fontFamily: FONT_BODY, fontSize: 9, fontWeight: 600,
-                    padding: "2px 8px", borderRadius: 20,
-                    background: skill.levelBg,
-                    color: skill.levelColor,
-                    border: `0.5px solid ${skill.levelBorder}`,
-                    whiteSpace: "nowrap",
-                    marginTop: 2,
-                    flexShrink: 0,
-                  }}>
-                    {skill.level}
-                  </span>
+                  <div style={{ fontFamily: FONT_BODY, fontSize: 10.5, color: "hsl(var(--muted-foreground))", lineHeight: 1.55 }}>
+                    {skill.evidence}
+                  </div>
                 </div>
               ))}
             </div>
