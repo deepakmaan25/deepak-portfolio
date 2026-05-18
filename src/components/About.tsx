@@ -244,12 +244,12 @@ const About = () => {
               daily because they compress the gap between thinking and shipped.
             </p>
 
-            <p style={{ fontFamily: FONT_BODY, fontSize: 11.5, fontStyle: "italic", color: "hsl(var(--muted-foreground))", opacity: 0.65, marginBottom: 16, lineHeight: 1.65 }}>
+            <p style={{ fontFamily: FONT_BODY, fontSize: 11.5, fontStyle: "italic", color: "hsl(var(--muted-foreground))", opacity: 0.65, marginBottom: 20, lineHeight: 1.65 }}>
               "Design starts in conversations, not Figma."
             </p>
 
-            {/* Skill level badges — above social links */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+            {/* Skill level badges moved from right column — above social links */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 20 }}>
               {coreSkills.map((skill) => (
                 <span
                   key={skill.label}
@@ -265,7 +265,7 @@ const About = () => {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {skill.label}
+                  {skill.label.replace("AI-Assisted Design", "AI Design")} · {skill.level}
                 </span>
               ))}
             </div>
@@ -354,7 +354,7 @@ const About = () => {
 
           <div
             className="about-photo-track"
-            style={{ display: "flex", gap: 8, animation: "aboutPhotoScroll 50s linear infinite", width: "max-content", paddingLeft: 16 }}
+            style={{ display: "flex", animation: "aboutPhotoScroll 50s linear infinite", width: "max-content", paddingLeft: 16 }}
           >
             {allPhotos.map((photo, i) => (
               <div
@@ -368,6 +368,7 @@ const About = () => {
                   border: "0.5px solid hsl(var(--border))",
                   background: "hsl(var(--muted))",
                   position: "relative",
+                  marginRight: 8,
                 }}
               >
                 {/* Real image */}
@@ -501,7 +502,7 @@ const About = () => {
         }
         @keyframes aboutPhotoScroll {
           0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          100% { transform: translateX(-690px); }
         }
         .about-photo-track:hover { animation-play-state: paused; }
 
