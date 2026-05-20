@@ -300,6 +300,38 @@ export default function CaseStudyDetail() {
   const cs = caseStudies.find((c) => c.slug === slug);
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  useEffect(() => {
+  if (!cs) return;
+
+  const pageTitle = `${cs.title} — ${cs.subtitle} | Deepak Maan`;
+  const pageDesc  = cs.tagline;
+  const pageUrl   = `https://deepakmaan.vercel.app/case-study/${cs.slug}`;
+
+  const setMeta = (selector: string, content: string) => {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute("content", content);
+  };
+
+  document.title = pageTitle;
+  setMeta('meta[name="description"]',          pageDesc);
+  setMeta('meta[property="og:title"]',         pageTitle);
+  setMeta('meta[property="og:description"]',   pageDesc);
+  setMeta('meta[property="og:url"]',           pageUrl);
+  setMeta('meta[name="twitter:title"]',        pageTitle);
+  setMeta('meta[name="twitter:description"]',  pageDesc);
+
+  return () => {
+    document.title = "Deepak Maan - Product Designer";
+    const defaultDesc = "Deepak Maan - AI Product Designer & UX Researcher. Designing purposeful digital interactions across SaaS, AI, and consumer products.";
+    const shortDesc   = "Designing purposeful digital interactions across SaaS, AI & consumer products.";
+    setMeta('meta[name="description"]',          defaultDesc);
+    setMeta('meta[property="og:title"]',         "Deepak Maan - Product Designer");
+    setMeta('meta[property="og:description"]',   shortDesc);
+    setMeta('meta[property="og:url"]',           "https://deepakmaan.vercel.app");
+    setMeta('meta[name="twitter:title"]',        "Deepak Maan - Product Designer");
+    setMeta('meta[name="twitter:description"]',  shortDesc);
+  };
+}, [cs, slug]);
 
   if (!cs) {
     return (
