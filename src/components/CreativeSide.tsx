@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Pause, Play } from "lucide-react";
 
 const F = "'Aileron', sans-serif";
 const FD = "'Unbounded', sans-serif";
@@ -47,6 +47,7 @@ const Lightbox = ({ item, onClose }: { item: LightboxItem; onClose: () => void }
       >
         <button
           onClick={onClose}
+          aria-label="Close artwork preview"
           style={{ position: "absolute", top: 12, right: 12, zIndex: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#fff", transition: "background 0.2s" }}
           onMouseEnter={e => (e.currentTarget.style.background = "rgba(0,0,0,0.8)")}
           onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.55)")}
@@ -74,6 +75,7 @@ const CreativeSide = () => {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
   const [lightbox, setLightbox] = useState<LightboxItem>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const openLightbox = (index: number) => {
     const original = artworks[index % artworks.length];
@@ -113,16 +115,41 @@ const CreativeSide = () => {
             <span style={{ fontFamily: FD, fontSize: "clamp(22px, 3.5vw, 36px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.03em" }}>Visual Art</span>
           </h2>
         </div>
-        <a
-          href="https://www.behance.net/deepakmaan1"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: F, fontSize: 12, fontWeight: 600, color: "#6366f1", textDecoration: "none", padding: "9px 18px", borderRadius: 100, border: "1px solid rgba(99,102,241,0.25)", background: "rgba(99,102,241,0.06)", transition: "background 0.2s, border-color 0.2s", flexShrink: 0 }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.12)"; el.style.borderColor = "rgba(99,102,241,0.45)"; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.06)"; el.style.borderColor = "rgba(99,102,241,0.25)"; }}
-        >
-          View on Behance <span style={{ fontSize: 11 }}>↗</span>
-        </a>
+
+        {/* Controls row — pause button + Behance link */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+          {/* Pause / Play toggle */}
+          <button
+            onClick={() => setIsPaused(p => !p)}
+            aria-label={isPaused ? "Play artwork gallery" : "Pause artwork gallery"}
+            title={isPaused ? "Resume scrolling" : "Pause scrolling"}
+            style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              width: 36, height: 36, borderRadius: "50%",
+              border: "1px solid rgba(99,102,241,0.25)",
+              background: isPaused ? "rgba(99,102,241,0.14)" : "rgba(99,102,241,0.06)",
+              color: "#818cf8",
+              cursor: "pointer",
+              transition: "background 0.2s, border-color 0.2s",
+              flexShrink: 0,
+            }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLButtonElement; el.style.background = "rgba(99,102,241,0.18)"; el.style.borderColor = "rgba(99,102,241,0.45)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLButtonElement; el.style.background = isPaused ? "rgba(99,102,241,0.14)" : "rgba(99,102,241,0.06)"; el.style.borderColor = "rgba(99,102,241,0.25)"; }}
+          >
+            {isPaused ? <Play size={14} /> : <Pause size={14} />}
+          </button>
+
+          <a
+            href="https://www.behance.net/deepakmaan1"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: F, fontSize: 12, fontWeight: 600, color: "#6366f1", textDecoration: "none", padding: "9px 18px", borderRadius: 100, border: "1px solid rgba(99,102,241,0.25)", background: "rgba(99,102,241,0.06)", transition: "background 0.2s, border-color 0.2s" }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.12)"; el.style.borderColor = "rgba(99,102,241,0.45)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "rgba(99,102,241,0.06)"; el.style.borderColor = "rgba(99,102,241,0.25)"; }}
+          >
+            View on Behance <span style={{ fontSize: 11 }}>↗</span>
+          </a>
+        </div>
       </motion.div>
 
       {/* ── Marquee ── */}
@@ -134,10 +161,21 @@ const CreativeSide = () => {
       >
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to right, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(20px,5vw,32px)", zIndex: 2, background: "linear-gradient(to left, hsl(var(--background)) 0%, transparent 100%)", pointerEvents: "none" }} />
-        <div style={{ overflow: "hidden" }}>
+
+        <div
+          style={{ overflow: "hidden" }}
+          role="region"
+          aria-label="Creative artwork gallery"
+        >
           <div
             className="creative-marquee"
-            style={{ display: "flex", gap: GAP, width: "max-content", animation: `creativeScroll ${artworks.length * 4}s linear infinite` }}
+            style={{
+              display: "flex",
+              gap: GAP,
+              width: "max-content",
+              animation: `creativeScroll ${artworks.length * 4}s linear infinite`,
+              animationPlayState: isPaused ? "paused" : "running",
+            }}
           >
             {allArtworks.map((art, i) => {
               const color = categoryColors[art.category] ?? fallbackColor;
@@ -145,6 +183,10 @@ const CreativeSide = () => {
                 <div
                   key={i}
                   onClick={() => openLightbox(i)}
+                  role="button"
+                  tabIndex={i < artworks.length ? 0 : -1}
+                  aria-label={`View ${art.title} — ${art.category}`}
+                  onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(i); } }}
                   style={{ width: CARD_W, flexShrink: 0, borderRadius: 16, overflow: "hidden", border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", cursor: "pointer", transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.2s, box-shadow 0.35s", position: "relative" }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(-6px)"; el.style.borderColor = "rgba(99,102,241,0.3)"; el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.12)"; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(0)"; el.style.borderColor = "hsl(var(--border))"; el.style.boxShadow = "none"; }}
@@ -194,6 +236,12 @@ const CreativeSide = () => {
           100% { transform: translateX(-${totalWidth + GAP}px); }
         }
         .creative-marquee:hover { animation-play-state: paused; }
+
+        /* Respect user's motion preference — stop all animation */
+        @media (prefers-reduced-motion: reduce) {
+          .creative-marquee { animation: none !important; }
+        }
+
         @keyframes lbFadeIn   { from { opacity: 0; } to { opacity: 1; } }
         @keyframes lbSlideUp  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
