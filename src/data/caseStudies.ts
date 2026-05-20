@@ -62,223 +62,7 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
 
   // ─────────────────────────────────────────────
-  // TECH JAPAN
-  // ─────────────────────────────────────────────
-  {
-    slug: "tech-japan",
-    title: "Tech Japan",
-    subtitle: "UX Research & Platform Redesign",
-    tagline:
-      "Two months embedded in a job platform used by IIT students, finding what was breaking their trust, and fixing it",
-    tag: "UX Research · Web Platform",
-    platform: "Web (Desktop + Mobile)",
-    year: "2024",
-    role: "UX Research Intern",
-    timeline: "September – November 2024 · 3 Months",
-    color: "#eaf3ff",
-
-    outcomes: [
-      { value: "80%", label: "Easier Navigation" },
-      { value: "70%", label: "Unprompted Feature Use" },
-      { value: "6", label: "Solutions Shipped" },
-    ],
-
-    stats: [
-      { value: "10", label: "IIT students interviewed" },
-      { value: "50+", label: "Survey responses" },
-      { value: "9", label: "Pain points documented" },
-      { value: "6", label: "Solutions shipped" },
-    ],
-
-    overview: {
-      problem:
-        "Tech Japan connects IIT engineering students with Japanese companies hiring for technical roles. The platform had real users, real companies, real placements happening. It worked.\n\nBut a set of problems had accumulated that, individually, looked like edge cases. Together, they were making the platform feel unreliable at the moments that mattered most: when a student was deciding whether to trust a company enough to apply, and when they were trying to complete their profile before a deadline.\n\nBroken company links. Dark mode contrast so low entire sections were unreadable. No way to manage multiple resumes. Post-application communication happening entirely on WhatsApp, outside the platform. A profile flow that silently lost your data if you forgot to save each section individually.",
-      description:
-        "I researched these issues with 10 IIT students, documented 9 distinct pain points with supporting evidence, prioritized using a MoSCoW framework, and designed solutions for the critical ones. Six shipped to production, including the job description layout, accessibility fixes, Save All profile flow, and an in-platform communication system.",
-      contribution:
-        "Sole researcher and designer on this project. I recruited participants, mapped the platform myself before any sessions, ran interviews, and synthesized findings into a prioritized brief the team could act on. I also designed solutions in Figma, ran usability testing on redesigns, and conducted a rebranding survey as the company transitioned from Tech Japan to Talendy.",
-    },
-
-    research: {
-      heading: "What I Found",
-      body:
-        "Before talking to anyone, I walked through the platform myself end-to-end: created an account, built a profile, browsed listings, started an application. That gave me a baseline and meant I could follow up on specific moments in interviews rather than asking users to describe their general experience.\n\nNine pain points emerged across 10 interviews and 50+ survey responses.\n\n**Dark mode contrast**, 7 of 10 users. Text was so low-contrast in dark mode that entire sections were unreadable. This hit hardest for students studying late, the users most likely to have dark mode on.\n\n**Broken company links**, 6 of 10 users. Clicking through to a company page returned an error at the exact moment a student was deciding whether to trust a company enough to apply. An error page at that moment doesn't read as a bug. It reads as a red flag about the company itself. Legitimacy failure, not a technical inconvenience.\n\n**Job description layout**, 4 of 10 users. All the information was present but presented as one long unformatted block. Fine if you're reading carefully. Impossible if you're quickly assessing whether a role is worth pursuing.\n\n**Post-application communication via WhatsApp**, 4 of 10 users. Once someone applied, everything moved off-platform. Users found it unprofessional. The larger issue I framed for the team: Tech Japan had zero visibility into what happened after someone applied. Every offer, every rejection, every follow-up, all happening in an app they had no access to.\n\n**Multiple resumes**, 3 of 10 users. IIT students apply across product, software engineering, design, and analytics tracks. Each needs a different resume. The platform allowed one.\n\n**Save All profile flow**, 2 of 10 users. Each profile section required a separate save. Miss one and the data was gone silently. Two users described abandoning profile completion because of it.",
-      quotes: [
-        {
-          text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data - it shows an error every time. It leads to doubting the company's legitimacy.",
-        },
-        {
-          text: "Once I apply, all communication happens on WhatsApp, which feels unprofessional. The flow kind of hinders.",
-        },
-        {
-          text: "I need to upload different resumes for different profiles. There's no way to do that here.",
-        },
-        {
-          text: "Building my profile was painful. I had to save each section separately, and if I forgot once, I had to rewrite everything.",
-        },
-      ],
-    },
-
-    process: {
-      heading: "What I Prioritized and Why",
-      intro:
-        "Nine issues is too many to fix at once. The first real design decision was sequencing: what gets fixed first.\n\nI used a MoSCoW framework with one guiding principle: fix what's actively destroying trust before fixing what's creating friction. Friction is recoverable. A user who struggles through a long save flow might come back. A user who sees an error page on a company listing and questions whether the company is real probably doesn't. Trust failures come first.",
-      pillars: [
-        {
-          icon: "🔴",
-          title: "Must Have",
-          description:
-            "Dark mode contrast and broken company links, both creating trust failures at critical decision moments.",
-        },
-        {
-          icon: "🟡",
-          title: "Should Have",
-          description:
-            "Save All profile flow, multiple resume management, built-in communication tool.",
-        },
-        {
-          icon: "🟢",
-          title: "Could Have",
-          description:
-            "Reports filtering, redundant question auto-fill, full mobile responsiveness overhaul.",
-        },
-      ],
-      steps: [
-        {
-          week: "Research",
-          label: "Discover & Document",
-          items: [
-            "Self-walkthrough of the full platform before any user sessions",
-            "10 semi-structured interviews with IIT students",
-            "50+ survey responses for quantitative validation",
-            "9 pain points mapped with frequency and severity across participants",
-          ],
-        },
-        {
-          week: "Design",
-          label: "Prioritize & Ship",
-          items: [
-            "MoSCoW framework applied to 9 issues, sequenced by trust impact not effort",
-            "High-fidelity solutions in Figma for all priority items",
-            "Usability testing to validate before handoff",
-            "6 solutions shipped to production during and after the internship",
-          ],
-        },
-      ],
-    },
-
-    solutions: [
-      {
-        title: "Solution 1: Job Description Layout",
-        subtitle: "Is this role right for me? Answerable in 10 seconds.",
-        problem:
-          "The problem wasn't missing information. It was presentation. Requirements, compensation, company details, and application instructions all ran together in a single block of text. Anyone scanning to quickly assess whether a role was worth pursuing couldn't.",
-        body: [
-          "I restructured job descriptions into clearly labeled sections: role overview, company details, requirements, how to apply. Company links were fixed here too, directly addressing the legitimacy concern several users had raised separately.",
-          "Students were trying to answer two questions quickly: is this role right for me, and is this company legitimate? The redesign made both answerable without reading the full page.",
-        ],
-      },
-      {
-        title: "Solution 2: Dark Mode and Accessibility",
-        subtitle: "WCAG 2.1 AA compliance across every screen",
-        problem:
-          "Seven of 10 users flagged dark mode. On internship detail pages and company profiles, contrast ratios were low enough to make text genuinely unreadable. The most affected users were studying late at night, exactly the audience most likely to have dark mode enabled.",
-        body: [
-          "I walked through the platform in dark mode screen by screen and mapped every contrast failure before opening Figma. Updated color values to meet WCAG 2.1 AA across all affected surfaces. Improved button visibility and standardized how interactive elements were treated across light and dark themes.",
-          "This is the kind of issue that's invisible if you only test in optimal conditions, and obvious the moment you sit with a real user in their actual environment. The platform had been tested. Nobody had tested it in dark mode, at midnight, on a laptop screen.",
-        ],
-      },
-      {
-        title: "Solution 3: Multiple Resume Management",
-        subtitle: "One platform. Every version of you.",
-        problem:
-          "IIT students don't apply to one type of role. Product, software engineering, design, analytics, each track needs a tailored resume. The platform supported one. Changing it meant downloading, renaming, uploading, a workflow that happened entirely outside the platform.",
-        body: [
-          "Students already had multiple resume versions. The platform was adding unnecessary friction on top of a workflow they had already figured out. The fix was making that workflow native rather than building something more complicated.",
-          "A resume library inside the profile: upload and label multiple versions, select the right one at the point of application without leaving the job listing.",
-        ],
-      },
-      {
-        title: "Solution 4: Save All Profile Flow",
-        subtitle: "Fill once. Save once. Done.",
-        problem:
-          "Profile completion required a separate save after every section. Miss one, easy to do in a long form, and the data was gone without warning. Two users described abandoning profile completion entirely because of this.",
-        body: [
-          "A single Save All action that captures the complete profile state at once. Unsaved-change indicators per section so you can see at a glance what's pending before committing. A clear confirmation after saving so you know it worked.",
-          "The root issue was a mismatch between the user's mental model, one profile they're filling out, and how the system was actually treating it: a series of independent saves with no relationship to each other. Aligning the system to how people think about the task removed the problem.",
-        ],
-      },
-      {
-        title: "Solution 5: Built-in Communication Tool",
-        subtitle: "Keep the entire hiring journey on one platform",
-        problem:
-          "Post-application, everything moved to WhatsApp: interview scheduling, task assignments, status updates. This had been known before I joined. It hadn't been prioritized.",
-        body: [
-          "The issue was being framed as a user preference: 'users want better in-app messaging.' That framing wasn't compelling enough to act on. I reframed it as a business visibility problem: Tech Japan had zero insight into what happened after someone applied. Every offer, every rejection, every follow-up, all happening in WhatsApp, which they had no access to. That's not a UX problem. That's a product problem.",
-          "The solution: an in-platform messaging and notification system covering the full post-application journey, from status updates and document requests to direct messages with hiring teams and interview scheduling, all inside the platform from application to outcome.",
-          "'Users want better chat' is a feature request. 'You have no visibility into what happens after someone applies' is a business case. The reframe is what got it prioritized.",
-        ],
-      },
-    ],
-
-    impact: {
-      heading: "Testing & Results",
-      body:
-        "Testing was done with real users in real sessions, not projections. Ten users, observed tasks, measured with actual behavior rather than self-report.\n\n80% of participants said navigation felt easier, particularly around the redesigned job layout and new categorization. The more meaningful signal: 70% used the resume management and communication features without being prompted. In a usability test, unprompted use is a stronger indicator than task completion rate. It means the features were self-explanatory enough that people reached for them naturally.\n\nThe sessions also flagged what still needed work: button visibility in dark mode needed more passes in places, tooltips for new features weren't clear enough, and mobile responsiveness needed a comprehensive overhaul rather than individual patches.\n\n6 solutions shipped to production during and after the internship.",
-      metrics: [
-        { value: "80%", label: "Reported easier navigation" },
-        { value: "70%", label: "Used new features unprompted" },
-        { value: "6", label: "Solutions shipped to production" },
-      ],
-    },
-
-    reflection: {
-      heading: "What I Took Away",
-      body:
-        "The most important thing I learned on this project had nothing to do with design craft. It was about how findings land.\n\nThe WhatsApp issue had been known before I joined. It hadn't moved. When I reframed it as 'you have zero visibility into what happens after someone applies,' it became a different conversation. Same finding, completely different reception. How you frame a finding determines whether it gets acted on.\n\nThe broken company link taught me something about research scope. It's a bug, not a design problem. But it was the single thing most likely to make a user close the tab, because it raised a question about whether the companies were even real. Scoping research to 'design issues only' would have meant missing the most trust-critical problem on the platform. Real research has to follow the problem.",
-      learnings: [
-        {
-          title: "Frame findings around business impact",
-          description:
-            "'You have no visibility into your own hiring funnel' landed. 'Users want better chat' didn't. Same insight, completely different reception. Framing determines whether a finding gets acted on.",
-        },
-        {
-          title: "Research scope has to follow the problem",
-          description:
-            "The broken company link was a bug, not a design problem. But it was the most trust-critical issue on the platform. Scoping research to 'design issues only' would have missed it entirely.",
-        },
-        {
-          title: "Unprompted use is the strongest validation signal",
-          description:
-            "70% of test participants used new features without being asked. That tells you more than task completion rate. It means the design was obvious enough to be discovered naturally.",
-        },
-      ],
-      futureList: [
-        "Onboarding flow for first-time users - several key features are only discoverable if you go looking, including resume management and communication settings",
-        "Full mobile responsiveness overhaul - current state is individual patches, not a systematic solution",
-        "Redundant question auto-fill - reuse answers across similar applications to reduce repetition in the application flow",
-        "Post-application status tracking visible directly in the platform, closing the loop for candidates who currently have no idea where they stand after applying",
-      ],
-      tools: ["Figma", "Google Forms", "Zoom", "Poppins / Euclid Circular B"],
-    },
-
-    images: [
-      { src: "/01-project-overview.png",             ratio: 62.5,  caption: "Project overview - redesigning a hiring platform IIT students trust" },
-      { src: "/02-pain-point-frequency.png",         ratio: 84.25, caption: "Pain point frequency analysis - 9 issues mapped across 10 IIT student interviews" },
-      { src: "/03-wireframe-to-hifi.png",            ratio: 75.05, caption: "Design process - wireframe to mid-fidelity to high-fidelity progression" },
-      { src: "/04-job-description-before-after.png", ratio: 64.85, caption: "Solution 1: Job description layout - unformatted block redesigned into scannable sections" },
-      { src: "/05-dark-mode-before-after.png",       ratio: 76.55, caption: "Solution 2: Dark mode and accessibility - contrast ratios fixed from 1.2:1 to 7.4:1+" },
-      { src: "/06-resume-management.png",            ratio: 72.55, caption: "Solution 3: Multiple resume management - upload, label, and select per application" },
-      { src: "/07-save-all-flow.png",                ratio: 82.85, caption: "Solution 4: Save all profile flow - one action captures every section" },
-      { src: "/08-communication-tool.png",           ratio: 64.95, caption: "Solution 5: Built-in communication tool - every conversation stays inside the platform" },
-      { src: "/TJ-rebranding-survey.png",            ratio: 90.70, caption: "Rebranding survey - 71% awareness gap and brand perception across 50+ IIT students" },
-    ],
-    nextProject: "buzztro",
-    image: "/04-job-description-before-after.png",
-  },
-
-  // ─────────────────────────────────────────────
-  // BUZZTRO
+  // BUZZTRO — position 0
   // ─────────────────────────────────────────────
   {
     slug: "buzztro",
@@ -288,21 +72,21 @@ export const caseStudies: CaseStudy[] = [
       "Designing a group-buying e-commerce experience from zero to shipped, where the price drops as more people commit",
     tag: "Product Design · E-commerce",
     platform: "Web (Desktop + Mobile)",
-    year: "2025",
+    year: "2024",
     role: "Lead Product Designer",
-    timeline: "Early 2025 · 2 Months",
+    timeline: "Early 2024 · 2 Months",
     color: "#fff4ec",
 
-  outcomes: [
-  { value: "8 wks", label: "Shipped end-to-end" },
-  { value: "0→1",   label: "Full product ownership" },
-  { value: "1",     label: "Solo designer, direct to founder" },
-],
+    outcomes: [
+      { value: "8 wks", label: "Shipped end-to-end" },
+      { value: "0→1",   label: "Full product ownership" },
+      { value: "1",     label: "Solo designer, direct to founder" },
+    ],
 
     stats: [
       { value: "40+", label: "Screens designed" },
-      { value: "5", label: "Core flows shipped" },
-      { value: "1", label: "Solo designer" },
+      { value: "5",   label: "Core flows shipped" },
+      { value: "1",   label: "Solo designer" },
       { value: "2 mo", label: "Zero to production" },
     ],
 
@@ -353,7 +137,7 @@ export const caseStudies: CaseStudy[] = [
       steps: [
         {
           week: "Week 1",
-          label: "Research & Architecture",
+          label: "Research and Architecture",
           items: [
             "Competitor teardown: Pinduoduo, Meesho, DealShare, Groupon, mapped where each hid or explained the pool mechanic",
             "Information architecture for the full buying journey: card, PDP, cart, checkout, post-purchase",
@@ -363,7 +147,7 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           week: "Week 2-8",
-          label: "Design & Ship",
+          label: "Design and Ship",
           items: [
             "High-fidelity screens across 5 core flows: product grid, PDP, booking checkout, order checkout, post-purchase states",
             "Component library for the pieces that repeated most: progress bar, gauge, cart card, checkout summary",
@@ -433,9 +217,9 @@ export const caseStudies: CaseStudy[] = [
         "Buzztro launched and ran in production for several months, a complete end-to-end group-buying platform designed, built, and shipped in 8 weeks from a single designer working directly with the founder.\n\nThe biggest validation: the product worked. Users understood the pool mechanic without reading copy. The gauge did the explaining. The checkout flow held up. Post-purchase states handled the conditional nature of the product without generating confusion the team couldn't handle.\n\nThe company eventually paused on funding, a market and timing reality, not a product one. The design work remains the clearest evidence I have of what it looks like to own an entire product end-to-end, make the hard calls under constraint, and ship something that actually runs.",
       metrics: [
         { value: "40+", label: "Screens from zero to production" },
-        { value: "5", label: "Core flows shipped end-to-end" },
+        { value: "5",   label: "Core flows shipped end-to-end" },
         { value: "8 wks", label: "Research to live product" },
-        { value: "1", label: "Designer, direct to founder" },
+        { value: "1",   label: "Designer, direct to founder" },
       ],
     },
 
@@ -479,12 +263,228 @@ export const caseStudies: CaseStudy[] = [
       { src: "/buzztro/order-waiting.png",            ratio: 68,   caption: "Post-purchase waiting state - live pool fill, countdown, and share CTA" },
       { src: "/buzztro/order-details.png",            ratio: 60,   caption: "Order summary - tracking and pool status in one place" },
     ],
-    nextProject: "zu-ai",
+    nextProject: "tech-japan",
     image: "/buzztro/pdp-overview.png",
   },
 
   // ─────────────────────────────────────────────
-  // ZU-AI
+  // TECH JAPAN — position 1
+  // ─────────────────────────────────────────────
+  {
+    slug: "tech-japan",
+    title: "Tech Japan",
+    subtitle: "UX Research and Platform Redesign",
+    tagline:
+      "Two months embedded in a job platform used by IIT students, finding what was breaking their trust, and fixing it",
+    tag: "UX Research · Web Platform",
+    platform: "Web (Desktop + Mobile)",
+    year: "2024",
+    role: "UX Research Intern",
+    timeline: "September – November 2024 · 2 Months",
+    color: "#eaf3ff",
+
+    outcomes: [
+      { value: "80%", label: "Easier Navigation" },
+      { value: "70%", label: "Unprompted Feature Use" },
+      { value: "6",   label: "Solutions Shipped" },
+    ],
+
+    stats: [
+      { value: "10",  label: "IIT students interviewed" },
+      { value: "50+", label: "Survey responses" },
+      { value: "9",   label: "Pain points documented" },
+      { value: "6",   label: "Solutions shipped" },
+    ],
+
+    overview: {
+      problem:
+        "Tech Japan connects IIT engineering students with Japanese companies hiring for technical roles. The platform had real users, real companies, real placements happening. It worked.\n\nBut a set of problems had accumulated that, individually, looked like edge cases. Together, they were making the platform feel unreliable at the moments that mattered most: when a student was deciding whether to trust a company enough to apply, and when they were trying to complete their profile before a deadline.\n\nBroken company links. Dark mode contrast so low entire sections were unreadable. No way to manage multiple resumes. Post-application communication happening entirely on WhatsApp, outside the platform. A profile flow that silently lost your data if you forgot to save each section individually.",
+      description:
+        "I researched these issues with 10 IIT students, documented 9 distinct pain points with supporting evidence, prioritized using a MoSCoW framework, and designed solutions for the critical ones. Six shipped to production, including the job description layout, accessibility fixes, Save All profile flow, and an in-platform communication system.",
+      contribution:
+        "Sole researcher and designer on this project. I recruited participants, mapped the platform myself before any sessions, ran interviews, and synthesized findings into a prioritized brief the team could act on. I also designed solutions in Figma, ran usability testing on redesigns, and conducted a rebranding survey as the company transitioned from Tech Japan to Talendy.",
+    },
+
+    research: {
+      heading: "What I Found",
+      body:
+        "Before talking to anyone, I walked through the platform myself end-to-end: created an account, built a profile, browsed listings, started an application. That gave me a baseline and meant I could follow up on specific moments in interviews rather than asking users to describe their general experience.\n\nNine pain points emerged across 10 interviews and 50+ survey responses.\n\n**Dark mode contrast**, 7 of 10 users. Text was so low-contrast in dark mode that entire sections were unreadable. This hit hardest for students studying late, the users most likely to have dark mode on.\n\n**Broken company links**, 6 of 10 users. Clicking through to a company page returned an error at the exact moment a student was deciding whether to trust a company enough to apply. An error page at that moment doesn't read as a bug. It reads as a red flag about the company itself. Legitimacy failure, not a technical inconvenience.\n\n**Job description layout**, 4 of 10 users. All the information was present but presented as one long unformatted block. Fine if you're reading carefully. Impossible if you're quickly assessing whether a role is worth pursuing.\n\n**Post-application communication via WhatsApp**, 4 of 10 users. Once someone applied, everything moved off-platform. Users found it unprofessional. The larger issue I framed for the team: Tech Japan had zero visibility into what happened after someone applied. Every offer, every rejection, every follow-up, all happening in an app they had no access to.\n\n**Multiple resumes**, 3 of 10 users. IIT students apply across product, software engineering, design, and analytics tracks. Each needs a different resume. The platform allowed one.\n\n**Save All profile flow**, 2 of 10 users. Each profile section required a separate save. Miss one and the data was gone silently. Two users described abandoning profile completion because of it.",
+      quotes: [
+        {
+          text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data - it shows an error every time. It leads to doubting the company's legitimacy.",
+        },
+        {
+          text: "Once I apply, all communication happens on WhatsApp, which feels unprofessional. The flow kind of hinders.",
+        },
+        {
+          text: "I need to upload different resumes for different profiles. There's no way to do that here.",
+        },
+        {
+          text: "Building my profile was painful. I had to save each section separately, and if I forgot once, I had to rewrite everything.",
+        },
+      ],
+    },
+
+    process: {
+      heading: "What I Prioritized and Why",
+      intro:
+        "Nine issues is too many to fix at once. The first real design decision was sequencing: what gets fixed first.\n\nI used a MoSCoW framework with one guiding principle: fix what's actively destroying trust before fixing what's creating friction. Friction is recoverable. A user who struggles through a long save flow might come back. A user who sees an error page on a company listing and questions whether the company is real probably doesn't. Trust failures come first.",
+      pillars: [
+        {
+          icon: "🔴",
+          title: "Must Have",
+          description:
+            "Dark mode contrast and broken company links, both creating trust failures at critical decision moments.",
+        },
+        {
+          icon: "🟡",
+          title: "Should Have",
+          description:
+            "Save All profile flow, multiple resume management, built-in communication tool.",
+        },
+        {
+          icon: "🟢",
+          title: "Could Have",
+          description:
+            "Reports filtering, redundant question auto-fill, full mobile responsiveness overhaul.",
+        },
+      ],
+      steps: [
+        {
+          week: "Research",
+          label: "Discover and Document",
+          items: [
+            "Self-walkthrough of the full platform before any user sessions",
+            "10 semi-structured interviews with IIT students",
+            "50+ survey responses for quantitative validation",
+            "9 pain points mapped with frequency and severity across participants",
+          ],
+        },
+        {
+          week: "Design",
+          label: "Prioritize and Ship",
+          items: [
+            "MoSCoW framework applied to 9 issues, sequenced by trust impact not effort",
+            "High-fidelity solutions in Figma for all priority items",
+            "Usability testing to validate before handoff",
+            "6 solutions shipped to production during and after the internship",
+          ],
+        },
+      ],
+    },
+
+    solutions: [
+      {
+        title: "Solution 1: Job Description Layout",
+        subtitle: "Is this role right for me? Answerable in 10 seconds.",
+        problem:
+          "The problem wasn't missing information. It was presentation. Requirements, compensation, company details, and application instructions all ran together in a single block of text. Anyone scanning to quickly assess whether a role was worth pursuing couldn't.",
+        body: [
+          "I restructured job descriptions into clearly labeled sections: role overview, company details, requirements, how to apply. Company links were fixed here too, directly addressing the legitimacy concern several users had raised separately.",
+          "Students were trying to answer two questions quickly: is this role right for me, and is this company legitimate? The redesign made both answerable without reading the full page.",
+        ],
+      },
+      {
+        title: "Solution 2: Dark Mode and Accessibility",
+        subtitle: "WCAG 2.1 AA compliance across every screen",
+        problem:
+          "Seven of 10 users flagged dark mode. On internship detail pages and company profiles, contrast ratios were low enough to make text genuinely unreadable. The most affected users were studying late at night, exactly the audience most likely to have dark mode enabled.",
+        body: [
+          "I walked through the platform in dark mode screen by screen and mapped every contrast failure before opening Figma. Updated color values to meet WCAG 2.1 AA across all affected surfaces. Improved button visibility and standardized how interactive elements were treated across light and dark themes.",
+          "This is the kind of issue that's invisible if you only test in optimal conditions, and obvious the moment you sit with a real user in their actual environment. The platform had been tested. Nobody had tested it in dark mode, at midnight, on a laptop screen.",
+        ],
+      },
+      {
+        title: "Solution 3: Multiple Resume Management",
+        subtitle: "One platform. Every version of you.",
+        problem:
+          "IIT students don't apply to one type of role. Product, software engineering, design, analytics, each track needs a tailored resume. The platform supported one. Changing it meant downloading, renaming, uploading, a workflow that happened entirely outside the platform.",
+        body: [
+          "Students already had multiple resume versions. The platform was adding unnecessary friction on top of a workflow they had already figured out. The fix was making that workflow native rather than building something more complicated.",
+          "A resume library inside the profile: upload and label multiple versions, select the right one at the point of application without leaving the job listing.",
+        ],
+      },
+      {
+        title: "Solution 4: Save All Profile Flow",
+        subtitle: "Fill once. Save once. Done.",
+        problem:
+          "Profile completion required a separate save after every section. Miss one, easy to do in a long form, and the data was gone without warning. Two users described abandoning profile completion entirely because of this.",
+        body: [
+          "A single Save All action that captures the complete profile state at once. Unsaved-change indicators per section so you can see at a glance what's pending before committing. A clear confirmation after saving so you know it worked.",
+          "The root issue was a mismatch between the user's mental model, one profile they're filling out, and how the system was actually treating it: a series of independent saves with no relationship to each other. Aligning the system to how people think about the task removed the problem.",
+        ],
+      },
+      {
+        title: "Solution 5: Built-in Communication Tool",
+        subtitle: "Keep the entire hiring journey on one platform",
+        problem:
+          "Post-application, everything moved to WhatsApp: interview scheduling, task assignments, status updates. This had been known before I joined. It hadn't been prioritized.",
+        body: [
+          "The issue was being framed as a user preference: 'users want better in-app messaging.' That framing wasn't compelling enough to act on. I reframed it as a business visibility problem: Tech Japan had zero insight into what happened after someone applied. Every offer, every rejection, every follow-up, all happening in WhatsApp, which they had no access to. That's not a UX problem. That's a product problem.",
+          "The solution: an in-platform messaging and notification system covering the full post-application journey, from status updates and document requests to direct messages with hiring teams and interview scheduling, all inside the platform from application to outcome.",
+          "'Users want better chat' is a feature request. 'You have no visibility into what happens after someone applies' is a business case. The reframe is what got it prioritized.",
+        ],
+      },
+    ],
+
+    impact: {
+      heading: "Testing and Results",
+      body:
+        "Testing was done with real users in real sessions, not projections. Ten users, observed tasks, measured with actual behavior rather than self-report.\n\n80% of participants said navigation felt easier, particularly around the redesigned job layout and new categorization. The more meaningful signal: 70% used the resume management and communication features without being prompted. In a usability test, unprompted use is a stronger indicator than task completion rate. It means the features were self-explanatory enough that people reached for them naturally.\n\nThe sessions also flagged what still needed work: button visibility in dark mode needed more passes in places, tooltips for new features weren't clear enough, and mobile responsiveness needed a comprehensive overhaul rather than individual patches.\n\n6 solutions shipped to production during and after the internship.",
+      metrics: [
+        { value: "80%", label: "Reported easier navigation" },
+        { value: "70%", label: "Used new features unprompted" },
+        { value: "6",   label: "Solutions shipped to production" },
+      ],
+    },
+
+    reflection: {
+      heading: "What I Took Away",
+      body:
+        "The most important thing I learned on this project had nothing to do with design craft. It was about how findings land.\n\nThe WhatsApp issue had been known before I joined. It hadn't moved. When I reframed it as 'you have zero visibility into what happens after someone applies,' it became a different conversation. Same finding, completely different reception. How you frame a finding determines whether it gets acted on.\n\nThe broken company link taught me something about research scope. It's a bug, not a design problem. But it was the single thing most likely to make a user close the tab, because it raised a question about whether the companies were even real. Scoping research to 'design issues only' would have meant missing the most trust-critical problem on the platform. Real research has to follow the problem.",
+      learnings: [
+        {
+          title: "Frame findings around business impact",
+          description:
+            "'You have no visibility into your own hiring funnel' landed. 'Users want better chat' didn't. Same insight, completely different reception. Framing determines whether a finding gets acted on.",
+        },
+        {
+          title: "Research scope has to follow the problem",
+          description:
+            "The broken company link was a bug, not a design problem. But it was the most trust-critical issue on the platform. Scoping research to 'design issues only' would have missed it entirely.",
+        },
+        {
+          title: "Unprompted use is the strongest validation signal",
+          description:
+            "70% of test participants used new features without being asked. That tells you more than task completion rate. It means the design was obvious enough to be discovered naturally.",
+        },
+      ],
+      futureList: [
+        "Onboarding flow for first-time users - several key features are only discoverable if you go looking, including resume management and communication settings",
+        "Full mobile responsiveness overhaul - current state is individual patches, not a systematic solution",
+        "Redundant question auto-fill - reuse answers across similar applications to reduce repetition in the application flow",
+        "Post-application status tracking visible directly in the platform, closing the loop for candidates who currently have no idea where they stand after applying",
+      ],
+      tools: ["Figma", "Google Forms", "Zoom", "Poppins / Euclid Circular B"],
+    },
+
+    images: [
+      { src: "/01-project-overview.png",             ratio: 62.5,  caption: "Project overview - redesigning a hiring platform IIT students trust" },
+      { src: "/02-pain-point-frequency.png",         ratio: 84.25, caption: "Pain point frequency analysis - 9 issues mapped across 10 IIT student interviews" },
+      { src: "/03-wireframe-to-hifi.png",            ratio: 75.05, caption: "Design process - wireframe to mid-fidelity to high-fidelity progression" },
+      { src: "/04-job-description-before-after.png", ratio: 64.85, caption: "Solution 1: Job description layout - unformatted block redesigned into scannable sections" },
+      { src: "/05-dark-mode-before-after.png",       ratio: 76.55, caption: "Solution 2: Dark mode and accessibility - contrast ratios fixed from 1.2:1 to 7.4:1+" },
+      { src: "/06-resume-management.png",            ratio: 72.55, caption: "Solution 3: Multiple resume management - upload, label, and select per application" },
+      { src: "/07-save-all-flow.png",                ratio: 82.85, caption: "Solution 4: Save all profile flow - one action captures every section" },
+      { src: "/08-communication-tool.png",           ratio: 64.95, caption: "Solution 5: Built-in communication tool - every conversation stays inside the platform" },
+      { src: "/TJ-rebranding-survey.png",            ratio: 90.70, caption: "Rebranding survey - 71% awareness gap and brand perception across 50+ IIT students" },
+    ],
+    nextProject: "zu-ai",
+    image: "/04-job-description-before-after.png",
+  },
+
+  // ─────────────────────────────────────────────
+  // ZU-AI — position 2
   // ─────────────────────────────────────────────
   {
     slug: "zu-ai",
@@ -501,7 +501,7 @@ export const caseStudies: CaseStudy[] = [
 
     outcomes: [
       { value: "40%", label: "Faster Scanning" },
-      { value: "3×", label: "Task Completion" },
+      { value: "3×",  label: "Task Completion" },
       { value: "50%", label: "Less Context-Switching" },
     ],
 
@@ -567,7 +567,7 @@ export const caseStudies: CaseStudy[] = [
       steps: [
         {
           week: "Week 1",
-          label: "Empathize & Analyze",
+          label: "Empathize and Analyze",
           items: [
             "10 contextual interviews with active Zu-AI users",
             "Analyzed 100+ app store reviews across Android and iOS",
@@ -577,7 +577,7 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           week: "Week 2",
-          label: "Ideate, Design & Test",
+          label: "Ideate, Design and Test",
           items: [
             "Lo-fi wireframes across 3 concept directions",
             "Direction selected on research alignment, not aesthetics",
@@ -600,7 +600,7 @@ export const caseStudies: CaseStudy[] = [
         ],
         metrics: [
           { value: "40%", label: "Faster info location in usability tests" },
-          { value: "3×", label: "Improvement in task completion speed" },
+          { value: "3×",  label: "Improvement in task completion speed" },
         ],
       },
       {
@@ -636,19 +636,13 @@ export const caseStudies: CaseStudy[] = [
       body:
         "Testing was done with 5 users. Worth being upfront about what that means: the directional percentages are drawn from comparable learning and productivity apps, Duolingo, Notion, and published usability research on structured versus unstructured text interfaces. Five-person tests don't produce statistically significant numbers. What they gave me was clear directional signal that the solutions were addressing real needs.\n\nThe sessions also surfaced what still needed work, which is the part of testing that matters most.",
       quotes: [
-        {
-          text: "The new chat feels like talking to a real tutor, not a robot.",
-        },
-        {
-          text: "I can finally customize it the way I like, makes studying at night so much better.",
-        },
-        {
-          text: "Quick prompts are a game-changer. I don't have to think about what to ask next.",
-        },
+        { text: "The new chat feels like talking to a real tutor, not a robot." },
+        { text: "I can finally customize it the way I like, makes studying at night so much better." },
+        { text: "Quick prompts are a game-changer. I don't have to think about what to ask next." },
       ],
       metrics: [
         { value: "40%", label: "Faster information scanning" },
-        { value: "3×", label: "Task completion speed" },
+        { value: "3×",  label: "Task completion speed" },
         { value: "50%", label: "Reduction in context-switching time" },
         { value: "30%", label: "Projected DAU increase (benchmarked)" },
       ],
@@ -693,7 +687,7 @@ export const caseStudies: CaseStudy[] = [
       { src: "/ZA6_Accessibility.png", ratio: 59.1, caption: "Accessibility and personalization settings" },
       { src: "/ZA7_Key_decisions.png", ratio: 48.7, caption: "Key design decisions and impact metrics" },
     ],
-    nextProject: "tech-japan",
+    nextProject: "buzztro",
     image: "/ZA4_Redesign.png",
   },
 ];
