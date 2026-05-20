@@ -10,7 +10,7 @@ import Contact from "@/components/Contact";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <main>
+      <main id="main-content">
         <Hero />
         <ProofBar />
         <ToolsMarquee />
