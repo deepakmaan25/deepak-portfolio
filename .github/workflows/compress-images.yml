@@ -1,41 +1,37 @@
 name: Compress Visual Art Images
 on:
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   compress:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Pillow
         run: pip install Pillow
-
-      - name: Compress images
+      - name: Compress images to WebP
         run: |
           python3 << 'EOF'
           from PIL import Image
           import os, glob
 
           for path in glob.glob("public/visual/*"):
-              if not path.lower().endswith((".png", ".jpg", ".jpeg")):
+              ext = path.lower().rsplit(".", 1)[-1]
+              if ext not in ("png", "jpg", "jpeg", "webp"):
                   continue
               before = os.path.getsize(path)
               img = Image.open(path).convert("RGB")
               if img.width > 900:
                   h = int(img.height * 900 / img.width)
                   img = img.resize((900, h), Image.LANCZOS)
-              out = path.rsplit(".", 1)[0] + ".jpg"
-              img.save(out, "JPEG", quality=78, optimize=True)
+              out = path.rsplit(".", 1)[0] + ".webp"
+              img.save(out, "WEBP", quality=82, method=6)
               if out != path:
                   os.remove(path)
               after = os.path.getsize(out)
-              print(f"{path}: {before//1024}kb → {after//1024}kb")
+              print(f"{path}: {before//1024}kb → {after//1024}kb (.webp)")
           EOF
-
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: compress visual art images"
+          commit_message: "chore: compress visual art images to webp"
