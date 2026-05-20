@@ -505,6 +505,9 @@ const About = () => {
           100% { transform: translateX(-690px); }
         }
         .about-photo-track:hover { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+  .about-photo-track { animation: none !important; }
+}
 
         /* Hide coming-soon when real image loads */
         .about-photo-track img + .photo-placeholder { display: none; }
