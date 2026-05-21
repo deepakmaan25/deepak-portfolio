@@ -303,7 +303,7 @@ export default function CaseStudyDetail() {
   useEffect(() => {
   if (!cs) return;
 
-  const pageTitle = `${cs.title} — ${cs.subtitle} | Deepak Maan`;
+  const pageTitle = `${cs.title} : ${cs.subtitle} | Deepak Maan`;
   const pageDesc  = cs.tagline;
   const pageUrl   = `https://deepakmaan.vercel.app/case-study/${cs.slug}`;
 
@@ -375,7 +375,7 @@ export default function CaseStudyDetail() {
             {cs.tag}
           </div>
           <h1 style={{ margin: "0 0 20px", lineHeight: 1.05 }}>
-            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title} — </span>
+            <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{cs.title} : </span>
             <span style={{ fontFamily: FD, fontSize: "clamp(26px, 5vw, 58px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{cs.subtitle}</span>
           </h1>
           <p style={{ fontFamily: F, fontSize: "clamp(15px, 1.8vw, 18px)", lineHeight: 1.7, color: "hsl(var(--muted-foreground))", maxWidth: 640, marginBottom: 44, fontWeight: 400 }}>{cs.tagline}</p>
@@ -488,7 +488,7 @@ export default function CaseStudyDetail() {
           <p style={{ fontFamily: F, fontSize: 10, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "hsl(var(--muted-foreground))", marginBottom: 16 }}>Next Project</p>
           <Link to={`/case-study/${nextCs.slug}`} style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 20, textDecoration: "none", color: "inherit" }}>
             <h3 style={{ margin: 0, lineHeight: 1.1 }}>
-              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title} — </span>
+              <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.02em" }}>{nextCs.title} : </span>
               <span style={{ fontFamily: FD, fontSize: "clamp(22px, 4vw, 44px)", fontWeight: 800, color: "#6366f1", letterSpacing: "-0.02em" }}>{nextCs.subtitle}</span>
             </h3>
             <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid hsl(var(--border))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "hsl(var(--muted-foreground))", transition: "all 0.2s" }}
