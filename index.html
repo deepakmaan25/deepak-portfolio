@@ -48,6 +48,16 @@
         outline-offset: 2px;
       }
     </style>
+
+    <script>
+  (function() {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
+    
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
