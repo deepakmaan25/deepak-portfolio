@@ -23,7 +23,7 @@ const projects: ShippedProject[] = [
     title: "Music Animation Generator",
     problem: "Upload a track, pick a visual engine, get a beat-synced animation ready to post.",
     description:
-      "Designed the full system in Figma first — color tokens, component library, light and dark theming. Derived both the marketing site and Studio UI from that single system, then built the upload, analyze, visualize, and export pipeline. Real-time frequency extraction drives multiple WebGL visual engines.",
+      "Designed the full system in Figma first - color tokens, component library, light and dark theming. Derived both the marketing site and Studio UI from that single system, then built the upload, analyze, visualize, and export pipeline. Real-time frequency extraction drives multiple WebGL visual engines.",
     tech: ["React", "TypeScript", "Web Audio API", "WebGL", "Supabase"],
     liveUrl: "https://musictoanimate.vercel.app/",
     stats: [
@@ -37,7 +37,7 @@ const projects: ShippedProject[] = [
     title: "TypeMatch",
     problem: "Font selection is a decision, not a search. Most tools treat it as a search box.",
     description:
-      "Typography recommendation tool built on a scoring system, not a filter. Established the design system foundation first — typography scale, spacing tokens, dark mode, component states. Prioritized accessibility and state honesty: unavailable weights stay discoverable, and loading, failure, and retry each have distinct states.",
+      "Typography recommendation tool built on a scoring system, not a filter. Established the design system foundation first - typography scale, spacing tokens, dark mode, component states. Prioritized accessibility and state honesty: unavailable weights stay discoverable, and loading, failure, and retry each have distinct states.",
     tech: ["React", "TypeScript", "Google Fonts API", "Vercel"],
     liveUrl: "https://typematch-mu.vercel.app/",
     stats: [
@@ -51,7 +51,7 @@ const projects: ShippedProject[] = [
     title: "Kairo Design System",
     problem: "A design system file sitting in Figma cannot prove it actually works. A live site can.",
     description:
-      "Built a complete design system from scratch — color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases invisible in a static file.",
+      "Built a complete design system from scratch - color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases invisible in a static file.",
     tech: ["Figma", "React", "Vercel"],
     liveUrl: "https://grid-dizzy-54533031.figma.site/",
     stats: [
@@ -199,7 +199,7 @@ const ShippedCard = ({
           {project.title}
         </p>
 
-        {/* Problem statement — the hook */}
+        {/* Problem statement - the hook */}
         <div
           style={{
             borderLeft: "2px solid rgba(99,102,241,0.45)",
@@ -221,7 +221,7 @@ const ShippedCard = ({
           </p>
         </div>
 
-        {/* Description — clipped */}
+        {/* Description - clipped */}
         <p
           style={{
             fontFamily: FONT_BODY,
@@ -306,7 +306,7 @@ const ShippedCard = ({
         </div>
       </div>
 
-      {/* Footer CTA — full-width, separated */}
+      {/* Footer CTA - full-width, separated */}
       <a
         href={project.liveUrl}
         target="_blank"
