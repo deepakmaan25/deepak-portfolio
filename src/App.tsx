@@ -19,7 +19,6 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        {/* Navigation and ScrollProgress render on every route */}
         <ScrollProgress />
         <Navigation />
         <Routes>
@@ -27,9 +26,9 @@ const App = () => (
           <Route path="/case-study/:slug" element={<CaseStudyDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Analytics />
+        <SpeedInsights />
       </BrowserRouter>
-      <Analytics />
-      <SpeedInsights />
     </TooltipProvider>
   </QueryClientProvider>
 );
