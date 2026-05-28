@@ -53,7 +53,7 @@ const projects: ShippedProject[] = [
     description:
       "Built a complete design system from scratch - color tokens, spacing rhythm, elevation, and a component library with variants and states. Then implemented it as an interactive website. Using implementation as a live audit exposed missing states, responsive gaps, and motion edge cases invisible in a static file.",
     tech: ["Figma", "React", "Vercel"],
-    liveUrl: "https://grid-dizzy-54533031.figma.site/",
+    liveUrl: "https://kairo-design.vercel.app/",
     stats: [
       { value: "0→1", label: "tokens to live site" },
       { value: "Full", label: "design + build" },
