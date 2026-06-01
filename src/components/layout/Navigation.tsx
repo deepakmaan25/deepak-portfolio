@@ -16,7 +16,7 @@ const Navigation = () => {
   return (
     <>
       {/* Name — top left, outside pill */}
-      <div className="fixed top-5 left-6 z-[200]">
+      <div className="fixed top-6 left-8 z-[200]">
         <Link
           to="/"
           className="text-sm font-semibold text-[#141414] tracking-tight hover:text-[#6366F1] transition-colors duration-150"
@@ -28,7 +28,7 @@ const Navigation = () => {
 
       {/* Nav pill — top right */}
       <nav
-        className="fixed top-5 right-6 z-[200]"
+        className="fixed top-6 right-8 z-[200]"
         aria-label="Main navigation"
       >
         <div
