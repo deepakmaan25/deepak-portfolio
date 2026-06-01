@@ -1,53 +1,33 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface Message {
-  role: 'user' | 'assistant'
-  content: string
-}
+interface Message { role: 'user' | 'assistant'; content: string }
 
-// ─── Quick actions ────────────────────────────────────────────────────────────
 const QUICK_ACTIONS = [
-  { label: 'see my work ↓',            query: 'see my work',              scroll: true  },
-  { label: 'how do you ship?',         query: 'how do you ship?',         scroll: false },
-  { label: 'what designer are you?',   query: 'what kind of designer are you?', scroll: false },
-  { label: "what's your availability?",query: "what's your availability?",scroll: false },
-  { label: 'wanna chat? ↗',            query: 'wanna chat?',              scroll: false },
-  { label: 'resume ↗',                 query: 'resume',                   scroll: false },
-  { label: 'linkedin ↗',               query: 'linkedin',                 scroll: false },
+  { label: 'see my work ↓',             query: 'see my work',                   scroll: true  },
+  { label: 'how do you ship?',          query: 'how do you ship?',              scroll: false },
+  { label: 'what designer are you?',    query: 'what kind of designer are you?',scroll: false },
+  { label: "what's your availability?", query: "what's your availability?",     scroll: false },
+  { label: 'wanna chat? ↗',             query: 'wanna chat?',                   scroll: false },
+  { label: 'resume ↗',                  query: 'resume',                        scroll: false },
+  { label: 'linkedin ↗',                query: 'linkedin',                      scroll: false },
 ]
 
-// ─── AI system prompt ─────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are Deepak Maan's portfolio assistant. Answer questions about Deepak in first person as if you are him. Be concise, warm, and direct — no corporate speak, no filler phrases.
+const SYSTEM_PROMPT = `You are Deepak Maan's portfolio assistant. Answer in first person as Deepak. Be concise and direct.
 
-About Deepak:
-- Product Designer based in Mumbai, open to Hyderabad, Bangalore, or Remote
-- Graduate of IIT ISM Dhanbad
-- Currently at JSW Steel as Product Designer and Design Analyst
-- Designs end-to-end: research → Figma → ships in React/TypeScript
-- No handoff — he builds what he designs using Claude Code
+Deepak is a Product Designer based in Mumbai, open to Hyderabad, Bangalore, or Remote roles.
+IIT ISM Dhanbad graduate. Currently at JSW Steel. Designs and ships end-to-end in React/TypeScript.
 
-Case studies:
-- Tech Japan (Talendy): UX Research internship. 10 user interviews across IITs, 9 pain points documented, multiple fixes shipped. 80% improved navigation, 70% feature adoption in testing.
-- Buzztro: Full product design from 0 to 1 for a social polling startup. Research, IA, and high-fidelity design.
+Case studies: Tech Japan (UX research, 10 interviews, 9 pain points, 80% nav improvement), Buzztro (0→1 product design).
+Shipped: Music Animation Generator, PulsePlay, TypMatch, Kairo Design System.
+Tools: Figma, React, TypeScript, Tailwind, Framer Motion.
+Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
+Contact: linkedin.com/in/deepakmaan
 
-Shipped builds: Music Animation Generator, PulsePlay, TypMatch, Kairo Design System.
+Off-topic: "I'm only here to answer questions about Deepak's work. Try asking about his projects or process."`
 
-Tools: Figma, Photoshop, Whimsical, React, TypeScript, Tailwind, Framer Motion.
-
-For availability: Open to work. Hyderabad, Bangalore, or Remote preferred.
-For contact: deepak.maan@email.com or linkedin.com/in/deepakmaan
-For resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
-
-If asked anything unrelated to work or design: "I'm only here to answer questions about Deepak's work and design process. Try asking about his projects or how he ships."
-
-Keep answers under 3 sentences. Plain language only.`
-
-// ─── Interests ────────────────────────────────────────────────────────────────
 const INTERESTS = ['Product Design', 'UX Research', 'Design Systems', 'Vibe Coding', 'Cricket', 'Music']
 
-// ─── HomePage ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [messages, setMessages]       = useState<Message[]>([])
   const [input, setInput]             = useState('')
@@ -62,133 +42,129 @@ export default function HomePage() {
     return () => clearInterval(t)
   }, [])
 
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
 
   const istTime = time.toLocaleTimeString('en-IN', {
-    timeZone: 'Asia/Kolkata',
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
+    timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
   })
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return
-    if (text === 'see my work') {
-      document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-    if (text === 'resume') {
-      window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')
-      return
-    }
-    if (text === 'linkedin') {
-      window.open('https://linkedin.com/in/deepakmaan', '_blank')
-      return
-    }
-    if (text === 'wanna chat?') {
-      window.open('mailto:deepak.maan@email.com', '_blank')
-      return
-    }
+    if (text === 'see my work') { document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }); return }
+    if (text === 'resume') { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank'); return }
+    if (text === 'linkedin') { window.open('https://linkedin.com/in/deepakmaan', '_blank'); return }
+    if (text === 'wanna chat?') { window.open('mailto:deepak.maan@email.com', '_blank'); return }
 
-    const userMsg: Message = { role: 'user', content: text }
-    const updated = [...messages, userMsg]
-    setMessages(updated)
-    setInput('')
-    setLoading(true)
-    setChatStarted(true)
-
+    const updated = [...messages, { role: 'user' as const, content: text }]
+    setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT,
-          messages: updated.map(m => ({ role: m.role, content: m.content })),
-        }),
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM_PROMPT, messages: updated }),
       })
       const data = await res.json()
-      const reply = data.content?.[0]?.text ?? "Couldn't get a response. Try again."
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Something went wrong. Try again." }])
-    } finally {
-      setLoading(false)
-    }
+      setMessages(prev => [...prev, { role: 'assistant', content: data.content?.[0]?.text ?? 'Try again.' }])
+    } catch { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong.' }]) }
+    finally { setLoading(false) }
   }
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: 'var(--bg)' }}>
+    <main style={{ backgroundColor: '#F2F2F0', minHeight: '100vh' }}>
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section
-        className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
-        style={{
-          background: `
-            radial-gradient(ellipse 70% 55% at 20% 40%, rgba(196, 181, 253, 0.28) 0%, transparent 65%),
-            radial-gradient(ellipse 60% 50% at 80% 30%, rgba(147, 197, 253, 0.2) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 60% at 50% 80%, rgba(196, 181, 253, 0.15) 0%, transparent 60%),
-            #F2F2F0
-          `,
-        }}
-      >
-        <div className="w-full max-w-2xl mx-auto">
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      <section style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0 24px',
+        background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(196,181,253,0.25) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 30%, rgba(147,197,253,0.18) 0%, transparent 55%), #F2F2F0',
+      }}>
+        <div style={{ width: '100%', maxWidth: '640px' }}>
 
-          {/* Headline */}
-          <motion.h1
-            className="mb-8 text-[#141414]"
-            style={{
-              fontFamily: "'Overused Grotesk', sans-serif",
-              fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-            }}
-            initial={{ opacity: 0, y: 18 }}
+          {/* ── Headline: exact Leah Kim structure ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+            style={{ marginBottom: '32px' }}
           >
-            {/* Line 1: avatar + name + location */}
-            <span className="flex items-center gap-3 flex-wrap">
-              {/* Avatar */}
-              <span
-                className="inline-flex w-11 h-11 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm bg-[#DDD8FB]"
-                style={{ verticalAlign: 'middle' }}
-              >
-                <img
-                  src="/photo.jpg"
-                  alt="Deepak Maan"
-                  className="w-full h-full object-cover"
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
+            {/* Line 1: avatar + name + location — all inline */}
+            <p style={{
+              fontFamily: "'Overused Grotesk', sans-serif",
+              fontSize: '2.6rem',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.022em',
+              color: '#141414',
+              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '12px',
+            }}>
+              {/* Avatar — inline with text */}
+              <span style={{
+                display: 'inline-flex',
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                flexShrink: 0,
+                border: '2px solid white',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+                backgroundColor: '#DDD8FB',
+                verticalAlign: 'middle',
+              }}>
+                <img src="/photo.jpg" alt="Deepak Maan" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
               </span>
-              <span>I'm Deepak Maan — based in Mumbai.</span>
-            </span>
+              I'm Deepak Maan — based in Mumbai.
+            </p>
 
             {/* Line 2 */}
-            <span className="block mt-1">
+            <p style={{
+              fontFamily: "'Overused Grotesk', sans-serif",
+              fontSize: '2.6rem',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.022em',
+              color: '#141414',
+              margin: '4px 0 0 0',
+            }}>
               I research, design, and ship product UX,{' '}
               <em style={{ fontStyle: 'italic', fontWeight: 700 }}>end to end.</em>
-            </span>
-          </motion.h1>
+            </p>
+          </motion.div>
 
           {/* Pills */}
           <motion.div
-            className="flex flex-wrap gap-2 mb-5"
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.12, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.45, delay: 0.12 }}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}
           >
             {QUICK_ACTIONS.map(a => (
-              <button
-                key={a.label}
-                onClick={() => a.scroll
-                  ? document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
-                  : sendMessage(a.query)
-                }
-                className="px-4 py-2 rounded-full border border-[#DDDDD9] bg-white/75 backdrop-blur-sm text-sm font-medium text-[#141414] hover:bg-white hover:border-[#C8C8C4] hover:shadow-sm transition-all duration-150 cursor-pointer"
-                style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
+              <button key={a.label} onClick={() => a.scroll
+                ? document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
+                : sendMessage(a.query)
+              } style={{
+                padding: '8px 16px',
+                borderRadius: '9999px',
+                border: '1px solid #DDDDD9',
+                background: 'rgba(255,255,255,0.75)',
+                backdropFilter: 'blur(8px)',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#141414',
+                fontFamily: "'Overused Grotesk', sans-serif",
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+                onMouseEnter={e => { (e.target as HTMLElement).style.background = 'white'; (e.target as HTMLElement).style.borderColor = '#C8C8C4' }}
+                onMouseLeave={e => { (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.75)'; (e.target as HTMLElement).style.borderColor = '#DDDDD9' }}
               >
                 {a.label}
               </button>
@@ -199,48 +175,39 @@ export default function HomePage() {
           <AnimatePresence>
             {chatStarted && (
               <motion.div
-                className="mb-4 space-y-3 max-h-64 overflow-y-auto pr-1"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                style={{ marginBottom: '16px', maxHeight: '260px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}
               >
                 {messages.map((msg, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.22 }}
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} items-end gap-2`}
-                  >
+                  <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                    style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-end', gap: '8px' }}>
                     {msg.role === 'assistant' && (
-                      <span className="w-6 h-6 rounded-full bg-[#DDD8FB] flex-shrink-0 mb-0.5 overflow-hidden">
-                        <img src="/photo.jpg" alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                      <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0, overflow: 'hidden', display: 'inline-block' }}>
+                        <img src="/photo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                       </span>
                     )}
-                    <div
-                      className={`max-w-sm px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                        msg.role === 'user'
-                          ? 'bg-[#141414] text-white rounded-br-sm'
-                          : 'bg-white border border-[#E2E2DF] text-[#141414] rounded-bl-sm shadow-sm'
-                      }`}
-                      style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
-                    >
+                    <div style={{
+                      maxWidth: '360px', padding: '10px 16px', borderRadius: '18px', fontSize: '14px', lineHeight: 1.55,
+                      fontFamily: "'Overused Grotesk', sans-serif",
+                      ...(msg.role === 'user'
+                        ? { background: '#141414', color: 'white', borderBottomRightRadius: '4px' }
+                        : { background: 'white', color: '#141414', border: '1px solid #E2E2DF', borderBottomLeftRadius: '4px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' })
+                    }}>
                       {msg.content}
                     </div>
                   </motion.div>
                 ))}
                 {loading && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-end gap-2">
-                    <span className="w-6 h-6 rounded-full bg-[#DDD8FB] flex-shrink-0 mb-0.5" />
-                    <div className="bg-white border border-[#E2E2DF] rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
-                      <div className="flex gap-1 items-center">
-                        {[0, 150, 300].map(d => (
-                          <span key={d} className="w-1.5 h-1.5 bg-[#C8C8C4] rounded-full animate-bounce" style={{ animationDelay: `${d}ms` }} />
-                        ))}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+                    <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0 }} />
+                    <div style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', borderBottomLeftRadius: '4px', padding: '12px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                      <div style={{ display: 'flex', gap: '4px' }}>
+                        {[0,150,300].map(d => <span key={d} className="animate-bounce" style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#C8C8C4', display: 'inline-block', animationDelay: `${d}ms` }} />)}
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
                 <div ref={chatEndRef} />
               </motion.div>
@@ -248,151 +215,115 @@ export default function HomePage() {
           </AnimatePresence>
 
           {/* Input */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.22 }}
-          >
-            <div className="flex items-center bg-white/80 backdrop-blur-sm border border-[#E2E2DF] rounded-2xl px-4 py-3 focus-within:border-[#C8C8C4] focus-within:bg-white focus-within:shadow-md transition-all duration-200">
-              <span className="text-[#B0B0AA] mr-2 text-sm font-mono select-none">&gt;_</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
+            <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', border: '1px solid #E2E2DF', borderRadius: '16px', padding: '12px 16px' }}>
+              <span style={{ color: '#B0B0AA', marginRight: '8px', fontSize: '13px', fontFamily: 'monospace', userSelect: 'none' }}>&gt;_</span>
+              <input ref={inputRef} type="text" value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendMessage(input)}
                 placeholder="ask Deepak anything..."
-                className="flex-1 bg-transparent text-sm text-[#141414] placeholder:text-[#B0B0AA] outline-none"
-                style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: '14px', color: '#141414', fontFamily: "'Overused Grotesk', sans-serif" }}
               />
-              <button
-                onClick={() => sendMessage(input)}
-                disabled={loading || !input.trim()}
-                className="w-8 h-8 rounded-full bg-[#6B6B6B] flex items-center justify-center hover:bg-[#141414] disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-150 ml-2 flex-shrink-0"
-              >
+              <button onClick={() => sendMessage(input)} disabled={loading || !input.trim()}
+                style={{ width: 32, height: 32, borderRadius: '50%', background: input.trim() ? '#141414' : '#D0D0CC', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '8px', transition: 'background 0.15s' }}>
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                   <path d="M7 11V3M7 3L3 7M7 3L11 7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
             </div>
-            <p className="text-center text-xs text-[#B0B0AA] mt-2.5" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>
+            <p style={{ textAlign: 'center', fontSize: '12px', color: '#B0B0AA', marginTop: '10px', fontFamily: "'Overused Grotesk', sans-serif" }}>
               Yes, this is a bot replying — but Deepak monitors every message.
             </p>
           </motion.div>
-
         </div>
       </section>
 
-      {/* ── WIDGET SCATTER ───────────────────────────────────────────────── */}
-      <section id="about" style={{ backgroundColor: 'var(--bg)' }}>
-        <div className="max-w-5xl mx-auto px-8 py-20">
+      {/* ─── WIDGET SCATTER ───────────────────────────────────────────────── */}
+      <section id="about" style={{ backgroundColor: '#F2F2F0' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '80px 32px' }}>
 
-          {/* Big headline */}
           <motion.p
-            className="text-center mb-16"
-            style={{
-              fontFamily: "'Overused Grotesk', sans-serif",
-              fontSize: 'clamp(3rem, 8vw, 6rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.05,
-              color: '#141414',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            style={{ fontFamily: "'Overused Grotesk', sans-serif", fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#141414', textAlign: 'center', marginBottom: '64px' }}
           >
-            I design{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 700 }}>and</em>
-            {' '}ship.
+            I design <em style={{ fontStyle: 'italic' }}>and</em> ship.
           </motion.p>
 
-          {/* Widget grid */}
-          <div className="relative min-h-[680px]">
+          <div style={{ position: 'relative', minHeight: '680px' }}>
 
-            {/* Profile — top left */}
-            <Widget delay={0.05} className="absolute top-0 left-0 w-52">
-              <div className="w-full h-36 bg-[#DDD8FB] rounded-xl overflow-hidden mb-3">
-                <img src="/photo.jpg" alt="Deepak" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+            {/* Profile */}
+            <W delay={0.05} style={{ position: 'absolute', top: 0, left: 0, width: '200px' }}>
+              <div style={{ width: '100%', height: '140px', backgroundColor: '#DDD8FB', borderRadius: '10px', overflow: 'hidden', marginBottom: '12px' }}>
+                <img src="/photo.jpg" alt="Deepak" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
               </div>
-              <p className="text-sm font-semibold text-[#141414]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Deepak Maan</p>
-              <p className="text-xs text-[#6B6B6B]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Mumbai · India</p>
-            </Widget>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>Deepak Maan</p>
+              <p style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: '2px 0 0' }}>Mumbai · India</p>
+            </W>
 
-            {/* Clock — below profile */}
-            <Widget delay={0.1} className="absolute top-52 left-0 w-52">
-              <p className="text-[10px] text-[#9B9B9B] uppercase tracking-widest mb-1" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Mumbai, IN</p>
-              <p className="text-3xl font-light text-[#141414] tracking-tight tabular-nums" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>
+            {/* Clock */}
+            <W delay={0.1} style={{ position: 'absolute', top: '212px', left: 0, width: '200px' }}>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 4px' }}>Mumbai, IN</p>
+              <p style={{ fontSize: '28px', fontWeight: 300, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0, letterSpacing: '-0.02em' }}>
                 {istTime.replace(' AM','').replace(' PM','')}
               </p>
-              <p className="text-[10px] text-[#9B9B9B] mt-0.5" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>IST · UTC+5:30</p>
-            </Widget>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', fontFamily: "'Overused Grotesk', sans-serif", margin: '2px 0 0' }}>IST · UTC+5:30</p>
+            </W>
 
-            {/* Interests — bottom left */}
-            <Widget delay={0.15} className="absolute top-[390px] left-0 w-52">
-              <p className="text-[10px] text-[#9B9B9B] uppercase tracking-widest mb-3" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Interests</p>
-              <div className="flex flex-wrap gap-1.5">
+            {/* Interests */}
+            <W delay={0.15} style={{ position: 'absolute', top: '380px', left: 0, width: '200px' }}>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>Interests</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {INTERESTS.map(i => (
-                  <span key={i} className="px-2.5 py-1 rounded-full bg-[#F2F2F0] border border-[#E2E2DF] text-xs text-[#6B6B6B]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>{i}</span>
+                  <span key={i} style={{ padding: '4px 10px', borderRadius: '9999px', background: '#F2F2F0', border: '1px solid #E2E2DF', fontSize: '11px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif" }}>{i}</span>
                 ))}
               </div>
-            </Widget>
+            </W>
 
-            {/* Availability — top center */}
-            <Widget delay={0.2} className="absolute top-0 left-1/2 -translate-x-1/2 w-56 !bg-[#141414] !border-transparent">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse" />
-                <span className="text-[10px] text-[#6B6B6B] uppercase tracking-widest" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Available Now</span>
+            {/* Availability */}
+            <W delay={0.2} style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '220px', background: '#141414', border: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#22C55E', flexShrink: 0 }} />
+                <span style={{ fontSize: '10px', color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif" }}>Available Now</span>
               </div>
-              <p className="text-sm font-semibold text-white mb-3" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Product Designer</p>
-              <div className="space-y-1">
-                {['→  Hyderabad', '→  Bangalore', '→  Remote'].map(l => (
-                  <p key={l} className="text-xs text-[#6B6B6B]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>{l}</p>
-                ))}
-              </div>
-            </Widget>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: 'white', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>Product Designer</p>
+              {['→  Hyderabad', '→  Bangalore', '→  Remote'].map(l => (
+                <p key={l} style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: '3px 0 0' }}>{l}</p>
+              ))}
+            </W>
 
-            {/* Building with AI tag */}
-            <Widget delay={0.22} className="absolute top-44 left-[42%] !p-2.5 !rounded-xl !bg-[#F5E642] !border-transparent w-auto">
-              <p className="text-xs font-semibold text-[#141414] whitespace-nowrap" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Currently building with AI ✦</p>
-            </Widget>
+            {/* AI tag */}
+            <W delay={0.23} style={{ position: 'absolute', top: '190px', left: '40%', background: '#F5E642', border: 'none', padding: '8px 12px', borderRadius: '10px', width: 'auto' }}>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0, whiteSpace: 'nowrap' }}>Currently building with AI ✦</p>
+            </W>
 
-            {/* Resume — right */}
-            <Widget
-              delay={0.28}
-              className="absolute top-36 right-0 w-44 !bg-[#F5E642] !border-transparent cursor-pointer hover:scale-[1.02]"
-              onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}
-            >
-              <p className="text-[10px] font-semibold text-[#6B6B6B] uppercase tracking-widest mb-2" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>CV</p>
-              <div className="flex items-center gap-2">
+            {/* Resume */}
+            <W delay={0.28} style={{ position: 'absolute', top: '148px', right: 0, width: '168px', background: '#F5E642', border: 'none', cursor: 'pointer' }}
+              onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}>
+              <p style={{ fontSize: '10px', fontWeight: 600, color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 8px' }}>CV</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5l3 3v9H4V2z" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/><path d="M9 2v3h3" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/></svg>
                 <div>
-                  <p className="text-sm font-semibold text-[#141414]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Resume</p>
-                  <p className="text-[10px] text-[#6B6B6B]" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>PDF · 1 page</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>Resume</p>
+                  <p style={{ fontSize: '10px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>PDF · 1 page</p>
                 </div>
               </div>
-            </Widget>
+            </W>
 
-            {/* LinkedIn — right bottom */}
-            <Widget
-              delay={0.33}
-              className="absolute top-[320px] right-0 w-44 !bg-[#0A66C2] !border-transparent cursor-pointer hover:scale-[1.02]"
-              onClick={() => window.open('https://linkedin.com/in/deepakmaan', '_blank')}
-            >
-              <p className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-2" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>Find me online</p>
-              <div className="flex items-center gap-2">
+            {/* LinkedIn */}
+            <W delay={0.33} style={{ position: 'absolute', top: '308px', right: 0, width: '168px', background: '#0A66C2', border: 'none', cursor: 'pointer' }}
+              onClick={() => window.open('https://linkedin.com/in/deepakmaan', '_blank')}>
+              <p style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 8px' }}>Find me online</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
                 <div>
-                  <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>LinkedIn</p>
-                  <p className="text-[10px] text-white/60" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>/in/deepakmaan</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>LinkedIn</p>
+                  <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>/in/deepakmaan</p>
                 </div>
               </div>
-            </Widget>
+            </W>
 
-            {/* Rate widget — bottom center */}
+            {/* Rate */}
             <RateWidget />
-
           </div>
         </div>
       </section>
@@ -402,54 +333,38 @@ export default function HomePage() {
   )
 }
 
-// ─── Reusable widget wrapper ──────────────────────────────────────────────────
-const Widget = ({
-  children,
-  delay = 0,
-  className = '',
-  onClick,
-}: {
-  children: React.ReactNode
-  delay?: number
-  className?: string
-  onClick?: () => void
-}) => (
+// Widget wrapper
+const W = ({ children, delay = 0, style = {}, onClick }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties; onClick?: () => void }) => (
   <motion.div
-    initial={{ opacity: 0, y: 16 }}
+    initial={{ opacity: 0, y: 14 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ delay, duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+    transition={{ delay, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     onClick={onClick}
-    className={`bg-white border border-[#E2E2DF] rounded-2xl p-4 shadow-[0_2px_12px_rgba(20,20,20,0.07)] transition-transform duration-200 ${className}`}
+    style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', padding: '16px', boxShadow: '0 2px 12px rgba(20,20,20,0.07)', transition: 'transform 0.15s', ...style }}
+    whileHover={onClick ? { scale: 1.02 } : {}}
   >
     {children}
   </motion.div>
 )
 
-// ─── Rate widget ──────────────────────────────────────────────────────────────
+// Rate widget
 const RateWidget = () => {
   const [rating, setRating]   = useState(0)
   const [hovered, setHovered] = useState(0)
   const [rated, setRated]     = useState(false)
-
   return (
-    <Widget delay={0.38} className="absolute bottom-0 left-[38%] w-52 text-center">
-      <p className="text-[10px] text-[#9B9B9B] uppercase tracking-widest mb-3" style={{ fontFamily: "'Overused Grotesk', sans-serif" }}>
+    <W delay={0.38} style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '200px', textAlign: 'center' }}>
+      <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>
         {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
       </p>
-      <div className="flex justify-center gap-1.5">
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
         {[1,2,3,4,5].map(s => (
-          <button
-            key={s}
-            onMouseEnter={() => !rated && setHovered(s)}
-            onMouseLeave={() => !rated && setHovered(0)}
+          <button key={s} onMouseEnter={() => !rated && setHovered(s)} onMouseLeave={() => !rated && setHovered(0)}
             onClick={() => { if (!rated) { setRating(s); setRated(true) } }}
-            className="text-2xl transition-transform hover:scale-110 leading-none"
-          >
-            <span style={{ color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF' }}>★</span>
-          </button>
+            style={{ fontSize: '22px', background: 'none', border: 'none', cursor: rated ? 'default' : 'pointer', padding: 0, lineHeight: 1, color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF', transition: 'transform 0.1s' }}>★</button>
         ))}
       </div>
-    </Widget>
+    </W>
   )
 }
