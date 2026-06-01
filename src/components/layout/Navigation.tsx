@@ -1,107 +1,74 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-
-const f = "'Overused Grotesk', sans-serif"
+import { useLocation } from 'react-router-dom'
 
 const Navigation = () => {
-  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const isActive = (path: string) => location.pathname === path
+  const f = "'Overused Grotesk', sans-serif"
 
   return (
-    <>
-      {/* Name — top left */}
-      <div style={{ position: 'fixed', top: '24px', left: '32px', zIndex: 200 }}>
-        <Link to="/" style={{
-          fontSize: '14px',
-          fontWeight: 500,
-          color: '#141414',
-          letterSpacing: '-0.01em',
-          fontFamily: f,
-          textDecoration: 'none',
-        }}>
+    <header style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      padding: '16px 24px',
+    }}>
+      <div style={{
+        maxWidth: 1152, margin: '0 auto',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+      }}>
+        {/* Name — left */}
+        <a href="/" style={{
+          fontFamily: f, fontSize: 15, fontWeight: 500,
+          letterSpacing: '-0.01em', color: '#141414', textDecoration: 'none',
+          flexShrink: 0,
+          transition: 'opacity 0.15s',
+        }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.7' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
+        >
           Deepak Maan
-        </Link>
-      </div>
+        </a>
 
-      {/* Pill — top right */}
-      <nav style={{ position: 'fixed', top: '20px', right: '32px', zIndex: 200 }} aria-label="Main navigation">
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2px',
-          padding: '5px 6px',
-          borderRadius: '9999px',
-          background: 'rgba(255,255,255,0.92)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid #E2E2DF',
-          boxShadow: scrolled ? '0 4px 16px rgba(0,0,0,0.06)' : '0 1px 3px rgba(0,0,0,0.04)',
-          transition: 'box-shadow 0.3s',
-          fontFamily: f,
+        {/* Pill — right */}
+        <nav style={{
+          display: 'flex', alignItems: 'center', gap: 2,
+          background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(0,0,0,0.08)', borderRadius: 9999,
+          padding: '4px 6px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
         }}>
           <NavLink href="/#work" label="Work" />
-          <NavLink href="/shipped" label="Shipped" isActive={isActive('/shipped')} />
-          <NavLink href="/writings" label="Writings" isActive={isActive('/writings')} />
-
-          <span style={{ width: '1px', height: '14px', background: '#E2E2DF', margin: '0 4px' }} />
-
-          <ExternalNavLink href="https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing" label="Resume" />
-          <ExternalNavLink href="https://linkedin.com/in/deepakmaan" label="LinkedIn" />
-        </div>
-      </nav>
-    </>
+          <NavLink href="/shipped" label="Shipped" active={location.pathname === '/shipped'} />
+          <NavLink href="/writings" label="Writings" active={location.pathname === '/writings'} />
+          <ExtLink href="https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing" label="Resume" />
+          <ExtLink href="https://linkedin.com/in/deepakmaan25" label="LinkedIn" />
+        </nav>
+      </div>
+    </header>
   )
 }
 
-const NavLink = ({ href, label, isActive }: { href: string; label: string; isActive?: boolean }) => (
-  <a href={href} style={{
-    padding: '6px 14px',
-    borderRadius: '9999px',
-    fontSize: '13px',
-    fontWeight: 400,
-    fontFamily: f,
-    color: isActive ? 'white' : '#6B6B6B',
-    background: isActive ? '#141414' : 'transparent',
-    textDecoration: 'none',
-    transition: 'all 0.15s',
-    whiteSpace: 'nowrap',
-  }}
-    onMouseEnter={e => { if (!isActive) { const el = e.currentTarget; el.style.color = '#141414'; el.style.background = '#F0F0EC' } }}
-    onMouseLeave={e => { if (!isActive) { const el = e.currentTarget; el.style.color = '#6B6B6B'; el.style.background = 'transparent' } }}
+const base = {
+  fontFamily: "'Overused Grotesk', sans-serif",
+  fontSize: 13, fontWeight: 400,
+  padding: '6px 14px', borderRadius: 9999,
+  textDecoration: 'none', whiteSpace: 'nowrap' as const,
+  transition: 'all 0.15s',
+  display: 'inline-flex', alignItems: 'center' as const, gap: 4,
+}
+
+const NavLink = ({ href, label, active }: { href: string; label: string; active?: boolean }) => (
+  <a href={href} style={{ ...base, color: active ? 'white' : 'rgba(10,10,10,0.65)', background: active ? '#141414' : 'transparent' }}
+    onMouseEnter={e => { if (!active) { const el = e.currentTarget; el.style.color = '#141414'; el.style.background = 'rgba(10,10,10,0.05)' } }}
+    onMouseLeave={e => { if (!active) { const el = e.currentTarget; el.style.color = 'rgba(10,10,10,0.65)'; el.style.background = 'transparent' } }}
   >
     {label}
   </a>
 )
 
-const ExternalNavLink = ({ href, label }: { href: string; label: string }) => (
-  <a href={href} target="_blank" rel="noopener noreferrer" style={{
-    padding: '6px 14px',
-    borderRadius: '9999px',
-    fontSize: '13px',
-    fontWeight: 400,
-    fontFamily: f,
-    color: '#6B6B6B',
-    textDecoration: 'none',
-    transition: 'all 0.15s',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-    whiteSpace: 'nowrap',
-  }}
-    onMouseEnter={e => { const el = e.currentTarget; el.style.color = '#141414'; el.style.background = '#F0F0EC' }}
-    onMouseLeave={e => { const el = e.currentTarget; el.style.color = '#6B6B6B'; el.style.background = 'transparent' }}
+const ExtLink = ({ href, label }: { href: string; label: string }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer"
+    style={{ ...base, color: 'rgba(10,10,10,0.65)' }}
+    onMouseEnter={e => { const el = e.currentTarget; el.style.color = '#141414'; el.style.background = 'rgba(10,10,10,0.05)' }}
+    onMouseLeave={e => { const el = e.currentTarget; el.style.color = 'rgba(10,10,10,0.65)'; el.style.background = 'transparent' }}
   >
     {label}
-    <svg width="8" height="8" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5 }}>
-      <path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
   </a>
 )
 
