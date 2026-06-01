@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 interface Message { role: 'user' | 'assistant'; content: string }
 
 const QUICK_ACTIONS = [
-  { label: 'see my work ↓',             query: 'see my work',                   scroll: true  },
-  { label: 'how do you ship?',          query: 'how do you ship?',              scroll: false },
-  { label: 'what designer are you?',    query: 'what kind of designer are you?',scroll: false },
-  { label: "what's your availability?", query: "what's your availability?",     scroll: false },
-  { label: 'wanna chat? ↗',             query: 'wanna chat?',                   scroll: false },
-  { label: 'resume ↗',                  query: 'resume',                        scroll: false },
-  { label: 'linkedin ↗',                query: 'linkedin',                      scroll: false },
+  { label: 'see my work ↓',             query: 'see my work',                    scroll: true  },
+  { label: 'how do you ship?',          query: 'how do you ship?',               scroll: false },
+  { label: 'what designer are you?',    query: 'what kind of designer are you?', scroll: false },
+  { label: "what's your availability?", query: "what's your availability?",      scroll: false },
+  { label: 'wanna chat? ↗',             query: 'wanna chat?',                    scroll: false },
+  { label: 'resume ↗',                  query: 'resume',                         scroll: false },
+  { label: 'linkedin ↗',                query: 'linkedin',                       scroll: false },
 ]
 
 const SYSTEM_PROMPT = `You are Deepak Maan's portfolio assistant. Answer in first person as Deepak. Be concise and direct.
@@ -69,77 +69,86 @@ export default function HomePage() {
     finally { setLoading(false) }
   }
 
+  // shared font
+  const f = "'Overused Grotesk', sans-serif"
+
   return (
     <main style={{ backgroundColor: '#F2F2F0', minHeight: '100vh' }}>
 
-      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      {/* ─── HERO ──────────────────────────────────────────────────────────── */}
       <section style={{
         minHeight: '100vh',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '0 24px',
         background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(196,181,253,0.25) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 30%, rgba(147,197,253,0.18) 0%, transparent 55%), #F2F2F0',
       }}>
-        <div style={{ width: '100%', maxWidth: '640px' }}>
+        <div style={{ width: '100%', maxWidth: '780px' }}>
 
-          {/* ── Headline: exact Leah Kim structure ── */}
+          {/* ── Headline ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            style={{ marginBottom: '32px' }}
+            style={{ marginBottom: '40px' }}
           >
-            {/* Line 1: avatar + name + location — all inline */}
-            <p style={{
-              fontFamily: "'Overused Grotesk', sans-serif",
-              fontSize: '2.6rem',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              letterSpacing: '-0.022em',
-              color: '#141414',
-              margin: 0,
+            {/* Line 1 — avatar inline with text */}
+            <div style={{
               display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '12px',
+              gap: '14px',
+              fontFamily: f,
+              fontSize: '3.2rem',
+              fontWeight: 400,       /* normal weight — matches Leah */
+              lineHeight: 1.18,
+              letterSpacing: '-0.02em',
+              color: '#141414',
             }}>
-              {/* Avatar — inline with text */}
+              {/* Avatar */}
               <span style={{
                 display: 'inline-flex',
-                width: '52px',
-                height: '52px',
+                width: '56px',
+                height: '56px',
                 borderRadius: '50%',
                 overflow: 'hidden',
                 flexShrink: 0,
-                border: '2px solid white',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+                border: '2.5px solid white',
+                boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
                 backgroundColor: '#DDD8FB',
-                verticalAlign: 'middle',
               }}>
-                <img src="/photo.jpg" alt="Deepak Maan" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                <img
+                  src="/photo.jpg"
+                  alt="Deepak Maan"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
               </span>
-              I'm Deepak Maan — based in Mumbai.
-            </p>
+              <span>I'm Deepak Maan — based in Mumbai.</span>
+            </div>
 
             {/* Line 2 */}
-            <p style={{
-              fontFamily: "'Overused Grotesk', sans-serif",
-              fontSize: '2.6rem',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              letterSpacing: '-0.022em',
+            <div style={{
+              fontFamily: f,
+              fontSize: '3.2rem',
+              fontWeight: 400,
+              lineHeight: 1.18,
+              letterSpacing: '-0.02em',
               color: '#141414',
-              margin: '4px 0 0 0',
+              marginTop: '2px',
+              paddingLeft: '70px',   /* indent to align with text above, past avatar */
             }}>
               I research, design, and ship product UX,{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 700 }}>end to end.</em>
-            </p>
+              <em style={{
+                fontStyle: 'italic',
+                fontWeight: 400,     /* NOT bold — matches Leah's italic */
+              }}>
+                end to end.
+              </em>
+            </div>
           </motion.div>
 
-          {/* Pills */}
+          {/* ── Pills ── */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -147,31 +156,44 @@ export default function HomePage() {
             style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}
           >
             {QUICK_ACTIONS.map(a => (
-              <button key={a.label} onClick={() => a.scroll
-                ? document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
-                : sendMessage(a.query)
-              } style={{
-                padding: '8px 16px',
-                borderRadius: '9999px',
-                border: '1px solid #DDDDD9',
-                background: 'rgba(255,255,255,0.75)',
-                backdropFilter: 'blur(8px)',
-                fontSize: '14px',
-                fontWeight: 500,
-                color: '#141414',
-                fontFamily: "'Overused Grotesk', sans-serif",
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-                onMouseEnter={e => { (e.target as HTMLElement).style.background = 'white'; (e.target as HTMLElement).style.borderColor = '#C8C8C4' }}
-                onMouseLeave={e => { (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.75)'; (e.target as HTMLElement).style.borderColor = '#DDDDD9' }}
+              <button
+                key={a.label}
+                onClick={() => a.scroll
+                  ? document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
+                  : sendMessage(a.query)
+                }
+                style={{
+                  padding: '9px 18px',
+                  borderRadius: '9999px',
+                  border: '1px solid #DDDDD9',
+                  background: 'rgba(255,255,255,0.75)',
+                  backdropFilter: 'blur(8px)',
+                  fontSize: '14px',
+                  fontWeight: 400,
+                  color: '#141414',
+                  fontFamily: f,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget
+                  el.style.background = 'white'
+                  el.style.borderColor = '#C8C8C4'
+                  el.style.boxShadow = '0 1px 4px rgba(0,0,0,0.08)'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget
+                  el.style.background = 'rgba(255,255,255,0.75)'
+                  el.style.borderColor = '#DDDDD9'
+                  el.style.boxShadow = 'none'
+                }}
               >
                 {a.label}
               </button>
             ))}
           </motion.div>
 
-          {/* Chat messages */}
+          {/* ── Chat messages ── */}
           <AnimatePresence>
             {chatStarted && (
               <motion.div
@@ -184,13 +206,12 @@ export default function HomePage() {
                   <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
                     style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-end', gap: '8px' }}>
                     {msg.role === 'assistant' && (
-                      <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0, overflow: 'hidden', display: 'inline-block' }}>
+                      <span style={{ width: 26, height: 26, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0, overflow: 'hidden', display: 'inline-block' }}>
                         <img src="/photo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                       </span>
                     )}
                     <div style={{
-                      maxWidth: '360px', padding: '10px 16px', borderRadius: '18px', fontSize: '14px', lineHeight: 1.55,
-                      fontFamily: "'Overused Grotesk', sans-serif",
+                      maxWidth: '400px', padding: '10px 16px', borderRadius: '18px', fontSize: '14px', lineHeight: 1.55, fontFamily: f,
                       ...(msg.role === 'user'
                         ? { background: '#141414', color: 'white', borderBottomRightRadius: '4px' }
                         : { background: 'white', color: '#141414', border: '1px solid #E2E2DF', borderBottomLeftRadius: '4px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' })
@@ -201,10 +222,12 @@ export default function HomePage() {
                 ))}
                 {loading && (
                   <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
-                    <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0 }} />
+                    <span style={{ width: 26, height: 26, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0 }} />
                     <div style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', borderBottomLeftRadius: '4px', padding: '12px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                      <div style={{ display: 'flex', gap: '4px' }}>
-                        {[0,150,300].map(d => <span key={d} className="animate-bounce" style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#C8C8C4', display: 'inline-block', animationDelay: `${d}ms` }} />)}
+                      <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                        {[0,150,300].map(d => (
+                          <span key={d} className="animate-bounce" style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#C8C8C4', display: 'inline-block', animationDelay: `${d}ms` }} />
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -214,27 +237,34 @@ export default function HomePage() {
             )}
           </AnimatePresence>
 
-          {/* Input */}
+          {/* ── Input ── */}
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
             <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', border: '1px solid #E2E2DF', borderRadius: '16px', padding: '12px 16px' }}>
               <span style={{ color: '#B0B0AA', marginRight: '8px', fontSize: '13px', fontFamily: 'monospace', userSelect: 'none' }}>&gt;_</span>
-              <input ref={inputRef} type="text" value={input}
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendMessage(input)}
                 placeholder="ask Deepak anything..."
-                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: '14px', color: '#141414', fontFamily: "'Overused Grotesk', sans-serif" }}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: '14px', color: '#141414', fontFamily: f }}
               />
-              <button onClick={() => sendMessage(input)} disabled={loading || !input.trim()}
-                style={{ width: 32, height: 32, borderRadius: '50%', background: input.trim() ? '#141414' : '#D0D0CC', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '8px', transition: 'background 0.15s' }}>
+              <button
+                onClick={() => sendMessage(input)}
+                disabled={loading || !input.trim()}
+                style={{ width: 34, height: 34, borderRadius: '50%', background: input.trim() ? '#6B6B6B' : '#D8D8D4', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '8px', transition: 'background 0.15s' }}
+              >
                 <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                   <path d="M7 11V3M7 3L3 7M7 3L11 7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
             </div>
-            <p style={{ textAlign: 'center', fontSize: '12px', color: '#B0B0AA', marginTop: '10px', fontFamily: "'Overused Grotesk', sans-serif" }}>
+            <p style={{ textAlign: 'center', fontSize: '12px', color: '#B0B0AA', marginTop: '10px', fontFamily: f }}>
               Yes, this is a bot replying — but Deepak monitors every message.
             </p>
           </motion.div>
+
         </div>
       </section>
 
@@ -244,86 +274,78 @@ export default function HomePage() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            style={{ fontFamily: "'Overused Grotesk', sans-serif", fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#141414', textAlign: 'center', marginBottom: '64px' }}
+            style={{ fontFamily: f, fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#141414', textAlign: 'center', marginBottom: '64px' }}
           >
-            I design <em style={{ fontStyle: 'italic' }}>and</em> ship.
+            I design <em style={{ fontStyle: 'italic', fontWeight: 700 }}>and</em> ship.
           </motion.p>
 
           <div style={{ position: 'relative', minHeight: '680px' }}>
 
-            {/* Profile */}
             <W delay={0.05} style={{ position: 'absolute', top: 0, left: 0, width: '200px' }}>
               <div style={{ width: '100%', height: '140px', backgroundColor: '#DDD8FB', borderRadius: '10px', overflow: 'hidden', marginBottom: '12px' }}>
                 <img src="/photo.jpg" alt="Deepak" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
               </div>
-              <p style={{ fontSize: '14px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>Deepak Maan</p>
-              <p style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: '2px 0 0' }}>Mumbai · India</p>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#141414', fontFamily: f, margin: 0 }}>Deepak Maan</p>
+              <p style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: f, margin: '2px 0 0' }}>Mumbai · India</p>
             </W>
 
-            {/* Clock */}
             <W delay={0.1} style={{ position: 'absolute', top: '212px', left: 0, width: '200px' }}>
-              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 4px' }}>Mumbai, IN</p>
-              <p style={{ fontSize: '28px', fontWeight: 300, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0, letterSpacing: '-0.02em' }}>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 4px' }}>Mumbai, IN</p>
+              <p style={{ fontSize: '28px', fontWeight: 300, color: '#141414', fontFamily: f, margin: 0, letterSpacing: '-0.02em' }}>
                 {istTime.replace(' AM','').replace(' PM','')}
               </p>
-              <p style={{ fontSize: '10px', color: '#9B9B9B', fontFamily: "'Overused Grotesk', sans-serif", margin: '2px 0 0' }}>IST · UTC+5:30</p>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', fontFamily: f, margin: '2px 0 0' }}>IST · UTC+5:30</p>
             </W>
 
-            {/* Interests */}
             <W delay={0.15} style={{ position: 'absolute', top: '380px', left: 0, width: '200px' }}>
-              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>Interests</p>
+              <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 10px' }}>Interests</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {INTERESTS.map(i => (
-                  <span key={i} style={{ padding: '4px 10px', borderRadius: '9999px', background: '#F2F2F0', border: '1px solid #E2E2DF', fontSize: '11px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif" }}>{i}</span>
+                  <span key={i} style={{ padding: '4px 10px', borderRadius: '9999px', background: '#F2F2F0', border: '1px solid #E2E2DF', fontSize: '11px', color: '#6B6B6B', fontFamily: f }}>{i}</span>
                 ))}
               </div>
             </W>
 
-            {/* Availability */}
             <W delay={0.2} style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '220px', background: '#141414', border: 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#22C55E', flexShrink: 0 }} />
-                <span style={{ fontSize: '10px', color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif" }}>Available Now</span>
+                <span style={{ fontSize: '10px', color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f }}>Available Now</span>
               </div>
-              <p style={{ fontSize: '14px', fontWeight: 600, color: 'white', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>Product Designer</p>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: 'white', fontFamily: f, margin: '0 0 10px' }}>Product Designer</p>
               {['→  Hyderabad', '→  Bangalore', '→  Remote'].map(l => (
-                <p key={l} style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: '3px 0 0' }}>{l}</p>
+                <p key={l} style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: f, margin: '3px 0 0' }}>{l}</p>
               ))}
             </W>
 
-            {/* AI tag */}
             <W delay={0.23} style={{ position: 'absolute', top: '190px', left: '40%', background: '#F5E642', border: 'none', padding: '8px 12px', borderRadius: '10px', width: 'auto' }}>
-              <p style={{ fontSize: '12px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0, whiteSpace: 'nowrap' }}>Currently building with AI ✦</p>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#141414', fontFamily: f, margin: 0, whiteSpace: 'nowrap' }}>Currently building with AI ✦</p>
             </W>
 
-            {/* Resume */}
             <W delay={0.28} style={{ position: 'absolute', top: '148px', right: 0, width: '168px', background: '#F5E642', border: 'none', cursor: 'pointer' }}
               onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}>
-              <p style={{ fontSize: '10px', fontWeight: 600, color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 8px' }}>CV</p>
+              <p style={{ fontSize: '10px', fontWeight: 600, color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 8px' }}>CV</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5l3 3v9H4V2z" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/><path d="M9 2v3h3" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/></svg>
                 <div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#141414', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>Resume</p>
-                  <p style={{ fontSize: '10px', color: '#6B6B6B', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>PDF · 1 page</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#141414', fontFamily: f, margin: 0 }}>Resume</p>
+                  <p style={{ fontSize: '10px', color: '#6B6B6B', fontFamily: f, margin: 0 }}>PDF · 1 page</p>
                 </div>
               </div>
             </W>
 
-            {/* LinkedIn */}
             <W delay={0.33} style={{ position: 'absolute', top: '308px', right: 0, width: '168px', background: '#0A66C2', border: 'none', cursor: 'pointer' }}
               onClick={() => window.open('https://linkedin.com/in/deepakmaan', '_blank')}>
-              <p style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 8px' }}>Find me online</p>
+              <p style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 8px' }}>Find me online</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
                 <div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>LinkedIn</p>
-                  <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontFamily: "'Overused Grotesk', sans-serif", margin: 0 }}>/in/deepakmaan</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', fontFamily: f, margin: 0 }}>LinkedIn</p>
+                  <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontFamily: f, margin: 0 }}>/in/deepakmaan</p>
                 </div>
               </div>
             </W>
 
-            {/* Rate */}
-            <RateWidget />
+            <RateWidget f={f} />
           </div>
         </div>
       </section>
@@ -333,36 +355,39 @@ export default function HomePage() {
   )
 }
 
-// Widget wrapper
-const W = ({ children, delay = 0, style = {}, onClick }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties; onClick?: () => void }) => (
+const W = ({ children, delay = 0, style = {}, onClick }: {
+  children: React.ReactNode; delay?: number; style?: React.CSSProperties; onClick?: () => void
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 14 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     onClick={onClick}
-    style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', padding: '16px', boxShadow: '0 2px 12px rgba(20,20,20,0.07)', transition: 'transform 0.15s', ...style }}
     whileHover={onClick ? { scale: 1.02 } : {}}
+    style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', padding: '16px', boxShadow: '0 2px 12px rgba(20,20,20,0.07)', transition: 'transform 0.15s', ...style }}
   >
     {children}
   </motion.div>
 )
 
-// Rate widget
-const RateWidget = () => {
+const RateWidget = ({ f }: { f: string }) => {
   const [rating, setRating]   = useState(0)
   const [hovered, setHovered] = useState(0)
   const [rated, setRated]     = useState(false)
   return (
     <W delay={0.38} style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '200px', textAlign: 'center' }}>
-      <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Overused Grotesk', sans-serif", margin: '0 0 10px' }}>
+      <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 10px' }}>
         {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
       </p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
         {[1,2,3,4,5].map(s => (
-          <button key={s} onMouseEnter={() => !rated && setHovered(s)} onMouseLeave={() => !rated && setHovered(0)}
+          <button key={s}
+            onMouseEnter={() => !rated && setHovered(s)}
+            onMouseLeave={() => !rated && setHovered(0)}
             onClick={() => { if (!rated) { setRating(s); setRated(true) } }}
-            style={{ fontSize: '22px', background: 'none', border: 'none', cursor: rated ? 'default' : 'pointer', padding: 0, lineHeight: 1, color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF', transition: 'transform 0.1s' }}>★</button>
+            style={{ fontSize: '22px', background: 'none', border: 'none', cursor: rated ? 'default' : 'pointer', padding: 0, lineHeight: 1, color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF', transition: 'transform 0.1s' }}
+          >★</button>
         ))}
       </div>
     </W>
