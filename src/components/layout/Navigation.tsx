@@ -14,53 +14,53 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <nav
-      className="fixed top-5 right-6 z-[200] transition-all duration-300"
-      aria-label="Main navigation"
-    >
-      <div
-        className={`
-          flex items-center gap-1 px-2 py-2 rounded-full
-          bg-white/90 backdrop-blur-md
-          border border-border
-          transition-all duration-300
-          ${scrolled ? 'shadow-md' : 'shadow-sm'}
-        `}
-      >
-        {/* Name / logo — left side, outside pill on desktop but inside on mobile */}
-        <div className="hidden md:flex items-center px-3 mr-1">
-          <Link
-            to="/"
-            className="text-sm font-semibold text-text-primary tracking-tight hover:text-accent transition-colors duration-150"
-          >
-            Deepak Maan
-          </Link>
-        </div>
-
-        <div className="w-px h-4 bg-border hidden md:block" />
-
-        {/* Nav links */}
-        <NavLink href="/#work" label="Work" />
-        <NavLink href="/shipped" label="Shipped" />
-        <NavLink href="/writings" label="Writings" isActive={isActive('/writings')} />
-
-        <div className="w-px h-4 bg-border mx-1" />
-
-        {/* External links */}
-        <ExternalNavLink
-          href="https://drive.google.com/your-resume-link"
-          label="Resume"
-        />
-        <ExternalNavLink
-          href="https://linkedin.com/in/deepakmaan"
-          label="LinkedIn"
-        />
+    <>
+      {/* Name — top left, outside pill */}
+      <div className="fixed top-5 left-6 z-[200]">
+        <Link
+          to="/"
+          className="text-sm font-semibold text-[#141414] tracking-tight hover:text-[#6366F1] transition-colors duration-150"
+          style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
+        >
+          Deepak Maan
+        </Link>
       </div>
-    </nav>
+
+      {/* Nav pill — top right */}
+      <nav
+        className="fixed top-5 right-6 z-[200]"
+        aria-label="Main navigation"
+      >
+        <div
+          className={`
+            flex items-center gap-0.5 px-1.5 py-1.5 rounded-full
+            bg-white/90 backdrop-blur-md
+            border border-[#E2E2DF]
+            transition-all duration-300
+            ${scrolled ? 'shadow-md' : 'shadow-sm'}
+          `}
+          style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
+        >
+          <NavLink href="/#work" label="Work" />
+          <NavLink href="/shipped" label="Shipped" isActive={isActive('/shipped')} />
+          <NavLink href="/writings" label="Writings" isActive={isActive('/writings')} />
+
+          <div className="w-px h-4 bg-[#E2E2DF] mx-1" />
+
+          <ExternalNavLink
+            href="https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing"
+            label="Resume"
+          />
+          <ExternalNavLink
+            href="https://linkedin.com/in/deepakmaan"
+            label="LinkedIn"
+          />
+        </div>
+      </nav>
+    </>
   )
 }
 
-/* ---- Internal nav link ---- */
 const NavLink = ({
   href,
   label,
@@ -74,18 +74,18 @@ const NavLink = ({
     href={href}
     className={`
       px-3 py-1.5 rounded-full text-sm font-medium
-      transition-all duration-150
+      transition-all duration-150 whitespace-nowrap
       ${isActive
-        ? 'bg-text-primary text-text-inverse'
-        : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary'
+        ? 'bg-[#141414] text-white'
+        : 'text-[#6B6B6B] hover:text-[#141414] hover:bg-[#EAEAE7]'
       }
     `}
+    style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
   >
     {label}
   </a>
 )
 
-/* ---- External nav link (with arrow) ---- */
 const ExternalNavLink = ({
   href,
   label,
@@ -99,19 +99,20 @@ const ExternalNavLink = ({
     rel="noopener noreferrer"
     className="
       px-3 py-1.5 rounded-full text-sm font-medium
-      text-text-secondary hover:text-text-primary hover:bg-bg-secondary
+      text-[#6B6B6B] hover:text-[#141414] hover:bg-[#EAEAE7]
       transition-all duration-150
-      flex items-center gap-1
+      flex items-center gap-1 whitespace-nowrap
     "
+    style={{ fontFamily: "'Overused Grotesk', sans-serif" }}
   >
     {label}
     <svg
-      width="10"
-      height="10"
+      width="9"
+      height="9"
       viewBox="0 0 10 10"
       fill="none"
       aria-hidden="true"
-      className="opacity-50"
+      className="opacity-40"
     >
       <path
         d="M2 8L8 2M8 2H3.5M8 2V6.5"
