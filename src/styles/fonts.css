@@ -1,76 +1,97 @@
 /* ============================================
    FONTS — Self-hosted Overused Grotesk
    Files live at: public/fonts/overused-grotesk/
+   Supports multiple naming conventions from
+   different download sources
    ============================================ */
 
+/* Weight 300 — Light */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-Light.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-Light.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
+/* Weight 400 — Regular (Roman) */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-Roman.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-Roman.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/OverusedGrotesk-Regular.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-roman.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
+/* Weight 500 — Medium */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-Medium.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-Medium.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
+/* Weight 600 — SemiBold */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-SemiBold.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-SemiBold.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-semibold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
+/* Weight 700 — Bold */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-Bold.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-Bold.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
+/* Weight 800 — ExtraBold */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-ExtraBold.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-ExtraBold.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-extrabold.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
 
-/* Italic variants */
+/* Italic 300 */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-LightItalic.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-LightItalic.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-light-italic.woff2') format('woff2');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
 }
 
+/* Italic 400 */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-Italic.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-Italic.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 
+/* Italic 700 */
 @font-face {
   font-family: 'Overused Grotesk';
-  src: url('/fonts/overused-grotesk/OverusedGrotesk-BoldItalic.woff2') format('woff2');
+  src: url('/fonts/overused-grotesk/OverusedGrotesk-BoldItalic.woff2') format('woff2'),
+       url('/fonts/overused-grotesk/overused-grotesk-bold-italic.woff2') format('woff2');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
