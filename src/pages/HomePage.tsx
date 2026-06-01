@@ -37,30 +37,23 @@ export default function HomePage() {
   const chatEndRef                    = useRef<HTMLDivElement>(null)
   const inputRef                      = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    const t = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(t)
-  }, [])
-
+  useEffect(() => { const t = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(t) }, [])
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
 
-  const istTime = time.toLocaleTimeString('en-IN', {
-    timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
-  })
+  const istTime = time.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return
     if (text === 'see my work') { document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' }); return }
-    if (text === 'resume') { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank'); return }
-    if (text === 'linkedin') { window.open('https://linkedin.com/in/deepakmaan', '_blank'); return }
+    if (text === 'resume')      { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank'); return }
+    if (text === 'linkedin')    { window.open('https://linkedin.com/in/deepakmaan', '_blank'); return }
     if (text === 'wanna chat?') { window.open('mailto:deepak.maan@email.com', '_blank'); return }
 
     const updated = [...messages, { role: 'user' as const, content: text }]
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM_PROMPT, messages: updated }),
       })
       const data = await res.json()
@@ -69,60 +62,60 @@ export default function HomePage() {
     finally { setLoading(false) }
   }
 
-  // shared font
   const f = "'Overused Grotesk', sans-serif"
 
   return (
     <main style={{ backgroundColor: '#F2F2F0', minHeight: '100vh' }}>
 
-      {/* ─── HERO ──────────────────────────────────────────────────────────── */}
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '0 24px',
-        background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(196,181,253,0.25) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 30%, rgba(147,197,253,0.18) 0%, transparent 55%), #F2F2F0',
+        background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(196,181,253,0.28) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 30%, rgba(147,197,253,0.18) 0%, transparent 55%), #F2F2F0',
       }}>
-        <div style={{ width: '100%', maxWidth: '780px' }}>
+        <div style={{ width: '100%', maxWidth: '1100px' }}>
 
-          {/* ── Headline ── */}
+          {/* ── Headline — 2 lines, no wrapping ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-            style={{ marginBottom: '40px' }}
+            style={{ marginBottom: '48px' }}
           >
-            {/* Line 1 — avatar inline with text */}
+            {/* Line 1 */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '14px',
+              gap: '12px',
               fontFamily: f,
-              fontSize: '3.2rem',
-              fontWeight: 400,       /* normal weight — matches Leah */
-              lineHeight: 1.18,
-              letterSpacing: '-0.02em',
+              fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)',
+              fontWeight: 400,
+              lineHeight: 1.25,
+              letterSpacing: '-0.018em',
               color: '#141414',
+              whiteSpace: 'nowrap',
             }}>
-              {/* Avatar */}
               <span style={{
+                position: 'relative',
                 display: 'inline-flex',
-                width: '56px',
-                height: '56px',
+                width: '40px',
+                height: '40px',
                 borderRadius: '50%',
                 overflow: 'hidden',
                 flexShrink: 0,
-                border: '2.5px solid white',
-                boxShadow: '0 1px 6px rgba(0,0,0,0.1)',
+                border: '2px solid white',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
                 backgroundColor: '#DDD8FB',
               }}>
-                <img
-                  src="/photo.jpg"
-                  alt="Deepak Maan"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
+                <img src="/photo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                {/* Green availability dot */}
+                <span style={{
+                  position: 'absolute', bottom: '1px', right: '1px', width: '10px', height: '10px',
+                  borderRadius: '50%', background: '#22C55E', border: '2px solid white',
+                }} />
               </span>
               <span>I'm Deepak Maan — based in Mumbai.</span>
             </div>
@@ -130,21 +123,17 @@ export default function HomePage() {
             {/* Line 2 */}
             <div style={{
               fontFamily: f,
-              fontSize: '3.2rem',
+              fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)',
               fontWeight: 400,
-              lineHeight: 1.18,
-              letterSpacing: '-0.02em',
+              lineHeight: 1.25,
+              letterSpacing: '-0.018em',
               color: '#141414',
-              marginTop: '2px',
-              paddingLeft: '70px',   /* indent to align with text above, past avatar */
+              marginTop: '4px',
+              paddingLeft: '52px',
+              whiteSpace: 'nowrap',
             }}>
               I research, design, and ship product UX,{' '}
-              <em style={{
-                fontStyle: 'italic',
-                fontWeight: 400,     /* NOT bold — matches Leah's italic */
-              }}>
-                end to end.
-              </em>
+              <em style={{ fontStyle: 'italic', fontWeight: 400, fontFamily: f }}>end to end.</em>
             </div>
           </motion.div>
 
@@ -153,7 +142,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.12 }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px', paddingLeft: '52px' }}
           >
             {QUICK_ACTIONS.map(a => (
               <button
@@ -163,30 +152,20 @@ export default function HomePage() {
                   : sendMessage(a.query)
                 }
                 style={{
-                  padding: '9px 18px',
+                  padding: '7px 16px',
                   borderRadius: '9999px',
                   border: '1px solid #DDDDD9',
                   background: 'rgba(255,255,255,0.75)',
                   backdropFilter: 'blur(8px)',
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontWeight: 400,
                   color: '#141414',
                   fontFamily: f,
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget
-                  el.style.background = 'white'
-                  el.style.borderColor = '#C8C8C4'
-                  el.style.boxShadow = '0 1px 4px rgba(0,0,0,0.08)'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget
-                  el.style.background = 'rgba(255,255,255,0.75)'
-                  el.style.borderColor = '#DDDDD9'
-                  el.style.boxShadow = 'none'
-                }}
+                onMouseEnter={e => { const el = e.currentTarget; el.style.background = 'white'; el.style.borderColor = '#C8C8C4'; el.style.boxShadow = '0 1px 4px rgba(0,0,0,0.08)' }}
+                onMouseLeave={e => { const el = e.currentTarget; el.style.background = 'rgba(255,255,255,0.75)'; el.style.borderColor = '#DDDDD9'; el.style.boxShadow = 'none' }}
               >
                 {a.label}
               </button>
@@ -197,21 +176,19 @@ export default function HomePage() {
           <AnimatePresence>
             {chatStarted && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                style={{ marginBottom: '16px', maxHeight: '260px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}
+                initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
+                style={{ marginBottom: '16px', maxHeight: '260px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', paddingLeft: '52px' }}
               >
                 {messages.map((msg, i) => (
                   <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
                     style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', alignItems: 'flex-end', gap: '8px' }}>
                     {msg.role === 'assistant' && (
-                      <span style={{ width: 26, height: 26, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0, overflow: 'hidden', display: 'inline-block' }}>
+                      <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0, overflow: 'hidden', display: 'inline-block' }}>
                         <img src="/photo.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                       </span>
                     )}
                     <div style={{
-                      maxWidth: '400px', padding: '10px 16px', borderRadius: '18px', fontSize: '14px', lineHeight: 1.55, fontFamily: f,
+                      maxWidth: '400px', padding: '10px 16px', borderRadius: '18px', fontSize: '13.5px', lineHeight: 1.55, fontFamily: f,
                       ...(msg.role === 'user'
                         ? { background: '#141414', color: 'white', borderBottomRightRadius: '4px' }
                         : { background: 'white', color: '#141414', border: '1px solid #E2E2DF', borderBottomLeftRadius: '4px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' })
@@ -222,12 +199,10 @@ export default function HomePage() {
                 ))}
                 {loading && (
                   <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
-                    <span style={{ width: 26, height: 26, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0 }} />
+                    <span style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#DDD8FB', flexShrink: 0 }} />
                     <div style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', borderBottomLeftRadius: '4px', padding: '12px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
                       <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                        {[0,150,300].map(d => (
-                          <span key={d} className="animate-bounce" style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#C8C8C4', display: 'inline-block', animationDelay: `${d}ms` }} />
-                        ))}
+                        {[0,150,300].map(d => <span key={d} className="animate-bounce" style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#C8C8C4', display: 'inline-block', animationDelay: `${d}ms` }} />)}
                       </div>
                     </div>
                   </div>
@@ -238,49 +213,43 @@ export default function HomePage() {
           </AnimatePresence>
 
           {/* ── Input ── */}
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
-            <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', border: '1px solid #E2E2DF', borderRadius: '16px', padding: '12px 16px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            style={{ paddingLeft: '52px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)', border: '1px solid #E2E2DF', borderRadius: '14px', padding: '11px 16px' }}>
               <span style={{ color: '#B0B0AA', marginRight: '8px', fontSize: '13px', fontFamily: 'monospace', userSelect: 'none' }}>&gt;_</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
+              <input ref={inputRef} type="text" value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendMessage(input)}
                 placeholder="ask Deepak anything..."
-                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: '14px', color: '#141414', fontFamily: f }}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: '13.5px', color: '#141414', fontFamily: f }}
               />
-              <button
-                onClick={() => sendMessage(input)}
-                disabled={loading || !input.trim()}
-                style={{ width: 34, height: 34, borderRadius: '50%', background: input.trim() ? '#6B6B6B' : '#D8D8D4', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '8px', transition: 'background 0.15s' }}
-              >
-                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 11V3M7 3L3 7M7 3L11 7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              <button onClick={() => sendMessage(input)} disabled={loading || !input.trim()}
+                style={{ width: 30, height: 30, borderRadius: '50%', background: input.trim() ? '#6B6B6B' : '#D8D8D4', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '8px', transition: 'background 0.15s' }}>
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 11V3M7 3L3 7M7 3L11 7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
             </div>
-            <p style={{ textAlign: 'center', fontSize: '12px', color: '#B0B0AA', marginTop: '10px', fontFamily: f }}>
-              Yes, this is a bot replying — but Deepak monitors every message.
+            <p style={{ textAlign: 'center', fontSize: '11.5px', color: '#B0B0AA', marginTop: '10px', fontFamily: f }}>
+              Built with love and Claude Code · 2026
             </p>
           </motion.div>
-
         </div>
       </section>
 
       {/* ─── WIDGET SCATTER ───────────────────────────────────────────────── */}
       <section id="about" style={{ backgroundColor: '#F2F2F0' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '80px 32px' }}>
-
+        <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '100px 32px' }}>
           <motion.p
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            style={{ fontFamily: f, fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#141414', textAlign: 'center', marginBottom: '64px' }}
+            style={{ fontFamily: f, fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#141414', textAlign: 'center', marginBottom: '72px' }}
           >
             I design <em style={{ fontStyle: 'italic', fontWeight: 700 }}>and</em> ship.
           </motion.p>
 
           <div style={{ position: 'relative', minHeight: '680px' }}>
-
             <W delay={0.05} style={{ position: 'absolute', top: 0, left: 0, width: '200px' }}>
               <div style={{ width: '100%', height: '140px', backgroundColor: '#DDD8FB', borderRadius: '10px', overflow: 'hidden', marginBottom: '12px' }}>
                 <img src="/photo.jpg" alt="Deepak" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
@@ -291,18 +260,14 @@ export default function HomePage() {
 
             <W delay={0.1} style={{ position: 'absolute', top: '212px', left: 0, width: '200px' }}>
               <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 4px' }}>Mumbai, IN</p>
-              <p style={{ fontSize: '28px', fontWeight: 300, color: '#141414', fontFamily: f, margin: 0, letterSpacing: '-0.02em' }}>
-                {istTime.replace(' AM','').replace(' PM','')}
-              </p>
+              <p style={{ fontSize: '28px', fontWeight: 300, color: '#141414', fontFamily: f, margin: 0, letterSpacing: '-0.02em' }}>{istTime.replace(' AM','').replace(' PM','')}</p>
               <p style={{ fontSize: '10px', color: '#9B9B9B', fontFamily: f, margin: '2px 0 0' }}>IST · UTC+5:30</p>
             </W>
 
             <W delay={0.15} style={{ position: 'absolute', top: '380px', left: 0, width: '200px' }}>
               <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 10px' }}>Interests</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {INTERESTS.map(i => (
-                  <span key={i} style={{ padding: '4px 10px', borderRadius: '9999px', background: '#F2F2F0', border: '1px solid #E2E2DF', fontSize: '11px', color: '#6B6B6B', fontFamily: f }}>{i}</span>
-                ))}
+                {INTERESTS.map(i => <span key={i} style={{ padding: '4px 10px', borderRadius: '9999px', background: '#F2F2F0', border: '1px solid #E2E2DF', fontSize: '11px', color: '#6B6B6B', fontFamily: f }}>{i}</span>)}
               </div>
             </W>
 
@@ -312,9 +277,7 @@ export default function HomePage() {
                 <span style={{ fontSize: '10px', color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f }}>Available Now</span>
               </div>
               <p style={{ fontSize: '14px', fontWeight: 600, color: 'white', fontFamily: f, margin: '0 0 10px' }}>Product Designer</p>
-              {['→  Hyderabad', '→  Bangalore', '→  Remote'].map(l => (
-                <p key={l} style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: f, margin: '3px 0 0' }}>{l}</p>
-              ))}
+              {['→  Hyderabad', '→  Bangalore', '→  Remote'].map(l => <p key={l} style={{ fontSize: '12px', color: '#6B6B6B', fontFamily: f, margin: '3px 0 0' }}>{l}</p>)}
             </W>
 
             <W delay={0.23} style={{ position: 'absolute', top: '190px', left: '40%', background: '#F5E642', border: 'none', padding: '8px 12px', borderRadius: '10px', width: 'auto' }}>
@@ -326,10 +289,7 @@ export default function HomePage() {
               <p style={{ fontSize: '10px', fontWeight: 600, color: '#6B6B6B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 8px' }}>CV</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 2h5l3 3v9H4V2z" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/><path d="M9 2v3h3" stroke="#141414" strokeWidth="1.2" strokeLinejoin="round"/></svg>
-                <div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#141414', fontFamily: f, margin: 0 }}>Resume</p>
-                  <p style={{ fontSize: '10px', color: '#6B6B6B', fontFamily: f, margin: 0 }}>PDF · 1 page</p>
-                </div>
+                <div><p style={{ fontSize: '13px', fontWeight: 600, color: '#141414', fontFamily: f, margin: 0 }}>Resume</p><p style={{ fontSize: '10px', color: '#6B6B6B', fontFamily: f, margin: 0 }}>PDF · 1 page</p></div>
               </div>
             </W>
 
@@ -338,10 +298,7 @@ export default function HomePage() {
               <p style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 8px' }}>Find me online</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
-                <div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', fontFamily: f, margin: 0 }}>LinkedIn</p>
-                  <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontFamily: f, margin: 0 }}>/in/deepakmaan</p>
-                </div>
+                <div><p style={{ fontSize: '13px', fontWeight: 600, color: 'white', fontFamily: f, margin: 0 }}>LinkedIn</p><p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontFamily: f, margin: 0 }}>/in/deepakmaan</p></div>
               </div>
             </W>
 
@@ -355,17 +312,12 @@ export default function HomePage() {
   )
 }
 
-const W = ({ children, delay = 0, style = {}, onClick }: {
-  children: React.ReactNode; delay?: number; style?: React.CSSProperties; onClick?: () => void
-}) => (
+const W = ({ children, delay = 0, style = {}, onClick }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties; onClick?: () => void }) => (
   <motion.div
-    initial={{ opacity: 0, y: 14 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
+    initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
     transition={{ delay, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-    onClick={onClick}
-    whileHover={onClick ? { scale: 1.02 } : {}}
-    style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', padding: '16px', boxShadow: '0 2px 12px rgba(20,20,20,0.07)', transition: 'transform 0.15s', ...style }}
+    onClick={onClick} whileHover={onClick ? { scale: 1.02 } : {}}
+    style={{ background: 'white', border: '1px solid #E2E2DF', borderRadius: '18px', padding: '16px', boxShadow: '0 2px 12px rgba(20,20,20,0.07)', ...style }}
   >
     {children}
   </motion.div>
@@ -377,17 +329,12 @@ const RateWidget = ({ f }: { f: string }) => {
   const [rated, setRated]     = useState(false)
   return (
     <W delay={0.38} style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '200px', textAlign: 'center' }}>
-      <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 10px' }}>
-        {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
-      </p>
+      <p style={{ fontSize: '10px', color: '#9B9B9B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: f, margin: '0 0 10px' }}>{rated ? 'Thanks! 🎉' : 'Rate this portfolio'}</p>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
         {[1,2,3,4,5].map(s => (
-          <button key={s}
-            onMouseEnter={() => !rated && setHovered(s)}
-            onMouseLeave={() => !rated && setHovered(0)}
+          <button key={s} onMouseEnter={() => !rated && setHovered(s)} onMouseLeave={() => !rated && setHovered(0)}
             onClick={() => { if (!rated) { setRating(s); setRated(true) } }}
-            style={{ fontSize: '22px', background: 'none', border: 'none', cursor: rated ? 'default' : 'pointer', padding: 0, lineHeight: 1, color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF', transition: 'transform 0.1s' }}
-          >★</button>
+            style={{ fontSize: '22px', background: 'none', border: 'none', cursor: rated ? 'default' : 'pointer', padding: 0, lineHeight: 1, color: (hovered || rating) >= s ? '#F5C842' : '#E2E2DF', transition: 'transform 0.1s' }}>★</button>
         ))}
       </div>
     </W>
