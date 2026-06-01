@@ -117,7 +117,7 @@ export default function HomePage() {
                   borderRadius: '50%', background: '#22C55E', border: '2px solid white',
                 }} />
               </span>
-              <span>I'm Deepak Maan — based in Mumbai.</span>
+              <span>I'm Deepak Maan - based in Mumbai.</span>
             </div>
 
             {/* Line 2 */}
