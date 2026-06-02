@@ -15,7 +15,6 @@ const Loader = () => <div style={{ minHeight: '100vh', backgroundColor: 'hsl(0,0
 function AppInner() {
   const location = useLocation()
   const showFooter = location.pathname !== '/'
-
   return (
     <>
       <Navigation />
