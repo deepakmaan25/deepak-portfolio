@@ -1,9 +1,9 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { messages, system } = req.body
+  const { messages, system } = req.body || {}
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messages array required' })
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: system }] },
+          system_instruction: { parts: [{ text: system || '' }] },
           contents: geminiContents,
           generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
         }),
@@ -42,6 +42,6 @@ export default async function handler(req, res) {
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
     return res.status(200).json({ content: [{ type: 'text', text }] })
   } catch (err) {
-    return res.status(500).json({ error: 'Upstream error' })
+    return res.status(500).json({ error: String(err) })
   }
 }
