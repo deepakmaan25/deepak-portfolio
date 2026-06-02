@@ -1,18 +1,30 @@
 module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+  if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
+  let body = req.body
+  if (!body) {
+    try {
+      const chunks = []
+      for await (const chunk of req) chunks.push(chunk)
+      body = JSON.parse(Buffer.concat(chunks).toString())
+    } catch (e) {
+      return res.status(400).json({ error: 'Failed to parse body' })
+    }
   }
 
-  const { messages, system } = req.body || {}
+  const { messages, system } = body || {}
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messages array required' })
   }
 
   const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' })
-  }
+  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not set' })
 
   const geminiContents = messages.map((msg) => ({
     role: msg.role === 'assistant' ? 'model' : 'user',
@@ -39,7 +51,7 @@ module.exports = async function handler(req, res) {
       return res.status(response.status).json({ error: data?.error?.message ?? 'Gemini error' })
     }
 
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'No response.'
     return res.status(200).json({ content: [{ type: 'text', text }] })
   } catch (err) {
     return res.status(500).json({ error: String(err) })
