@@ -72,7 +72,7 @@ export default function HomePage() {
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
      const geminiRes = await fetch(
-      'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-72B-Instruct/v1/chat/completions',
+      'https://huggingface.co/api/inference-proxy/together/v1/chat/completions',
       {
         method: 'POST',
         headers: {
