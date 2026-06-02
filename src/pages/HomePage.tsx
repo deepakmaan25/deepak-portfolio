@@ -71,9 +71,9 @@ export default function HomePage() {
     const updated = [...messages, { role:'user' as const, content:text }]
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST', headers:{ 'Content-Type':'application/json', 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
-        body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:400, system:SYSTEM_PROMPT, messages:updated }),
+      const res = await fetch('/api/chat', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ system:SYSTEM_PROMPT, messages:updated }),
       })
       const data = await res.json()
       setMessages(prev => [...prev, { role:'assistant', content:data.content?.[0]?.text ?? 'Something went wrong.' }])
@@ -271,10 +271,10 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
     style={{ display:'grid', gridTemplateColumns:'1fr 2fr', gap:'0 72px', alignItems:'start' }}>
     <div style={{ paddingTop:28 }}>
-      <h3 style={{ fontFamily:f, fontSize:'clamp(1.15rem,1.6vw,1.4rem)', fontWeight:600, lineHeight:1.2, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', margin:0 }}>{title}</h3>
+      <h3 style={{ fontFamily:f, fontSize:'clamp(1.4rem,1.9vw,1.75rem)', fontWeight:600, lineHeight:1.2, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', margin:0 }}>{title}</h3>
       <p style={{ fontFamily:f, fontSize:15, color:'hsl(0,0%,45%)', lineHeight:1.72, marginTop:18, maxWidth:360 }}>{desc}</p>
       <div style={{ display:'flex', alignItems:'baseline', gap:10, marginTop:26 }}>
-        <span style={{ fontFamily:f, fontSize:'clamp(1.8rem,3vw,2.8rem)', fontWeight:700, letterSpacing:'-0.03em', lineHeight:1, color:'hsl(0,0%,8%)' }}>{metric}</span>
+        <span style={{ fontFamily:f, fontSize:'clamp(1.6rem,2.4vw,2.2rem)', fontWeight:500, letterSpacing:'-0.03em', lineHeight:1, color:'hsl(0,0%,8%)' }}>{metric}</span>
         <span style={{ fontFamily:f, fontSize:10, fontWeight:500, letterSpacing:'0.12em', textTransform:'uppercase', color:'hsl(0,0%,55%)' }}>{metricLabel}</span>
       </div>
       <a href={`/case-study/${slug}`}
