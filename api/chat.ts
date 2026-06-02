@@ -11,29 +11,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'messages array required' })
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY
+  const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' })
   }
 
+  // Convert Anthropic message format to Gemini format
+  const geminiContents = messages.map((msg: { role: string; content: string }) => ({
+    role: msg.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: msg.content }],
+  }))
+
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'x-api-key': apiKey,
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
-        system,
-        messages,
-      }),
-    })
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: system }] },
+          contents: geminiContents,
+          generationConfig: {
+            maxOutputTokens: 400,
+            temperature: 0.7,
+          },
+        }),
+      }
+    )
 
     const data = await response.json()
-    return res.status(response.status).json(data)
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data?.error?.message ?? 'Gemini error' })
+    }
+
+    // Return in same shape as Anthropic so HomePage.tsx needs no changes
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
+    return res.status(200).json({
+      content: [{ type: 'text', text }],
+    })
   } catch (err) {
     return res.status(500).json({ error: 'Upstream API error' })
   }
