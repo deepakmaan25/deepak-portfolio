@@ -72,7 +72,7 @@ export default function HomePage() {
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
      const geminiRes = await fetch(
- `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6J3e7Ig6FDyhwFG8hhwGbJH3ov3lp_F-PgTUl2dK1YuKA`,
+ `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=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`,
   {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
