@@ -80,7 +80,7 @@ export default function HomePage() {
           'Authorization': 'Bearer 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',
         },
         body: JSON.stringify({
-          model: 'Qwen/Qwen2.5-72B-Instruct',
+          model: 'meta-llama/Llama-3.3-70B-Instruct',
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
             ...updated.map(m => ({ role: m.role, content: m.content }))
