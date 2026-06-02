@@ -82,18 +82,15 @@ export default function HomePage() {
         .folder-front{transition:transform 0.3s;transform-origin:bottom}
         .work-section-bg {
           background-color: hsl(0,0%,97%);
-          background-image:
-            radial-gradient(circle, rgba(0,0,0,0.1) 0.8px, transparent 0.8px);
+          background-image: radial-gradient(circle, rgba(0,0,0,0.1) 0.8px, transparent 0.8px);
           background-size: 18px 18px;
         }
       `}</style>
 
       <div className="relative isolate overflow-x-clip" style={{ backgroundColor:'hsl(0,0%,98%)', color:'hsl(0,0%,8%)', fontFamily:f }}>
 
-        {/* ─── HERO ─── full viewport, nothing bleeds below fold */}
+        {/* ─── HERO ─── */}
         <div style={{ position:'relative', minHeight:'100svh', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-
-          {/* BLOBS — locked to hero height only */}
           <div className="absolute -z-10 top-0 left-0 right-0 bottom-0 overflow-hidden">
             <div className="absolute inset-0" style={{ background:'linear-gradient(40deg,hsl(240,60%,99%),hsl(230,80%,97%))' }}>
               <svg className="hidden"><defs><filter id="g4"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="g"/><feBlend in="SourceGraphic" in2="g"/></filter></defs></svg>
@@ -104,26 +101,20 @@ export default function HomePage() {
               </div>
             </div>
             <div className="absolute inset-0 pointer-events-none" style={{ background:'rgba(250,250,248,0.55)' }} />
-            {/* fade hero bottom edge into work section */}
             <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(to bottom,transparent 55%,hsl(0,0%,97%))' }} />
           </div>
 
-          {/* HERO CONTENT — vertically centered */}
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'0 40px', width:'100%' }}>
-
-            {/* HEADLINE */}
             <div style={{ maxWidth:920, margin:'0 auto 44px' }}>
               <motion.div className="flex items-start gap-4 sm:gap-5"
                 initial={{ opacity:0, y:18 }} animate={{ opacity:1, y:0 }}
                 transition={{ duration:0.6, ease:[0.4,0,0.2,1] }}>
-                {/* Avatar */}
                 <span className="relative shrink-0" style={{ marginTop:7 }}>
                   <span style={{ display:'block', width:36, height:36, borderRadius:'50%', overflow:'hidden', background:'#DDD8FB', boxShadow:'0 0 0 2px white,0 1px 4px rgba(0,0,0,0.1)' }}>
                     <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                   </span>
                   <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
                 </span>
-
                 <div style={{ fontFamily:f, fontWeight:500, lineHeight:1.15, letterSpacing:'-0.025em', color:'hsl(0,0%,8%)' }}>
                   <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap' }}>
                     I'm{' '}
@@ -143,7 +134,6 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            {/* CHAT AREA */}
             <div style={{ maxWidth:920, margin:'0 auto' }}>
               <AnimatePresence>
                 {chatStarted && (
@@ -161,7 +151,6 @@ export default function HomePage() {
                 )}
               </AnimatePresence>
 
-              {/* PILLS */}
               <motion.div initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.14 }} style={{ marginBottom:18 }}>
                 <div style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'flex-end', marginBottom:8 }}>
                   {QUICK_ACTIONS.slice(0,4).map(a => <Pill key={a.label} a={a} send={send} />)}
@@ -171,7 +160,6 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              {/* INPUT */}
               <motion.div initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.24 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8, borderRadius:16, padding:'13px 18px', background:'rgba(255,255,255,0.88)', backdropFilter:'blur(14px)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 8px rgba(0,0,0,0.05)' }}>
                   <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
@@ -192,25 +180,19 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ─── WORK SECTION ─── dot-grid bg, fully below fold */}
+        {/* ─── WORK SECTION ─── */}
         <div id="work" className="work-section-bg" style={{ scrollMarginTop:64 }}>
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'96px 40px 120px' }}>
-
-            {/* Section label */}
-            <motion.p
-              initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+            <motion.p initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               style={{ fontFamily:f, fontSize:11, fontWeight:500, letterSpacing:'0.14em', textTransform:'uppercase', color:'hsl(0,0%,50%)', marginBottom:56 }}>
               Selected work
             </motion.p>
-
             <div style={{ display:'flex', flexDirection:'column', gap:112 }}>
-              <CaseRow
-                title="Tech Japan (Talendy) – UX Research & Redesign"
+              <CaseRow title="Tech Japan (Talendy) – UX Research & Redesign"
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
                 image="/src/assets/case-study-1.jpg" bg="hsl(222,100%,96%)" />
-              <CaseRow
-                title="Buzztro – Social Polling App Design"
+              <CaseRow title="Buzztro – Social Polling App Design"
                 desc="Designed the complete product experience for a social polling startup from 0 to 1. Research, information architecture, and high-fidelity design across the platform."
                 metric="0→1" metricLabel="product shipped" slug="buzztro"
                 image="/src/assets/case-study-2.jpg" bg="hsl(30,100%,95%)" />
@@ -272,22 +254,16 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
   </motion.article>
 )
 
-/* ─── WIDGETS ─── */
 const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void }) => {
   const [rating, setRating] = useState(0)
   const [hover, setHover]   = useState(0)
   const [rated, setRated]   = useState(false)
 
   const card = {
-    background:'rgba(255,255,255,0.88)',
-    backdropFilter:'blur(12px)',
-    border:'1px solid rgba(0,0,0,0.07)',
-    borderRadius:16,
-    boxShadow:'0 2px 20px rgba(0,0,0,0.07)',
+    background:'rgba(255,255,255,0.88)', backdropFilter:'blur(12px)',
+    border:'1px solid rgba(0,0,0,0.07)', borderRadius:16, boxShadow:'0 2px 20px rgba(0,0,0,0.07)',
   }
 
-  // fly(delay, initialRot, restingRot)
-  // widgets land at restingRot — scattered desk look
   const fly = (delay:number, initRot:number, restRot:number) => ({
     initial:  { opacity:0, scale:0.15, rotate:initRot },
     whileInView: { opacity:1, scale:1, rotate:restRot },
@@ -299,36 +275,31 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
   return (
     <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', overflow:'hidden', minHeight:'100vh' }}>
 
-      {/* Subtle dot grid */}
       <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.45,
         backgroundImage:'radial-gradient(circle, rgba(0,0,0,0.18) 0.8px, transparent 0.8px)',
         backgroundSize:'18px 18px' }} />
 
-      {/* Section headline — centered */}
-      <div style={{ position:'relative', zIndex:10, textAlign:'center', padding:'100px 32px 0' }}>
+      <div style={{ position:'relative', minHeight:900, maxWidth:1200, margin:'0 auto', padding:'80px 32px 100px' }}>
+
+        {/* ── HEADLINE — dead center of canvas ── */}
         <motion.h2
-          initial={{ opacity:0, y:14 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-          transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
-          style={{ fontFamily:f, fontSize:'clamp(2.6rem,5.5vw,5rem)', fontWeight:700, letterSpacing:'-0.035em', lineHeight:1.02, color:'hsl(0,0%,8%)', display:'inline-block', margin:0 }}>
+          initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+          transition={{ duration:0.6, ease:[0.4,0,0.2,1], delay:0.1 }}
+          style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)',
+            fontFamily:f, fontSize:'clamp(2.8rem,5.8vw,5.2rem)', fontWeight:700,
+            letterSpacing:'-0.035em', lineHeight:1.0, color:'hsl(0,0%,8%)',
+            whiteSpace:'nowrap', zIndex:2, textAlign:'center', pointerEvents:'none', margin:0 }}>
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
-      </div>
 
-      {/* Widget canvas — full 1200px spread */}
-      <div style={{ position:'relative', minHeight:800, maxWidth:1200, margin:'0 auto', padding:'56px 32px 100px' }}>
-
-        {/* ── Profile card — far left ── */}
-        <motion.div {...fly(0.08, -30, -4)}
-          style={{ ...card, position:'absolute', top:24, left:16, padding:'12px 12px 24px' }}>
+        <motion.div {...fly(0.08, -30, -4)} style={{ ...card, position:'absolute', top:24, left:16, padding:'12px 12px 24px' }}>
           <div style={{ width:152, height:152, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
             <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
           </div>
           <p style={{ marginTop:10, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
 
-        {/* ── Clock — left column, mid ── */}
-        <motion.div {...fly(0.16, -22, 3)}
-          style={{ ...card, position:'absolute', top:'46%', left:24, padding:'18px 22px', whiteSpace:'nowrap' }}>
+        <motion.div {...fly(0.16, -22, 3)} style={{ ...card, position:'absolute', top:'46%', left:24, padding:'18px 22px', whiteSpace:'nowrap' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
           <div style={{ display:'flex', alignItems:'flex-end', gap:6 }}>
             <span style={{ fontFamily:f, fontSize:34, fontWeight:300, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', lineHeight:1 }}>{istTime.split(' ')[0]}</span>
@@ -337,17 +308,13 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
 
-        {/* ── Currently building — bottom-left ── */}
-        <motion.div {...fly(0.12, -18, -6)}
-          style={{ position:'absolute', bottom:80, left:32 }}>
+        <motion.div {...fly(0.12, -18, -6)} style={{ position:'absolute', bottom:80, left:32 }}>
           <div style={{ background:'rgba(255,243,205,0.95)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
             <p style={{ fontFamily:f, fontSize:12, lineHeight:1.5, margin:0 }}>Currently building<br/><strong>with AI + design</strong></p>
           </div>
         </motion.div>
 
-        {/* ── Music player — upper center-left ── */}
-        <motion.div {...fly(0.11, -26, 2)}
-          style={{ position:'absolute', top:16, left:'26%' }}>
+        <motion.div {...fly(0.11, -26, 2)} style={{ position:'absolute', top:16, left:'26%' }}>
           <div style={{ background:'rgba(18,18,18,0.92)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:232, boxShadow:'0 10px 36px rgba(0,0,0,0.28)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
               <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" alt="" style={{ width:42, height:42, borderRadius:8, objectFit:'cover', flexShrink:0 }} onError={e=>{ (e.target as HTMLImageElement).style.background='#444' }} />
@@ -378,10 +345,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── Book a call — center ── */}
-        <motion.div {...fly(0.14, -20, -3)}
-          style={{ position:'absolute', top:'18%', left:'50%', transform:'translateX(-50%)', cursor:'pointer' }}
-          onClick={()=>window.open('mailto:deepak.maan@email.com','_blank')}>
+        <motion.div {...fly(0.14, -20, -3)} style={{ position:'absolute', top:'18%', left:'50%', transform:'translateX(-50%)', cursor:'pointer' }} onClick={()=>window.open('mailto:deepak.maan@email.com','_blank')}>
           <div style={{ ...card, padding:'18px 22px', width:204 }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Open to work</p>
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
@@ -394,9 +358,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── Availability — top right ── */}
-        <motion.div {...fly(0.15, -20, 5)}
-          style={{ position:'absolute', top:16, right:16 }}>
+        <motion.div {...fly(0.15, -20, 5)} style={{ position:'absolute', top:16, right:16 }}>
           <div style={{ background:'rgba(78,204,163,0.94)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.35)', borderRadius:16, padding:'20px 22px', width:200, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
               <span style={{ width:8, height:8, borderRadius:'50%', background:'#0a2e22', opacity:0.6, flexShrink:0 }} />
@@ -413,10 +375,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── Resume — right column mid ── */}
-        <motion.div {...fly(0.22, -18, -5)}
-          style={{ position:'absolute', top:'44%', right:16, cursor:'pointer' }}
-          onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
+        <motion.div {...fly(0.22, -18, -5)} style={{ position:'absolute', top:'44%', right:16, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
           <div style={{ background:'rgba(255,228,92,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(58,46,0,0.13)', borderRadius:16, padding:'18px 22px', width:182, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.08)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.55, margin:'0 0 10px' }}>CV</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -429,18 +388,14 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── Interests — center-left, mid ── */}
-        <motion.div {...fly(0.18, -19, 4)}
-          style={{ ...card, position:'absolute', top:'56%', left:'22%', padding:'18px 20px' }}>
+        <motion.div {...fly(0.18, -19, 4)} style={{ ...card, position:'absolute', top:'56%', left:'22%', padding:'18px 20px' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, maxWidth:248 }}>
             {INTERESTS.map(i=><span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
           </div>
         </motion.div>
 
-        {/* ── Rate widget — bottom-center-left ── */}
-        <motion.div {...fly(0.20, -24, -3)}
-          style={{ ...card, position:'absolute', bottom:80, left:'20%', padding:'18px 22px', textAlign:'center', minWidth:170 }}>
+        <motion.div {...fly(0.20, -24, -3)} style={{ ...card, position:'absolute', bottom:80, left:'20%', padding:'18px 22px', textAlign:'center', minWidth:170 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>
             {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
           </p>
@@ -453,20 +408,12 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── Writings folder — center-bottom ── */}
-        <motion.div {...fly(0.23, -28, 6)}
-          className="folder-group"
-          style={{ position:'absolute', bottom:60, left:'42%', cursor:'pointer' }}
-          onClick={()=>window.location.href='/writings'}>
+        <motion.div {...fly(0.23, -28, 6)} className="folder-group" style={{ position:'absolute', bottom:60, left:'42%', cursor:'pointer' }} onClick={()=>window.location.href='/writings'}>
           <div style={{ position:'relative', width:200, height:140, perspective:1500 }}>
             <div style={{ position:'absolute', bottom:'99%', left:0, width:72, height:15, background:'#d97706', borderRadius:'8px 8px 0 0' }} />
             <div style={{ position:'absolute', bottom:'99%', left:68, width:13, height:13, background:'#d97706', clipPath:'polygon(0 35%,0 100%,50% 100%)' }} />
-            {[
-              { cls:'sheet1', style:{ inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb' }},
-              { cls:'sheet2', style:{ inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb' }},
-              { cls:'sheet3', style:{ inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb' }},
-            ].map(sheet=>(
-              <div key={sheet.cls} className={`folder-sheet ${sheet.cls}`} style={{ position:'absolute', ...sheet.style, display:'flex', flexDirection:'column', gap:8, padding:14 }}>
+            {[{cls:'sheet1'},{cls:'sheet2'},{cls:'sheet3'}].map(sheet=>(
+              <div key={sheet.cls} className={`folder-sheet ${sheet.cls}`} style={{ position:'absolute', inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb', display:'flex', flexDirection:'column', gap:8, padding:14 }}>
                 <div style={{ width:36, height:4, background:'#d1d5db', borderRadius:2 }} />
                 <div style={{ width:'70%', height:5, background:'#9ca3af', borderRadius:2 }} />
                 <div style={{ marginTop:'auto', width:'100%', height:4, background:'#e5e7eb', borderRadius:2 }} />
@@ -480,9 +427,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:20, textAlign:'center', fontFamily:f, fontSize:12, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
 
-        {/* ── Currently reading — center-right, bottom ── */}
-        <motion.div {...fly(0.21, -18, -4)}
-          style={{ ...card, position:'absolute', bottom:60, left:'64%', padding:'16px', width:175 }}>
+        <motion.div {...fly(0.21, -18, -4)} style={{ ...card, position:'absolute', bottom:60, left:'64%', padding:'16px', width:175 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
           <div style={{ width:'100%', borderRadius:8, overflow:'hidden', marginBottom:10, aspectRatio:'2/3', background:'#f0f0f0' }}>
             <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL._AC_UF1000,1000_QL80_.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.background='#ddd' }} />
@@ -495,10 +440,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* ── LinkedIn — bottom right ── */}
-        <motion.div {...fly(0.28, -26, 7)}
-          style={{ position:'absolute', bottom:60, right:16, cursor:'pointer' }}
-          onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
+        <motion.div {...fly(0.28, -26, 7)} style={{ position:'absolute', bottom:60, right:16, cursor:'pointer' }} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
           <div style={{ background:'rgba(10,102,194,0.94)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 22px', width:192, boxShadow:'0 4px 20px rgba(0,0,0,0.12)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'rgba(255,255,255,0.45)', margin:'0 0 10px' }}>Find me online</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
