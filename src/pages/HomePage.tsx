@@ -83,8 +83,8 @@ export default function HomePage() {
         .work-section-bg {
           background-color: hsl(0,0%,97%);
           background-image:
-            radial-gradient(circle, rgba(0,0,0,0.13) 1px, transparent 1px);
-          background-size: 28px 28px;
+            radial-gradient(circle, rgba(0,0,0,0.1) 0.8px, transparent 0.8px);
+          background-size: 18px 18px;
         }
       `}</style>
 
@@ -104,6 +104,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="absolute inset-0 pointer-events-none" style={{ background:'rgba(250,250,248,0.55)' }} />
+            {/* fade hero bottom edge into work section */}
             <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(to bottom,transparent 55%,hsl(0,0%,97%))' }} />
           </div>
 
@@ -115,6 +116,7 @@ export default function HomePage() {
               <motion.div className="flex items-start gap-4 sm:gap-5"
                 initial={{ opacity:0, y:18 }} animate={{ opacity:1, y:0 }}
                 transition={{ duration:0.6, ease:[0.4,0,0.2,1] }}>
+                {/* Avatar */}
                 <span className="relative shrink-0" style={{ marginTop:7 }}>
                   <span style={{ display:'block', width:36, height:36, borderRadius:'50%', overflow:'hidden', background:'#DDD8FB', boxShadow:'0 0 0 2px white,0 1px 4px rgba(0,0,0,0.1)' }}>
                     <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
@@ -122,8 +124,8 @@ export default function HomePage() {
                   <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
                 </span>
 
-                <div style={{ fontFamily:f, fontWeight:400, lineHeight:1.18, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)' }}>
-                  <div style={{ fontSize:'clamp(1.75rem,2.8vw,2.9rem)', whiteSpace:'nowrap' }}>
+                <div style={{ fontFamily:f, fontWeight:500, lineHeight:1.15, letterSpacing:'-0.025em', color:'hsl(0,0%,8%)' }}>
+                  <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap' }}>
                     I'm{' '}
                     <span style={{ position:'relative', display:'inline-block', padding:'0 9px' }}>
                       <span style={{ position:'absolute', inset:0, borderLeft:'2px solid rgba(99,102,241,0.45)', borderRight:'2px solid rgba(99,102,241,0.45)', background:'rgba(99,102,241,0.08)', borderRadius:2 }} />
@@ -133,8 +135,8 @@ export default function HomePage() {
                     </span>
                     {' '}&ndash; based in Mumbai.
                   </div>
-                  <div style={{ fontSize:'clamp(1.75rem,2.8vw,2.9rem)', whiteSpace:'nowrap', marginTop:4 }}>
-                    I research, design, and ship product UX,{' '}
+                  <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap', marginTop:6 }}>
+                    I design and ship product UX,{' '}
                     <span style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300, display:'inline-block', whiteSpace:'nowrap' }}>end to end.</span>
                   </div>
                 </div>
@@ -190,14 +192,17 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ─── WORK SECTION ─── */}
+        {/* ─── WORK SECTION ─── dot-grid bg, fully below fold */}
         <div id="work" className="work-section-bg" style={{ scrollMarginTop:64 }}>
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'96px 40px 120px' }}>
+
+            {/* Section label */}
             <motion.p
               initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               style={{ fontFamily:f, fontSize:11, fontWeight:500, letterSpacing:'0.14em', textTransform:'uppercase', color:'hsl(0,0%,50%)', marginBottom:56 }}>
               Selected work
             </motion.p>
+
             <div style={{ display:'flex', flexDirection:'column', gap:112 }}>
               <CaseRow
                 title="Tech Japan (Talendy) – UX Research & Redesign"
@@ -281,6 +286,8 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
     boxShadow:'0 2px 20px rgba(0,0,0,0.07)',
   }
 
+  // fly(delay, initialRot, restingRot)
+  // widgets land at restingRot — scattered desk look
   const fly = (delay:number, initRot:number, restRot:number) => ({
     initial:  { opacity:0, scale:0.15, rotate:initRot },
     whileInView: { opacity:1, scale:1, rotate:restRot },
@@ -292,11 +299,13 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
   return (
     <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', overflow:'hidden', minHeight:'100vh' }}>
 
-      <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.22,
-        backgroundImage:'radial-gradient(circle, rgba(0,0,0,0.25) 1px, transparent 1px)',
-        backgroundSize:'32px 32px' }} />
+      {/* Subtle dot grid */}
+      <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.45,
+        backgroundImage:'radial-gradient(circle, rgba(0,0,0,0.18) 0.8px, transparent 0.8px)',
+        backgroundSize:'18px 18px' }} />
 
-      <div style={{ position:'relative', zIndex:1, textAlign:'center', padding:'88px 32px 0', pointerEvents:'none' }}>
+      {/* Section headline — centered */}
+      <div style={{ position:'relative', zIndex:10, textAlign:'center', padding:'100px 32px 0' }}>
         <motion.h2
           initial={{ opacity:0, y:14 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
@@ -305,8 +314,10 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
         </motion.h2>
       </div>
 
+      {/* Widget canvas — full 1200px spread */}
       <div style={{ position:'relative', minHeight:800, maxWidth:1200, margin:'0 auto', padding:'56px 32px 100px' }}>
 
+        {/* ── Profile card — far left ── */}
         <motion.div {...fly(0.08, -30, -4)}
           style={{ ...card, position:'absolute', top:24, left:16, padding:'12px 12px 24px' }}>
           <div style={{ width:152, height:152, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
@@ -315,6 +326,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:10, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
 
+        {/* ── Clock — left column, mid ── */}
         <motion.div {...fly(0.16, -22, 3)}
           style={{ ...card, position:'absolute', top:'46%', left:24, padding:'18px 22px', whiteSpace:'nowrap' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
@@ -325,6 +337,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
 
+        {/* ── Currently building — bottom-left ── */}
         <motion.div {...fly(0.12, -18, -6)}
           style={{ position:'absolute', bottom:80, left:32 }}>
           <div style={{ background:'rgba(255,243,205,0.95)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
@@ -332,6 +345,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Music player — upper center-left ── */}
         <motion.div {...fly(0.11, -26, 2)}
           style={{ position:'absolute', top:16, left:'26%' }}>
           <div style={{ background:'rgba(18,18,18,0.92)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:232, boxShadow:'0 10px 36px rgba(0,0,0,0.28)' }}>
@@ -364,6 +378,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Book a call — center ── */}
         <motion.div {...fly(0.14, -20, -3)}
           style={{ position:'absolute', top:'18%', left:'50%', transform:'translateX(-50%)', cursor:'pointer' }}
           onClick={()=>window.open('mailto:deepak.maan@email.com','_blank')}>
@@ -379,6 +394,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Availability — top right ── */}
         <motion.div {...fly(0.15, -20, 5)}
           style={{ position:'absolute', top:16, right:16 }}>
           <div style={{ background:'rgba(78,204,163,0.94)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.35)', borderRadius:16, padding:'20px 22px', width:200, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
@@ -397,6 +413,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Resume — right column mid ── */}
         <motion.div {...fly(0.22, -18, -5)}
           style={{ position:'absolute', top:'44%', right:16, cursor:'pointer' }}
           onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
@@ -412,6 +429,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Interests — center-left, mid ── */}
         <motion.div {...fly(0.18, -19, 4)}
           style={{ ...card, position:'absolute', top:'56%', left:'22%', padding:'18px 20px' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
@@ -420,6 +438,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Rate widget — bottom-center-left ── */}
         <motion.div {...fly(0.20, -24, -3)}
           style={{ ...card, position:'absolute', bottom:80, left:'20%', padding:'18px 22px', textAlign:'center', minWidth:170 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>
@@ -434,6 +453,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── Writings folder — center-bottom ── */}
         <motion.div {...fly(0.23, -28, 6)}
           className="folder-group"
           style={{ position:'absolute', bottom:60, left:'42%', cursor:'pointer' }}
@@ -460,6 +480,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:20, textAlign:'center', fontFamily:f, fontSize:12, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
 
+        {/* ── Currently reading — center-right, bottom ── */}
         <motion.div {...fly(0.21, -18, -4)}
           style={{ ...card, position:'absolute', bottom:60, left:'64%', padding:'16px', width:175 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
@@ -474,6 +495,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* ── LinkedIn — bottom right ── */}
         <motion.div {...fly(0.28, -26, 7)}
           style={{ position:'absolute', bottom:60, right:16, cursor:'pointer' }}
           onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
