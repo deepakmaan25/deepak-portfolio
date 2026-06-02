@@ -71,12 +71,24 @@ export default function HomePage() {
     const updated = [...messages, { role:'user' as const, content:text }]
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
-      const res = await fetch('/api/chat', {
-        method:'POST', headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ system:SYSTEM_PROMPT, messages:updated }),
-      })
-      const data = await res.json()
-      setMessages(prev => [...prev, { role:'assistant', content:data.content?.[0]?.text ?? 'Something went wrong.' }])
+     const geminiRes = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AQ.Ab8RN6LeBFR3vbeeKSgtlWNZpXKDGZ09XCOdRnoQ959eAuMsBw`,
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: updated.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      })),
+      generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
+    })
+  }
+)
+const geminiData = await geminiRes.json()
+const text = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
+setMessages(prev => [...prev, { role:'assistant', content: text }])
     } catch { setMessages(prev => [...prev, { role:'assistant', content:'Something went wrong — try again.' }]) }
     finally { setLoading(false) }
   }
