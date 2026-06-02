@@ -72,22 +72,22 @@ export default function HomePage() {
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
      const geminiRes = await fetch(
-      'https://openrouter.ai/api/v1/chat/completions',
+      'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-72B-Instruct/v1/chat/completions',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
-          'HTTP-Referer': 'https://deepak-portfolio-git-portfolio-v2-deepakmaan25s-projects.vercel.app',
+          'Authorization': 'Bearer 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',
         },
         body: JSON.stringify({
-          model: 'mistralai/mistral-7b-instruct:free',
+          model: 'Qwen/Qwen2.5-72B-Instruct',
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
             ...updated.map(m => ({ role: m.role, content: m.content }))
           ],
           max_tokens: 400,
-          temperature: 0.7
+          temperature: 0.7,
+          stream: false
         })
       }
     )
