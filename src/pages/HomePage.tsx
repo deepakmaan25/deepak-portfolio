@@ -58,7 +58,7 @@ export default function HomePage() {
   const chatEndRef                    = useRef<HTMLDivElement>(null)
 
   useEffect(() => { const t = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(t) }, [])
-  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior:'smooth' }) }, [messages])
+  useEffect(() => { if (messages.length > 0) { chatEndRef.current?.scrollIntoView({ behavior:'smooth', block:'nearest' }) } }, [messages])
 
   const istTime = time.toLocaleTimeString('en-IN', { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true })
 
@@ -72,7 +72,7 @@ export default function HomePage() {
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method:'POST', headers:{ 'Content-Type':'application/json' },
+        method:'POST', headers:{ 'Content-Type':'application/json', 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
         body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:400, system:SYSTEM_PROMPT, messages:updated }),
       })
       const data = await res.json()
@@ -325,15 +325,16 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
         backgroundImage:'radial-gradient(circle, rgba(0,0,0,0.2) 0.8px, transparent 0.8px)',
         backgroundSize:'18px 18px' }} />
 
-      <div style={{ position:'relative', width:'100%', minHeight:'100vh' }}>
+      <div style={{ position:'relative', width:'100%', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
 
         <motion.h2
           initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.65, ease:[0.4,0,0.2,1], delay:0.05 }}
-          style={{ position:'absolute', top:'42%', left:'50%', transform:'translate(-50%,-50%)',
+         style={{ position:'relative', zIndex:0,
             fontFamily:f, fontSize:'clamp(3rem,6.5vw,6rem)', fontWeight:700,
             letterSpacing:'-0.04em', lineHeight:1.0, color:'hsl(0,0%,8%)',
-            whiteSpace:'nowrap', zIndex:0, textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none' }}>
+            whiteSpace:'nowrap', textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none',
+            marginTop:'-5vh' }}>
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
 
