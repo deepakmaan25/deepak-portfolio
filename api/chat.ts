@@ -1,6 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node'
-//FF
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -16,8 +14,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'API key not configured' })
   }
 
-  // Convert Anthropic message format to Gemini format
-  const geminiContents = messages.map((msg: { role: string; content: string }) => ({
+  const geminiContents = messages.map((msg: any) => ({
     role: msg.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: msg.content }],
   }))
@@ -31,10 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         body: JSON.stringify({
           system_instruction: { parts: [{ text: system }] },
           contents: geminiContents,
-          generationConfig: {
-            maxOutputTokens: 400,
-            temperature: 0.7,
-          },
+          generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
         }),
       }
     )
@@ -45,12 +39,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(response.status).json({ error: data?.error?.message ?? 'Gemini error' })
     }
 
-    // Return in same shape as Anthropic so HomePage.tsx needs no changes
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
-    return res.status(200).json({
-      content: [{ type: 'text', text }],
-    })
+    return res.status(200).json({ content: [{ type: 'text', text }] })
   } catch (err) {
-    return res.status(500).json({ error: 'Upstream API error' })
+    return res.status(500).json({ error: 'Upstream error' })
   }
 }
