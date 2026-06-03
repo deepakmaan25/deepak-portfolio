@@ -221,7 +221,9 @@ export default function HomePage() {
           } catch { /* skip */ }
         }
       }
-      next[streamIdx] = { ...next[streamIdx], content: snap }
+      flush()
+      if (accumulated) startTypewriter(streamIdx, accumulated)
+    } catch {
       setMessages(prev => {
         const next = [...prev]
         if (next[streamIdx]) next[streamIdx] = { role:'assistant', content:'Something went wrong — try again.', revealed:Infinity, done:true }
@@ -230,17 +232,14 @@ export default function HomePage() {
     } finally {
       if (flushTimer) clearInterval(flushTimer)
       setLoading(false)
-      setMessages(prev => {
-        const next = [...prev]
-        if (next[streamIdx]) next[streamIdx] = { ...next[streamIdx], done: true }
-        return next
-      })
     }
   }
 
   // ── visible text for a message ───────────────────────────────────────────────
   const visibleText = (msg: Message) => {
-    if (msg.revealed === undefined || msg.revealed === Infinity || msg.done) return msg.content
+   if (msg.revealed === undefined || msg.revealed === Infinity) return msg.content
+    if (msg.done) return msg.content
+    return revealWords(msg.content, msg.revealed)
     return revealWords(msg.content, msg.revealed)
   }
 
