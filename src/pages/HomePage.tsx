@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 interface Message {
+  id: string
   role: 'user' | 'assistant'
   content: string
-  revealed?: number   // word index up to which is visible (for typewriter)
-  done?: boolean      // typewriter finished
+  revealed?: number
+  done?: boolean
 }
 
-// ─── Linkify ─────────────────────────────────────────────────────────────────
 const linkify = (text: string) => {
   const parts = text.split(/(https?:\/\/[^\s]+)/g)
   return parts.map((part, i) =>
@@ -22,14 +21,6 @@ const linkify = (text: string) => {
   )
 }
 
-// ─── Word-by-word reveal for a completed message string ───────────────────────
-// Returns the visible portion of text up to `revealed` words
-const revealWords = (text: string, revealed: number): string => {
-  if (revealed === Infinity) return text
-  return text.split(' ').slice(0, revealed).join(' ')
-}
-
-// ─── Quick actions ────────────────────────────────────────────────────────────
 const QUICK_ACTIONS = [
   { label:'see my work',               icon:'down', query:'see my work'                    },
   { label:'how do you ship?',          icon:null,   query:'how do you ship?'               },
@@ -40,65 +31,53 @@ const QUICK_ACTIONS = [
   { label:'linkedin',                  icon:'out',  query:'linkedin'                       },
 ]
 
-// ─── System prompt ────────────────────────────────────────────────────────────
 const SYSTEM_PROMPT = `You are Deepak Maan, a product designer based in Mumbai. You're speaking as yourself on your portfolio site. Someone is reading your work — they might be a recruiter, a founder, or just curious. Talk like a real person texting back, not a chatbot.
 
-STRICT RULES — read these carefully:
-- Maximum 2 sentences. Hard limit. No exceptions, no matter what they ask.
+STRICT RULES:
+- Maximum 2 sentences. Hard limit. No exceptions.
 - Never use bullet points, headers, dashes as list markers, or markdown of any kind.
 - First person always. "I" not "Deepak".
 - No filler — never start with "Great question", "Of course", "Sure thing", "Absolutely".
-- Sound like someone who's confident in their work but not trying too hard.
 
 WHEN SOMEONE SAYS hi / hey / hello / what's up or any casual greeting:
-Reply warmly and invite them to ask about your work. Example tone: "Hey! Ask me anything about my work, process, or what I'm up to."
-DO NOT say "I'm only here to talk about my work" for greetings — that's cold and robotic.
+Reply warmly and invite them to ask about your work. Example: "Hey! Ask me anything about my work, process, or what I'm up to."
+DO NOT say "I'm only here to talk about my work" for greetings.
 
-WHEN SOMEONE SAYS bye / thanks / goodbye or any closing message:
+WHEN SOMEONE SAYS bye / thanks / goodbye:
 Reply naturally and briefly. Example: "Good talking — hope to hear from you."
-DO NOT redirect them to your portfolio on a goodbye.
 
-WHEN SOMEONE ASKS something clearly unrelated to your work (like "what's the weather", "write me a poem", "tell me a joke"):
-Redirect warmly, not defensively. Say something like: "Ha, not quite my domain — ask me something about my design work though."
-
-FOR EVERYTHING ELSE — answer from your work:
+WHEN SOMEONE ASKS something unrelated (weather, jokes, poems):
+Redirect warmly: "Ha, not quite my domain — ask me something about my design work though."
 
 WHO YOU ARE:
-Product designer from IIT ISM Dhanbad. Currently at JSW Steel as a Design Analyst. You design end-to-end — research, information architecture, high-fidelity Figma, and you build the front-end yourself in React + TypeScript. No handoff. You catch issues in code that wouldn't surface in a design file.
+Product designer from IIT ISM Dhanbad. Currently at JSW Steel as a Design Analyst. Design end-to-end — research, Figma, and ship the front-end in React + TypeScript myself. No handoff.
 
-CASE STUDIES (professional work):
-1. Tech Japan / Talendy — UX research internship, Sep–Nov 2024. Ran 10 user interviews across IIT Dhanbad, Roorkee, Guwahati, Delhi, Hyderabad, Bombay. Found 9 distinct pain points — broken company links destroying trust, dark mode with unreadable contrast, no multi-resume support, post-application flow falling apart on WhatsApp. Designed and shipped fixes: restructured job description layout, WCAG 2.1 AA dark mode fixes, save-all profile flow, multiple resume management, built-in communication tool. 80% of users reported easier navigation, 70% adopted new features without prompting. Also ran a rebranding survey — found 71% of users hadn't heard about the Tech Japan to Talendy rebrand at all. Designed a recruiter-side hiring dashboard as a parallel workstream.
+CASE STUDIES:
+1. Tech Japan / Talendy — UX research internship Sep-Nov 2024. 10 interviews across 6 IITs, 9 pain points, fixes shipped: job description layout, WCAG 2.1 AA dark mode, save-all profile flow, multiple resume management, built-in communication tool replacing WhatsApp. 80% easier navigation, 70% feature adoption.
+2. Buzztro — Designed full product 0 to 1 for a social polling startup.
+3. Zu-AI — Redesigned chat experience for AI tutoring app, 100K+ students. 40% faster scanning, 3x faster task completion.
 
-2. Buzztro — Designed the full product from 0 to 1 for a social polling startup. Led research, information architecture, and all high-fidelity design across the platform.
+SIDE PROJECTS:
+1. Music Animation Generator — real-time visuals synced to music via web audio APIs.
+2. PulsePlay — music player with waveform visualisation.
+3. TypMatch — typography matching/font pairing tool.
+4. Kairo Design System — full design system: tokens, components, documentation.
 
-3. Zu-AI — Redesigned the chat experience for an AI tutoring app serving 100K+ students. Solo assessment project over 2 weeks. Research with 33 participants. Fixed information overload (60% reported it), added accessibility controls, a chat dashboard for context switching, and visual hierarchy improvements. 40% faster information scanning, 3x faster task completion in usability tests.
-
-SHIPPED SIDE PROJECTS (built yourself):
-1. Music Animation Generator — generates real-time visual animations synced to music using React and web audio APIs. Takes any audio input and creates dynamic animated visuals that respond to beat, frequency, and amplitude.
-2. PulsePlay — a music player focused on visual experience. Clean UI, waveform visualisation, and playlist management. Built to scratch your own itch around how music players should feel.
-3. TypMatch — a typography matching tool. Helps designers find font pairings fast. Built because font pairing is one of those things everyone does badly and no tool made it quick enough.
-4. Kairo Design System — a full design system built from scratch: tokens, components, documentation. Built it to understand how design systems actually work when you're building them yourself rather than just using one.
-
-AVAILABILITY:
-Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
+AVAILABILITY: Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
 
 CONTACT:
 Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
 LinkedIn: https://linkedin.com/in/deepakmaan25
 Email: dipumaan2002@gmail.com
-Book a call: https://cal.com/deepakmaan
-
-If someone asks for resume or LinkedIn, give the link directly, one sentence of context max.`
+Book a call: https://cal.com/deepakmaan`
 
 const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding','Cricket','Music']
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
-
-// spring presets
-const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
 const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
+const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
+const uid = () => Math.random().toString(36).slice(2)
 
-// ─── Component ────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [messages, setMessages]       = useState<Message[]>([])
   const [input, setInput]             = useState('')
@@ -116,46 +95,39 @@ export default function HomePage() {
 
   const istTime = time.toLocaleTimeString('en-IN', { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true })
 
-  // ── word-by-word reveal for a message at index ──────────────────────────────
-  const startTypewriter = useCallback((idx: number, text: string) => {
-    const words = text.split(' ')
+  // word-by-word reveal — uses message ID, immune to index shifts
+  const startTypewriter = useCallback((id: string, text: string) => {
+    const words = text.split(' ').filter(w => w.length > 0)
+    if (words.length === 0) return
     let w = 0
     const t = setInterval(() => {
       w++
-      setMessages(prev => {
-        const next = [...prev]
-        if (!next[idx]) return prev
-        next[idx] = { ...next[idx], revealed: w, done: w >= words.length }
-        return next
-      })
+      setMessages(prev => prev.map(m =>
+        m.id === id ? { ...m, revealed: w, done: w >= words.length } : m
+      ))
       if (w >= words.length) clearInterval(t)
     }, 120)
     typeTimers.current.push(t)
   }, [])
 
-  // ── add a hardcoded reply with typewriter ────────────────────────────────────
   const addHardcoded = useCallback((query: string, reply: string) => {
-    const userMsg:  Message = { role:'user',      content: query, done: true }
-    const botMsg:   Message = { role:'assistant', content: reply, revealed: 0, done: false }
-    setMessages(prev => {
-      const next = [...prev, userMsg, botMsg]
-      const idx = next.length - 1
-      setTimeout(() => startTypewriter(idx, reply), 120)
-      return next
-    })
+    const bid = uid()
+    setMessages(prev => [...prev,
+      { id: uid(), role:'user',      content: query, done: true },
+      { id: bid,   role:'assistant', content: reply, revealed: 0, done: false }
+    ])
     setChatStarted(true)
     setInput('')
+    setTimeout(() => startTypewriter(bid, reply), 150)
   }, [startTypewriter])
 
   const send = async (text: string) => {
     if (!text.trim() || loading) return
 
-    // ── no-bubble shortcuts ──────────────────────────────────────────────────
     if (text === 'see my work')  { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
     if (text === 'resume')       { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
     if (text === 'linkedin')     { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
 
-    // ── hardcoded pill replies ────────────────────────────────────────────────
     if (text === 'wanna chat?')
       return addHardcoded(text, "Sure — pick a time that works for you. https://cal.com/deepakmaan")
     if (text === 'how do you ship?')
@@ -165,19 +137,20 @@ export default function HomePage() {
     if (text === "what's your availability?")
       return addHardcoded(text, "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan")
 
-    // ── streaming API call ────────────────────────────────────────────────────
-    const userMsg: Message = { role:'user', content: text, done: true }
-    const botMsg:  Message = { role:'assistant', content: '', revealed: 0, done: false }
-    const updated = [...messages, userMsg]
+    // streaming API call
+    const bid = uid()
+    const userMsg: Message = { id: uid(), role:'user',      content: text, done: true }
+    const botMsg:  Message = { id: bid,   role:'assistant', content: '',   revealed: 0, done: false }
 
-    setMessages([...updated, botMsg])
+    // snapshot messages before state update for API call
+    const msgSnapshot = [...messages, userMsg]
+
+    setMessages(prev => [...prev, userMsg, botMsg])
     setInput('')
     setLoading(true)
     setChatStarted(true)
 
-    const streamIdx = updated.length
     let accumulated = ''
-    // token buffer: flush to state every 40ms to avoid per-token renders
     let buffer = ''
     let flushTimer: ReturnType<typeof setInterval> | null = null
 
@@ -186,24 +159,20 @@ export default function HomePage() {
       accumulated += buffer
       buffer = ''
       const snap = accumulated
-      setMessages(prev => {
-        const next = [...prev]
-        if (!next[streamIdx]) return prev
-        next[streamIdx] = { ...next[streamIdx], content: snap }
-        return next
-      })
+      setMessages(prev => prev.map(m =>
+        m.id === bid ? { ...m, content: snap } : m
+      ))
     }
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
+        body: JSON.stringify({ system: SYSTEM_PROMPT, messages: msgSnapshot }),
       })
       if (!res.ok || !res.body) throw new Error('Stream failed')
 
       flushTimer = setInterval(flush, 40)
-
       const reader  = res.body.getReader()
       const decoder = new TextDecoder()
 
@@ -222,25 +191,24 @@ export default function HomePage() {
         }
       }
       flush()
-      if (accumulated) startTypewriter(streamIdx, accumulated)
+      if (accumulated) setTimeout(() => startTypewriter(bid, accumulated), 50)
     } catch {
-      setMessages(prev => {
-        const next = [...prev]
-        if (next[streamIdx]) next[streamIdx] = { role:'assistant', content:'Something went wrong — try again.', revealed:Infinity, done:true }
-        return next
-      })
+      setMessages(prev => prev.map(m =>
+        m.id === bid
+          ? { ...m, content: 'Something went wrong — try again.', revealed: Infinity, done: true }
+          : m
+      ))
     } finally {
       if (flushTimer) clearInterval(flushTimer)
       setLoading(false)
     }
   }
 
-  // ── visible text for a message ───────────────────────────────────────────────
   const visibleText = (msg: Message) => {
-   if (msg.revealed === undefined || msg.revealed === Infinity) return msg.content
-    if (msg.done) return msg.content
-    return revealWords(msg.content, msg.revealed)
-    return revealWords(msg.content, msg.revealed)
+    if (!msg.content) return ''
+    if (msg.revealed === undefined || msg.revealed === Infinity || msg.done) return msg.content
+    const words = msg.content.split(' ').filter(w => w.length > 0)
+    return words.slice(0, msg.revealed).join(' ')
   }
 
   return (
@@ -261,7 +229,6 @@ export default function HomePage() {
         .bl6{animation:b6 19s linear infinite;transform-origin:calc(50% + 300px) calc(50% - 200px)}
         @keyframes bar{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-        @keyframes wordIn{from{opacity:0;filter:blur(2px)}to{opacity:1;filter:blur(0)}}
         .folder-sheet{transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1)}
         .folder-group:hover .sheet1{transform:translate(-14px,-30px) rotate(-7deg)}
         .folder-group:hover .sheet2{transform:translate(14px,-45px) rotate(5deg)}
@@ -269,15 +236,12 @@ export default function HomePage() {
         .folder-group:hover .folder-front{transform:rotateX(-46deg) translateY(1px)}
         .folder-front{transition:transform 0.3s;transform-origin:bottom}
         .work-section-bg{background-color:hsl(0,0%,97%);background-image:radial-gradient(circle,rgba(0,0,0,0.1) 0.8px,transparent 0.8px);background-size:18px 18px}
-        .msg-bubble{transition:min-height 0.15s ease}
       `}</style>
 
       <div className="relative isolate overflow-x-clip" style={{ backgroundColor:'hsl(0,0%,98%)', color:'hsl(0,0%,8%)', fontFamily:f }}>
 
-        {/* ─── HERO ─── */}
         <div style={{ position:'relative', minHeight:'100svh', display:'flex', flexDirection:'column', justifyContent:'center' }}>
 
-          {/* blobs */}
           <div className="absolute -z-10 top-0 left-0 right-0 bottom-0 overflow-hidden">
             <div className="absolute inset-0" style={{ background:'linear-gradient(135deg,hsl(250,60%,97%),hsl(200,70%,96%),hsl(330,60%,97%))' }}>
               <svg className="hidden"><defs><filter id="g4"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="g"/><feBlend in="SourceGraphic" in2="g"/></filter></defs></svg>
@@ -295,14 +259,11 @@ export default function HomePage() {
             <LayoutGroup>
               <div style={{ maxWidth:920, margin:'0 auto' }}>
 
-                {/* ── Headline — fades out smoothly, doesn't jump ── */}
                 <AnimatePresence>
                   {!chatStarted && (
-                    <motion.div
-                      key="headline"
-                      layout
+                    <motion.div key="headline" layout
                       initial={{ opacity:0, y:16, filter:'blur(6px)' }}
-                      animate={{ opacity:1, y:0,  filter:'blur(0px)', transition:{ duration:0.55, ease:[0.4,0,0.2,1] } }}
+                      animate={{ opacity:1, y:0, filter:'blur(0px)', transition:{ duration:0.55, ease:[0.4,0,0.2,1] } }}
                       exit={{ opacity:0, y:-8, filter:'blur(6px)', transition:{ duration:0.38, ease:[0.4,0,1,1] } }}
                       style={{ marginBottom:32 }}>
                       <div className="flex items-start gap-4">
@@ -333,19 +294,14 @@ export default function HomePage() {
                   )}
                 </AnimatePresence>
 
-                {/* ── Chat area ── */}
                 <AnimatePresence>
                   {chatStarted && (
-                    <motion.div
-                      key="chat-area"
-                      layout
+                    <motion.div key="chat-area" layout
                       initial={{ opacity:0 }}
                       animate={{ opacity:1, transition:{ duration:0.3, delay:0.1 } }}
                       style={{ marginBottom:16 }}>
 
-                      {/* intro bubble — avatar morphs via layoutId */}
-                      <motion.div
-                        layout
+                      <motion.div layout
                         initial={{ opacity:0, y:8 }}
                         animate={{ opacity:1, y:0, transition:SP_SLOW }}
                         style={{ display:'flex', alignItems:'flex-end', gap:8, marginBottom:12 }}>
@@ -357,13 +313,12 @@ export default function HomePage() {
                         </div>
                       </motion.div>
 
-                      {/* message list */}
                       <div style={{ maxHeight:300, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
-                        {messages.map((msg, i) => {
+                        {messages.map((msg) => {
                           const text = visibleText(msg)
-                          const isStreaming = msg.role==='assistant' && !msg.done && loading
+                          const isTyping = msg.role==='assistant' && !msg.done
                           return (
-                           <motion.div key={i}
+                            <motion.div key={msg.id}
                               initial={{ opacity:0, y:6 }}
                               animate={{ opacity:1, y:0, transition:{ duration:0.2, ease:[0.4,0,0.2,1] } }}
                               style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
@@ -372,29 +327,25 @@ export default function HomePage() {
                                   <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                                 </span>
                               )}
-                              <div
-                                style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
-                                  ...(msg.role==='user'
-                                    ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
-                                    : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
-                                }}>
+                              <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
+                                ...(msg.role==='user'
+                                  ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
+                                  : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
+                              }}>
                                 {msg.role==='assistant' ? linkify(text) : text}
-                                {isStreaming && (
+                                {isTyping && text.length > 0 && (
                                   <span style={{ display:'inline-block', width:2, height:'0.9em', background:'hsl(0,0%,35%)', marginLeft:3, verticalAlign:'text-bottom', animation:'blink 0.75s step-end infinite' }} />
                                 )}
-                            </div>
+                              </div>
                             </motion.div>
                           )
                         })}
 
-                        {/* typing dots — only before first token */}
                         <AnimatePresence>
                           {loading && messages.length > 0 && messages[messages.length-1]?.content === '' && (
-                            <motion.div
-                              key="dots"
-                              initial={{ opacity:0, y:8, scale:0.95 }}
-                              animate={{ opacity:1, y:0,  scale:1,   transition:SP_MSG }}
-                              exit={{ opacity:0, scale:0.9, transition:{ duration:0.18 } }}
+                            <motion.div key="dots"
+                              initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0, transition:SP_MSG }}
+                              exit={{ opacity:0, transition:{ duration:0.15 } }}
                               style={{ display:'flex', alignItems:'flex-end', gap:8 }}>
                               <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, boxShadow:'0 0 0 2px white' }} />
                               <div style={{ background:'white', border:'1px solid hsl(0,0%,88%)', borderRadius:18, borderBottomLeftRadius:5, padding:'13px 17px', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
@@ -414,23 +365,19 @@ export default function HomePage() {
                   )}
                 </AnimatePresence>
 
-                {/* ── Pills — staggered entrance ── */}
                 <motion.div layout style={{ marginBottom:18 }}>
-                  <motion.div
-                    initial="hidden" animate="visible"
+                  <motion.div initial="hidden" animate="visible"
                     variants={{ hidden:{}, visible:{ transition:{ staggerChildren:0.055, delayChildren:0.18 } } }}
                     style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center', marginBottom:8 }}>
                     {QUICK_ACTIONS.slice(0,4).map(a => <Pill key={a.label} a={a} send={send} />)}
                   </motion.div>
-                  <motion.div
-                    initial="hidden" animate="visible"
+                  <motion.div initial="hidden" animate="visible"
                     variants={{ hidden:{}, visible:{ transition:{ staggerChildren:0.055, delayChildren:0.36 } } }}
                     style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center' }}>
                     {QUICK_ACTIONS.slice(4).map(a => <Pill key={a.label} a={a} send={send} />)}
                   </motion.div>
                 </motion.div>
 
-                {/* ── Input ── */}
                 <motion.div layout initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0, transition:{ delay:0.28, ...SP_SLOW } }}>
                   <div style={{ display:'flex', alignItems:'center', gap:8, borderRadius:16, padding:'13px 18px', background:'rgba(255,255,255,0.88)', backdropFilter:'blur(14px)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 8px rgba(0,0,0,0.05)' }}>
                     <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
@@ -456,7 +403,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ─── WORK ─── */}
         <div id="work" className="work-section-bg" style={{ scrollMarginTop:64 }}>
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'96px 40px 120px' }}>
             <motion.p initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
@@ -482,10 +428,8 @@ export default function HomePage() {
   )
 }
 
-// ─── Pill ─────────────────────────────────────────────────────────────────────
 const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void }) => (
-  <motion.button
-    onClick={() => send(a.query)}
+  <motion.button onClick={() => send(a.query)}
     variants={{ hidden:{ opacity:0, y:10, scale:0.94 }, visible:{ opacity:1, y:0, scale:1, transition:{ type:'spring', stiffness:380, damping:28 } } }}
     whileHover={{ scale:1.04, transition:{ type:'spring', stiffness:500, damping:20 } }}
     whileTap={{ scale:0.97 }}
@@ -499,7 +443,6 @@ const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void })
   </motion.button>
 )
 
-// ─── CaseRow ──────────────────────────────────────────────────────────────────
 const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;desc:string;metric:string;metricLabel:string;slug:string;image:string;bg:string}) => (
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
     style={{ display:'grid', gridTemplateColumns:'1fr 2fr', gap:'0 72px', alignItems:'start' }}>
@@ -534,39 +477,30 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
   </motion.article>
 )
 
-// ─── Widgets ──────────────────────────────────────────────────────────────────
 const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void }) => {
   const [rating, setRating] = useState(0)
   const [hover,  setHover]  = useState(0)
   const [rated,  setRated]  = useState(false)
-
   const card = { background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)', border:'1px solid rgba(0,0,0,0.07)', borderRadius:16, boxShadow:'0 2px 24px rgba(0,0,0,0.08)' }
-
   const fly = (delay:number, initRot:number, restRot:number) => ({
-    initial:     { opacity:0, scale:0.18, rotate:initRot },
-    whileInView: { opacity:1, scale:1,    rotate:restRot },
-    viewport:    { once:true },
-    transition:  { type:'spring' as const, stiffness:155, damping:20, delay },
-    whileHover:  { scale:1.05, rotate:restRot*0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
+    initial:{ opacity:0, scale:0.18, rotate:initRot }, whileInView:{ opacity:1, scale:1, rotate:restRot },
+    viewport:{ once:true }, transition:{ type:'spring' as const, stiffness:155, damping:20, delay },
+    whileHover:{ scale:1.05, rotate:restRot*0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
   })
-
   return (
     <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', minHeight:'100vh', overflow:'hidden' }}>
       <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.4, backgroundImage:'radial-gradient(circle,rgba(0,0,0,0.2) 0.8px,transparent 0.8px)', backgroundSize:'18px 18px' }} />
       <div style={{ position:'relative', width:'100%', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
-
         <motion.h2 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.65, ease:[0.4,0,0.2,1], delay:0.05 }}
           style={{ position:'relative', zIndex:0, fontFamily:f, fontSize:'clamp(3rem,6.5vw,6rem)', fontWeight:700, letterSpacing:'-0.04em', lineHeight:1.0, color:'hsl(0,0%,8%)', whiteSpace:'nowrap', textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none', marginTop:'-5vh' }}>
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
-
         <motion.div {...fly(0.08,-30,-5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
           <div style={{ width:148, height:148, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
             <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
           </div>
           <p style={{ marginTop:8, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
-
         <motion.div {...fly(0.16,-20,4)} style={{ ...card, position:'absolute', top:'52%', left:'2%', padding:'18px 22px', whiteSpace:'nowrap', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
           <div style={{ display:'flex', alignItems:'flex-end', gap:6 }}>
@@ -575,13 +509,11 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
-
         <motion.div {...fly(0.12,-18,-7)} style={{ position:'absolute', bottom:'10%', left:'3%', zIndex:4 }}>
           <div style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
             <p style={{ fontFamily:f, fontSize:12, lineHeight:1.5, margin:0 }}>Currently building<br/><strong>with AI + design</strong></p>
           </div>
         </motion.div>
-
         <motion.div {...fly(0.10,-24,3)} style={{ position:'absolute', top:'4%', left:'22%', zIndex:4 }}>
           <div style={{ background:'rgba(18,18,18,0.94)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:228, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
@@ -608,7 +540,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
           </div>
         </motion.div>
-
         <motion.div {...fly(0.13,-18,-4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://cal.com/deepakmaan','_blank')}>
           <div style={{ ...card, padding:'18px 22px', width:200 }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Open to work</p>
@@ -618,7 +549,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
           </div>
         </motion.div>
-
         <motion.div {...fly(0.14,-20,6)} style={{ position:'absolute', top:'4%', right:'2%', zIndex:4 }}>
           <div style={{ background:'rgba(52,199,142,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:16, padding:'20px 22px', width:204, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
@@ -635,7 +565,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             ))}
           </div>
         </motion.div>
-
         <motion.div {...fly(0.20,-16,-6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
           <div style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 22px', width:178, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.09)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.55, margin:'0 0 10px' }}>CV</p>
@@ -645,14 +574,12 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
           </div>
         </motion.div>
-
         <motion.div {...fly(0.17,-19,5)} style={{ ...card, position:'absolute', top:'60%', left:'18%', padding:'18px 20px', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, maxWidth:252 }}>
             {INTERESTS.map(i=><span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
           </div>
         </motion.div>
-
         <motion.div {...fly(0.19,-22,-4)} style={{ ...card, position:'absolute', bottom:'8%', left:'18%', padding:'18px 22px', textAlign:'center', minWidth:168, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>{rated?'Thanks! 🎉':'Rate this portfolio'}</p>
           <div style={{ display:'flex', gap:2, justifyContent:'center' }}>
@@ -662,7 +589,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             ))}
           </div>
         </motion.div>
-
         <motion.div {...fly(0.22,-26,7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }} onClick={()=>window.location.href='/writings'}>
           <div style={{ position:'relative', width:196, height:136, perspective:1500 }}>
             <div style={{ position:'absolute', bottom:'99%', left:0, width:70, height:14, background:'#d97706', borderRadius:'8px 8px 0 0' }} />
@@ -681,7 +607,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
           <p style={{ marginTop:18, textAlign:'center', fontFamily:f, fontSize:11, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
-
         <motion.div {...fly(0.21,-16,-5)} style={{ ...card, position:'absolute', bottom:'4%', left:'62%', padding:'16px', width:172, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
           <div style={{ width:'100%', borderRadius:8, overflow:'hidden', marginBottom:10, aspectRatio:'2/3', background:'#f0f0f0' }}>
@@ -692,7 +617,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             <span style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)' }}>62%</span>
           </div>
         </motion.div>
-
         <motion.div {...fly(0.26,-24,8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
           <div style={{ background:'rgba(10,102,194,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 22px', width:190, boxShadow:'0 4px 20px rgba(0,0,0,0.14)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'rgba(255,255,255,0.45)', margin:'0 0 10px' }}>Find me online</p>
@@ -702,7 +626,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
           </div>
         </motion.div>
-
       </div>
     </section>
   )
