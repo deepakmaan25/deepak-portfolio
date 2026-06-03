@@ -26,6 +26,9 @@ export default async function handler(req, res) {
   )
 
   const data = await response.json()
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? 'Something went wrong.'
+  if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+    return res.status(200).json({ content: [{ type: 'text', text: JSON.stringify(data) }] })
+  }
+  const text = data.candidates[0].content.parts[0].text
   return res.status(200).json({ content: [{ type: 'text', text }] })
 }
