@@ -67,32 +67,17 @@ export default function HomePage() {
     if (text==='see my work') { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
     if (text==='resume')      { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
     if (text==='linkedin')    { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
-    if (text==='wanna chat?') { window.open('mailto:deepak.maan@email.com','_blank'); return }
+    if (text==='wanna chat?') { window.open('mailto:dipumaan2002@gmail.com','_blank'); return }
     const updated = [...messages, { role:'user' as const, content:text }]
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
-     const geminiRes = await fetch(
-      'https://huggingface.co/api/inference-proxy/together/v1/chat/completions',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
-        },
-        body: JSON.stringify({
-          model: 'meta-llama/Llama-3.3-70B-Instruct',
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...updated.map(m => ({ role: m.role, content: m.content }))
-          ],
-          max_tokens: 400,
-          temperature: 0.7,
-          stream: false
-        })
-      }
-    )
+     const geminiRes = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
+    })
     const geminiData = await geminiRes.json()
-    const text = geminiData?.choices?.[0]?.message?.content ?? 'Something went wrong.'
+    const text = geminiData?.content?.[0]?.text ?? 'Something went wrong.'
     setMessages(prev => [...prev, { role:'assistant', content: text }])
     } catch { setMessages(prev => [...prev, { role:'assistant', content:'Something went wrong — try again.' }]) }
     finally { setLoading(false) }
