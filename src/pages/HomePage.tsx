@@ -129,7 +129,7 @@ export default function HomePage() {
         return next
       })
       if (w >= words.length) clearInterval(t)
-    }, 52)
+    }, 120)
     typeTimers.current.push(t)
   }, [])
 
@@ -189,7 +189,7 @@ export default function HomePage() {
       setMessages(prev => {
         const next = [...prev]
         if (!next[streamIdx]) return prev
-        next[streamIdx] = { ...next[streamIdx], content: snap, revealed: Infinity }
+        next[streamIdx] = { ...next[streamIdx], content: snap }
         return next
       })
     }
@@ -221,8 +221,7 @@ export default function HomePage() {
           } catch { /* skip */ }
         }
       }
-      flush() // final flush
-    } catch {
+      next[streamIdx] = { ...next[streamIdx], content: snap }
       setMessages(prev => {
         const next = [...prev]
         if (next[streamIdx]) next[streamIdx] = { role:'assistant', content:'Something went wrong — try again.', revealed:Infinity, done:true }
