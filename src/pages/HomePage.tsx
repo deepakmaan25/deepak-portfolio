@@ -365,17 +365,16 @@ export default function HomePage() {
                           const text = visibleText(msg)
                           const isStreaming = msg.role==='assistant' && !msg.done && loading
                           return (
-                            <motion.div key={i}
-                              layout
-                              initial={{ opacity:0, y:14, scale:0.97 }}
-                              animate={{ opacity:1, y:0,  scale:1, transition:SP_MSG }}
+                           <motion.div key={i}
+                              initial={{ opacity:0, y:6 }}
+                              animate={{ opacity:1, y:0, transition:{ duration:0.2, ease:[0.4,0,0.2,1] } }}
                               style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
                               {msg.role==='assistant' && (
                                 <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
                                   <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                                 </span>
                               )}
-                              <motion.div layout className="msg-bubble"
+                              <div
                                 style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
                                   ...(msg.role==='user'
                                     ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
@@ -385,7 +384,7 @@ export default function HomePage() {
                                 {isStreaming && (
                                   <span style={{ display:'inline-block', width:2, height:'0.9em', background:'hsl(0,0%,35%)', marginLeft:3, verticalAlign:'text-bottom', animation:'blink 0.75s step-end infinite' }} />
                                 )}
-                              </motion.div>
+                            </div>
                             </motion.div>
                           )
                         })}
