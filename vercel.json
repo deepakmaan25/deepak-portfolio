@@ -1,5 +1,9 @@
 {
-  "framework": "vite",
+  "functions": {
+    "api/chat.cjs": {
+      "runtime": "nodejs20.x"
+    }
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
