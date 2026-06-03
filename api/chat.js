@@ -15,11 +15,14 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: system || '' }] },
-        contents: messages.map(m => ({
-          role: m.role === 'assistant' ? 'model' : 'user',
-          parts: [{ text: m.content }]
-        })),
+        contents: [
+          { role: 'user', parts: [{ text: system || '' }] },
+          { role: 'model', parts: [{ text: 'Understood.' }] },
+          ...messages.map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content }]
+          }))
+        ],
         generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
       }),
     }
