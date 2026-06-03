@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       model: 'llama-3.1-8b-instant',
       messages: [
         { role: 'system', content: system || '' },
-        ...messages
+        ...messages.map(m => ({ role: m.role, content: m.content }))
       ],
       max_tokens: 120,
       temperature: 0.65,
