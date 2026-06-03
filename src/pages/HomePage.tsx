@@ -1,7 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-interface Message { role:'user'|'assistant'; content:string }  const linkify = (text:string) => {   const parts = text.split(/(https?:\/\/[^\s]+)/g)   return parts.map((part,i) =>     part.match(/^https?:\/\//) ?     <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{color:'rgb(99,102,241)',textDecoration:'underline',textUnderlineOffset:2}}>{part.includes('cal.com') ? 'Book a chat ↗' : part}</a>     : part   ) }
+interface Message { role:'user'|'assistant'; content:string }
+
+const linkify = (text: string) => {
+  const parts = text.split(/(https?:\/\/[^\s]+)/g)
+  return parts.map((part, i) =>
+    part.match(/^https?:\/\//)
+      ? <a key={i} href={part} target="_blank" rel="noopener noreferrer"
+          style={{ color:'rgb(99,102,241)', textDecoration:'underline', textUnderlineOffset:2 }}>
+          {part.includes('cal.com') ? 'Book a chat ↗' : part}
+        </a>
+      : part
+  )
+}
 
 const QUICK_ACTIONS = [
   { label:'see my work',               icon:'down', query:'see my work',                    scroll:true  },
@@ -37,8 +49,7 @@ TONE RULES:
 - Sound like a real person, not a chatbot.
 - Maximum 2 sentences. No exceptions.
 - If asked about resume or LinkedIn, give the link directly with one line of context.
-- If someone asks something unrelated to your work, say: "I'm only here to talk about my work — happy to answer anything about that though."
-- Never say you "built Claude Code" — you use React and TypeScript to ship your own designs.`
+- If someone asks something unrelated to your work, say: "I'm only here to talk about my work — happy to answer anything about that though."`
 
 const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding','Cricket','Music']
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
@@ -58,61 +69,81 @@ export default function HomePage() {
 
   const istTime = time.toLocaleTimeString('en-IN', { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true })
 
-  const send = async (text:string) => {
+  const send = async (text: string) => {
     if (!text.trim() || loading) return
-    if (text==='see my work') { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
-    if (text==='resume')      { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
-    if (text==='linkedin')    { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
-    if (text==='wanna chat?') { window.open('https://cal.com/deepakmaan','_blank'); return }
-    if (text==='how do you ship?') {
-      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file." }])
-      setChatStarted(true); return
+
+    // ── hard-wired shortcuts ──────────────────────────────────────────────────
+    if (text === 'see my work') {
+      document.getElementById('work')?.scrollIntoView({ behavior:'smooth' })
+      return
     }
-    if (text==='what kind of designer are you?') {
-      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished." }])
-      setChatStarted(true); return
+    if (text === 'resume') {
+      window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')
+      return
     }
-    if (text==="what's your availability?") {
-      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan" }])
-      setChatStarted(true); return
+    if (text === 'linkedin') {
+      window.open('https://linkedin.com/in/deepakmaan25', '_blank')
+      return
     }
-    const updated = [...messages, { role:'user' as const, content:text }]
-    setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
-    try {
-     const geminiRes = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
-    })
-    const geminiData = await geminiRes.json()
-    const text = geminiData?.content?.[0]?.text ?? 'Something went wrong.'
-    setMessages(prev => [...prev, { role:'assistant', content: text }])
-    } catch { setMessages(prev => [...prev, { role:'assistant', content:'Something went wrong — try again.' }]) }
-    finally { setLoading(false) }
+
+    // ── hardcoded pill replies (guaranteed short + accurate) ─────────────────
+    if (text === 'wanna chat?') {
+      setMessages(prev => [...prev,
+        { role:'user' as const, content: text },
+        { role:'assistant' as const, content: "Sure — pick a time that works for you. https://cal.com/deepakmaan" }
+      ])
+      setChatStarted(true)
+      setInput('')
+      return
+    }
     if (text === 'how do you ship?') {
-  setMessages(prev => [...prev,
-    { role: 'user', content: text },
-    { role: 'assistant', content: "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't surface in a design file." }
-  ])
-  setChatStarted(true)
-  return
-}
-if (text === 'what kind of designer are you?') {
-  setMessages(prev => [...prev,
-    { role: 'user', content: text },
-    { role: 'assistant', content: "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making something look polished." }
-  ])
-  setChatStarted(true)
-  return
-}
-if (text === "what's your availability?") {
-  setMessages(prev => [...prev,
-    { role: 'user', content: text },
-    { role: 'assistant', content: 'Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. Book a chat ↗' }
-  ])
-  setChatStarted(true)
-  return
-}
+      setMessages(prev => [...prev,
+        { role:'user' as const, content: text },
+        { role:'assistant' as const, content: "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file." }
+      ])
+      setChatStarted(true)
+      setInput('')
+      return
+    }
+    if (text === 'what kind of designer are you?') {
+      setMessages(prev => [...prev,
+        { role:'user' as const, content: text },
+        { role:'assistant' as const, content: "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished." }
+      ])
+      setChatStarted(true)
+      setInput('')
+      return
+    }
+    if (text === "what's your availability?") {
+      setMessages(prev => [...prev,
+        { role:'user' as const, content: text },
+        { role:'assistant' as const, content: "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan" }
+      ])
+      setChatStarted(true)
+      setInput('')
+      return
+    }
+
+    // ── API call for everything else ─────────────────────────────────────────
+    const updated = [...messages, { role:'user' as const, content: text }]
+    setMessages(updated)
+    setInput('')
+    setLoading(true)
+    setChatStarted(true)
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
+      })
+      const data = await res.json()
+      const reply = data?.content?.[0]?.text ?? 'Something went wrong.'
+      setMessages(prev => [...prev, { role:'assistant', content: reply }])
+    } catch {
+      setMessages(prev => [...prev, { role:'assistant', content: 'Something went wrong — try again.' }])
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -124,11 +155,13 @@ if (text === "what's your availability?") {
         @keyframes b3{0%,100%{transform:none}50%{transform:rotate(120deg) scale(1.05)}}
         @keyframes b4{0%,100%{transform:none}50%{transform:rotate(-80deg) scale(0.95)}}
         @keyframes b5{0%,100%{transform:none}50%{transform:rotate(100deg) scale(1.08)}}
+        @keyframes b6{0%,100%{transform:none}50%{transform:rotate(-60deg) scale(1.12)}}
         .bl1{animation:b1 20s linear infinite;transform-origin:center center}
         .bl2{animation:b2 18s linear infinite;transform-origin:calc(50% - 400px)}
         .bl3{animation:b3 22s linear infinite;transform-origin:calc(50% + 400px)}
         .bl4{animation:b4 16s linear infinite;transform-origin:calc(50% - 200px) calc(50% + 400px)}
         .bl5{animation:b5 24s linear infinite;transform-origin:calc(50% - 800px) calc(50% + 200px)}
+        .bl6{animation:b6 19s linear infinite;transform-origin:calc(50% + 300px) calc(50% - 200px)}
         @keyframes bar{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
         .folder-sheet{transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1)}
         .folder-group:hover .sheet1{transform:translate(-14px,-30px) rotate(-7deg)}
@@ -147,25 +180,36 @@ if (text === "what's your availability?") {
 
         {/* ─── HERO ─── */}
         <div style={{ position:'relative', minHeight:'100svh', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+
+          {/* ── background blobs ── */}
           <div className="absolute -z-10 top-0 left-0 right-0 bottom-0 overflow-hidden">
-            <div className="absolute inset-0" style={{ background:'linear-gradient(40deg,hsl(240,60%,99%),hsl(230,80%,97%))' }}>
+            <div className="absolute inset-0" style={{ background:'linear-gradient(135deg,hsl(250,60%,97%),hsl(200,70%,96%),hsl(330,60%,97%))' }}>
               <svg className="hidden"><defs><filter id="g4"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="g"/><feBlend in="SourceGraphic" in2="g"/></filter></defs></svg>
               <div className="h-full w-full" style={{ filter:'url(#g4) blur(40px)' }}>
-                {[['bl1','56,100,255',1],['bl2','120,60,220',1],['bl3','30,160,255',1],['bl4','160,60,255',0.7],['bl5','40,120,255',1]].map(([c,col,o])=>(
-                  <div key={c as string} className={c as string} style={{ position:'absolute', background:`radial-gradient(circle at center,rgba(${col},0.35) 0,rgba(${col},0) 50%) no-repeat`, mixBlendMode:'screen' as any, width:'80%', height:'80%', top:'10%', left:'10%', opacity:o as number }} />
+                {[
+                  ['bl1','99,102,241',  0.45],
+                  ['bl2','168,85,247',  0.40],
+                  ['bl3','20,184,166',  0.35],
+                  ['bl4','236,72,153',  0.30],
+                  ['bl5','59,130,246',  0.40],
+                  ['bl6','245,158,11',  0.25],
+                ].map(([cls, col, o]) => (
+                  <div key={cls as string} className={cls as string}
+                    style={{ position:'absolute', background:`radial-gradient(circle at center,rgba(${col},${o}) 0,rgba(${col},0) 55%) no-repeat`,
+                      mixBlendMode:'screen' as any, width:'80%', height:'80%', top:'10%', left:'10%' }} />
                 ))}
               </div>
             </div>
-            <div className="absolute inset-0 pointer-events-none" style={{ background:'rgba(250,250,248,0.55)' }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background:'rgba(252,251,255,0.48)' }} />
             <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(to bottom,transparent 55%,hsl(0,0%,97%))' }} />
           </div>
 
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'0 40px', width:'100%' }}>
-            <AnimatePresence>
-              {!chatStarted && (
+            <AnimatePresence mode="wait">
+              {!chatStarted ? (
                 <motion.div key="headline"
                   initial={{ opacity:0, y:18 }} animate={{ opacity:1, y:0 }}
-                  exit={{ opacity:0, y:-12, transition:{ duration:0.3, ease:[0.4,0,1,1] } }}
+                  exit={{ opacity:0, y:-14, transition:{ duration:0.25, ease:[0.4,0,1,1] } }}
                   transition={{ duration:0.6, ease:[0.4,0,0.2,1] }}
                   style={{ maxWidth:920, margin:'0 auto 44px' }}>
                   <div className="flex items-start gap-4 sm:gap-5">
@@ -193,15 +237,27 @@ if (text === "what's your availability?") {
                     </div>
                   </div>
                 </motion.div>
+              ) : (
+                <motion.div key="chat-intro"
+                  initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }}
+                  transition={{ duration:0.35, ease:[0.4,0,0.2,1] }}
+                  style={{ maxWidth:920, margin:'0 auto 16px', display:'flex', alignItems:'flex-end', gap:8 }}>
+                  <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
+                    <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                  </span>
+                  <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, borderBottomLeftRadius:5, fontSize:14.5, lineHeight:1.6, fontFamily:f, background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
+                    I'm Deepak &mdash; based in Mumbai. I design and ship product UX, end to end.
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
 
             <div style={{ maxWidth:920, margin:'0 auto' }}>
               <AnimatePresence>
-                {chatStarted && (
+                {chatStarted && messages.length > 0 && (
                   <motion.div initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:'auto' }} exit={{ opacity:0, height:0 }}
                     style={{ marginBottom:16, maxHeight:320, overflowY:'auto', display:'flex', flexDirection:'column', gap:12 }}>
-                    {messages.map((msg,i) => (
+                    {messages.map((msg, i) => (
                       <motion.div key={i} initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }}
                         style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
                         {msg.role==='assistant' && (
@@ -213,7 +269,9 @@ if (text === "what's your availability?") {
                           ...(msg.role==='user'
                             ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
                             : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
-                        }}>{msg.role==='assistant' ? linkify(msg.content) : msg.content}</div>
+                        }}>
+                          {msg.role==='assistant' ? linkify(msg.content) : msg.content}
+                        </div>
                       </motion.div>
                     ))}
                     {loading && (
@@ -221,7 +279,7 @@ if (text === "what's your availability?") {
                         <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, boxShadow:'0 0 0 2px white' }} />
                         <div style={{ background:'white', border:'1px solid hsl(0,0%,88%)', borderRadius:18, borderBottomLeftRadius:5, padding:'12px 17px', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
                           <div style={{ display:'flex', gap:4, alignItems:'center' }}>
-                            {[0,150,300].map(d=><span key={d} className="animate-bounce" style={{ width:6, height:6, borderRadius:'50%', background:'#ccc', display:'inline-block', animationDelay:`${d}ms` }} />)}
+                            {[0,150,300].map(d => <span key={d} className="animate-bounce" style={{ width:6, height:6, borderRadius:'50%', background:'#ccc', display:'inline-block', animationDelay:`${d}ms` }} />)}
                           </div>
                         </div>
                       </div>
@@ -243,20 +301,20 @@ if (text === "what's your availability?") {
               <motion.div initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.24 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8, borderRadius:16, padding:'13px 18px', background:'rgba(255,255,255,0.88)', backdropFilter:'blur(14px)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 8px rgba(0,0,0,0.05)' }}>
                   <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
-                  <input type="text" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send(input)}
+                  <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==='Enter' && send(input)}
                     placeholder="ask Deepak anything…"
                     style={{ flex:1, background:'transparent', border:'none', outline:'none', fontSize:15, color:'hsl(0,0%,8%)', fontFamily:f }}
                   />
-                  <button onClick={()=>send(input)} disabled={loading||!input.trim()}
+                  <button onClick={() => send(input)} disabled={loading || !input.trim()}
                     style={{ width:32, height:32, borderRadius:'50%', background:'hsl(0,0%,8%)', border:'none', cursor:input.trim()?'pointer':'default', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:input.trim()?1:0.3, transition:'opacity 0.15s' }}>
                     <svg viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width:14, height:14 }}><path d="M3 8h10M9 4l4 4-4 4"/></svg>
                   </button>
                 </div>
                 <p style={{ textAlign:'center', fontSize:12, color:'hsl(0,0%,55%)', marginTop:12, fontFamily:f }}>
                   Yes, this is a bot — but I monitor every message.{' '}
-                  <a href="mailto:deepak.maan@email.com" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>Email me</a>
+                  <a href="mailto:dipumaan2002@gmail.com" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>Email me</a>
                   {' '}or{' '}
-                  <a href="https://linkedin.com/in/deepakmaan25" target="_blank" rel="noopener noreferrer" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>DM on LinkedIn</a>.
+                  <a href="https://cal.com/deepakmaan" target="_blank" rel="noopener noreferrer" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>book a chat</a>.
                 </p>
               </motion.div>
             </div>
@@ -290,14 +348,14 @@ if (text === "what's your availability?") {
 }
 
 const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void }) => (
-  <button onClick={()=>send(a.query)}
+  <button onClick={() => send(a.query)}
     className="group inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white border transition-all duration-200"
     style={{ fontFamily:f, padding:'8px 16px', borderColor:'rgba(0,0,0,0.16)', boxShadow:'0 1px 3px rgba(0,0,0,0.05)', color:'hsl(0,0%,8%)', fontSize:14 }}
     onMouseEnter={e=>{ e.currentTarget.style.borderColor='hsl(0,0%,8%)'; e.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)' }}
     onMouseLeave={e=>{ e.currentTarget.style.borderColor='rgba(0,0,0,0.16)'; e.currentTarget.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)' }}>
     <span>{a.label}</span>
-    {a.icon==='down'&&<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M8 3v10M4 9l4 4 4-4"/></svg>}
-    {a.icon==='out'&&<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M6 4h6v6M12 4 5 11"/></svg>}
+    {a.icon==='down' && <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M8 3v10M4 9l4 4 4-4"/></svg>}
+    {a.icon==='out'  && <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M6 4h6v6M12 4 5 11"/></svg>}
   </button>
 )
 
@@ -337,8 +395,8 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
 
 const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void }) => {
   const [rating, setRating] = useState(0)
-  const [hover, setHover]   = useState(0)
-  const [rated, setRated]   = useState(false)
+  const [hover,  setHover]  = useState(0)
+  const [rated,  setRated]  = useState(false)
 
   const card = {
     background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)',
@@ -346,11 +404,11 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
   }
 
   const fly = (delay:number, initRot:number, restRot:number) => ({
-    initial:  { opacity:0, scale:0.18, rotate:initRot },
-    whileInView: { opacity:1, scale:1, rotate:restRot },
-    viewport: { once:true },
-    transition: { type:'spring' as const, stiffness:155, damping:20, delay },
-    whileHover: { scale:1.05, rotate: restRot * 0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
+    initial:     { opacity:0, scale:0.18, rotate:initRot },
+    whileInView: { opacity:1, scale:1,    rotate:restRot },
+    viewport:    { once:true },
+    transition:  { type:'spring' as const, stiffness:155, damping:20, delay },
+    whileHover:  { scale:1.05, rotate: restRot * 0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
   })
 
   return (
@@ -364,7 +422,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
         <motion.h2
           initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.65, ease:[0.4,0,0.2,1], delay:0.05 }}
-         style={{ position:'relative', zIndex:0,
+          style={{ position:'relative', zIndex:0,
             fontFamily:f, fontSize:'clamp(3rem,6.5vw,6rem)', fontWeight:700,
             letterSpacing:'-0.04em', lineHeight:1.0, color:'hsl(0,0%,8%)',
             whiteSpace:'nowrap', textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none',
@@ -372,6 +430,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
 
+        {/* Profile card */}
         <motion.div {...fly(0.08, -30, -5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
           <div style={{ width:148, height:148, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
             <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
@@ -379,6 +438,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:8, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
 
+        {/* Clock */}
         <motion.div {...fly(0.16, -20, 4)} style={{ ...card, position:'absolute', top:'52%', left:'2%', padding:'18px 22px', whiteSpace:'nowrap', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
           <div style={{ display:'flex', alignItems:'flex-end', gap:6 }}>
@@ -388,12 +448,14 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
 
+        {/* Currently building tag */}
         <motion.div {...fly(0.12, -18, -7)} style={{ position:'absolute', bottom:'10%', left:'3%', zIndex:4 }}>
           <div style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
             <p style={{ fontFamily:f, fontSize:12, lineHeight:1.5, margin:0 }}>Currently building<br/><strong>with AI + design</strong></p>
           </div>
         </motion.div>
 
+        {/* Music player */}
         <motion.div {...fly(0.10, -24, 3)} style={{ position:'absolute', top:'4%', left:'22%', zIndex:4 }}>
           <div style={{ background:'rgba(18,18,18,0.94)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:228, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
@@ -417,7 +479,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
             <div style={{ display:'flex', justifyContent:'center', alignItems:'center', gap:20 }}>
               <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏮</button>
-              <button onClick={()=>setPlaying(!playing)} style={{ width:34, height:34, borderRadius:'50%', background:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'hsl(0,0%,8%)', fontSize:13, flexShrink:0 }}>
+              <button onClick={() => setPlaying(!playing)} style={{ width:34, height:34, borderRadius:'50%', background:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'hsl(0,0%,8%)', fontSize:13, flexShrink:0 }}>
                 {playing ? '⏸' : '▶'}
               </button>
               <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏭</button>
@@ -425,7 +487,9 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.13, -18, -4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('mailto:deepak.maan@email.com','_blank')}>
+        {/* Book a call — wired to Cal.com */}
+        <motion.div {...fly(0.13, -18, -4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }}
+          onClick={() => window.open('https://cal.com/deepakmaan', '_blank')}>
           <div style={{ ...card, padding:'18px 22px', width:200 }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Open to work</p>
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
@@ -438,6 +502,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* Availability */}
         <motion.div {...fly(0.14, -20, 6)} style={{ position:'absolute', top:'4%', right:'2%', zIndex:4 }}>
           <div style={{ background:'rgba(52,199,142,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:16, padding:'20px 22px', width:204, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
@@ -446,7 +511,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
             <div style={{ height:1, background:'rgba(10,46,34,0.12)', marginBottom:12 }} />
             <p style={{ fontFamily:f, fontSize:15, fontWeight:600, margin:'0 0 10px' }}>Product Designer</p>
-            {['Hyderabad','Bangalore','Remote'].map(l=>(
+            {['Hyderabad','Bangalore','Remote'].map(l => (
               <div key={l} style={{ display:'flex', gap:8, marginBottom:5, alignItems:'center' }}>
                 <span style={{ fontFamily:f, fontSize:11, opacity:0.45 }}>→</span>
                 <span style={{ fontFamily:f, fontSize:11 }}>{l}</span>
@@ -455,7 +520,9 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.20, -16, -6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
+        {/* Resume */}
+        <motion.div {...fly(0.20, -16, -6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }}
+          onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}>
           <div style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 22px', width:178, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.09)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.55, margin:'0 0 10px' }}>CV</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -468,31 +535,35 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
+        {/* Interests */}
         <motion.div {...fly(0.17, -19, 5)} style={{ ...card, position:'absolute', top:'60%', left:'18%', padding:'18px 20px', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, maxWidth:252 }}>
-            {INTERESTS.map(i=><span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
+            {INTERESTS.map(i => <span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
           </div>
         </motion.div>
 
+        {/* Rate portfolio */}
         <motion.div {...fly(0.19, -22, -4)} style={{ ...card, position:'absolute', bottom:'8%', left:'18%', padding:'18px 22px', textAlign:'center', minWidth:168, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>
             {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
           </p>
           <div style={{ display:'flex', gap:2, justifyContent:'center' }}>
-            {[1,2,3,4,5].map(s=>(
-              <button key={s} onMouseEnter={()=>!rated&&setHover(s)} onMouseLeave={()=>!rated&&setHover(0)}
-                onClick={()=>{ if(!rated){ setRating(s); setRated(true) } }}
+            {[1,2,3,4,5].map(s => (
+              <button key={s} onMouseEnter={() => !rated && setHover(s)} onMouseLeave={() => !rated && setHover(0)}
+                onClick={() => { if (!rated) { setRating(s); setRated(true) } }}
                 style={{ fontSize:24, background:'none', border:'none', cursor:rated?'default':'pointer', padding:'0 2px', lineHeight:1, color:(hover||rating)>=s?'#FABE15':'hsl(0,0%,82%)', transition:'color 0.1s' }}>★</button>
             ))}
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.22, -26, 7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }} onClick={()=>window.location.href='/writings'}>
+        {/* Writings folder */}
+        <motion.div {...fly(0.22, -26, 7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }}
+          onClick={() => window.location.href='/writings'}>
           <div style={{ position:'relative', width:196, height:136, perspective:1500 }}>
             <div style={{ position:'absolute', bottom:'99%', left:0, width:70, height:14, background:'#d97706', borderRadius:'8px 8px 0 0' }} />
             <div style={{ position:'absolute', bottom:'99%', left:66, width:12, height:12, background:'#d97706', clipPath:'polygon(0 35%,0 100%,50% 100%)' }} />
-            {[{cls:'sheet1'},{cls:'sheet2'},{cls:'sheet3'}].map(s=>(
+            {[{cls:'sheet1'},{cls:'sheet2'},{cls:'sheet3'}].map(s => (
               <div key={s.cls} className={`folder-sheet ${s.cls}`} style={{ position:'absolute', inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb', display:'flex', flexDirection:'column', gap:8, padding:14 }}>
                 <div style={{ width:34, height:4, background:'#d1d5db', borderRadius:2 }} />
                 <div style={{ width:'68%', height:4, background:'#9ca3af', borderRadius:2 }} />
@@ -507,6 +578,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:18, textAlign:'center', fontFamily:f, fontSize:11, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
 
+        {/* Currently reading */}
         <motion.div {...fly(0.21, -16, -5)} style={{ ...card, position:'absolute', bottom:'4%', left:'62%', padding:'16px', width:172, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
           <div style={{ width:'100%', borderRadius:8, overflow:'hidden', marginBottom:10, aspectRatio:'2/3', background:'#f0f0f0' }}>
@@ -520,7 +592,9 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.26, -24, 8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
+        {/* LinkedIn */}
+        <motion.div {...fly(0.26, -24, 8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }}
+          onClick={() => window.open('https://linkedin.com/in/deepakmaan25', '_blank')}>
           <div style={{ background:'rgba(10,102,194,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 22px', width:190, boxShadow:'0 4px 20px rgba(0,0,0,0.14)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'rgba(255,255,255,0.45)', margin:'0 0 10px' }}>Find me online</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
