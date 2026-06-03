@@ -1,8 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 
-interface Message { role:'user'|'assistant'; content:string }
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface Message {
+  role: 'user' | 'assistant'
+  content: string
+  revealed?: number   // word index up to which is visible (for typewriter)
+  done?: boolean      // typewriter finished
+}
 
+// ─── Linkify ─────────────────────────────────────────────────────────────────
 const linkify = (text: string) => {
   const parts = text.split(/(https?:\/\/[^\s]+)/g)
   return parts.map((part, i) =>
@@ -15,16 +22,25 @@ const linkify = (text: string) => {
   )
 }
 
+// ─── Word-by-word reveal for a completed message string ───────────────────────
+// Returns the visible portion of text up to `revealed` words
+const revealWords = (text: string, revealed: number): string => {
+  if (revealed === Infinity) return text
+  return text.split(' ').slice(0, revealed).join(' ')
+}
+
+// ─── Quick actions ────────────────────────────────────────────────────────────
 const QUICK_ACTIONS = [
-  { label:'see my work',               icon:'down', query:'see my work',                    scroll:true  },
-  { label:'how do you ship?',          icon:null,   query:'how do you ship?',               scroll:false },
-  { label:'what designer are you?',    icon:null,   query:'what kind of designer are you?', scroll:false },
-  { label:"what's your availability?", icon:null,   query:"what's your availability?",      scroll:false },
-  { label:'wanna chat?',               icon:'out',  query:'wanna chat?',                    scroll:false },
-  { label:'resume',                    icon:'out',  query:'resume',                         scroll:false },
-  { label:'linkedin',                  icon:'out',  query:'linkedin',                       scroll:false },
+  { label:'see my work',               icon:'down', query:'see my work'                    },
+  { label:'how do you ship?',          icon:null,   query:'how do you ship?'               },
+  { label:'what designer are you?',    icon:null,   query:'what kind of designer are you?' },
+  { label:"what's your availability?", icon:null,   query:"what's your availability?"      },
+  { label:'wanna chat?',               icon:'out',  query:'wanna chat?'                    },
+  { label:'resume',                    icon:'out',  query:'resume'                         },
+  { label:'linkedin',                  icon:'out',  query:'linkedin'                       },
 ]
 
+// ─── System prompt ────────────────────────────────────────────────────────────
 const SYSTEM_PROMPT = `You are Deepak Maan, a product designer based in Mumbai. You're speaking as yourself on your portfolio site. Someone is reading your work — they might be a recruiter, a founder, or just curious. Talk like a real person texting back, not a chatbot.
 
 STRICT RULES — read these carefully:
@@ -58,13 +74,10 @@ CASE STUDIES (professional work):
 3. Zu-AI — Redesigned the chat experience for an AI tutoring app serving 100K+ students. Solo assessment project over 2 weeks. Research with 33 participants. Fixed information overload (60% reported it), added accessibility controls, a chat dashboard for context switching, and visual hierarchy improvements. 40% faster information scanning, 3x faster task completion in usability tests.
 
 SHIPPED SIDE PROJECTS (built yourself):
-1. Music Animation Generator — A tool that generates real-time visual animations synced to music. Built with React and web audio APIs. Takes any audio input and creates dynamic animated visuals that respond to beat, frequency, and amplitude.
-
-2. PulsePlay — A music player with a focus on visual experience. Clean UI, waveform visualisation, and playlist management. Built to scratch your own itch around how music players should feel.
-
-3. TypMatch — A typography matching tool. Helps designers find font pairings that work. Built because font pairing is one of those things everyone does badly and no tool made it fast enough.
-
-4. Kairo Design System — A full design system built from scratch — tokens, components, documentation. Built it for a side project to understand how design systems actually work when you're building them yourself rather than just using one.
+1. Music Animation Generator — generates real-time visual animations synced to music using React and web audio APIs. Takes any audio input and creates dynamic animated visuals that respond to beat, frequency, and amplitude.
+2. PulsePlay — a music player focused on visual experience. Clean UI, waveform visualisation, and playlist management. Built to scratch your own itch around how music players should feel.
+3. TypMatch — a typography matching tool. Helps designers find font pairings fast. Built because font pairing is one of those things everyone does badly and no tool made it quick enough.
+4. Kairo Design System — a full design system built from scratch: tokens, components, documentation. Built it to understand how design systems actually work when you're building them yourself rather than just using one.
 
 AVAILABILITY:
 Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
@@ -81,6 +94,11 @@ const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding'
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
 
+// spring presets
+const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
+const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [messages, setMessages]       = useState<Message[]>([])
   const [input, setInput]             = useState('')
@@ -89,70 +107,92 @@ export default function HomePage() {
   const [time, setTime]               = useState(new Date())
   const [playing, setPlaying]         = useState(true)
   const chatEndRef                    = useRef<HTMLDivElement>(null)
+  const typeTimers                    = useRef<ReturnType<typeof setInterval>[]>([])
 
   useEffect(() => { const t = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(t) }, [])
-  useEffect(() => { if (messages.length > 0) { chatEndRef.current?.scrollIntoView({ behavior:'smooth', block:'nearest' }) } }, [messages])
+  useEffect(() => {
+    if (messages.length > 0) chatEndRef.current?.scrollIntoView({ behavior:'smooth', block:'nearest' })
+  }, [messages])
 
   const istTime = time.toLocaleTimeString('en-IN', { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true })
+
+  // ── word-by-word reveal for a message at index ──────────────────────────────
+  const startTypewriter = useCallback((idx: number, text: string) => {
+    const words = text.split(' ')
+    let w = 0
+    const t = setInterval(() => {
+      w++
+      setMessages(prev => {
+        const next = [...prev]
+        if (!next[idx]) return prev
+        next[idx] = { ...next[idx], revealed: w, done: w >= words.length }
+        return next
+      })
+      if (w >= words.length) clearInterval(t)
+    }, 52)
+    typeTimers.current.push(t)
+  }, [])
+
+  // ── add a hardcoded reply with typewriter ────────────────────────────────────
+  const addHardcoded = useCallback((query: string, reply: string) => {
+    const userMsg:  Message = { role:'user',      content: query, done: true }
+    const botMsg:   Message = { role:'assistant', content: reply, revealed: 0, done: false }
+    setMessages(prev => {
+      const next = [...prev, userMsg, botMsg]
+      const idx = next.length - 1
+      setTimeout(() => startTypewriter(idx, reply), 120)
+      return next
+    })
+    setChatStarted(true)
+    setInput('')
+  }, [startTypewriter])
 
   const send = async (text: string) => {
     if (!text.trim() || loading) return
 
-    // ── hard-wired shortcuts (no chat bubble) ────────────────────────────────
-    if (text === 'see my work') {
-      document.getElementById('work')?.scrollIntoView({ behavior:'smooth' })
-      return
-    }
-    if (text === 'resume') {
-      window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')
-      return
-    }
-    if (text === 'linkedin') {
-      window.open('https://linkedin.com/in/deepakmaan25', '_blank')
-      return
-    }
+    // ── no-bubble shortcuts ──────────────────────────────────────────────────
+    if (text === 'see my work')  { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
+    if (text === 'resume')       { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
+    if (text === 'linkedin')     { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
 
-    // ── hardcoded pill replies (guaranteed accurate + short) ─────────────────
-    if (text === 'wanna chat?') {
-      setMessages(prev => [...prev,
-        { role:'user' as const, content: text },
-        { role:'assistant' as const, content: "Sure — pick a time that works for you. https://cal.com/deepakmaan" }
-      ])
-      setChatStarted(true); setInput(''); return
-    }
-    if (text === 'how do you ship?') {
-      setMessages(prev => [...prev,
-        { role:'user' as const, content: text },
-        { role:'assistant' as const, content: "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file." }
-      ])
-      setChatStarted(true); setInput(''); return
-    }
-    if (text === 'what kind of designer are you?') {
-      setMessages(prev => [...prev,
-        { role:'user' as const, content: text },
-        { role:'assistant' as const, content: "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished." }
-      ])
-      setChatStarted(true); setInput(''); return
-    }
-    if (text === "what's your availability?") {
-      setMessages(prev => [...prev,
-        { role:'user' as const, content: text },
-        { role:'assistant' as const, content: "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan" }
-      ])
-      setChatStarted(true); setInput(''); return
-    }
+    // ── hardcoded pill replies ────────────────────────────────────────────────
+    if (text === 'wanna chat?')
+      return addHardcoded(text, "Sure — pick a time that works for you. https://cal.com/deepakmaan")
+    if (text === 'how do you ship?')
+      return addHardcoded(text, "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file.")
+    if (text === 'what kind of designer are you?')
+      return addHardcoded(text, "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished.")
+    if (text === "what's your availability?")
+      return addHardcoded(text, "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan")
 
-    // ── streaming API call for everything else ───────────────────────────────
-    const userMsg = { role:'user' as const, content: text }
+    // ── streaming API call ────────────────────────────────────────────────────
+    const userMsg: Message = { role:'user', content: text, done: true }
+    const botMsg:  Message = { role:'assistant', content: '', revealed: 0, done: false }
     const updated = [...messages, userMsg]
-    setMessages(updated)
+
+    setMessages([...updated, botMsg])
     setInput('')
     setLoading(true)
     setChatStarted(true)
 
-    // Add empty assistant message that we'll stream into
-    const streamingIndex = updated.length
-    setMessages(prev => [...prev, { role:'assistant' as const, content: '' }])
+    const streamIdx = updated.length
+    let accumulated = ''
+    // token buffer: flush to state every 40ms to avoid per-token renders
+    let buffer = ''
+    let flushTimer: ReturnType<typeof setInterval> | null = null
+
+    const flush = () => {
+      if (!buffer) return
+      accumulated += buffer
+      buffer = ''
+      const snap = accumulated
+      setMessages(prev => {
+        const next = [...prev]
+        if (!next[streamIdx]) return prev
+        next[streamIdx] = { ...next[streamIdx], content: snap, revealed: Infinity }
+        return next
+      })
+    }
 
     try {
       const res = await fetch('/api/chat', {
@@ -160,46 +200,49 @@ export default function HomePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
       })
-
       if (!res.ok || !res.body) throw new Error('Stream failed')
+
+      flushTimer = setInterval(flush, 40)
 
       const reader  = res.body.getReader()
       const decoder = new TextDecoder()
-      let accumulated = ''
 
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-
         const chunk = decoder.decode(value, { stream: true })
-        const lines = chunk.split('\n').filter(l => l.startsWith('data: '))
-
-        for (const line of lines) {
+        for (const line of chunk.split('\n')) {
+          if (!line.startsWith('data: ')) continue
           const data = line.slice(6)
           if (data === '[DONE]') continue
           try {
-            const parsed = JSON.parse(data)
-            const token  = parsed?.token ?? ''
-            if (token) {
-              accumulated += token
-              setMessages(prev => {
-                const next = [...prev]
-                next[streamingIndex] = { role:'assistant', content: accumulated }
-                return next
-              })
-            }
-          } catch { /* malformed chunk */ }
+            const token = JSON.parse(data)?.token ?? ''
+            if (token) buffer += token
+          } catch { /* skip */ }
         }
       }
+      flush() // final flush
     } catch {
       setMessages(prev => {
         const next = [...prev]
-        next[streamingIndex] = { role:'assistant', content: 'Something went wrong — try again.' }
+        if (next[streamIdx]) next[streamIdx] = { role:'assistant', content:'Something went wrong — try again.', revealed:Infinity, done:true }
         return next
       })
     } finally {
+      if (flushTimer) clearInterval(flushTimer)
       setLoading(false)
+      setMessages(prev => {
+        const next = [...prev]
+        if (next[streamIdx]) next[streamIdx] = { ...next[streamIdx], done: true }
+        return next
+      })
     }
+  }
+
+  // ── visible text for a message ───────────────────────────────────────────────
+  const visibleText = (msg: Message) => {
+    if (msg.revealed === undefined || msg.revealed === Infinity || msg.done) return msg.content
+    return revealWords(msg.content, msg.revealed)
   }
 
   return (
@@ -220,17 +263,15 @@ export default function HomePage() {
         .bl6{animation:b6 19s linear infinite;transform-origin:calc(50% + 300px) calc(50% - 200px)}
         @keyframes bar{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes wordIn{from{opacity:0;filter:blur(2px)}to{opacity:1;filter:blur(0)}}
         .folder-sheet{transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1)}
         .folder-group:hover .sheet1{transform:translate(-14px,-30px) rotate(-7deg)}
         .folder-group:hover .sheet2{transform:translate(14px,-45px) rotate(5deg)}
         .folder-group:hover .sheet3{transform:translate(-4px,-65px) rotate(-3deg) scale(1.02)}
         .folder-group:hover .folder-front{transform:rotateX(-46deg) translateY(1px)}
         .folder-front{transition:transform 0.3s;transform-origin:bottom}
-        .work-section-bg {
-          background-color: hsl(0,0%,97%);
-          background-image: radial-gradient(circle, rgba(0,0,0,0.1) 0.8px, transparent 0.8px);
-          background-size: 18px 18px;
-        }
+        .work-section-bg{background-color:hsl(0,0%,97%);background-image:radial-gradient(circle,rgba(0,0,0,0.1) 0.8px,transparent 0.8px);background-size:18px 18px}
+        .msg-bubble{transition:min-height 0.15s ease}
       `}</style>
 
       <div className="relative isolate overflow-x-clip" style={{ backgroundColor:'hsl(0,0%,98%)', color:'hsl(0,0%,8%)', fontFamily:f }}>
@@ -238,22 +279,13 @@ export default function HomePage() {
         {/* ─── HERO ─── */}
         <div style={{ position:'relative', minHeight:'100svh', display:'flex', flexDirection:'column', justifyContent:'center' }}>
 
-          {/* ── background blobs ── */}
+          {/* blobs */}
           <div className="absolute -z-10 top-0 left-0 right-0 bottom-0 overflow-hidden">
             <div className="absolute inset-0" style={{ background:'linear-gradient(135deg,hsl(250,60%,97%),hsl(200,70%,96%),hsl(330,60%,97%))' }}>
               <svg className="hidden"><defs><filter id="g4"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="g"/><feBlend in="SourceGraphic" in2="g"/></filter></defs></svg>
               <div className="h-full w-full" style={{ filter:'url(#g4) blur(40px)' }}>
-                {[
-                  ['bl1','99,102,241',  0.45],
-                  ['bl2','168,85,247',  0.40],
-                  ['bl3','20,184,166',  0.35],
-                  ['bl4','236,72,153',  0.30],
-                  ['bl5','59,130,246',  0.40],
-                  ['bl6','245,158,11',  0.25],
-                ].map(([cls, col, o]) => (
-                  <div key={cls as string} className={cls as string}
-                    style={{ position:'absolute', background:`radial-gradient(circle at center,rgba(${col},${o}) 0,rgba(${col},0) 55%) no-repeat`,
-                      mixBlendMode:'screen' as any, width:'80%', height:'80%', top:'10%', left:'10%' }} />
+                {[['bl1','99,102,241',0.45],['bl2','168,85,247',0.40],['bl3','20,184,166',0.35],['bl4','236,72,153',0.30],['bl5','59,130,246',0.40],['bl6','245,158,11',0.25]].map(([cls,col,o])=>(
+                  <div key={cls as string} className={cls as string} style={{ position:'absolute', background:`radial-gradient(circle at center,rgba(${col},${o}) 0,rgba(${col},0) 55%) no-repeat`, mixBlendMode:'screen' as any, width:'80%', height:'80%', top:'10%', left:'10%' }} />
                 ))}
               </div>
             </div>
@@ -262,124 +294,168 @@ export default function HomePage() {
           </div>
 
           <div style={{ maxWidth:1152, margin:'0 auto', padding:'0 40px', width:'100%' }}>
-            <AnimatePresence mode="wait">
-              {!chatStarted ? (
-                <motion.div key="headline"
-                  initial={{ opacity:0, y:18 }} animate={{ opacity:1, y:0 }}
-                  exit={{ opacity:0, y:-14, transition:{ duration:0.25, ease:[0.4,0,1,1] } }}
-                  transition={{ duration:0.6, ease:[0.4,0,0.2,1] }}
-                  style={{ maxWidth:920, margin:'0 auto 44px' }}>
-                  <div className="flex items-start gap-4 sm:gap-5">
-                    <span className="relative shrink-0" style={{ marginTop:7 }}>
-                      <span style={{ display:'block', width:36, height:36, borderRadius:'50%', overflow:'hidden', background:'#DDD8FB', boxShadow:'0 0 0 2px white,0 1px 4px rgba(0,0,0,0.1)' }}>
-                        <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
-                      </span>
-                      <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
-                    </span>
-                    <div style={{ fontFamily:f, fontWeight:500, lineHeight:1.15, letterSpacing:'-0.025em', color:'hsl(0,0%,8%)' }}>
-                      <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap' }}>
-                        I'm{' '}
-                        <span style={{ position:'relative', display:'inline-block', padding:'0 9px' }}>
-                          <span style={{ position:'absolute', inset:0, borderLeft:'2px solid rgba(99,102,241,0.45)', borderRight:'2px solid rgba(99,102,241,0.45)', background:'rgba(99,102,241,0.08)', borderRadius:2 }} />
-                          <span style={{ position:'absolute', width:5, height:5, borderRadius:'50%', background:'rgb(99,102,241)', top:0, left:0, transform:'translate(-50%,-50%)' }} />
-                          <span style={{ position:'absolute', width:5, height:5, borderRadius:'50%', background:'rgb(99,102,241)', bottom:0, right:0, transform:'translate(50%,50%)' }} />
-                          <span style={{ position:'relative' }}>Deepak Maan</span>
-                        </span>
-                        {' '}&ndash; based in Mumbai.
-                      </div>
-                      <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap', marginTop:6 }}>
-                        I design and ship product UX,{' '}
-                        <span style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300, display:'inline-block', whiteSpace:'nowrap' }}>end to end.</span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div key="chat-intro"
-                  initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }}
-                  transition={{ duration:0.35, ease:[0.4,0,0.2,1] }}
-                  style={{ maxWidth:920, margin:'0 auto 16px', display:'flex', alignItems:'flex-end', gap:8 }}>
-                  <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
-                    <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
-                  </span>
-                  <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, borderBottomLeftRadius:5, fontSize:14.5, lineHeight:1.6, fontFamily:f, background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
-                    I'm Deepak &mdash; based in Mumbai. I design and ship product UX, end to end.
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <LayoutGroup>
+              <div style={{ maxWidth:920, margin:'0 auto' }}>
 
-            <div style={{ maxWidth:920, margin:'0 auto' }}>
-              <AnimatePresence>
-                {chatStarted && messages.length > 0 && (
-                  <motion.div initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:'auto' }} exit={{ opacity:0, height:0 }}
-                    style={{ marginBottom:16, maxHeight:320, overflowY:'auto', display:'flex', flexDirection:'column', gap:12 }}>
-                    {messages.map((msg, i) => (
-                      <motion.div key={i} initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }}
-                        style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
-                        {msg.role==='assistant' && (
-                          <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
-                            <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                {/* ── Headline — fades out smoothly, doesn't jump ── */}
+                <AnimatePresence>
+                  {!chatStarted && (
+                    <motion.div
+                      key="headline"
+                      layout
+                      initial={{ opacity:0, y:16, filter:'blur(6px)' }}
+                      animate={{ opacity:1, y:0,  filter:'blur(0px)', transition:{ duration:0.55, ease:[0.4,0,0.2,1] } }}
+                      exit={{ opacity:0, y:-8, filter:'blur(6px)', transition:{ duration:0.38, ease:[0.4,0,1,1] } }}
+                      style={{ marginBottom:32 }}>
+                      <div className="flex items-start gap-4">
+                        <motion.span layoutId="avatar" className="relative shrink-0" style={{ marginTop:7 }}>
+                          <span style={{ display:'block', width:36, height:36, borderRadius:'50%', overflow:'hidden', background:'#DDD8FB', boxShadow:'0 0 0 2px white,0 1px 4px rgba(0,0,0,0.1)' }}>
+                            <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                           </span>
-                        )}
-                        <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
-                          ...(msg.role==='user'
-                            ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
-                            : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
-                        }}>
-                          {msg.role==='assistant' ? linkify(msg.content) : msg.content}
-                          {/* blinking cursor while streaming this message */}
-                          {msg.role==='assistant' && loading && i === messages.length - 1 && (
-                            <span style={{ display:'inline-block', width:2, height:'1em', background:'hsl(0,0%,30%)', marginLeft:2, verticalAlign:'text-bottom', animation:'blink 0.8s step-end infinite' }} />
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                    {/* dots only shown before first token arrives */}
-                    {loading && messages[messages.length-1]?.content === '' && (
-                      <div style={{ display:'flex', alignItems:'flex-end', gap:8 }}>
-                        <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, boxShadow:'0 0 0 2px white' }} />
-                        <div style={{ background:'white', border:'1px solid hsl(0,0%,88%)', borderRadius:18, borderBottomLeftRadius:5, padding:'12px 17px', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
-                          <div style={{ display:'flex', gap:4, alignItems:'center' }}>
-                            {[0,150,300].map(d => <span key={d} className="animate-bounce" style={{ width:6, height:6, borderRadius:'50%', background:'#ccc', display:'inline-block', animationDelay:`${d}ms` }} />)}
+                          <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
+                        </motion.span>
+                        <div style={{ fontFamily:f, fontWeight:500, lineHeight:1.15, letterSpacing:'-0.025em', color:'hsl(0,0%,8%)' }}>
+                          <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap' }}>
+                            I'm{' '}
+                            <span style={{ position:'relative', display:'inline-block', padding:'0 9px' }}>
+                              <span style={{ position:'absolute', inset:0, borderLeft:'2px solid rgba(99,102,241,0.45)', borderRight:'2px solid rgba(99,102,241,0.45)', background:'rgba(99,102,241,0.08)', borderRadius:2 }} />
+                              <span style={{ position:'absolute', width:5, height:5, borderRadius:'50%', background:'rgb(99,102,241)', top:0, left:0, transform:'translate(-50%,-50%)' }} />
+                              <span style={{ position:'absolute', width:5, height:5, borderRadius:'50%', background:'rgb(99,102,241)', bottom:0, right:0, transform:'translate(50%,50%)' }} />
+                              <span style={{ position:'relative' }}>Deepak Maan</span>
+                            </span>
+                            {' '}&ndash; based in Mumbai.
+                          </div>
+                          <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap', marginTop:6 }}>
+                            I design and ship product UX,{' '}
+                            <span style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300, display:'inline-block', whiteSpace:'nowrap' }}>end to end.</span>
                           </div>
                         </div>
                       </div>
-                    )}
-                    <div ref={chatEndRef} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* ── Chat area ── */}
+                <AnimatePresence>
+                  {chatStarted && (
+                    <motion.div
+                      key="chat-area"
+                      layout
+                      initial={{ opacity:0 }}
+                      animate={{ opacity:1, transition:{ duration:0.3, delay:0.1 } }}
+                      style={{ marginBottom:16 }}>
+
+                      {/* intro bubble — avatar morphs via layoutId */}
+                      <motion.div
+                        layout
+                        initial={{ opacity:0, y:8 }}
+                        animate={{ opacity:1, y:0, transition:SP_SLOW }}
+                        style={{ display:'flex', alignItems:'flex-end', gap:8, marginBottom:12 }}>
+                        <motion.span layoutId="avatar" style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
+                          <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                        </motion.span>
+                        <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, borderBottomLeftRadius:5, fontSize:14.5, lineHeight:1.6, fontFamily:f, background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
+                          I'm Deepak &mdash; based in Mumbai. I design and ship product UX, end to end.
+                        </div>
+                      </motion.div>
+
+                      {/* message list */}
+                      <div style={{ maxHeight:300, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
+                        {messages.map((msg, i) => {
+                          const text = visibleText(msg)
+                          const isStreaming = msg.role==='assistant' && !msg.done && loading
+                          return (
+                            <motion.div key={i}
+                              layout
+                              initial={{ opacity:0, y:14, scale:0.97 }}
+                              animate={{ opacity:1, y:0,  scale:1, transition:SP_MSG }}
+                              style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
+                              {msg.role==='assistant' && (
+                                <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
+                                  <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                                </span>
+                              )}
+                              <motion.div layout className="msg-bubble"
+                                style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
+                                  ...(msg.role==='user'
+                                    ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
+                                    : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
+                                }}>
+                                {msg.role==='assistant' ? linkify(text) : text}
+                                {isStreaming && (
+                                  <span style={{ display:'inline-block', width:2, height:'0.9em', background:'hsl(0,0%,35%)', marginLeft:3, verticalAlign:'text-bottom', animation:'blink 0.75s step-end infinite' }} />
+                                )}
+                              </motion.div>
+                            </motion.div>
+                          )
+                        })}
+
+                        {/* typing dots — only before first token */}
+                        <AnimatePresence>
+                          {loading && messages.length > 0 && messages[messages.length-1]?.content === '' && (
+                            <motion.div
+                              key="dots"
+                              initial={{ opacity:0, y:8, scale:0.95 }}
+                              animate={{ opacity:1, y:0,  scale:1,   transition:SP_MSG }}
+                              exit={{ opacity:0, scale:0.9, transition:{ duration:0.18 } }}
+                              style={{ display:'flex', alignItems:'flex-end', gap:8 }}>
+                              <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, boxShadow:'0 0 0 2px white' }} />
+                              <div style={{ background:'white', border:'1px solid hsl(0,0%,88%)', borderRadius:18, borderBottomLeftRadius:5, padding:'13px 17px', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
+                                <div style={{ display:'flex', gap:5, alignItems:'center' }}>
+                                  {[0,160,320].map(d => (
+                                    <span key={d} style={{ width:6, height:6, borderRadius:'50%', background:'hsl(0,0%,72%)', display:'inline-block', animation:`bar 1s ease-in-out ${d}ms infinite` }} />
+                                  ))}
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        <div ref={chatEndRef} />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* ── Pills — staggered entrance ── */}
+                <motion.div layout style={{ marginBottom:18 }}>
+                  <motion.div
+                    initial="hidden" animate="visible"
+                    variants={{ hidden:{}, visible:{ transition:{ staggerChildren:0.055, delayChildren:0.18 } } }}
+                    style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center', marginBottom:8 }}>
+                    {QUICK_ACTIONS.slice(0,4).map(a => <Pill key={a.label} a={a} send={send} />)}
                   </motion.div>
-                )}
-              </AnimatePresence>
+                  <motion.div
+                    initial="hidden" animate="visible"
+                    variants={{ hidden:{}, visible:{ transition:{ staggerChildren:0.055, delayChildren:0.36 } } }}
+                    style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center' }}>
+                    {QUICK_ACTIONS.slice(4).map(a => <Pill key={a.label} a={a} send={send} />)}
+                  </motion.div>
+                </motion.div>
 
-              <motion.div initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.14 }} style={{ marginBottom:18 }}>
-                <div style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center', marginBottom:8 }}>
-                  {QUICK_ACTIONS.slice(0,4).map(a => <Pill key={a.label} a={a} send={send} />)}
-                </div>
-                <div style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center' }}>
-                  {QUICK_ACTIONS.slice(4).map(a => <Pill key={a.label} a={a} send={send} />)}
-                </div>
-              </motion.div>
+                {/* ── Input ── */}
+                <motion.div layout initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0, transition:{ delay:0.28, ...SP_SLOW } }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:8, borderRadius:16, padding:'13px 18px', background:'rgba(255,255,255,0.88)', backdropFilter:'blur(14px)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 8px rgba(0,0,0,0.05)' }}>
+                    <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
+                    <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==='Enter' && send(input)}
+                      placeholder="ask Deepak anything…"
+                      style={{ flex:1, background:'transparent', border:'none', outline:'none', fontSize:15, color:'hsl(0,0%,8%)', fontFamily:f }}
+                    />
+                    <button onClick={() => send(input)} disabled={loading || !input.trim()}
+                      style={{ width:32, height:32, borderRadius:'50%', background:'hsl(0,0%,8%)', border:'none', cursor:input.trim()?'pointer':'default', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:input.trim()?1:0.3, transition:'opacity 0.15s' }}>
+                      <svg viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width:14, height:14 }}><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                    </button>
+                  </div>
+                  <p style={{ textAlign:'center', fontSize:12, color:'hsl(0,0%,55%)', marginTop:12, fontFamily:f }}>
+                    Yes, this is a bot — but I monitor every message.{' '}
+                    <a href="mailto:dipumaan2002@gmail.com" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>Email me</a>
+                    {' '}or{' '}
+                    <a href="https://cal.com/deepakmaan" target="_blank" rel="noopener noreferrer" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>book a chat</a>.
+                  </p>
+                </motion.div>
 
-              <motion.div initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.24 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8, borderRadius:16, padding:'13px 18px', background:'rgba(255,255,255,0.88)', backdropFilter:'blur(14px)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 8px rgba(0,0,0,0.05)' }}>
-                  <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
-                  <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==='Enter' && send(input)}
-                    placeholder="ask Deepak anything…"
-                    style={{ flex:1, background:'transparent', border:'none', outline:'none', fontSize:15, color:'hsl(0,0%,8%)', fontFamily:f }}
-                  />
-                  <button onClick={() => send(input)} disabled={loading || !input.trim()}
-                    style={{ width:32, height:32, borderRadius:'50%', background:'hsl(0,0%,8%)', border:'none', cursor:input.trim()?'pointer':'default', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:input.trim()?1:0.3, transition:'opacity 0.15s' }}>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width:14, height:14 }}><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-                  </button>
-                </div>
-                <p style={{ textAlign:'center', fontSize:12, color:'hsl(0,0%,55%)', marginTop:12, fontFamily:f }}>
-                  Yes, this is a bot — but I monitor every message.{' '}
-                  <a href="mailto:dipumaan2002@gmail.com" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>Email me</a>
-                  {' '}or{' '}
-                  <a href="https://cal.com/deepakmaan" target="_blank" rel="noopener noreferrer" style={{ color:'inherit', textDecoration:'underline', textUnderlineOffset:2 }}>book a chat</a>.
-                </p>
-              </motion.div>
-            </div>
+              </div>
+            </LayoutGroup>
           </div>
         </div>
 
@@ -409,18 +485,24 @@ export default function HomePage() {
   )
 }
 
+// ─── Pill ─────────────────────────────────────────────────────────────────────
 const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void }) => (
-  <button onClick={() => send(a.query)}
-    className="group inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white border transition-all duration-200"
-    style={{ fontFamily:f, padding:'8px 16px', borderColor:'rgba(0,0,0,0.16)', boxShadow:'0 1px 3px rgba(0,0,0,0.05)', color:'hsl(0,0%,8%)', fontSize:14 }}
+  <motion.button
+    onClick={() => send(a.query)}
+    variants={{ hidden:{ opacity:0, y:10, scale:0.94 }, visible:{ opacity:1, y:0, scale:1, transition:{ type:'spring', stiffness:380, damping:28 } } }}
+    whileHover={{ scale:1.04, transition:{ type:'spring', stiffness:500, damping:20 } }}
+    whileTap={{ scale:0.97 }}
+    className="group inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white border"
+    style={{ fontFamily:f, padding:'8px 16px', borderColor:'rgba(0,0,0,0.16)', boxShadow:'0 1px 3px rgba(0,0,0,0.05)', color:'hsl(0,0%,8%)', fontSize:14, cursor:'pointer' }}
     onMouseEnter={e=>{ e.currentTarget.style.borderColor='hsl(0,0%,8%)'; e.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)' }}
     onMouseLeave={e=>{ e.currentTarget.style.borderColor='rgba(0,0,0,0.16)'; e.currentTarget.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)' }}>
     <span>{a.label}</span>
     {a.icon==='down' && <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M8 3v10M4 9l4 4 4-4"/></svg>}
     {a.icon==='out'  && <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity"><path d="M6 4h6v6M12 4 5 11"/></svg>}
-  </button>
+  </motion.button>
 )
 
+// ─── CaseRow ──────────────────────────────────────────────────────────────────
 const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;desc:string;metric:string;metricLabel:string;slug:string;image:string;bg:string}) => (
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
     style={{ display:'grid', gridTemplateColumns:'1fr 2fr', gap:'0 72px', alignItems:'start' }}>
@@ -455,51 +537,40 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
   </motion.article>
 )
 
+// ─── Widgets ──────────────────────────────────────────────────────────────────
 const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void }) => {
   const [rating, setRating] = useState(0)
   const [hover,  setHover]  = useState(0)
   const [rated,  setRated]  = useState(false)
 
-  const card = {
-    background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)',
-    border:'1px solid rgba(0,0,0,0.07)', borderRadius:16, boxShadow:'0 2px 24px rgba(0,0,0,0.08)',
-  }
+  const card = { background:'rgba(255,255,255,0.92)', backdropFilter:'blur(12px)', border:'1px solid rgba(0,0,0,0.07)', borderRadius:16, boxShadow:'0 2px 24px rgba(0,0,0,0.08)' }
 
   const fly = (delay:number, initRot:number, restRot:number) => ({
     initial:     { opacity:0, scale:0.18, rotate:initRot },
     whileInView: { opacity:1, scale:1,    rotate:restRot },
     viewport:    { once:true },
     transition:  { type:'spring' as const, stiffness:155, damping:20, delay },
-    whileHover:  { scale:1.05, rotate: restRot * 0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
+    whileHover:  { scale:1.05, rotate:restRot*0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
   })
 
   return (
     <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', minHeight:'100vh', overflow:'hidden' }}>
-      <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.4,
-        backgroundImage:'radial-gradient(circle, rgba(0,0,0,0.2) 0.8px, transparent 0.8px)',
-        backgroundSize:'18px 18px' }} />
-
+      <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.4, backgroundImage:'radial-gradient(circle,rgba(0,0,0,0.2) 0.8px,transparent 0.8px)', backgroundSize:'18px 18px' }} />
       <div style={{ position:'relative', width:'100%', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
 
-        <motion.h2
-          initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-          transition={{ duration:0.65, ease:[0.4,0,0.2,1], delay:0.05 }}
-          style={{ position:'relative', zIndex:0,
-            fontFamily:f, fontSize:'clamp(3rem,6.5vw,6rem)', fontWeight:700,
-            letterSpacing:'-0.04em', lineHeight:1.0, color:'hsl(0,0%,8%)',
-            whiteSpace:'nowrap', textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none',
-            marginTop:'-5vh' }}>
+        <motion.h2 initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.65, ease:[0.4,0,0.2,1], delay:0.05 }}
+          style={{ position:'relative', zIndex:0, fontFamily:f, fontSize:'clamp(3rem,6.5vw,6rem)', fontWeight:700, letterSpacing:'-0.04em', lineHeight:1.0, color:'hsl(0,0%,8%)', whiteSpace:'nowrap', textAlign:'center', pointerEvents:'none', margin:0, userSelect:'none', marginTop:'-5vh' }}>
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
 
-        <motion.div {...fly(0.08, -30, -5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
+        <motion.div {...fly(0.08,-30,-5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
           <div style={{ width:148, height:148, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
             <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
           </div>
           <p style={{ marginTop:8, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
 
-        <motion.div {...fly(0.16, -20, 4)} style={{ ...card, position:'absolute', top:'52%', left:'2%', padding:'18px 22px', whiteSpace:'nowrap', zIndex:4 }}>
+        <motion.div {...fly(0.16,-20,4)} style={{ ...card, position:'absolute', top:'52%', left:'2%', padding:'18px 22px', whiteSpace:'nowrap', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
           <div style={{ display:'flex', alignItems:'flex-end', gap:6 }}>
             <span style={{ fontFamily:f, fontSize:32, fontWeight:300, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', lineHeight:1 }}>{istTime.split(' ')[0]}</span>
@@ -508,13 +579,13 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
 
-        <motion.div {...fly(0.12, -18, -7)} style={{ position:'absolute', bottom:'10%', left:'3%', zIndex:4 }}>
+        <motion.div {...fly(0.12,-18,-7)} style={{ position:'absolute', bottom:'10%', left:'3%', zIndex:4 }}>
           <div style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
             <p style={{ fontFamily:f, fontSize:12, lineHeight:1.5, margin:0 }}>Currently building<br/><strong>with AI + design</strong></p>
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.10, -24, 3)} style={{ position:'absolute', top:'4%', left:'22%', zIndex:4 }}>
+        <motion.div {...fly(0.10,-24,3)} style={{ position:'absolute', top:'4%', left:'22%', zIndex:4 }}>
           <div style={{ background:'rgba(18,18,18,0.94)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:228, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
               <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" alt="" style={{ width:40, height:40, borderRadius:8, objectFit:'cover', flexShrink:0 }} onError={e=>{ (e.target as HTMLImageElement).style.background='#444' }} />
@@ -523,43 +594,35 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
                 <p style={{ fontFamily:f, fontSize:11, color:'rgba(255,255,255,0.45)', margin:'2px 0 0' }}>Pink Floyd</p>
               </div>
               <div style={{ display:'flex', alignItems:'flex-end', gap:2, height:14 }}>
-                {[1.2,0.5,1.0,0.4,0.8].map((h,i) => (
-                  <span key={i} style={{ width:2, borderRadius:1, background:'rgba(255,255,255,0.65)', height:12, transformOrigin:'center bottom', animation: playing ? `bar ${0.8+i*0.15}s ease-in-out ${i*0.1}s infinite alternate` : 'none', transform: playing ? undefined : `scaleY(${h*0.4})` }} />
+                {[1.2,0.5,1.0,0.4,0.8].map((h,i)=>(
+                  <span key={i} style={{ width:2, borderRadius:1, background:'rgba(255,255,255,0.65)', height:12, transformOrigin:'center bottom', animation:playing?`bar ${0.8+i*0.15}s ease-in-out ${i*0.1}s infinite alternate`:'none', transform:playing?undefined:`scaleY(${h*0.4})` }} />
                 ))}
               </div>
             </div>
-            <div style={{ height:3, background:'rgba(255,255,255,0.12)', borderRadius:2, marginBottom:8 }}>
-              <div style={{ width:'42%', height:'100%', background:'rgba(255,255,255,0.7)', borderRadius:2 }} />
-            </div>
+            <div style={{ height:3, background:'rgba(255,255,255,0.12)', borderRadius:2, marginBottom:8 }}><div style={{ width:'42%', height:'100%', background:'rgba(255,255,255,0.7)', borderRadius:2 }} /></div>
             <div style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
               <span style={{ fontFamily:f, fontSize:10, color:'rgba(255,255,255,0.28)' }}>2:43</span>
               <span style={{ fontFamily:f, fontSize:10, color:'rgba(255,255,255,0.28)' }}>5:57</span>
             </div>
             <div style={{ display:'flex', justifyContent:'center', alignItems:'center', gap:20 }}>
               <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏮</button>
-              <button onClick={() => setPlaying(!playing)} style={{ width:34, height:34, borderRadius:'50%', background:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'hsl(0,0%,8%)', fontSize:13, flexShrink:0 }}>
-                {playing ? '⏸' : '▶'}
-              </button>
+              <button onClick={()=>setPlaying(!playing)} style={{ width:34, height:34, borderRadius:'50%', background:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'hsl(0,0%,8%)', fontSize:13, flexShrink:0 }}>{playing?'⏸':'▶'}</button>
               <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏭</button>
             </div>
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.13, -18, -4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }}
-          onClick={() => window.open('https://cal.com/deepakmaan', '_blank')}>
+        <motion.div {...fly(0.13,-18,-4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://cal.com/deepakmaan','_blank')}>
           <div style={{ ...card, padding:'18px 22px', width:200 }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Open to work</p>
             <div style={{ display:'flex', alignItems:'center', gap:10 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(0,0%,8%)" strokeWidth="2" style={{ flexShrink:0 }}><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
-              <div>
-                <p style={{ fontFamily:f, fontSize:15, fontWeight:600, color:'hsl(0,0%,8%)', margin:0 }}>Book a call</p>
-                <p style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)', margin:'2px 0 0' }}>Schedule 30 min</p>
-              </div>
+              <div><p style={{ fontFamily:f, fontSize:15, fontWeight:600, color:'hsl(0,0%,8%)', margin:0 }}>Book a call</p><p style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)', margin:'2px 0 0' }}>Schedule 30 min</p></div>
             </div>
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.14, -20, 6)} style={{ position:'absolute', top:'4%', right:'2%', zIndex:4 }}>
+        <motion.div {...fly(0.14,-20,6)} style={{ position:'absolute', top:'4%', right:'2%', zIndex:4 }}>
           <div style={{ background:'rgba(52,199,142,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:16, padding:'20px 22px', width:204, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
               <span style={{ width:8, height:8, borderRadius:'50%', background:'#0a2e22', opacity:0.55, flexShrink:0 }} />
@@ -567,7 +630,7 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
             </div>
             <div style={{ height:1, background:'rgba(10,46,34,0.12)', marginBottom:12 }} />
             <p style={{ fontFamily:f, fontSize:15, fontWeight:600, margin:'0 0 10px' }}>Product Designer</p>
-            {['Hyderabad','Bangalore','Remote'].map(l => (
+            {['Hyderabad','Bangalore','Remote'].map(l=>(
               <div key={l} style={{ display:'flex', gap:8, marginBottom:5, alignItems:'center' }}>
                 <span style={{ fontFamily:f, fontSize:11, opacity:0.45 }}>→</span>
                 <span style={{ fontFamily:f, fontSize:11 }}>{l}</span>
@@ -576,46 +639,38 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.20, -16, -6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }}
-          onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}>
+        <motion.div {...fly(0.20,-16,-6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
           <div style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 22px', width:178, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.09)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.55, margin:'0 0 10px' }}>CV</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
-              <div>
-                <p style={{ fontFamily:f, fontSize:14, fontWeight:600, lineHeight:1.2, margin:0 }}>Resume</p>
-                <p style={{ fontFamily:f, fontSize:10, opacity:0.55, margin:'2px 0 0' }}>PDF · 1 page</p>
-              </div>
+              <div><p style={{ fontFamily:f, fontSize:14, fontWeight:600, lineHeight:1.2, margin:0 }}>Resume</p><p style={{ fontFamily:f, fontSize:10, opacity:0.55, margin:'2px 0 0' }}>PDF · 1 page</p></div>
             </div>
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.17, -19, 5)} style={{ ...card, position:'absolute', top:'60%', left:'18%', padding:'18px 20px', zIndex:4 }}>
+        <motion.div {...fly(0.17,-19,5)} style={{ ...card, position:'absolute', top:'60%', left:'18%', padding:'18px 20px', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, maxWidth:252 }}>
-            {INTERESTS.map(i => <span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
+            {INTERESTS.map(i=><span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.19, -22, -4)} style={{ ...card, position:'absolute', bottom:'8%', left:'18%', padding:'18px 22px', textAlign:'center', minWidth:168, zIndex:4 }}>
-          <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>
-            {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
-          </p>
+        <motion.div {...fly(0.19,-22,-4)} style={{ ...card, position:'absolute', bottom:'8%', left:'18%', padding:'18px 22px', textAlign:'center', minWidth:168, zIndex:4 }}>
+          <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>{rated?'Thanks! 🎉':'Rate this portfolio'}</p>
           <div style={{ display:'flex', gap:2, justifyContent:'center' }}>
-            {[1,2,3,4,5].map(s => (
-              <button key={s} onMouseEnter={() => !rated && setHover(s)} onMouseLeave={() => !rated && setHover(0)}
-                onClick={() => { if (!rated) { setRating(s); setRated(true) } }}
+            {[1,2,3,4,5].map(s=>(
+              <button key={s} onMouseEnter={()=>!rated&&setHover(s)} onMouseLeave={()=>!rated&&setHover(0)} onClick={()=>{ if(!rated){ setRating(s); setRated(true) } }}
                 style={{ fontSize:24, background:'none', border:'none', cursor:rated?'default':'pointer', padding:'0 2px', lineHeight:1, color:(hover||rating)>=s?'#FABE15':'hsl(0,0%,82%)', transition:'color 0.1s' }}>★</button>
             ))}
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.22, -26, 7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }}
-          onClick={() => window.location.href='/writings'}>
+        <motion.div {...fly(0.22,-26,7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }} onClick={()=>window.location.href='/writings'}>
           <div style={{ position:'relative', width:196, height:136, perspective:1500 }}>
             <div style={{ position:'absolute', bottom:'99%', left:0, width:70, height:14, background:'#d97706', borderRadius:'8px 8px 0 0' }} />
             <div style={{ position:'absolute', bottom:'99%', left:66, width:12, height:12, background:'#d97706', clipPath:'polygon(0 35%,0 100%,50% 100%)' }} />
-            {[{cls:'sheet1'},{cls:'sheet2'},{cls:'sheet3'}].map(s => (
+            {[{cls:'sheet1'},{cls:'sheet2'},{cls:'sheet3'}].map(s=>(
               <div key={s.cls} className={`folder-sheet ${s.cls}`} style={{ position:'absolute', inset:4, background:'white', borderRadius:10, border:'1px solid #e5e7eb', display:'flex', flexDirection:'column', gap:8, padding:14 }}>
                 <div style={{ width:34, height:4, background:'#d1d5db', borderRadius:2 }} />
                 <div style={{ width:'68%', height:4, background:'#9ca3af', borderRadius:2 }} />
@@ -630,29 +685,23 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:18, textAlign:'center', fontFamily:f, fontSize:11, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
 
-        <motion.div {...fly(0.21, -16, -5)} style={{ ...card, position:'absolute', bottom:'4%', left:'62%', padding:'16px', width:172, zIndex:4 }}>
+        <motion.div {...fly(0.21,-16,-5)} style={{ ...card, position:'absolute', bottom:'4%', left:'62%', padding:'16px', width:172, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
           <div style={{ width:'100%', borderRadius:8, overflow:'hidden', marginBottom:10, aspectRatio:'2/3', background:'#f0f0f0' }}>
             <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL._AC_UF1000,1000_QL80_.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.background='#ddd' }} />
           </div>
           <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-            <div style={{ flex:1, height:4, background:'hsl(0,0%,88%)', borderRadius:2, overflow:'hidden' }}>
-              <div style={{ width:'62%', height:'100%', background:'hsl(0,0%,40%)', borderRadius:2 }} />
-            </div>
+            <div style={{ flex:1, height:4, background:'hsl(0,0%,88%)', borderRadius:2, overflow:'hidden' }}><div style={{ width:'62%', height:'100%', background:'hsl(0,0%,40%)', borderRadius:2 }} /></div>
             <span style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)' }}>62%</span>
           </div>
         </motion.div>
 
-        <motion.div {...fly(0.26, -24, 8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }}
-          onClick={() => window.open('https://linkedin.com/in/deepakmaan25', '_blank')}>
+        <motion.div {...fly(0.26,-24,8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}>
           <div style={{ background:'rgba(10,102,194,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 22px', width:190, boxShadow:'0 4px 20px rgba(0,0,0,0.14)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'rgba(255,255,255,0.45)', margin:'0 0 10px' }}>Find me online</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
-              <div>
-                <p style={{ fontFamily:f, fontSize:14, fontWeight:600, color:'white', lineHeight:1.2, margin:0 }}>LinkedIn</p>
-                <p style={{ fontFamily:f, fontSize:10, color:'rgba(255,255,255,0.55)', margin:'2px 0 0' }}>/in/deepakmaan25</p>
-              </div>
+              <div><p style={{ fontFamily:f, fontSize:14, fontWeight:600, color:'white', lineHeight:1.2, margin:0 }}>LinkedIn</p><p style={{ fontFamily:f, fontSize:10, color:'rgba(255,255,255,0.55)', margin:'2px 0 0' }}>/in/deepakmaan25</p></div>
             </div>
           </div>
         </motion.div>
