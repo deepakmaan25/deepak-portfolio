@@ -137,12 +137,10 @@ export default function HomePage() {
     if (text === "what's your availability?")
       return addHardcoded(text, "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan")
 
-    // streaming API call
+  // API call — get full response, then typewriter reveal
     const bid = uid()
-    const userMsg: Message = { id: uid(), role:'user',      content: text, done: true }
-    const botMsg:  Message = { id: bid,   role:'assistant', content: '',   revealed: 0, done: false }
-
-    // snapshot messages before state update for API call
+    const userMsg: Message = { id: uid(), role:'user', content: text, done: true }
+    const botMsg:  Message = { id: bid,   role:'assistant', content: '', revealed: 0, done: false }
     const msgSnapshot = [...messages, userMsg]
 
     setMessages(prev => [...prev, userMsg, botMsg])
@@ -150,48 +148,18 @@ export default function HomePage() {
     setLoading(true)
     setChatStarted(true)
 
-    let accumulated = ''
-    let buffer = ''
-    let flushTimer: ReturnType<typeof setInterval> | null = null
-
-    const flush = () => {
-      if (!buffer) return
-      accumulated += buffer
-      buffer = ''
-      const snap = accumulated
-      setMessages(prev => prev.map(m =>
-        m.id === bid ? { ...m, content: snap } : m
-      ))
-    }
-
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ system: SYSTEM_PROMPT, messages: msgSnapshot }),
       })
-      if (!res.ok || !res.body) throw new Error('Stream failed')
-
-      flushTimer = setInterval(flush, 40)
-      const reader  = res.body.getReader()
-      const decoder = new TextDecoder()
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        const chunk = decoder.decode(value, { stream: true })
-        for (const line of chunk.split('\n')) {
-          if (!line.startsWith('data: ')) continue
-          const data = line.slice(6)
-          if (data === '[DONE]') continue
-          try {
-            const token = JSON.parse(data)?.token ?? ''
-            if (token) buffer += token
-          } catch { /* skip */ }
-        }
-      }
-      flush()
-      if (accumulated) setTimeout(() => startTypewriter(bid, accumulated), 50)
+      const data = await res.json()
+      const reply = data?.text ?? 'Something went wrong.'
+      setMessages(prev => prev.map(m =>
+        m.id === bid ? { ...m, content: reply } : m
+      ))
+      setTimeout(() => startTypewriter(bid, reply), 80)
     } catch {
       setMessages(prev => prev.map(m =>
         m.id === bid
@@ -199,7 +167,6 @@ export default function HomePage() {
           : m
       ))
     } finally {
-      if (flushTimer) clearInterval(flushTimer)
       setLoading(false)
     }
   }
