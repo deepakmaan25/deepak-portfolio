@@ -25,16 +25,46 @@ const QUICK_ACTIONS = [
   { label:'linkedin',                  icon:'out',  query:'linkedin',                       scroll:false },
 ]
 
-const SYSTEM_PROMPT = `You are Deepak Maan, speaking directly as yourself on your portfolio site. Answer like you're texting a recruiter — casual, confident, no fluff. Absolute maximum 2 sentences. Never use bullet points, headers, or markdown.
+const SYSTEM_PROMPT = `You are Deepak Maan, a product designer based in Mumbai. You're speaking as yourself on your portfolio site. Someone is reading your work — they might be a recruiter, a founder, or just curious. Talk like a real person texting back, not a chatbot.
+
+STRICT RULES — read these carefully:
+- Maximum 2 sentences. Hard limit. No exceptions, no matter what they ask.
+- Never use bullet points, headers, dashes as list markers, or markdown of any kind.
+- First person always. "I" not "Deepak".
+- No filler — never start with "Great question", "Of course", "Sure thing", "Absolutely".
+- Sound like someone who's confident in their work but not trying too hard.
+
+WHEN SOMEONE SAYS hi / hey / hello / what's up or any casual greeting:
+Reply warmly and invite them to ask about your work. Example tone: "Hey! Ask me anything about my work, process, or what I'm up to."
+DO NOT say "I'm only here to talk about my work" for greetings — that's cold and robotic.
+
+WHEN SOMEONE SAYS bye / thanks / goodbye or any closing message:
+Reply naturally and briefly. Example: "Good talking — hope to hear from you."
+DO NOT redirect them to your portfolio on a goodbye.
+
+WHEN SOMEONE ASKS something clearly unrelated to your work (like "what's the weather", "write me a poem", "tell me a joke"):
+Redirect warmly, not defensively. Say something like: "Ha, not quite my domain — ask me something about my design work though."
+
+FOR EVERYTHING ELSE — answer from your work:
 
 WHO YOU ARE:
-Product designer based in Mumbai. IIT ISM Dhanbad grad. Currently at JSW Steel as a Design Analyst. You design end-to-end — research, information architecture, high-fidelity Figma, and you ship the front-end yourself in React + TypeScript. No handoff, no translation loss.
+Product designer from IIT ISM Dhanbad. Currently at JSW Steel as a Design Analyst. You design end-to-end — research, information architecture, high-fidelity Figma, and you build the front-end yourself in React + TypeScript. No handoff. You catch issues in code that wouldn't surface in a design file.
 
-YOUR WORK:
-- Tech Japan / Talendy: UX research internship. 10 interviews across 6 IITs, 9 pain points documented, several fixes shipped to production — job description layout, dark mode, multiple resume management, built-in communication tool.
-- Buzztro: Designed the full product 0 to 1 for a social polling startup.
-- Zu-AI: Redesigned the chat experience for an AI tutoring app. Solo assessment project.
-- Shipped side projects: Music Animation Generator, PulsePlay, TypMatch, Kairo Design System.
+CASE STUDIES (professional work):
+1. Tech Japan / Talendy — UX research internship, Sep–Nov 2024. Ran 10 user interviews across IIT Dhanbad, Roorkee, Guwahati, Delhi, Hyderabad, Bombay. Found 9 distinct pain points — broken company links destroying trust, dark mode with unreadable contrast, no multi-resume support, post-application flow falling apart on WhatsApp. Designed and shipped fixes: restructured job description layout, WCAG 2.1 AA dark mode fixes, save-all profile flow, multiple resume management, built-in communication tool. 80% of users reported easier navigation, 70% adopted new features without prompting. Also ran a rebranding survey — found 71% of users hadn't heard about the Tech Japan to Talendy rebrand at all. Designed a recruiter-side hiring dashboard as a parallel workstream.
+
+2. Buzztro — Designed the full product from 0 to 1 for a social polling startup. Led research, information architecture, and all high-fidelity design across the platform.
+
+3. Zu-AI — Redesigned the chat experience for an AI tutoring app serving 100K+ students. Solo assessment project over 2 weeks. Research with 33 participants. Fixed information overload (60% reported it), added accessibility controls, a chat dashboard for context switching, and visual hierarchy improvements. 40% faster information scanning, 3x faster task completion in usability tests.
+
+SHIPPED SIDE PROJECTS (built yourself):
+1. Music Animation Generator — A tool that generates real-time visual animations synced to music. Built with React and web audio APIs. Takes any audio input and creates dynamic animated visuals that respond to beat, frequency, and amplitude.
+
+2. PulsePlay — A music player with a focus on visual experience. Clean UI, waveform visualisation, and playlist management. Built to scratch your own itch around how music players should feel.
+
+3. TypMatch — A typography matching tool. Helps designers find font pairings that work. Built because font pairing is one of those things everyone does badly and no tool made it fast enough.
+
+4. Kairo Design System — A full design system built from scratch — tokens, components, documentation. Built it for a side project to understand how design systems actually work when you're building them yourself rather than just using one.
 
 AVAILABILITY:
 Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
@@ -43,13 +73,9 @@ CONTACT:
 Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
 LinkedIn: https://linkedin.com/in/deepakmaan25
 Email: dipumaan2002@gmail.com
+Book a call: https://cal.com/deepakmaan
 
-TONE RULES:
-- First person always. "I" not "Deepak".
-- Sound like a real person, not a chatbot.
-- Maximum 2 sentences. No exceptions.
-- If asked about resume or LinkedIn, give the link directly with one line of context.
-- If someone asks something unrelated to your work, say: "I'm only here to talk about my work — happy to answer anything about that though."`
+If someone asks for resume or LinkedIn, give the link directly, one sentence of context max.`
 
 const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding','Cricket','Music']
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
@@ -72,7 +98,7 @@ export default function HomePage() {
   const send = async (text: string) => {
     if (!text.trim() || loading) return
 
-    // ── hard-wired shortcuts ──────────────────────────────────────────────────
+    // ── hard-wired shortcuts (no chat bubble) ────────────────────────────────
     if (text === 'see my work') {
       document.getElementById('work')?.scrollIntoView({ behavior:'smooth' })
       return
@@ -86,61 +112,91 @@ export default function HomePage() {
       return
     }
 
-    // ── hardcoded pill replies (guaranteed short + accurate) ─────────────────
+    // ── hardcoded pill replies (guaranteed accurate + short) ─────────────────
     if (text === 'wanna chat?') {
       setMessages(prev => [...prev,
         { role:'user' as const, content: text },
         { role:'assistant' as const, content: "Sure — pick a time that works for you. https://cal.com/deepakmaan" }
       ])
-      setChatStarted(true)
-      setInput('')
-      return
+      setChatStarted(true); setInput(''); return
     }
     if (text === 'how do you ship?') {
       setMessages(prev => [...prev,
         { role:'user' as const, content: text },
         { role:'assistant' as const, content: "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file." }
       ])
-      setChatStarted(true)
-      setInput('')
-      return
+      setChatStarted(true); setInput(''); return
     }
     if (text === 'what kind of designer are you?') {
       setMessages(prev => [...prev,
         { role:'user' as const, content: text },
         { role:'assistant' as const, content: "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished." }
       ])
-      setChatStarted(true)
-      setInput('')
-      return
+      setChatStarted(true); setInput(''); return
     }
     if (text === "what's your availability?") {
       setMessages(prev => [...prev,
         { role:'user' as const, content: text },
         { role:'assistant' as const, content: "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan" }
       ])
-      setChatStarted(true)
-      setInput('')
-      return
+      setChatStarted(true); setInput(''); return
     }
 
-    // ── API call for everything else ─────────────────────────────────────────
-    const updated = [...messages, { role:'user' as const, content: text }]
+    // ── streaming API call for everything else ───────────────────────────────
+    const userMsg = { role:'user' as const, content: text }
+    const updated = [...messages, userMsg]
     setMessages(updated)
     setInput('')
     setLoading(true)
     setChatStarted(true)
+
+    // Add empty assistant message that we'll stream into
+    const streamingIndex = updated.length
+    setMessages(prev => [...prev, { role:'assistant' as const, content: '' }])
+
     try {
-      const res  = await fetch('/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ system: SYSTEM_PROMPT, messages: updated }),
       })
-      const data = await res.json()
-      const reply = data?.content?.[0]?.text ?? 'Something went wrong.'
-      setMessages(prev => [...prev, { role:'assistant', content: reply }])
+
+      if (!res.ok || !res.body) throw new Error('Stream failed')
+
+      const reader  = res.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulated = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        const lines = chunk.split('\n').filter(l => l.startsWith('data: '))
+
+        for (const line of lines) {
+          const data = line.slice(6)
+          if (data === '[DONE]') continue
+          try {
+            const parsed = JSON.parse(data)
+            const token  = parsed?.token ?? ''
+            if (token) {
+              accumulated += token
+              setMessages(prev => {
+                const next = [...prev]
+                next[streamingIndex] = { role:'assistant', content: accumulated }
+                return next
+              })
+            }
+          } catch { /* malformed chunk */ }
+        }
+      }
     } catch {
-      setMessages(prev => [...prev, { role:'assistant', content: 'Something went wrong — try again.' }])
+      setMessages(prev => {
+        const next = [...prev]
+        next[streamingIndex] = { role:'assistant', content: 'Something went wrong — try again.' }
+        return next
+      })
     } finally {
       setLoading(false)
     }
@@ -163,6 +219,7 @@ export default function HomePage() {
         .bl5{animation:b5 24s linear infinite;transform-origin:calc(50% - 800px) calc(50% + 200px)}
         .bl6{animation:b6 19s linear infinite;transform-origin:calc(50% + 300px) calc(50% - 200px)}
         @keyframes bar{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1)}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         .folder-sheet{transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1)}
         .folder-group:hover .sheet1{transform:translate(-14px,-30px) rotate(-7deg)}
         .folder-group:hover .sheet2{transform:translate(14px,-45px) rotate(5deg)}
@@ -271,10 +328,15 @@ export default function HomePage() {
                             : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
                         }}>
                           {msg.role==='assistant' ? linkify(msg.content) : msg.content}
+                          {/* blinking cursor while streaming this message */}
+                          {msg.role==='assistant' && loading && i === messages.length - 1 && (
+                            <span style={{ display:'inline-block', width:2, height:'1em', background:'hsl(0,0%,30%)', marginLeft:2, verticalAlign:'text-bottom', animation:'blink 0.8s step-end infinite' }} />
+                          )}
                         </div>
                       </motion.div>
                     ))}
-                    {loading && (
+                    {/* dots only shown before first token arrives */}
+                    {loading && messages[messages.length-1]?.content === '' && (
                       <div style={{ display:'flex', alignItems:'flex-end', gap:8 }}>
                         <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, boxShadow:'0 0 0 2px white' }} />
                         <div style={{ background:'white', border:'1px solid hsl(0,0%,88%)', borderRadius:18, borderBottomLeftRadius:5, padding:'12px 17px', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
@@ -430,7 +492,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
         </motion.h2>
 
-        {/* Profile card */}
         <motion.div {...fly(0.08, -30, -5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
           <div style={{ width:148, height:148, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
             <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
@@ -438,7 +499,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:8, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
 
-        {/* Clock */}
         <motion.div {...fly(0.16, -20, 4)} style={{ ...card, position:'absolute', top:'52%', left:'2%', padding:'18px 22px', whiteSpace:'nowrap', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 4px' }}>Mumbai, IN</p>
           <div style={{ display:'flex', alignItems:'flex-end', gap:6 }}>
@@ -448,14 +508,12 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ fontFamily:f, fontSize:9, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>IST · UTC+5:30</p>
         </motion.div>
 
-        {/* Currently building tag */}
         <motion.div {...fly(0.12, -18, -7)} style={{ position:'absolute', bottom:'10%', left:'3%', zIndex:4 }}>
           <div style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:12, padding:'12px 16px', color:'#7a5c00' }}>
             <p style={{ fontFamily:f, fontSize:12, lineHeight:1.5, margin:0 }}>Currently building<br/><strong>with AI + design</strong></p>
           </div>
         </motion.div>
 
-        {/* Music player */}
         <motion.div {...fly(0.10, -24, 3)} style={{ position:'absolute', top:'4%', left:'22%', zIndex:4 }}>
           <div style={{ background:'rgba(18,18,18,0.94)', backdropFilter:'blur(14px)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, width:228, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
@@ -487,7 +545,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Book a call — wired to Cal.com */}
         <motion.div {...fly(0.13, -18, -4)} style={{ position:'absolute', top:'14%', left:'46%', zIndex:4, cursor:'pointer' }}
           onClick={() => window.open('https://cal.com/deepakmaan', '_blank')}>
           <div style={{ ...card, padding:'18px 22px', width:200 }}>
@@ -502,7 +559,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Availability */}
         <motion.div {...fly(0.14, -20, 6)} style={{ position:'absolute', top:'4%', right:'2%', zIndex:4 }}>
           <div style={{ background:'rgba(52,199,142,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:16, padding:'20px 22px', width:204, color:'#0a2e22', boxShadow:'0 4px 24px rgba(0,0,0,0.1)' }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
@@ -520,7 +576,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Resume */}
         <motion.div {...fly(0.20, -16, -6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }}
           onClick={() => window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing', '_blank')}>
           <div style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 22px', width:178, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.09)' }}>
@@ -535,7 +590,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Interests */}
         <motion.div {...fly(0.17, -19, 5)} style={{ ...card, position:'absolute', top:'60%', left:'18%', padding:'18px 20px', zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>Interests</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, maxWidth:252 }}>
@@ -543,7 +597,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Rate portfolio */}
         <motion.div {...fly(0.19, -22, -4)} style={{ ...card, position:'absolute', bottom:'8%', left:'18%', padding:'18px 22px', textAlign:'center', minWidth:168, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 12px' }}>
             {rated ? 'Thanks! 🎉' : 'Rate this portfolio'}
@@ -557,7 +610,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* Writings folder */}
         <motion.div {...fly(0.22, -26, 7)} className="folder-group" style={{ position:'absolute', bottom:'4%', left:'40%', cursor:'pointer', zIndex:4 }}
           onClick={() => window.location.href='/writings'}>
           <div style={{ position:'relative', width:196, height:136, perspective:1500 }}>
@@ -578,7 +630,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           <p style={{ marginTop:18, textAlign:'center', fontFamily:f, fontSize:11, textTransform:'uppercase', letterSpacing:'0.1em', color:'hsl(0,0%,55%)' }}>My Writings</p>
         </motion.div>
 
-        {/* Currently reading */}
         <motion.div {...fly(0.21, -16, -5)} style={{ ...card, position:'absolute', bottom:'4%', left:'62%', padding:'16px', width:172, zIndex:4 }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Currently reading</p>
           <div style={{ width:'100%', borderRadius:8, overflow:'hidden', marginBottom:10, aspectRatio:'2/3', background:'#f0f0f0' }}>
@@ -592,7 +643,6 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
           </div>
         </motion.div>
 
-        {/* LinkedIn */}
         <motion.div {...fly(0.26, -24, 8)} style={{ position:'absolute', bottom:'8%', right:'2%', zIndex:4, cursor:'pointer' }}
           onClick={() => window.open('https://linkedin.com/in/deepakmaan25', '_blank')}>
           <div style={{ background:'rgba(10,102,194,0.95)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 22px', width:190, boxShadow:'0 4px 20px rgba(0,0,0,0.14)' }}>
