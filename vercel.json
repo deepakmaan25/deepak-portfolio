@@ -1,8 +1,6 @@
 {
   "functions": {
-    "api/chat.cjs": {
-      "runtime": "nodejs20.x"
-    }
+    "api/chat.cjs": {}
   },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
