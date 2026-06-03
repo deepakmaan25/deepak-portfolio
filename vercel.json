@@ -1,7 +1,4 @@
 {
-  "functions": {
-    "api/chat.cjs": {}
-  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
