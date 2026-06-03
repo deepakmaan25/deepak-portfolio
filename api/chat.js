@@ -10,19 +10,16 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'No API key' })
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [
-          { role: 'user', parts: [{ text: system || '' }] },
-          { role: 'model', parts: [{ text: 'Understood.' }] },
-          ...messages.map(m => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }]
-          }))
-        ],
+        system_instruction: { parts: [{ text: system || '' }] },
+        contents: messages.map(m => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }]
+        })),
         generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
       }),
     }
