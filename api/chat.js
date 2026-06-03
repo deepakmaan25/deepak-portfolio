@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) return res.status(500).json({ error: 'No API key' })
 
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,12 +21,47 @@ export default async function handler(req, res) {
         { role: 'system', content: system || '' },
         ...messages
       ],
-      max_tokens: 400,
-      temperature: 0.7
+      max_tokens: 120,
+      temperature: 0.65,
+      stream: true
     }),
   })
 
-  const data = await response.json()
-  const text = data?.choices?.[0]?.message?.content ?? JSON.stringify(data)
-  return res.status(200).json({ content: [{ type: 'text', text }] })
+  // Stream the response back as SSE
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+
+  const reader = groqRes.body.getReader()
+  const decoder = new TextDecoder()
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      const chunk = decoder.decode(value, { stream: true })
+      const lines = chunk.split('\n').filter(l => l.trim())
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+        const data = line.slice(6)
+        if (data === '[DONE]') {
+          res.write('data: [DONE]\n\n')
+          continue
+        }
+        try {
+          const parsed = JSON.parse(data)
+          const delta = parsed?.choices?.[0]?.delta?.content
+          if (delta) {
+            res.write(`data: ${JSON.stringify({ token: delta })}\n\n`)
+          }
+        } catch {
+          // malformed chunk, skip
+        }
+      }
+    }
+  } finally {
+    res.end()
+  }
 }
