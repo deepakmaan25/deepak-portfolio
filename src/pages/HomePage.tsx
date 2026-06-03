@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-interface Message { role:'user'|'assistant'; content:string }
+interface Message { role:'user'|'assistant'; content:string }  const linkify = (text:string) => {   const parts = text.split(/(https?:\/\/[^\s]+)/g)   return parts.map((part,i) =>     part.match(/^https?:\/\//) ?     <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{color:'rgb(99,102,241)',textDecoration:'underline',textUnderlineOffset:2}}>{part.includes('cal.com') ? 'Book a chat ↗' : part}</a>     : part   ) }
 
 const QUICK_ACTIONS = [
   { label:'see my work',               icon:'down', query:'see my work',                    scroll:true  },
@@ -13,19 +13,16 @@ const QUICK_ACTIONS = [
   { label:'linkedin',                  icon:'out',  query:'linkedin',                       scroll:false },
 ]
 
-const SYSTEM_PROMPT = `You are Deepak Maan, speaking directly as yourself on your portfolio site. Be natural, specific, and human — not a generic assistant. Short answers unless the question needs more. No bullet points, no headers, no markdown. Just talk.
+const SYSTEM_PROMPT = `You are Deepak Maan, speaking directly as yourself on your portfolio site. Answer like you're texting a recruiter — casual, confident, no fluff. Absolute maximum 2 sentences. Never use bullet points, headers, or markdown.
 
 WHO YOU ARE:
-Product designer based in Mumbai. IIT ISM Dhanbad grad. Currently at JSW Steel as a Product Designer and Design Analyst. You design end-to-end — research, information architecture, high-fidelity Figma, and you also ship the front-end yourself in React + TypeScript using Claude Code. No handoff, no translation loss.
+Product designer based in Mumbai. IIT ISM Dhanbad grad. Currently at JSW Steel as a Design Analyst. You design end-to-end — research, information architecture, high-fidelity Figma, and you ship the front-end yourself in React + TypeScript. No handoff, no translation loss.
 
 YOUR WORK:
-- Tech Japan / Talendy: UX research internship. Ran 10 interviews across 6 IITs, documented 9 pain points, designed fixes — job description layout, dark mode accessibility, multiple resume management, built-in communication tool replacing WhatsApp. Several shipped to production. Also ran a rebranding survey (71% of users hadn't heard about the rebrand) and designed a recruiter-side hiring dashboard.
-- Buzztro: Designed the full product from 0 to 1 for a social polling startup. Founder is Sourabh Choudhary.
+- Tech Japan / Talendy: UX research internship. 10 interviews across 6 IITs, 9 pain points documented, several fixes shipped to production — job description layout, dark mode, multiple resume management, built-in communication tool.
+- Buzztro: Designed the full product 0 to 1 for a social polling startup.
 - Zu-AI: Redesigned the chat experience for an AI tutoring app. Solo assessment project.
 - Shipped side projects: Music Animation Generator, PulsePlay, TypMatch, Kairo Design System.
-
-YOUR PROCESS:
-You think in problems, not deliverables. You start with why something is broken before touching Figma. You use research to find the real issue, not confirm assumptions. You can build what you design — which means you catch things in code that wouldn't surface in a handoff.
 
 AVAILABILITY:
 Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
@@ -33,16 +30,15 @@ Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Availab
 CONTACT:
 Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
 LinkedIn: https://linkedin.com/in/deepakmaan25
-Email: deepak.maan@email.com
+Email: dipumaan2002@gmail.com
 
 TONE RULES:
 - First person always. "I" not "Deepak".
-- Sound like a real person, not a chatbot or a LinkedIn bio.
-- If asked about resume or LinkedIn, give the link directly.
-- If asked to "see my work" scroll them down.
-- If someone asks something unrelated to your work or background, say: "I'm really only here to talk about my work and background — happy to answer anything about that though."
-- If someone asks what you're like to work with, be honest and specific — not generic.
-- Keep answers to 2-4 sentences unless the question genuinely needs more detail.`
+- Sound like a real person, not a chatbot.
+- Maximum 2 sentences. No exceptions.
+- If asked about resume or LinkedIn, give the link directly with one line of context.
+- If someone asks something unrelated to your work, say: "I'm only here to talk about my work — happy to answer anything about that though."
+- Never say you "built Claude Code" — you use React and TypeScript to ship your own designs.`
 
 const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding','Cricket','Music']
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
@@ -67,7 +63,19 @@ export default function HomePage() {
     if (text==='see my work') { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
     if (text==='resume')      { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
     if (text==='linkedin')    { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
-    if (text==='wanna chat?') { window.open('mailto:dipumaan2002@gmail.com','_blank'); return }
+    if (text==='wanna chat?') { window.open('https://cal.com/deepakmaan','_blank'); return }
+    if (text==='how do you ship?') {
+      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't show up in a design file." }])
+      setChatStarted(true); return
+    }
+    if (text==='what kind of designer are you?') {
+      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making it look polished." }])
+      setChatStarted(true); return
+    }
+    if (text==="what's your availability?") {
+      setMessages(prev => [...prev, { role:'user' as const, content:text }, { role:'assistant' as const, content:"Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan" }])
+      setChatStarted(true); return
+    }
     const updated = [...messages, { role:'user' as const, content:text }]
     setMessages(updated); setInput(''); setLoading(true); setChatStarted(true)
     try {
@@ -81,6 +89,30 @@ export default function HomePage() {
     setMessages(prev => [...prev, { role:'assistant', content: text }])
     } catch { setMessages(prev => [...prev, { role:'assistant', content:'Something went wrong — try again.' }]) }
     finally { setLoading(false) }
+    if (text === 'how do you ship?') {
+  setMessages(prev => [...prev,
+    { role: 'user', content: text },
+    { role: 'assistant', content: "I design in Figma and build the front-end myself in React + TypeScript — no handoff. Means I catch issues in code that wouldn't surface in a design file." }
+  ])
+  setChatStarted(true)
+  return
+}
+if (text === 'what kind of designer are you?') {
+  setMessages(prev => [...prev,
+    { role: 'user', content: text },
+    { role: 'assistant', content: "End-to-end product designer — research, Figma, and I ship the front-end myself. I care more about solving the right problem than making something look polished." }
+  ])
+  setChatStarted(true)
+  return
+}
+if (text === "what's your availability?") {
+  setMessages(prev => [...prev,
+    { role: 'user', content: text },
+    { role: 'assistant', content: 'Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. Book a chat ↗' }
+  ])
+  setChatStarted(true)
+  return
+}
   }
 
   return (
@@ -181,7 +213,7 @@ export default function HomePage() {
                           ...(msg.role==='user'
                             ? { background:'hsl(0,0%,10%)', color:'white', borderBottomRightRadius:5 }
                             : { background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', borderBottomLeftRadius:5, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' })
-                        }}>{msg.content}</div>
+                        }}>{msg.role==='assistant' ? linkify(msg.content) : msg.content}</div>
                       </motion.div>
                     ))}
                     {loading && (
