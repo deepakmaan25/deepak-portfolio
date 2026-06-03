@@ -6,29 +6,22 @@ export default async function handler(req, res) {
   const { messages, system } = req.body || {}
   if (!messages) return res.status(400).json({ error: 'No messages' })
 
-  const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) return res.status(500).json({ error: 'No API key' })
+  const allMessages = [
+    { role: 'system', content: system || '' },
+    ...messages
+  ]
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: system || '' }] },
-        contents: messages.map(m => ({
-          role: m.role === 'assistant' ? 'model' : 'user',
-          parts: [{ text: m.content }]
-        })),
-        generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
-      }),
-    }
-  )
+  const response = await fetch('https://text.pollinations.ai/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: allMessages,
+      model: 'openai',
+      private: true,
+      seed: 42
+    }),
+  })
 
-  const data = await response.json()
-  if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-    return res.status(200).json({ content: [{ type: 'text', text: JSON.stringify(data) }] })
-  }
-  const text = data.candidates[0].content.parts[0].text
-  return res.status(200).json({ content: [{ type: 'text', text }] })
+  const text = await response.text()
+  return res.status(200).json({ content: [{ type: 'text', text: text || 'Something went wrong.' }] })
 }
