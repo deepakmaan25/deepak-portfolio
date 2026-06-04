@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
+import { useIsMobile } from '../hooks/useMediaQuery'
 
 interface Message {
   id: string
@@ -85,6 +86,7 @@ export default function HomePage() {
   const [chatStarted, setChatStarted] = useState(false)
   const [time, setTime]               = useState(new Date())
   const [playing, setPlaying]         = useState(true)
+  const isMobile                      = useIsMobile()
   const chatEndRef                    = useRef<HTMLDivElement>(null)
   const typeTimers                    = useRef<ReturnType<typeof setInterval>[]>([])
 
@@ -241,7 +243,7 @@ export default function HomePage() {
                           <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
                         </motion.span>
                         <div style={{ fontFamily:f, fontWeight:500, lineHeight:1.15, letterSpacing:'-0.025em', color:'hsl(0,0%,8%)' }}>
-                          <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap' }}>
+                          <div style={{ fontSize:'clamp(1.4rem,5.5vw,3.4rem)', whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
                             I'm{' '}
                             <span style={{ position:'relative', display:'inline-block', padding:'0 9px' }}>
                               <span style={{ position:'absolute', inset:0, borderLeft:'2px solid rgba(99,102,241,0.45)', borderRight:'2px solid rgba(99,102,241,0.45)', background:'rgba(99,102,241,0.08)', borderRadius:2 }} />
@@ -251,7 +253,7 @@ export default function HomePage() {
                             </span>
                             {' '}&ndash; based in Mumbai.
                           </div>
-                          <div style={{ fontSize:'clamp(1.9rem,3.2vw,3.4rem)', whiteSpace:'nowrap', marginTop:6 }}>
+                          <div style={{ fontSize:'clamp(1.4rem,5.5vw,3.4rem)', whiteSpace: isMobile ? 'normal' : 'nowrap', marginTop:6 }}>
                             I design and ship product UX,{' '}
                             <span style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300, display:'inline-block', whiteSpace:'nowrap' }}>end to end.</span>
                           </div>
@@ -389,7 +391,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <Widgets istTime={istTime} playing={playing} setPlaying={setPlaying} />
+        <Widgets istTime={istTime} playing={playing} setPlaying={setPlaying} isMobile={isMobile} />
       </div>
     </>
   )
@@ -444,7 +446,7 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg }:{title:string;d
   </motion.article>
 )
 
-const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void }) => {
+const Widgets = ({ istTime, playing, setPlaying, isMobile }: { istTime:string; playing:boolean; setPlaying:(v:boolean)=>void; isMobile:boolean }) => {
   const [rating, setRating] = useState(0)
   const [hover,  setHover]  = useState(0)
   const [rated,  setRated]  = useState(false)
@@ -454,6 +456,19 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
     viewport:{ once:true }, transition:{ type:'spring' as const, stiffness:155, damping:20, delay },
     whileHover:{ scale:1.05, rotate:restRot*0.25, zIndex:20, transition:{ type:'spring', stiffness:340, damping:18 } },
   })
+  if (isMobile) return (
+    <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', overflow:'hidden', padding:'72px 20px 80px' }}>
+      <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.4, backgroundImage:'radial-gradient(circle,rgba(0,0,0,0.2) 0.8px,transparent 0.8px)', backgroundSize:'18px 18px' }} />
+      <div style={{ position:'relative', maxWidth:480, margin:'0 auto', display:'flex', flexDirection:'column', gap:14 }}>
+        <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.5 }}
+          style={{ fontFamily:f, fontSize:'clamp(2rem,9vw,3.5rem)', fontWeight:700, letterSpacing:'-0.03em', lineHeight:1.05, color:'hsl(0,0%,8%)', textAlign:'center', margin:'0 0 18px' }}>
+          I design <em style={{ fontFamily:fs, fontStyle:'italic', fontWeight:300 }}>and</em> ship. Fast.
+        </motion.h2>
+        <MobileWidgetStack istTime={istTime} playing={playing} setPlaying={setPlaying} rating={rating} hover={hover} rated={rated} setHover={setHover} setRating={setRating} setRated={setRated} />
+      </div>
+    </section>
+  )
+
   return (
     <section id="about" style={{ position:'relative', backgroundColor:'hsl(0,0%,93%)', minHeight:'100vh', overflow:'hidden' }}>
       <div style={{ position:'absolute', inset:0, pointerEvents:'none', opacity:0.4, backgroundImage:'radial-gradient(circle,rgba(0,0,0,0.2) 0.8px,transparent 0.8px)', backgroundSize:'18px 18px' }} />
@@ -595,5 +610,140 @@ const Widgets = ({ istTime, playing, setPlaying }: { istTime:string; playing:boo
         </motion.div>
       </div>
     </section>
+  )
+}
+
+const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated, setHover, setRating, setRated }: any) => {
+  const card = { background:'rgba(255,255,255,0.96)', border:'1px solid rgba(0,0,0,0.07)', borderRadius:16, boxShadow:'0 2px 18px rgba(0,0,0,0.06)', padding:'18px 20px' }
+  const stagger = (i:number) => ({ initial:{ opacity:0, y:14 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true }, transition:{ duration:0.4, delay:i*0.05 } })
+  return (
+    <>
+      {/* Profile + clock combined */}
+      <motion.div {...stagger(0)} style={{ ...card, display:'flex', gap:14, alignItems:'center' }}>
+        <div style={{ width:64, height:64, borderRadius:10, overflow:'hidden', background:'#DDD8FB', flexShrink:0 }}>
+          <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+        </div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <p style={{ fontFamily:f, fontSize:15, fontWeight:600, color:'hsl(0,0%,8%)', margin:0 }}>Deepak Maan</p>
+          <p style={{ fontFamily:f, fontSize:12, color:'hsl(0,0%,50%)', margin:'2px 0 0' }}>Mumbai, IN · {istTime}</p>
+        </div>
+      </motion.div>
+
+      {/* Availability */}
+      <motion.div {...stagger(1)} style={{ background:'rgba(52,199,142,0.95)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:16, padding:'18px 20px', color:'#0a2e22' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+          <span style={{ width:8, height:8, borderRadius:'50%', background:'#0a2e22', opacity:0.55 }} />
+          <span style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.6 }}>Available now</span>
+        </div>
+        <p style={{ fontFamily:f, fontSize:15, fontWeight:600, margin:'0 0 6px' }}>Product Designer</p>
+        <p style={{ fontFamily:f, fontSize:12, opacity:0.75, margin:0 }}>Hyderabad · Bangalore · Remote</p>
+      </motion.div>
+
+      {/* Book a call */}
+      <motion.div {...stagger(2)} onClick={()=>window.open('https://cal.com/deepakmaan','_blank')} style={{ ...card, cursor:'pointer', display:'flex', alignItems:'center', gap:12 }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(0,0%,8%)" strokeWidth="2"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+        <div style={{ flex:1 }}>
+          <p style={{ fontFamily:f, fontSize:14, fontWeight:600, color:'hsl(0,0%,8%)', margin:0 }}>Book a call</p>
+          <p style={{ fontFamily:f, fontSize:11, color:'hsl(0,0%,55%)', margin:'2px 0 0' }}>30 min via Cal.com</p>
+        </div>
+        <span style={{ color:'hsl(0,0%,55%)' }}>↗</span>
+      </motion.div>
+
+      {/* Music player — keeps its dark personality */}
+      <motion.div {...stagger(3)} style={{ background:'rgba(18,18,18,0.94)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
+          <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" alt="" style={{ width:40, height:40, borderRadius:8, objectFit:'cover', flexShrink:0 }} onError={e=>{ (e.target as HTMLImageElement).style.background='#444' }} />
+          <div style={{ flex:1, minWidth:0 }}>
+            <p style={{ fontFamily:f, fontSize:13, fontWeight:600, color:'white', margin:0 }}>Breathe</p>
+            <p style={{ fontFamily:f, fontSize:11, color:'rgba(255,255,255,0.45)', margin:'2px 0 0' }}>Pink Floyd</p>
+          </div>
+          <div style={{ display:'flex', alignItems:'flex-end', gap:2, height:14 }}>
+            {[1.2,0.5,1.0,0.4,0.8].map((h,i) => (
+              <span key={i} style={{ width:2, borderRadius:1, background:'rgba(255,255,255,0.65)', height:12, transformOrigin:'center bottom', animation:playing?`bar ${0.8+i*0.15}s ease-in-out ${i*0.1}s infinite alternate`:'none', transform:playing?undefined:`scaleY(${h*0.4})` }} />
+            ))}
+          </div>
+        </div>
+        <div style={{ height:3, background:'rgba(255,255,255,0.12)', borderRadius:2, marginBottom:10 }}>
+          <div style={{ width:'42%', height:'100%', background:'rgba(255,255,255,0.7)', borderRadius:2 }} />
+        </div>
+        <div style={{ display:'flex', justifyContent:'center', alignItems:'center', gap:20 }}>
+          <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏮</button>
+          <button onClick={()=>setPlaying(!playing)} style={{ width:34, height:34, borderRadius:'50%', background:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'hsl(0,0%,8%)', fontSize:13, flexShrink:0 }}>{playing?'⏸':'▶'}</button>
+          <button style={{ background:'none', border:'none', color:'rgba(255,255,255,0.35)', cursor:'pointer', fontSize:14 }}>⏭</button>
+        </div>
+      </motion.div>
+
+      {/* Resume — yellow */}
+      <motion.div {...stagger(4)} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')} style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 20px', color:'#3a2e00', cursor:'pointer', display:'flex', alignItems:'center', gap:12 }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        <div style={{ flex:1 }}>
+          <p style={{ fontFamily:f, fontSize:14, fontWeight:600, margin:0 }}>Resume</p>
+          <p style={{ fontFamily:f, fontSize:11, opacity:0.6, margin:'2px 0 0' }}>PDF · 1 page</p>
+        </div>
+        <span>↗</span>
+      </motion.div>
+
+      {/* LinkedIn — blue */}
+      <motion.div {...stagger(5)} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')} style={{ background:'rgba(10,102,194,0.95)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:16, padding:'18px 20px', color:'white', cursor:'pointer', display:'flex', alignItems:'center', gap:12 }}>
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
+        <div style={{ flex:1 }}>
+          <p style={{ fontFamily:f, fontSize:14, fontWeight:600, margin:0 }}>LinkedIn</p>
+          <p style={{ fontFamily:f, fontSize:11, opacity:0.65, margin:'2px 0 0' }}>/in/deepakmaan25</p>
+        </div>
+        <span>↗</span>
+      </motion.div>
+
+      {/* Currently building */}
+      <motion.div {...stagger(6)} style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:16, padding:'16px 20px', color:'#7a5c00' }}>
+        <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.7, margin:'0 0 4px' }}>Currently</p>
+        <p style={{ fontFamily:f, fontSize:14, fontWeight:600, margin:0 }}>Building with AI + design</p>
+      </motion.div>
+
+      {/* Currently reading */}
+      <motion.div {...stagger(7)} style={{ ...card, display:'flex', gap:14, alignItems:'center' }}>
+        <div style={{ width:60, height:84, borderRadius:6, overflow:'hidden', flexShrink:0, background:'#f0f0f0' }}>
+          <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL._AC_UF1000,1000_QL80_.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.background='#ddd' }} />
+        </div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 6px' }}>Reading</p>
+          <p style={{ fontFamily:f, fontSize:14, fontWeight:600, color:'hsl(0,0%,8%)', margin:'0 0 8px' }}>The Alchemist</p>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ flex:1, height:4, background:'hsl(0,0%,88%)', borderRadius:2, overflow:'hidden' }}><div style={{ width:'62%', height:'100%', background:'hsl(0,0%,40%)', borderRadius:2 }} /></div>
+            <span style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)' }}>62%</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Writings */}
+      <motion.div {...stagger(8)} onClick={()=>window.location.href='/writings'} style={{ ...card, cursor:'pointer', display:'flex', alignItems:'center', gap:14 }}>
+        <div style={{ width:44, height:34, background:'linear-gradient(to bottom,#f59e0b,#d97706)', borderRadius:6, flexShrink:0, position:'relative' }}>
+          <div style={{ position:'absolute', top:-4, left:0, width:22, height:6, background:'#d97706', borderRadius:'4px 4px 0 0' }} />
+        </div>
+        <div style={{ flex:1 }}>
+          <p style={{ fontFamily:f, fontSize:14, fontWeight:600, color:'hsl(0,0%,8%)', margin:0 }}>Writings</p>
+          <p style={{ fontFamily:f, fontSize:11, color:'hsl(0,0%,55%)', margin:'2px 0 0' }}>Notes on shipping & design</p>
+        </div>
+        <span style={{ color:'hsl(0,0%,55%)' }}>→</span>
+      </motion.div>
+
+      {/* Interests */}
+      <motion.div {...stagger(9)} style={card}>
+        <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Interests</p>
+        <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
+          {INTERESTS.map(i=><span key={i} style={{ padding:'4px 11px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:11, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
+        </div>
+      </motion.div>
+
+      {/* Rate */}
+      <motion.div {...stagger(10)} style={{ ...card, textAlign:'center' }}>
+        <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>{rated?'Thanks!':'Rate this portfolio'}</p>
+        <div style={{ display:'flex', gap:4, justifyContent:'center' }}>
+          {[1,2,3,4,5].map(s=>(
+            <button key={s} onClick={()=>{ if(!rated){ setRating(s); setRated(true) } }}
+              style={{ fontSize:26, background:'none', border:'none', cursor:rated?'default':'pointer', padding:'0 2px', lineHeight:1, color:(hover||rating)>=s?'#FABE15':'hsl(0,0%,82%)' }}>★</button>
+          ))}
+        </div>
+      </motion.div>
+    </>
   )
 }
