@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '../hooks/useMediaQuery'
 
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
@@ -169,6 +170,7 @@ export default function CaseStudyPage() {
   const { slug } = useParams<{ slug: string }>()
   const cs = CASE_STUDIES[slug as keyof typeof CASE_STUDIES]
   const [activeSection, setActiveSection] = useState(cs?.sections[0]?.id ?? '')
+  const isMobile = useIsMobile()
 
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
@@ -202,21 +204,23 @@ export default function CaseStudyPage() {
       <main style={{ backgroundColor: 'hsl(0,0%,98%)', minHeight: '100vh', fontFamily: f }}>
 
         {/* Top bar */}
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 32px', borderBottom: '1px solid hsl(0,0%,92%)', background: 'rgba(250,250,248,0.92)', backdropFilter: 'blur(12px)' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: isMobile ? '14px 16px' : '18px 32px', borderBottom: '1px solid hsl(0,0%,92%)', background: 'rgba(250,250,248,0.92)', backdropFilter: 'blur(12px)' }}>
           <Link to="/#work" style={{ fontFamily: f, fontSize: 13, color: 'hsl(0,0%,45%)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, transition: 'color 0.15s' }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'hsl(0,0%,8%)' }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'hsl(0,0%,45%)' }}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 4L6 8l4 4"/></svg>
             Back
           </Link>
-          <span style={{ fontFamily: f, fontSize: 11, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'hsl(0,0%,55%)' }}>
-            {cs.category}
-          </span>
+          {!isMobile && (
+            <span style={{ fontFamily: f, fontSize: 11, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'hsl(0,0%,55%)' }}>
+              {cs.category}
+            </span>
+          )}
           <span style={{ fontFamily: f, fontSize: 12, color: 'hsl(0,0%,55%)' }}>{cs.tags[1]}</span>
         </div>
 
         {/* Hero */}
-        <div style={{ background: cs.bg, padding: '120px 32px 80px' }}>
+        <div style={{ background: cs.bg, padding: isMobile ? '88px 20px 50px' : '120px 32px 80px' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}>
 
@@ -241,7 +245,7 @@ export default function CaseStudyPage() {
               </h1>
 
               {/* Metrics */}
-              <div style={{ display: 'flex', gap: 48, marginTop: 48, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: isMobile ? 28 : 48, marginTop: isMobile ? 32 : 48, flexWrap: 'wrap' }}>
                 {cs.metrics.map(m => (
                   <div key={m.label}>
                     <div style={{ fontFamily: f, fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, color: 'hsl(0,0%,8%)' }}>{m.value}</div>
@@ -254,9 +258,10 @@ export default function CaseStudyPage() {
         </div>
 
         {/* Content grid */}
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 32px 120px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '0 80px', alignItems: 'start' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '50px 20px 80px' : '80px 32px 120px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '200px 1fr', gap: isMobile ? '36px 0' : '0 80px', alignItems: 'start' }}>
 
-          {/* Sidebar */}
+          {/* Sidebar — desktop only */}
+          {!isMobile && (
           <aside style={{ position: 'sticky', top: 80 }}>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {cs.sections.map(s => (
@@ -285,9 +290,10 @@ export default function CaseStudyPage() {
               ))}
             </div>
           </aside>
+          )}
 
           {/* Article content */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 72 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 48 : 72 }}>
             {cs.content.map((section, i) => (
               <motion.section key={section.id} id={section.id}
                 initial={{ opacity: 0, y: 12 }}
@@ -303,7 +309,7 @@ export default function CaseStudyPage() {
                 {/* Body — parse **bold** and newlines */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {section.body.split('\n\n').map((para, j) => (
-                    <p key={j} style={{ fontFamily: f, fontSize: 16, color: 'hsl(0,0%,25%)', lineHeight: 1.75, margin: 0 }}
+                    <p key={j} style={{ fontFamily: f, fontSize: isMobile ? 15 : 16, color: 'hsl(0,0%,25%)', lineHeight: isMobile ? 1.7 : 1.75, margin: 0 }}
                       dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') }} />
                   ))}
                 </div>
