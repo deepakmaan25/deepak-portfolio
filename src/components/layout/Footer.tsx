@@ -1,87 +1,29 @@
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
 const f = "'Overused Grotesk', Inter, system-ui, sans-serif"
+const fs = "'IBM Plex Serif', Georgia, serif"
 
-export default function Footer() {
+export default function NotFound() {
   return (
-    <footer style={{
-      backgroundColor: '#0C0C0F',
-      padding: '60px 32px 40px',
-      fontFamily: f,
-    }}>
-      <div style={{ maxWidth: 1152, margin: '0 auto' }}>
-
-        {/* Top row */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 48, flexWrap: 'wrap', gap: 32 }}>
-
-          {/* Left: name + tagline */}
-          <div>
-            <p style={{ fontFamily: f, fontSize: 20, fontWeight: 700, color: 'white', letterSpacing: '-0.015em', margin: '0 0 8px' }}>
-              Deepak Maan
-            </p>
-            <p style={{ fontFamily: f, fontSize: 14, color: 'rgba(255,255,255,0.4)', margin: 0, maxWidth: 280 }}>
-              Product Designer. I research, design, and ship end to end.
-            </p>
-          </div>
-
-          {/* Right: links */}
-          <div style={{ display: 'flex', gap: 48 }}>
-            <div>
-              <p style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.3)', margin: '0 0 14px' }}>Work</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[
-                  { label: 'Case Studies', href: '/#work' },
-                  { label: 'Shipped Builds', href: '/shipped' },
-                  { label: 'Writings', href: '/writings' },
-                ].map(link => (
-                  <a key={link.label} href={link.href} style={{ fontFamily: f, fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'white' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)' }}>
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.3)', margin: '0 0 14px' }}>Connect</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[
-                  { label: 'LinkedIn', href: 'https://linkedin.com/in/deepakmaan25' },
-                  { label: 'Resume', href: 'https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing' },
-                  { label: 'GitHub', href: 'https://github.com/deepakmaan25' },
-                ].map(link => (
-                  <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
-                    style={{ fontFamily: f, fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'white' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)' }}>
-                    {link.label} ↗
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
+    <main style={{ minHeight: '100vh', backgroundColor: 'hsl(0,0%,98%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: f, padding: 'clamp(20px, 5vw, 32px)' }}>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ textAlign: 'center', maxWidth: 480 }}>
+        <p style={{ fontFamily: f, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'hsl(0,0%,55%)', marginBottom: 20 }}>404</p>
+        <h1 style={{ fontFamily: f, fontSize: 'clamp(1.8rem,6vw,3.5rem)', fontWeight: 700, letterSpacing: '-0.025em', color: 'hsl(0,0%,8%)', margin: '0 0 16px', lineHeight: 1.1 }}>
+          Page not found.
+        </h1>
+        <p style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(1rem,2.5vw,1.15rem)', color: 'hsl(0,0%,45%)', margin: '0 0 40px', lineHeight: 1.6 }}>
+          This page doesn't exist. Maybe you were looking for a case study?
+        </p>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 9999, background: 'hsl(0,0%,8%)', color: 'white', fontFamily: f, fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            Go home
+          </Link>
+          <Link to="/#work" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 9999, border: '1px solid hsl(0,0%,85%)', color: 'hsl(0,0%,25%)', fontFamily: f, fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>
+            See my work
+          </Link>
         </div>
-
-        {/* Divider */}
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 28 }} />
-
-        {/* Bottom row */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-          <p style={{ fontFamily: f, fontSize: 12, color: 'rgba(255,255,255,0.25)', margin: 0 }}>
-            © 2026 Deepak Maan. Built with React + TypeScript + Claude Code.
-          </p>
-          <a href="mailto:deepak.maan@email.com" style={{ fontFamily: f, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.15s' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'white' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)' }}>
-            deepak.maan@email.com
-          </a>
-        </div>
-
-        {/* Oversized name — Chemistry.vc influence */}
-        <div style={{ marginTop: 32, overflow: 'hidden' }}>
-          <p style={{ fontFamily: f, fontSize: 'clamp(4rem,12vw,10rem)', fontWeight: 800, letterSpacing: '-0.04em', color: 'rgba(255,255,255,0.04)', lineHeight: 1, margin: 0, userSelect: 'none' }}>
-            deepak maan
-          </p>
-        </div>
-      </div>
-    </footer>
+      </motion.div>
+    </main>
   )
 }
