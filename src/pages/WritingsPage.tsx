@@ -5,7 +5,7 @@ import { useIsMobile } from '../hooks/useMediaQuery'
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
 
-export { ARTICLES } from '../data/articles'
+import { ARTICLES } from '../data/articles'
 
 export default function WritingsPage() {
   const isMobile = useIsMobile()
