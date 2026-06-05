@@ -7,31 +7,31 @@ const fs = "'IBM Plex Serif', Georgia, serif"
 const SHIPPED = [
   {
     name: 'Music Animation Generator',
-    description: 'Upload a track, watch it become a generative visual. Frequency data drives particle systems and waveform animations in real time.',
-    tags: ['React', 'Web Audio API', 'Canvas', 'Framer Motion'],
+    description: 'Designed the full system in Figma first — color tokens, component library, light and dark theming. Real-time frequency extraction drives multiple WebGL visual engines. Beat-synced animations ready to post.',
+    tags: ['React', 'TypeScript', 'Web Audio API', 'WebGL', 'Supabase'],
     status: 'Live', type: 'Creative tool', year: '2024',
-    liveUrl: '#', bg: 'hsl(260,60%,96%)', accent: 'hsl(260,60%,55%)', emoji: '🎵',
+    liveUrl: 'https://musictoanimate.vercel.app/', bg: 'hsl(260,60%,96%)', accent: 'hsl(260,60%,55%)', emoji: '🎵',
   },
   {
     name: 'PulsePlay',
-    description: 'A music player with a living visualizer. Bars pulse to the beat, the UI breathes with the audio. Built to explore what a music interface could feel like.',
+    description: 'A music player focused on visual experience. Clean UI, waveform visualisation, and playlist management. Built to explore what a music interface should actually feel like.',
     tags: ['React', 'TypeScript', 'Web Audio API', 'CSS Animations'],
     status: 'Live', type: 'Interaction experiment', year: '2024',
     liveUrl: '#', bg: 'hsl(340,60%,96%)', accent: 'hsl(340,60%,50%)', emoji: '🎧',
   },
   {
     name: 'TypMatch',
-    description: 'A typing speed game with a design twist. Clean UI, real-time WPM tracking, accuracy scoring. Started as a component exercise, shipped as a full product.',
-    tags: ['React', 'TypeScript', 'Tailwind'],
-    status: 'Live', type: 'Utility game', year: '2024',
-    liveUrl: '#', bg: 'hsl(140,50%,95%)', accent: 'hsl(140,55%,40%)', emoji: '⌨️',
+    description: 'Font pairing recommendation tool built on a scoring system, not a filter. Established design system foundation first — type scale, spacing tokens, dark mode. Unavailable weights stay discoverable.',
+    tags: ['React', 'TypeScript', 'Google Fonts API', 'Vercel'],
+    status: 'Live', type: 'Typography tool', year: '2024',
+    liveUrl: 'https://typematch-mu.vercel.app/', bg: 'hsl(140,50%,95%)', accent: 'hsl(140,55%,40%)', emoji: '⌨️',
   },
   {
     name: 'Kairo Design System',
-    description: 'A personal component library built to stop re-inventing the same patterns. Spacing tokens, type scale, color system, and 20+ components. Built with Figma + React.',
-    tags: ['Design System', 'Figma', 'React', 'Storybook'],
-    status: 'Ongoing', type: 'Design system', year: '2024–25',
-    liveUrl: '#', bg: 'hsl(220,60%,96%)', accent: 'hsl(220,65%,55%)', emoji: '🧩',
+    description: 'A design system file sitting in Figma cannot prove it actually works. Built complete tokens to components — then implemented as a live interactive site. Implementation exposed missing states invisible in a static file.',
+    tags: ['Figma', 'React', 'Vercel'],
+    status: 'Live', type: 'Design system', year: '2024–25',
+    liveUrl: 'https://kairo-design.vercel.app/', bg: 'hsl(220,60%,96%)', accent: 'hsl(220,65%,55%)', emoji: '🧩',
   },
 ]
 
