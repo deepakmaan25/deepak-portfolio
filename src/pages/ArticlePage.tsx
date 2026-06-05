@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ARTICLES } from './WritingsPage'
+import { ARTICLES } from '../data/articles'
 import { useIsMobile } from '../hooks/useMediaQuery'
 
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
