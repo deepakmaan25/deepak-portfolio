@@ -239,7 +239,7 @@ export default function HomePage() {
                       <div className="flex items-start gap-4">
                         <motion.span layoutId="avatar" className="relative shrink-0" style={{ marginTop:7 }}>
                           <span style={{ display:'block', width:36, height:36, borderRadius:'50%', overflow:'hidden', background:'#DDD8FB', boxShadow:'0 0 0 2px white,0 1px 4px rgba(0,0,0,0.1)' }}>
-                            <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                            <img src="/deepak.png" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                           </span>
                           <span style={{ position:'absolute', width:10, height:10, borderRadius:'50%', background:'#4ade80', bottom:1, right:0, boxShadow:'0 0 0 2px white' }} />
                         </motion.span>
@@ -276,7 +276,7 @@ export default function HomePage() {
                         animate={{ opacity:1, y:0, transition:SP_SLOW }}
                         style={{ display:'flex', alignItems:'flex-end', gap:8, marginBottom:12 }}>
                         <motion.span layoutId="avatar" style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
-                          <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                          <img src="/deepak.png" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                         </motion.span>
                         <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, borderBottomLeftRadius:5, fontSize:14.5, lineHeight:1.6, fontFamily:f, background:'white', color:'hsl(0,0%,8%)', border:'1px solid hsl(0,0%,88%)', boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>
                           I'm Deepak &mdash; based in Mumbai. I design and ship product UX, end to end.
@@ -294,7 +294,7 @@ export default function HomePage() {
                               style={{ display:'flex', justifyContent:msg.role==='user'?'flex-end':'flex-start', alignItems:'flex-end', gap:8 }}>
                               {msg.role==='assistant' && (
                                 <span style={{ width:28, height:28, borderRadius:'50%', background:'#DDD8FB', flexShrink:0, overflow:'hidden', display:'inline-block', boxShadow:'0 0 0 2px white' }}>
-                                  <img src="/photo.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+                                  <img src="/deepak.png" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
                                 </span>
                               )}
                               <div style={{ maxWidth:480, padding:'11px 17px', borderRadius:18, fontSize:14.5, lineHeight:1.6, fontFamily:f,
@@ -506,7 +506,7 @@ const Widgets = ({ istTime, playing, setPlaying, isMobile }: { istTime:string; p
         </motion.h2>
         <motion.div {...fly(0.08,-30,-5)} style={{ ...card, position:'absolute', top:'6%', left:'2%', padding:'12px 12px 20px', zIndex:4 }}>
           <div style={{ width:148, height:148, borderRadius:12, overflow:'hidden', background:'#DDD8FB' }}>
-            <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+            <img src="/deepak.png" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
           </div>
           <p style={{ marginTop:8, textAlign:'center', fontFamily:f, fontSize:11, color:'hsl(0,0%,50%)', letterSpacing:'0.04em' }}>Deepak Maan · Mumbai</p>
         </motion.div>
@@ -649,7 +649,7 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
       {/* ROW 1: Profile (full width, hero card) ─────────────────────────── */}
       <motion.div {...fly(0)} style={{ ...card, padding:'22px 22px', display:'flex', alignItems:'center', gap:16 }}>
         <div style={{ width:80, height:80, borderRadius:14, overflow:'hidden', background:'#DDD8FB', flexShrink:0 }}>
-          <img src="/photo.jpg" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
+          <img src="/deepak.png" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
         </div>
         <div style={{ flex:1, minWidth:0 }}>
           <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:4 }}>
