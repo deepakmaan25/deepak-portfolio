@@ -55,14 +55,13 @@ Product designer from IIT ISM Dhanbad. Currently at JSW Steel as a Design Analys
 
 CASE STUDIES:
 1. Tech Japan / Talendy — UX research internship Sep-Nov 2024. 10 interviews across 6 IITs, 9 pain points, fixes shipped: job description layout, WCAG 2.1 AA dark mode, save-all profile flow, multiple resume management, built-in communication tool replacing WhatsApp. 80% easier navigation, 70% feature adoption.
-2. Buzztro — Designed full product 0 to 1 for a social polling startup.
+2. Buzztro — Designed full product 0 to 1 for a collective buying platform. The mechanic: more buyers commit → price drops for everyone. 40+ screens, 5 core flows (product card, PDP, booking checkout, cart, post-purchase), shipped to production in 8 weeks. Solo designer, direct to founder.
 3. Zu-AI — Redesigned chat experience for AI tutoring app, 100K+ students. 40% faster scanning, 3x faster task completion.
 
-SIDE PROJECTS:
-1. Music Animation Generator — real-time visuals synced to music via web audio APIs.
-2. PulsePlay — music player with waveform visualisation.
-3. TypMatch — typography matching/font pairing tool.
-4. Kairo Design System — full design system: tokens, components, documentation.
+SIDE PROJECTS (all live, built end-to-end):
+1. Music Animation Generator — upload a track, get beat-synced animations in real time. React + Web Audio API + WebGL. Live at musictoanimate.vercel.app
+2. TypMatch — font pairing tool built on a scoring system, not just a search box. React + TypeScript + Google Fonts API. Live at typematch-mu.vercel.app
+3. Kairo Design System — full design system (tokens to components) implemented as a live interactive site. Live at kairo-design.vercel.app
 
 AVAILABILITY: Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
 
@@ -72,7 +71,7 @@ LinkedIn: https://linkedin.com/in/deepakmaan25
 Email: dipumaan2002@gmail.com
 Book a call: https://cal.com/deepakmaan`
 
-const INTERESTS = ['Product Design','UX Research','Design Systems','Vibe Coding','Cricket','Music']
+const INTERESTS = ['Product Design','UX Research','AI Workflows','Design Systems','Cricket','Music']
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
 const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
@@ -411,9 +410,13 @@ export default function HomePage() {
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
                 image="/src/assets/case-study-1.jpg" bg="hsl(222,100%,96%)" isMobile={isMobile} />
               <CaseRow title="Buzztro – Social Polling App Design"
-                desc="Designed the complete product experience for a social polling startup from 0 to 1. Research, information architecture, and high-fidelity design across the platform."
-                metric="0→1" metricLabel="product shipped" slug="buzztro"
-                image="/src/assets/case-study-2.jpg" bg="hsl(30,100%,95%)" isMobile={isMobile} />
+                desc="Designed the full buying experience for a collective buying platform — where more buyers means a lower price. 40+ screens, 5 core flows, shipped to production in 8 weeks."
+                metric="40+" metricLabel="screens shipped" slug="buzztro"
+                image="/src/assets/case-study-2.jpg" bg="hsl(22,100%,95%)" isMobile={isMobile} />
+              <CaseRow title="Zu-AI – Chat Experience Redesign"
+                desc="Redesigned the chat experience for an AI tutoring app serving 100K+ students. Research with 33 participants, fixed information overload, added accessibility controls and visual hierarchy improvements."
+                metric="3×" metricLabel="task completion" slug="zu-ai"
+                image="/src/assets/case-study-3.jpg" bg="hsl(260,60%,97%)" isMobile={isMobile} />
             </div>
           </div>
         </div>
