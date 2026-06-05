@@ -331,9 +331,9 @@ export default function CaseStudyPage() {
             {/* Meta */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {[
-                { label: 'Role', value: 'UX Research Intern' },
-                { label: 'Tools', value: cs.tags[3] },
-                { label: 'Platform', value: cs.tags[2] },
+                { label: 'Role', value: cs.tags[0] },
+                { label: 'Tools', value: cs.tags[3] || '' },
+                { label: 'Platform', value: cs.tags[2] || '' },
               ].map(item => (
                 <div key={item.label}>
                   <p style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,55%)', margin: '0 0 3px' }}>{item.label}</p>
