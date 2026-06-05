@@ -409,7 +409,7 @@ export default function HomePage() {
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
                 image="/src/assets/case-study-1.jpg" bg="hsl(222,100%,96%)" isMobile={isMobile} />
-              <CaseRow title="Buzztro – Social Polling App Design"
+              <CaseRow title="Buzztro – Collective Buying Platform"
                 desc="Designed the full buying experience for a collective buying platform — where more buyers means a lower price. 40+ screens, 5 core flows, shipped to production in 8 weeks."
                 metric="40+" metricLabel="screens shipped" slug="buzztro"
                 image="/src/assets/case-study-2.jpg" bg="hsl(22,100%,95%)" isMobile={isMobile} />
