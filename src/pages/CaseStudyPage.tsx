@@ -49,29 +49,29 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
     content: [
       {
         id: 'overview', heading: 'Overview',
-        body: `Tech Japan connects IIT students with Japanese companies. The platform had a real use case, but the experience was letting it down — broken company links, unreadable dark mode text, no way to manage multiple resumes, and post-application communication happening entirely on WhatsApp.\n\nI spent two months researching these issues with 10 IIT students across 6 campuses, documented 9 distinct pain points, and designed fixes for the most critical ones. Several shipped to production — including the job description layout, accessibility fixes, Save All profile flow, and the built-in communication tool.\n\nSole researcher on this project. I recruited participants, ran interviews, synthesised findings into an actionable brief, designed solutions in Figma, and presented to the team.`,
+        body: `Tech Japan connects IIT students with Japanese companies. The platform had a real use case, but the experience was letting it down -broken company links, unreadable dark mode text, no way to manage multiple resumes, and post-application communication happening entirely on WhatsApp.\n\nI spent two months researching these issues with 10 IIT students across 6 campuses, documented 9 distinct pain points, and designed fixes for the most critical ones. Several shipped to production -including the job description layout, accessibility fixes, Save All profile flow, and the built-in communication tool.\n\nSole researcher on this project. I recruited participants, ran interviews, synthesised findings into an actionable brief, designed solutions in Figma, and presented to the team.`,
         highlight: null, quote: null, image: null,
       },
       {
         id: 'research', heading: 'What I found',
-        body: `Ten 1:1 interviews with students from IIT Dhanbad, Roorkee, Guwahati, Delhi, Hyderabad, and Bombay — 8 final year, 2 pre-final year, all actively job hunting or recently placed.\n\n**Dark mode contrast — 7 of 10 users.** Text was unreadable on internship detail and company pages. It looked unfinished.\n\n**Broken company links — 6 users.** For someone deciding whether to trust a company enough to apply, a 404 at that moment reads as a red flag about the company itself — not a technical inconvenience.\n\n**Job description layout — 4 users.** All the information was there, presented as one long unformatted block. Fine if you're reading carefully. Impossible if you're scanning.\n\n**WhatsApp handoff — 4 users.** Post-application, everything moved off-platform. The larger issue: Tech Japan had zero visibility into what happened after someone applied.\n\n**Multiple resumes — 3 users.** Students apply across product, dev, design, analytics. One resume slot doesn't work.\n\n**Save profile — 2 users.** Every section had to be saved individually. Missing one meant losing that data silently.`,
+        body: `Ten 1:1 interviews with students from IIT Dhanbad, Roorkee, Guwahati, Delhi, Hyderabad, and Bombay -8 final year, 2 pre-final year, all actively job hunting or recently placed.\n\n**Dark mode contrast -7 of 10 users.** Text was unreadable on internship detail and company pages. It looked unfinished.\n\n**Broken company links -6 users.** For someone deciding whether to trust a company enough to apply, a 404 at that moment reads as a red flag about the company itself -not a technical inconvenience.\n\n**Job description layout -4 users.** All the information was there, presented as one long unformatted block. Fine if you're reading carefully. Impossible if you're scanning.\n\n**WhatsApp handoff -4 users.** Post-application, everything moved off-platform. The larger issue: Tech Japan had zero visibility into what happened after someone applied.\n\n**Multiple resumes -3 users.** Students apply across product, dev, design, analytics. One resume slot doesn't work.\n\n**Save profile -2 users.** Every section had to be saved individually. Missing one meant losing that data silently.`,
         highlight: "The most important signal wasn't what users said they wanted. It was the moment they stopped trusting the platform.",
-        quote: { text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data — it shows an error every time. It leads to doubting the company's legitimacy.", attribution: 'IIT student, 4th year' },
+        quote: { text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data -it shows an error every time. It leads to doubting the company's legitimacy.", attribution: 'IIT student, 4th year' },
         image: '/02-pain-point-frequency.png',
       },
       {
         id: 'sol-1', heading: 'Solution 1: Job description layout',
-        body: `**Problem:** Requirements, compensation, company details, and application instructions ran together in a single unformatted block. Anyone scanning to assess a role quickly couldn't.\n\n**Fix:** Restructured into clearly labelled sections — role overview, company details, requirements, how to apply. Company links fixed to actually resolve. Students could now answer two questions at a glance: is this role right for me, and is this company real?`,
+        body: `**Problem:** Requirements, compensation, company details, and application instructions ran together in a single unformatted block. Anyone scanning to assess a role quickly couldn't.\n\n**Fix:** Restructured into clearly labelled sections -role overview, company details, requirements, how to apply. Company links fixed to actually resolve. Students could now answer two questions at a glance: is this role right for me, and is this company real?`,
         highlight: null, quote: null, image: '/04-job-description-before-after.png',
       },
       {
         id: 'sol-2', heading: 'Solution 2: Dark mode & accessibility',
-        body: `**Problem:** 7 of 10 users couldn't read key sections in dark mode. Most affected: students studying late — exactly the users most likely to have dark mode on.\n\n**Fix:** Walked through the platform in dark mode screen by screen. Updated colour values to meet WCAG 2.1 AA across all affected surfaces. Standardised interactive element treatment across light and dark themes. One of the first fixes flagged for production.`,
+        body: `**Problem:** 7 of 10 users couldn't read key sections in dark mode. Most affected: students studying late -exactly the users most likely to have dark mode on.\n\n**Fix:** Walked through the platform in dark mode screen by screen. Updated colour values to meet WCAG 2.1 AA across all affected surfaces. Standardised interactive element treatment across light and dark themes. One of the first fixes flagged for production.`,
         highlight: null, quote: null, image: '/05-dark-mode-before-after.png',
       },
       {
         id: 'sol-3', heading: 'Solution 3: Multiple resume management',
-        body: `**Problem:** IIT students apply across several tracks — product, engineering, design, analytics. The platform supported one resume. Swapping required downloading, renaming, re-uploading.\n\n**Fix:** A resume library inside the profile — upload and label multiple versions ("Product Resume", "Dev Resume"), then select the right one at the point of application without leaving the job listing. Students already maintained multiple versions in Drive. The fix made that workflow native.`,
+        body: `**Problem:** IIT students apply across several tracks -product, engineering, design, analytics. The platform supported one resume. Swapping required downloading, renaming, re-uploading.\n\n**Fix:** A resume library inside the profile -upload and label multiple versions ("Product Resume", "Dev Resume"), then select the right one at the point of application without leaving the job listing. Students already maintained multiple versions in Drive. The fix made that workflow native.`,
         highlight: null,
         quote: { text: "I need to upload different resumes for different profiles. There's no way to do that here.", attribution: 'IIT student, pre-final year' },
         image: '/06-resume-management.png',
@@ -85,18 +85,18 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         id: 'sol-5', heading: 'Solution 5: Built-in communication',
-        body: `**Problem:** Post-application, everything moved to WhatsApp. Users flagged it as unprofessional. But the deeper issue was business-level: Tech Japan had zero visibility into what happened after someone applied. Every offer, rejection, and follow-up was happening in an app they couldn't access.\n\n**Fix:** In-platform messaging covering the full post-application journey — status updates, document requests, direct messages with HRs, interview scheduling. All inside the platform from application to outcome.\n\n"Users want better chat" is a feature request. "You have no visibility into your own hiring funnel" is a business case. The reframe is what got it prioritised.`,
+        body: `**Problem:** Post-application, everything moved to WhatsApp. Users flagged it as unprofessional. But the deeper issue was business-level: Tech Japan had zero visibility into what happened after someone applied. Every offer, rejection, and follow-up was happening in an app they couldn't access.\n\n**Fix:** In-platform messaging covering the full post-application journey -status updates, document requests, direct messages with HRs, interview scheduling. All inside the platform from application to outcome.\n\n"Users want better chat" is a feature request. "You have no visibility into your own hiring funnel" is a business case. The reframe is what got it prioritised.`,
         highlight: 'The WhatsApp finding landed when I framed it as: you have zero visibility into what happens after someone applies.',
         quote: null, image: '/08-communication-tool.png',
       },
       {
         id: 'parallel', heading: 'Parallel work',
-        body: `**Rebranding survey:** Ran a 10+ question survey on the Tech Japan → Talendy transition. Headline finding: 71% of respondents hadn't heard about the rebrand at all. Of those who had, 64.5% found out through peers — almost none through official channels. The recommendation was a proper launch strategy, not just a name change.\n\n**Recruiter dashboard:** Designed a hiring dashboard for Tech Japan's internal team. From 50+ responses and recruiter interviews, 72% wanted a detailed feedback mechanism and 60% wanted better transparency into the review process. Working on both sides clarified where friction actually lived — candidates didn't know where they stood, and recruiters didn't have the tools to tell them.`,
+        body: `**Rebranding survey:** Ran a 10+ question survey on the Tech Japan → Talendy transition. Headline finding: 71% of respondents hadn't heard about the rebrand at all. Of those who had, 64.5% found out through peers -almost none through official channels. The recommendation was a proper launch strategy, not just a name change.\n\n**Recruiter dashboard:** Designed a hiring dashboard for Tech Japan's internal team. From 50+ responses and recruiter interviews, 72% wanted a detailed feedback mechanism and 60% wanted better transparency into the review process. Working on both sides clarified where friction actually lived -candidates didn't know where they stood, and recruiters didn't have the tools to tell them.`,
         highlight: null, quote: null, images: ['/TJ-rebranding-survey.png'],
       },
       {
         id: 'reflection', heading: 'Reflection',
-        body: `Research findings don't speak for themselves. The WhatsApp issue was known before I joined and hadn't moved. Reframing it as a business visibility problem — not a chat preference — changed the conversation entirely.\n\nThe broken company link was a bug, not a design problem. But it was the single thing most likely to make a user close the tab, because it raised a question about whether the companies were real. Real research has to follow the problem, not just evaluate screens.\n\n**Results:** 80% of test participants said navigation felt easier. 70% used new features unprompted — the strongest signal a design is working.`,
+        body: `Research findings don't speak for themselves. The WhatsApp issue was known before I joined and hadn't moved. Reframing it as a business visibility problem -not a chat preference -changed the conversation entirely.\n\nThe broken company link was a bug, not a design problem. But it was the single thing most likely to make a user close the tab, because it raised a question about whether the companies were real. Real research has to follow the problem, not just evaluate screens.\n\n**Results:** 80% of test participants said navigation felt easier. 70% used new features unprompted -the strongest signal a design is working.`,
         highlight: null, quote: null, image: null,
       },
     ],
@@ -129,46 +129,46 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
     content: [
       {
         id: 'overview', heading: 'Overview',
-        body: `Buzztro's model is collective buying — shoppers pool demand so the price drops when enough people commit. Simple on paper. The design problem was making a conditional, community-driven pricing model feel trustworthy and rewarding rather than confusing or pressuring.\n\nSolo designer on a 2-month contract, direct to founder. Competitor research, information architecture, wireframes, and 40+ high-fidelity screens across 5 core flows. Shipped to production.`,
+        body: `Buzztro's model is collective buying -shoppers pool demand so the price drops when enough people commit. Simple on paper. The design problem was making a conditional, community-driven pricing model feel trustworthy and rewarding rather than confusing or pressuring.\n\nSolo designer on a 2-month contract, direct to founder. Competitor research, information architecture, wireframes, and 40+ high-fidelity screens across 5 core flows. Shipped to production.`,
         highlight: null, quote: null, image: null,
       },
       {
         id: 'research', heading: 'Research',
-        body: `Mapped how group-buying platforms handle the pool mechanic across markets — Pinduoduo, Meesho, DealShare, Groupon — looking at which moments they explained, which they hid, and where the experience broke down.\n\n**The price doesn't match the label.** Most platforms show a discounted price on the card, but it's conditional. When users noticed this at checkout, trust collapsed. The fix had to happen upstream.\n\n**Pool status is buried.** How many joined? How many more needed? These questions decide whether a user commits — and were routinely hidden until after add-to-cart.\n\n**Post-purchase is an afterthought.** Waiting is the product for collective buying — that's where the shopper lives for hours after payment. It needed its own design, not a generic confirmation screen.`,
+        body: `Mapped how group-buying platforms handle the pool mechanic across markets -Pinduoduo, Meesho, DealShare, Groupon -looking at which moments they explained, which they hid, and where the experience broke down.\n\n**The price doesn't match the label.** Most platforms show a discounted price on the card, but it's conditional. When users noticed this at checkout, trust collapsed. The fix had to happen upstream.\n\n**Pool status is buried.** How many joined? How many more needed? These questions decide whether a user commits -and were routinely hidden until after add-to-cart.\n\n**Post-purchase is an afterthought.** Waiting is the product for collective buying -that's where the shopper lives for hours after payment. It needed its own design, not a generic confirmation screen.`,
         highlight: "The design problem was not building an e-commerce app. It was making a conditional, community-driven pricing model feel trustworthy.",
         quote: { text: "The price isn't a number on the card. It's a promise the platform can only keep if the community keeps it first.", attribution: 'Design principle, week 1' },
         image: '/buzztro/pdp-states.png',
       },
       {
         id: 'sol-card', heading: 'Solution 1: Product card',
-        body: `The card had to carry three things a normal card doesn't: current pool fill, the price it unlocks, and proximity to the next tier — without becoming cluttered.\n\nThe version that shipped places the progress indicator beneath the product title — current price on one side, target price on the other, "X joined, Y more to unlock" completing the picture. Cards became taller than standard. That's the right trade-off. If the progress bar isn't readable at a glance, it's not Buzztro anymore.`,
+        body: `The card had to carry three things a normal card doesn't: current pool fill, the price it unlocks, and proximity to the next tier -without becoming cluttered.\n\nThe version that shipped places the progress indicator beneath the product title -current price on one side, target price on the other, "X joined, Y more to unlock" completing the picture. Cards became taller than standard. That's the right trade-off. If the progress bar isn't readable at a glance, it's not Buzztro anymore.`,
         highlight: null, quote: null, image: '/buzztro/card-system.png',
       },
       {
         id: 'sol-pdp', heading: 'Solution 2: Product detail page',
-        body: `Standard PDP hierarchy: image, title, price, CTA. On Buzztro, price is the output of a live community pool — which required inverting that hierarchy entirely.\n\nThe circular gauge sits directly under the title — a live readout of pool fill with the discounted target alongside. One glance and the mechanic is understood without reading any copy. Below the fold: familiar e-commerce patterns. Novelty only where it earns its place.`,
+        body: `Standard PDP hierarchy: image, title, price, CTA. On Buzztro, price is the output of a live community pool -which required inverting that hierarchy entirely.\n\nThe circular gauge sits directly under the title -a live readout of pool fill with the discounted target alongside. One glance and the mechanic is understood without reading any copy. Below the fold: familiar e-commerce patterns. Novelty only where it earns its place.`,
         highlight: null, quote: null, image: '/buzztro/pdp-overview.png',
       },
       {
         id: 'sol-checkout', heading: 'Solution 3: Checkout',
-        body: `This is a conditional commitment — paying today for something that ships only if the pool fills. That rewrites almost every trust signal a user expects from checkout.\n\nMulti-step structure: address, payment, review — with pool state persistent throughout. The most-reviewed piece of copy in the project: what happens if the pool doesn't fill ("your payment is held and refunded automatically"). If that sentence was confusing, the trust story collapsed. CTA shifted from "Pay now" to "Pay and join the pool."`,
+        body: `This is a conditional commitment -paying today for something that ships only if the pool fills. That rewrites almost every trust signal a user expects from checkout.\n\nMulti-step structure: address, payment, review -with pool state persistent throughout. The most-reviewed piece of copy in the project: what happens if the pool doesn't fill ("your payment is held and refunded automatically"). If that sentence was confusing, the trust story collapsed. CTA shifted from "Pay now" to "Pay and join the pool."`,
         highlight: null, quote: null,
         images: ['/buzztro/booking-checkout-mobile.png', '/buzztro/booking-checkout-desktop.png'],
       },
       {
         id: 'sol-cart', heading: 'Solution 4: Cart',
-        body: `Buzztro's cart is closer to a waiting room than a holding area — items the user has committed to, each with its own live pool state and potential final price.\n\nPer-item pool status instead of a flat line-item list. Totals show two numbers: what you pay at current pool levels, and what you'd pay if every pool fills. The refund language appears here too, before checkout — setting expectations early rather than surprising users in the final step.`,
+        body: `Buzztro's cart is closer to a waiting room than a holding area -items the user has committed to, each with its own live pool state and potential final price.\n\nPer-item pool status instead of a flat line-item list. Totals show two numbers: what you pay at current pool levels, and what you'd pay if every pool fills. The refund language appears here too, before checkout -setting expectations early rather than surprising users in the final step.`,
         highlight: null, quote: null, image: '/buzztro/checkout-address.png',
       },
       {
         id: 'sol-post', heading: 'Solution 5: Post-purchase',
-        body: `Between payment and shipment, a Buzztro customer lives in a waiting state that can last hours or days. If it feels empty, users assume something broke.\n\nThe order status screen shows live pool fill, countdown to close, current price band, and a share CTA. That share action isn't a growth mechanic bolted on — it's the most useful thing the user can actually do in that moment. Two additional states designed in full: pool filled and pool failed. Both are full screens. Neither is a toast.`,
+        body: `Between payment and shipment, a Buzztro customer lives in a waiting state that can last hours or days. If it feels empty, users assume something broke.\n\nThe order status screen shows live pool fill, countdown to close, current price band, and a share CTA. That share action isn't a growth mechanic bolted on -it's the most useful thing the user can actually do in that moment. Two additional states designed in full: pool filled and pool failed. Both are full screens. Neither is a toast.`,
         highlight: null, quote: null,
         images: ['/buzztro/order-waiting.png', '/buzztro/order-details.png'],
       },
       {
         id: 'reflection', heading: 'Reflection',
-        body: `The pool progress bar was the thesis of the entire product. Once I committed to making it the primary signal on every surface, every other decision got easier — hierarchy, copy, layout all resolved against it. A single strong principle does that.\n\nThe post-purchase state nearly became an afterthought. Sitting with the flow as a user changed that. For a platform where purchase is conditional, the hours after checkout are where the actual experience lives.\n\n**Outcome:** The product worked. Users understood the pool mechanic without reading copy. The gauge did the explaining. The company eventually paused on funding — a market reality, not a product one.`,
+        body: `The pool progress bar was the thesis of the entire product. Once I committed to making it the primary signal on every surface, every other decision got easier -hierarchy, copy, layout all resolved against it. A single strong principle does that.\n\nThe post-purchase state nearly became an afterthought. Sitting with the flow as a user changed that. For a platform where purchase is conditional, the hours after checkout are where the actual experience lives.\n\n**Outcome:** The product worked. Users understood the pool mechanic without reading copy. The gauge did the explaining. The company eventually paused on funding -a market reality, not a product one.`,
         highlight: null, quote: null, image: null,
       },
     ],
@@ -199,37 +199,37 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
     content: [
       {
         id: 'overview', heading: 'Overview',
-        body: `Zu-AI had 100K+ students using it as a learning tool. The concept was solid. The experience wasn't — walls of unformatted text, no memory between sessions, no personalisation, no signal for when to trust what the AI said. Sessions were getting abandoned.\n\nI redesigned the chat interface from the ground up in 2 weeks. Research with 33 participants (10 interviews, 23 survey responses). Hard constraint: couldn't touch the AI model. Every problem had to be solved at the interface layer.`,
+        body: `Zu-AI had 100K+ students using it as a learning tool. The concept was solid. The experience wasn't -walls of unformatted text, no memory between sessions, no personalisation, no signal for when to trust what the AI said. Sessions were getting abandoned.\n\nI redesigned the chat interface from the ground up in 2 weeks. Research with 33 participants (10 interviews, 23 survey responses). Hard constraint: couldn't touch the AI model. Every problem had to be solved at the interface layer.`,
         highlight: null, quote: null, image: null,
       },
       {
         id: 'research', heading: 'What I found',
-        body: `Started with 100+ app store reviews before any interviews — gives signal to direct sessions toward real friction rather than general impressions.\n\n**Information overload — 60% of respondents.** Responses arrived as long unbroken blocks of text with no headings or hierarchy. Students were skimming and giving up.\n\n**No personalisation — 40%.** No memory between sessions, no dark mode, no text size controls, no way to adjust how the AI addressed you.\n\nSmaller issues that compounded: no encryption indicator in settings, no disclaimer that the AI could be wrong, friction when switching subjects. Together they made the experience feel untrustworthy and unfinished.`,
-        highlight: "Information overload was the number one complaint — and none of it required changing the AI itself.",
+        body: `Started with 100+ app store reviews before any interviews -gives signal to direct sessions toward real friction rather than general impressions.\n\n**Information overload -60% of respondents.** Responses arrived as long unbroken blocks of text with no headings or hierarchy. Students were skimming and giving up.\n\n**No personalisation -40%.** No memory between sessions, no dark mode, no text size controls, no way to adjust how the AI addressed you.\n\nSmaller issues that compounded: no encryption indicator in settings, no disclaimer that the AI could be wrong, friction when switching subjects. Together they made the experience feel untrustworthy and unfinished.`,
+        highlight: "Information overload was the number one complaint -and none of it required changing the AI itself.",
         quote: { text: "I want to feel like I'm talking to a friend when I use it, but it feels too robotic.", attribution: 'Zu-AI user, survey' },
         image: '/ZA2_Research.png',
       },
       {
         id: 'sol-chat', heading: 'Solution 1: Chat redesign',
-        body: `**Problem:** Everything looked identical — same weight, same size, no entry points for scanning. Students weren't reading, they were skimming and giving up.\n\n**Fix:** Structured responses into sections with clear headings and visual separators. Typography differentiates heading, body, and code. Quick-action buttons — "Explain this further", "Show an example" — added during testing after noticing users pausing not because they were reading, but because they were figuring out what to ask next. They became the most-used feature in testing.`,
+        body: `**Problem:** Everything looked identical -same weight, same size, no entry points for scanning. Students weren't reading, they were skimming and giving up.\n\n**Fix:** Structured responses into sections with clear headings and visual separators. Typography differentiates heading, body, and code. Quick-action buttons -"Explain this further", "Show an example" -added during testing after noticing users pausing not because they were reading, but because they were figuring out what to ask next. They became the most-used feature in testing.`,
         highlight: null, quote: null, image: '/ZA4_Redesign.png',
       },
       {
         id: 'sol-dash', heading: 'Solution 2: ChatBot dashboard',
-        body: `**Problem:** Every session started from blank. No way to pick up where you left off across subjects.\n\n**Fix:** Persistent conversation contexts — visual cards per subject with last message preview, quick-switch between threads, search for past explanations, auto-categorisation by subject. The framing: your study context should work the way your notes do. You don't start a new notebook every day.`,
+        body: `**Problem:** Every session started from blank. No way to pick up where you left off across subjects.\n\n**Fix:** Persistent conversation contexts -visual cards per subject with last message preview, quick-switch between threads, search for past explanations, auto-categorisation by subject. The framing: your study context should work the way your notes do. You don't start a new notebook every day.`,
         highlight: null,
         quote: { text: "I wish it could understand my schedule better. It's frustrating having to repeat my tasks every time I log in.", attribution: 'Zu-AI user, survey' },
         image: '/ZA5_Dashboard.png',
       },
       {
         id: 'sol-access', heading: 'Solution 3: Accessibility & trust',
-        body: `**Problem:** No customisation. No way to adjust text size, switch themes, or set preferences. And no signal for when the AI might be wrong.\n\n**Fix:** Dark/light toggle, 4 text size presets, custom avatars, name personalisation. WCAG 2.1 AA compliance. And two trust features that almost didn't make the cut: a visible encryption badge, and an inline disclaimer — "AI can make mistakes — verify important information."\n\nIn testing, the disclaimer was mentioned most positively by every participant. Setting honest expectations increased trust more than anything visual I designed. Transparency is a design element.`,
+        body: `**Problem:** No customisation. No way to adjust text size, switch themes, or set preferences. And no signal for when the AI might be wrong.\n\n**Fix:** Dark/light toggle, 4 text size presets, custom avatars, name personalisation. WCAG 2.1 AA compliance. And two trust features that almost didn't make the cut: a visible encryption badge, and an inline disclaimer -"AI can make mistakes -verify important information."\n\nIn testing, the disclaimer was mentioned most positively by every participant. Setting honest expectations increased trust more than anything visual I designed. Transparency is a design element.`,
         highlight: null, quote: null,
         images: ['/ZA6_Accessibility.png', '/ZA7_Key_decisions.png'],
       },
       {
         id: 'reflection', heading: 'Reflection',
-        body: `The disclaimer moment was the most unexpected part. I added it as an afterthought. It became the thing every test participant mentioned positively. Trust went up because expectations went down.\n\nThe quick-action buttons were a last-minute addition. They became the most-used feature. I went in thinking visual hierarchy was the main deliverable — I came out knowing the interaction model mattered more.\n\n**Results:** 40% faster information scanning. 3x task completion speed. 50% reduction in context-switching time. The constraint of not touching the AI turned out to be the most useful thing — it forced every solution into the interface layer, where design actually lives.`,
+        body: `The disclaimer moment was the most unexpected part. I added it as an afterthought. It became the thing every test participant mentioned positively. Trust went up because expectations went down.\n\nThe quick-action buttons were a last-minute addition. They became the most-used feature. I went in thinking visual hierarchy was the main deliverable -I came out knowing the interaction model mattered more.\n\n**Results:** 40% faster information scanning. 3x task completion speed. 50% reduction in context-switching time. The constraint of not touching the AI turned out to be the most useful thing -it forced every solution into the interface layer, where design actually lives.`,
         highlight: null,
         quote: { text: "Quick prompts are a game-changer. I don't have to think about what to ask next.", attribution: 'Zu-AI user, usability test' },
         image: null,
@@ -383,7 +383,7 @@ export default function CaseStudyPage() {
                       <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'hsl(0,0%,88%)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>😶</div>
                       <p style={{ fontFamily: f, fontSize: 14, color: 'hsl(0,0%,20%)', lineHeight: 1.65, margin: 0 }}>"{section.quote.text}"</p>
                     </div>
-                    <p style={{ fontFamily: f, fontSize: 11, color: 'hsl(0,0%,55%)', margin: '10px 0 0', paddingLeft: 40 }}>— {section.quote.attribution}</p>
+                    <p style={{ fontFamily: f, fontSize: 11, color: 'hsl(0,0%,55%)', margin: '10px 0 0', paddingLeft: 40 }}>-{section.quote.attribution}</p>
                   </div>
                 )}
                 {section.images && section.images.length > 0 && <ImageStrip images={section.images} accentBg={cs.accentBg} />}
