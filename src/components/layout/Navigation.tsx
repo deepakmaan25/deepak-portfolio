@@ -42,7 +42,7 @@ const Navigation = () => {
           {!isMobile && (
             <>
               <ExtLink href="https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing" label="Resume" mobile={isMobile} />
-              <ExtLink href="https://linkedin.com/in/deepakmaan25" label="LinkedIn" mobile={isMobile} />
+              <ExtLink href="https://www.linkedin.com/in/deepak-maan-106452230/" label="LinkedIn" mobile={isMobile} />
             </>
           )}
         </nav>
