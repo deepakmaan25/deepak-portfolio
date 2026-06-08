@@ -38,7 +38,7 @@ const CASE_STUDIES = {
         body: `Tech Japan connects engineering students from IITs with Japanese companies. The platform had a real use case but the experience was letting it down — broken links, dark mode contrast failures, no way to manage multiple resumes, and post-application flow that moved entirely to WhatsApp.\n\nI spent two months researching these issues with 10 students, documented 9 distinct pain points, designed fixes for the most critical ones, and presented findings to the team. Several shipped to production during and after the internship.`,
         highlight: null,
         quote: null,
-        image: null,
+        image: '/01-project-overview.png',
       },
       {
         id: 'background',
@@ -46,7 +46,7 @@ const CASE_STUDIES = {
         body: `I was the sole researcher on this project. I recruited participants, ran the interviews, synthesized findings into something actionable, designed solutions in Figma, and presented to the team.\n\nIn parallel, I ran a rebranding survey as the company was transitioning from Tech Japan to Talendy, and designed a recruiter-side hiring dashboard as a parallel workstream.`,
         highlight: null,
         quote: {
-          text: 'While clicking on a company\'s link, it takes you to a new page but you can\'t see any meaningful data — it shows an error every time. It leads to doubting the company\'s legitimacy.',
+          text: "While clicking on a company's link, it takes you to a new page but you can't see any meaningful data — it shows an error every time. It leads to doubting the company's legitimacy.",
           attribution: 'IIT student, 4th year',
         },
         image: null,
@@ -55,12 +55,12 @@ const CASE_STUDIES = {
         id: 'research',
         heading: 'Research approach',
         body: `I ran 1:1 interviews with 10 students from IIT Dhanbad, Roorkee, Guwahati, Delhi, Hyderabad, and Bombay — 8 final year, 2 pre-final year, all actively job hunting or recently placed.\n\nI chose IIT students because they're the platform's core users, and they've used enough polished products to notice when something feels off. I also collected 50+ survey responses alongside the interviews for the Talendy rebranding study, running both in parallel over two months.`,
-        highlight: 'The most important signal wasn\'t what users said they wanted. It was the moment they stopped trusting the platform.',
+        highlight: "The most important signal wasn't what users said they wanted. It was the moment they stopped trusting the platform.",
         quote: {
           text: 'Once I apply, all communication happens on WhatsApp, which feels unprofessional. The flow kind of hinders.',
           attribution: 'IIT student, final year',
         },
-        image: '/src/assets/case-study-1.jpg',
+        image: '/02-pain-point-frequency.png',
       },
       {
         id: 'problems',
@@ -68,10 +68,10 @@ const CASE_STUDIES = {
         body: `Nine distinct pain points emerged across the platform. The most critical:\n\n**Dark mode contrast** — mentioned by 7 of 10 users. Text was unreadable on internship detail and company pages. It looked unfinished.\n\n**Broken company links** — mentioned by 6 users. For someone deciding whether to trust a company enough to apply, a 404 at that moment is fatal.\n\n**Job description layout** — mentioned by 4 users. A single unformatted block. Nobody could scan it.\n\n**WhatsApp handoff** — mentioned by 4 users. Post-application, everything moved to WhatsApp. Users flagged it as unprofessional and said the platform lost all visibility into what happened after someone applied.\n\n**Multiple resumes** — mentioned by 3 users. Students apply to design, dev, analytics, business. One resume slot doesn't work.`,
         highlight: null,
         quote: {
-          text: 'I need to upload different resumes for different profiles. There\'s no way to do that here.',
+          text: "I need to upload different resumes for different profiles. There's no way to do that here.",
           attribution: 'IIT student, pre-final year',
         },
-        image: null,
+        image: '/03-wireframe-to-hifi.png',
       },
       {
         id: 'solutions',
@@ -79,7 +79,14 @@ const CASE_STUDIES = {
         body: `**Job description layout** — Restructured from a single unformatted block into clearly labeled sections: role overview, requirements, company details, how to apply. Company links were also fixed to actually resolve.\n\n**Dark mode & accessibility** — Went through the platform in dark mode, identified contrast failures, and updated color values to meet WCAG 2.1 AA. One of the first fixes flagged for implementation.\n\n**Multiple resume management** — A resume library where users can upload and label multiple versions and choose the right one at the point of application.\n\n**Save All profile flow** — Single Save All action with unsaved-change indicators. Previously every section had to be saved separately — missing one meant losing that data.\n\n**Built-in communication tool** — In-platform messaging replacing the WhatsApp handoff. Status updates, document requests, direct messages with HRs, interview scheduling.`,
         highlight: 'The WhatsApp finding landed when I framed it as: you have zero visibility into what happens after someone applies.',
         quote: null,
-        image: '/src/assets/case-study-1.jpg',
+        images: [
+          '/04-job-description-before-after.png',
+          '/05-dark-mode-before-after.png',
+          '/06-resume-management.png',
+          '/07-save-all-flow.png',
+          '/08-communication-tool.png',
+        ],
+        image: null,
       },
       {
         id: 'outcome',
@@ -87,7 +94,7 @@ const CASE_STUDIES = {
         body: `After designing the solutions, I ran another round of testing with participants from the same pool.\n\n80% reported navigation felt easier, particularly around the job categorization and new layout. 70% actively used the resume management and communication features during the session without being prompted.\n\nSeveral fixes shipped to production during and after the internship — job description layout, dark mode fixes, Save All, and the communication tool.\n\nThe rebranding survey found 71% of respondents hadn't heard about the Tech Japan → Talendy rebrand at all. Almost all who had heard about it found out through peers, not official channels. That became a second set of recommendations around launch strategy.`,
         highlight: null,
         quote: null,
-        image: null,
+        image: '/TJ-rebranding-survey.png',
       },
     ],
   },
@@ -120,7 +127,7 @@ const CASE_STUDIES = {
         body: `Buzztro's model is collective buying: shoppers pool demand so the price drops as more people commit. The mechanic is simple on paper. Making it feel trustworthy and rewarding rather than confusing or pressuring is the design problem.\n\nI designed the full buying experience around pool progress as the unifying metaphor. A single visual language that follows the user from product card through PDP, cart, checkout, and post-purchase. The price is a live consequence of how many people have joined.\n\nSolo designer on a 2-month contract, direct to founder. 40+ screens, 5 core flows, shipped to production in 8 weeks.`,
         highlight: null,
         quote: null,
-        image: null,
+        image: '/buzztro/hero.png',
       },
       {
         id: 'research',
@@ -131,7 +138,7 @@ const CASE_STUDIES = {
           text: "The price is not a number on the card. It's a promise the platform can only keep if the community keeps it first.",
           attribution: 'Design principle, established in week 1',
         },
-        image: null,
+        image: '/buzztro/pdp-states.png',
       },
       {
         id: 'solutions',
@@ -139,7 +146,14 @@ const CASE_STUDIES = {
         body: `**The Product Card** — Pool progress sits beneath the product title, current price on one side, target discounted price on the other. 'X joined, Y more to unlock.' Cards became taller than standard. That is the right trade-off: if the progress indicator is not readable at a glance, the product is not Buzztro anymore.\n\n**Product Detail Page** — The circular gauge became the signature visual. One glance and the mechanic is understood without reading any copy. Below the fold: familiar e-commerce patterns. Novelty only where it earns its place.\n\n**Booking Checkout** — Paying today for something that ships only if the pool fills. Multi-step structure with persistent pool state visible throughout. CTA shifted from 'Pay now' to 'Pay and join the pool.'\n\n**Cart** — Per-item pool status, not a flat line-item list. Totals show two numbers: what you pay at current pool levels, and what you would pay if every pool fills.\n\n**Post-Purchase** — Live pool fill, countdown, and a share CTA. That share action is not a growth mechanic bolted on. It is the most useful thing a user can do in that moment. Two states fully designed: pool filled and pool failed.`,
         highlight: null,
         quote: null,
-        image: '/src/assets/case-study-2.jpg',
+        images: [
+          '/buzztro/card-system.png',
+          '/buzztro/pdp-overview.png',
+          '/buzztro/booking-checkout-mobile.png',
+          '/buzztro/booking-checkout-desktop.png',
+          '/buzztro/order-waiting.png',
+        ],
+        image: null,
       },
       {
         id: 'outcome',
@@ -147,7 +161,7 @@ const CASE_STUDIES = {
         body: `Buzztro launched and ran in production for several months. 40+ screens, 5 core flows shipped end-to-end in 8 weeks from a single designer working directly with the founder.\n\nThe biggest validation: the product worked. Users understood the pool mechanic without reading copy. The gauge did the explaining. The checkout flow held up. Post-purchase states handled the conditional nature without generating confusion.\n\nThe company eventually paused on funding — a market and timing reality, not a product one.`,
         highlight: null,
         quote: null,
-        image: null,
+        image: '/buzztro/order-details.png',
       },
     ],
   },
@@ -180,7 +194,7 @@ const CASE_STUDIES = {
         body: `Zu-AI had 100K+ students using it as a learning tool. But the experience was not delivering — walls of unformatted text, no memory between sessions, no personalization, and no signal for when to trust what the AI said. Engagement was low. Sessions were getting abandoned.\n\nI redesigned the chat interface from the ground up in 2 weeks. Research with 33 participants (10 interviews, 23 survey responses). Hard constraint: could not touch the AI model. Every problem had to be solved at the interface layer.`,
         highlight: null,
         quote: null,
-        image: null,
+        image: '/ZA1_Hero_Image.png',
       },
       {
         id: 'research',
@@ -191,7 +205,7 @@ const CASE_STUDIES = {
           text: "I want to feel like I'm talking to a friend when I use it, but it feels too robotic.",
           attribution: 'Zu-AI user, survey response',
         },
-        image: null,
+        image: '/ZA2_Research.png',
       },
       {
         id: 'solutions',
@@ -199,7 +213,13 @@ const CASE_STUDIES = {
         body: `**Chat Interface Redesign** — Restructured responses into digestible sections with clear headings and visual separators. Typography differentiates heading, body, and code blocks. Quick-action buttons added during testing after noticing users pausing between messages not because they were reading — but because they were figuring out what to ask next. They became the most-used feature.\n\n**ChatBot Dashboard** — Persistent conversation contexts, not temporary sessions. Visual cards per subject, quick-switch between threads, search for past explanations. Your study context should work the way your notes do.\n\n**Accessibility and Trust** — Dark/light mode, 4 text size presets, custom avatars, name personalization. And two trust features that almost did not make the cut: a visible encryption badge, and an inline disclaimer: 'AI can make mistakes — verify important information.' In testing, it was mentioned most positively. Designing for honesty, not perfection, is what makes a product feel safe.`,
         highlight: null,
         quote: null,
-        image: '/src/assets/case-study-3.jpg',
+        images: [
+          '/ZA3_Wireframes.png',
+          '/ZA4_Redesign.png',
+          '/ZA5_Dashboard.png',
+          '/ZA6_Accessibility.png',
+        ],
+        image: null,
       },
       {
         id: 'outcome',
@@ -210,11 +230,28 @@ const CASE_STUDIES = {
           text: "Quick prompts are a game-changer. I don't have to think about what to ask next.",
           attribution: 'Zu-AI user, usability test',
         },
-        image: null,
+        image: '/ZA7_Key_decisions.png',
       },
     ],
   },
+}
 
+// ─── Multi-image gallery strip ────────────────────────────────────────────────
+function ImageGallery({ images, accentBg }: { images: string[]; accentBg: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, margin: '32px 0' }}>
+      {images.map((src, i) => (
+        <div key={i} style={{ borderRadius: 16, overflow: 'hidden', background: accentBg, border: '1px solid hsl(0,0%,90%)' }}>
+          <img
+            src={src}
+            alt=""
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+            onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
+        </div>
+      ))}
+    </div>
+  )
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -276,7 +313,6 @@ export default function CaseStudyPage() {
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}>
 
-              {/* Tags row */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
                 <span style={{ padding: '5px 12px', borderRadius: 9999, background: 'hsl(0,0%,8%)', color: 'white', fontFamily: f, fontSize: 11, fontWeight: 600, letterSpacing: '0.06em' }}>
                   {cs.status}
@@ -288,7 +324,6 @@ export default function CaseStudyPage() {
                 ))}
               </div>
 
-              {/* Title */}
               <h1 style={{ fontFamily: f, fontSize: 'clamp(2.2rem,4.5vw,4rem)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1, color: 'hsl(0,0%,8%)', margin: '0 0 16px', maxWidth: 700 }}>
                 {cs.title}
                 <span style={{ display: 'block', fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(1.4rem,3vw,2.4rem)', color: 'hsl(0,0%,35%)', marginTop: 8 }}>
@@ -296,7 +331,6 @@ export default function CaseStudyPage() {
                 </span>
               </h1>
 
-              {/* Metrics */}
               <div style={{ display: 'flex', gap: isMobile ? 28 : 48, marginTop: isMobile ? 32 : 48, flexWrap: 'wrap' }}>
                 {cs.metrics.map(m => (
                   <div key={m.label}>
@@ -314,34 +348,32 @@ export default function CaseStudyPage() {
 
           {/* Sidebar — desktop only */}
           {!isMobile && (
-          <aside style={{ position: 'sticky', top: 80 }}>
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {cs.sections.map(s => (
-                <button key={s.id}
-                  onClick={() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                  style={{ display: 'block', width: '100%', textAlign: 'left', fontFamily: f, fontSize: 13, lineHeight: 1.5, color: activeSection === s.id ? 'hsl(0,0%,8%)' : 'hsl(0,0%,60%)', fontWeight: activeSection === s.id ? 600 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '5px 0', transition: 'color 0.15s' }}>
-                  {s.label}
-                </button>
-              ))}
-            </nav>
+            <aside style={{ position: 'sticky', top: 80 }}>
+              <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {cs.sections.map(s => (
+                  <button key={s.id}
+                    onClick={() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    style={{ display: 'block', width: '100%', textAlign: 'left', fontFamily: f, fontSize: 13, lineHeight: 1.5, color: activeSection === s.id ? 'hsl(0,0%,8%)' : 'hsl(0,0%,60%)', fontWeight: activeSection === s.id ? 600 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '5px 0', transition: 'color 0.15s' }}>
+                    {s.label}
+                  </button>
+                ))}
+              </nav>
 
-            {/* Divider */}
-            <div style={{ height: 1, background: 'hsl(0,0%,90%)', margin: '28px 0' }} />
+              <div style={{ height: 1, background: 'hsl(0,0%,90%)', margin: '28px 0' }} />
 
-            {/* Meta */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {[
-                { label: 'Role', value: cs.tags[0] },
-                { label: 'Tools', value: cs.tags[3] || '' },
-                { label: 'Platform', value: cs.tags[2] || '' },
-              ].map(item => (
-                <div key={item.label}>
-                  <p style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,55%)', margin: '0 0 3px' }}>{item.label}</p>
-                  <p style={{ fontFamily: f, fontSize: 13, color: 'hsl(0,0%,25%)', margin: 0 }}>{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </aside>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {[
+                  { label: 'Role', value: cs.tags[0] },
+                  { label: 'Tools', value: cs.tags[3] || '' },
+                  { label: 'Platform', value: cs.tags[2] || '' },
+                ].map(item => (
+                  <div key={item.label}>
+                    <p style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,55%)', margin: '0 0 3px' }}>{item.label}</p>
+                    <p style={{ fontFamily: f, fontSize: 13, color: 'hsl(0,0%,25%)', margin: 0 }}>{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </aside>
           )}
 
           {/* Article content */}
@@ -358,7 +390,6 @@ export default function CaseStudyPage() {
                   {section.heading}
                 </h2>
 
-                {/* Body — parse **bold** and newlines */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {section.body.split('\n\n').map((para, j) => (
                     <p key={j} style={{ fontFamily: f, fontSize: isMobile ? 15 : 16, color: 'hsl(0,0%,25%)', lineHeight: isMobile ? 1.7 : 1.75, margin: 0 }}
@@ -366,7 +397,6 @@ export default function CaseStudyPage() {
                   ))}
                 </div>
 
-                {/* Highlight */}
                 {section.highlight && (
                   <div style={{ margin: '28px 0', padding: '20px 24px', borderLeft: '3px solid hsl(0,0%,8%)', background: 'hsl(0,0%,96%)' }}>
                     <p style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: 17, color: 'hsl(0,0%,15%)', lineHeight: 1.65, margin: 0 }}>
@@ -377,7 +407,6 @@ export default function CaseStudyPage() {
                   </div>
                 )}
 
-                {/* Quote */}
                 {section.quote && (
                   <div style={{ margin: '28px 0', padding: '20px 24px', background: 'hsl(0,0%,97%)', border: '1px solid hsl(0,0%,90%)', borderRadius: 12 }}>
                     <p style={{ fontFamily: f, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,55%)', margin: '0 0 12px' }}>User quote</p>
@@ -391,17 +420,23 @@ export default function CaseStudyPage() {
                   </div>
                 )}
 
-                {/* Image */}
-                {section.image && (
-                  <div style={{ margin: '32px 0', borderRadius: 16, overflow: 'hidden', background: cs.accentBg, aspectRatio: '16/9' }}>
-                    <img src={section.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      onError={e => { (e.target as HTMLImageElement).style.opacity = '0' }} />
+                {/* Multi-image gallery — when section has images array */}
+                {'images' in section && Array.isArray((section as any).images) && (section as any).images.length > 0 && (
+                  <ImageGallery images={(section as any).images} accentBg={cs.accentBg} />
+                )}
+
+                {/* Single image — only when no images array */}
+                {!('images' in section && Array.isArray((section as any).images)) && section.image && (
+                  <div style={{ margin: '32px 0', borderRadius: 16, overflow: 'hidden', border: '1px solid hsl(0,0%,90%)', background: cs.accentBg }}>
+                    <img src={section.image} alt="" style={{ width: '100%', height: 'auto', display: 'block' }}
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                   </div>
                 )}
+
               </motion.section>
             ))}
 
-            {/* Footer */}
+            {/* Footer nav */}
             <div style={{ paddingTop: 32, borderTop: '1px solid hsl(0,0%,90%)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Link to="/#work" style={{ fontFamily: f, fontSize: 14, color: 'hsl(0,0%,55%)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'hsl(0,0%,8%)' }}
@@ -409,7 +444,6 @@ export default function CaseStudyPage() {
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 4L6 8l4 4"/></svg>
                 All work
               </Link>
-              {/* Next case study */}
               {(() => {
                 const keys = Object.keys(CASE_STUDIES)
                 const idx = keys.indexOf(slug ?? '')
