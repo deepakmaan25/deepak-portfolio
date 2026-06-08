@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import { useIsMobile } from '../hooks/useMediaQuery'
+import { Link } from 'react-router-dom'
 
 interface Message {
   id: string
@@ -78,6 +79,148 @@ const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
 const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
 const uid = () => Math.random().toString(36).slice(2)
 
+// ─── Shipped nudge ────────────────────────────────────────────────────────────
+const SHIPPED_ITEMS = [
+  { name: 'PulsePlan',           emoji: '📋' },
+  { name: 'Music Animator',      emoji: '🎵' },
+  { name: 'TypeMatch',           emoji: '⌨️' },
+  { name: 'Kairo Design System', emoji: '🧩' },
+]
+
+function ShippedNudge({ isMobile }: { isMobile: boolean }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { rootMargin: '-60px' })
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        maxWidth: 1152, margin: '0 auto',
+        padding: isMobile
+          ? '0 20px clamp(56px,8vw,88px)'
+          : '0 40px clamp(56px,8vw,88px)',
+        backgroundColor: 'hsl(0,0%,97%)',
+      }}
+    >
+      <div style={{
+        position: 'relative', borderRadius: 20, overflow: 'hidden',
+        background: 'white', border: '1px solid hsl(0,0%,88%)',
+        boxShadow: '0 2px 24px rgba(0,0,0,0.05)',
+      }}>
+        {/* dot grid — same language as work section */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.1) 0.8px, transparent 0.8px)',
+          backgroundSize: '18px 18px',
+        }} />
+        {/* fade right so CTA stays clean */}
+        <div style={{
+          position: 'absolute', top: 0, right: 0, bottom: 0, width: '45%',
+          pointerEvents: 'none',
+          background: 'linear-gradient(to left, white 20%, transparent)',
+        }} />
+
+        <div style={{
+          position: 'relative', zIndex: 1,
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 24, flexWrap: 'wrap',
+          padding: isMobile ? '28px 24px' : '36px 44px',
+        }}>
+          {/* Left */}
+          <div style={{ flex: '1 1 260px', minWidth: 0 }}>
+            <p style={{ fontFamily: f, fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(0,0%,55%)', margin: '0 0 10px' }}>
+              Also worth seeing
+            </p>
+            <h3 style={{ margin: '0 0 6px', lineHeight: 1.15 }}>
+              <span style={{ fontFamily: f, fontSize: isMobile ? 18 : 22, fontWeight: 700, color: 'hsl(0,0%,8%)', letterSpacing: '-0.02em' }}>
+                I also build.{' '}
+              </span>
+              <span style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: isMobile ? 17 : 21, color: 'hsl(0,0%,45%)' }}>
+                Not just design.
+              </span>
+            </h3>
+            <p style={{ fontFamily: f, fontSize: 14, color: 'hsl(0,0%,50%)', margin: '0 0 18px', lineHeight: 1.6, maxWidth: 360 }}>
+              Four live products built solo — from idea to deployed.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {SHIPPED_ITEMS.map(p => (
+                <span key={p.name} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '5px 12px', borderRadius: 100,
+                  background: 'hsl(0,0%,96%)', border: '1px solid hsl(0,0%,88%)',
+                  fontFamily: f, fontSize: 12, color: 'hsl(0,0%,35%)',
+                }}>
+                  <span style={{ fontSize: 13 }}>{p.emoji}</span>
+                  {p.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right */}
+          <div style={{
+            display: 'flex', flexDirection: 'column',
+            alignItems: isMobile ? 'flex-start' : 'flex-end',
+            gap: 14, flexShrink: 0,
+          }}>
+            <div style={{ display: 'flex', gap: 24 }}>
+              {[{ val: '4', label: 'Live products' }, { val: '0→1', label: 'Each one' }].map(s => (
+                <div key={s.label} style={{ textAlign: isMobile ? 'left' : 'right' }}>
+                  <div style={{ fontFamily: f, fontSize: 22, fontWeight: 700, letterSpacing: '-0.03em', color: 'hsl(0,0%,8%)', lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontFamily: f, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,60%)', marginTop: 3 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{
+                width: 7, height: 7, borderRadius: '50%', background: '#22c55e',
+                display: 'inline-block', flexShrink: 0,
+                animation: 'nudge-live 2.4s ease-in-out infinite',
+              }} />
+              <span style={{ fontFamily: f, fontSize: 12, color: '#16a34a', fontWeight: 500 }}>All live on Vercel</span>
+            </div>
+
+            <Link to="/shipped"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                fontFamily: f, fontSize: 13, fontWeight: 600,
+                background: 'hsl(0,0%,8%)', color: 'white',
+                padding: '11px 24px', borderRadius: 100,
+                textDecoration: 'none', transition: 'background 0.15s, transform 0.15s',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'hsl(0,0%,22%)'; el.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'hsl(0,0%,8%)'; el.style.transform = 'translateY(0)' }}
+            >
+              View shipped builds
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 12, height: 12 }}>
+                <path d="M6 4h6v6M12 4 5 11"/>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes nudge-live {
+          0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+          50%      { box-shadow: 0 0 0 7px rgba(34,197,94,0.06); }
+        }
+      `}</style>
+    </motion.div>
+  )
+}
+
 export default function HomePage() {
   const [messages, setMessages]       = useState<Message[]>([])
   const [input, setInput]             = useState('')
@@ -96,7 +239,6 @@ export default function HomePage() {
 
   const istTime = time.toLocaleTimeString('en-IN', { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true })
 
-  // word-by-word reveal — uses message ID, immune to index shifts
   const startTypewriter = useCallback((id: string, text: string) => {
     const words = text.split(' ').filter(w => w.length > 0)
     if (words.length === 0) return
@@ -138,7 +280,6 @@ export default function HomePage() {
     if (text === "what's your availability?")
       return addHardcoded(text, "Open to full-time product design roles — Hyderabad, Bangalore, or remote. Available now. https://cal.com/deepakmaan")
 
-  // API call — get full response, then typewriter reveal
     const bid = uid()
     const userMsg: Message = { id: uid(), role:'user', content: text, done: true }
     const botMsg:  Message = { id: bid,   role:'assistant', content: '', revealed: 0, done: false }
@@ -269,7 +410,6 @@ export default function HomePage() {
                       initial={{ opacity:0 }}
                       animate={{ opacity:1, transition:{ duration:0.3, delay:0.1 } }}
                       style={{ marginBottom:16 }}>
-
                       <motion.div layout
                         initial={{ opacity:0, y:8 }}
                         animate={{ opacity:1, y:0, transition:SP_SLOW }}
@@ -281,7 +421,6 @@ export default function HomePage() {
                           I'm Deepak &mdash; based in Mumbai. I design and ship product UX, end to end.
                         </div>
                       </motion.div>
-
                       <div style={{ maxHeight:300, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
                         {messages.map((msg) => {
                           const text = visibleText(msg)
@@ -309,7 +448,6 @@ export default function HomePage() {
                             </motion.div>
                           )
                         })}
-
                         <AnimatePresence>
                           {loading && messages.length > 0 && messages[messages.length-1]?.content === '' && (
                             <motion.div key="dots"
@@ -327,7 +465,6 @@ export default function HomePage() {
                             </motion.div>
                           )}
                         </AnimatePresence>
-
                         <div ref={chatEndRef} />
                       </div>
                     </motion.div>
@@ -336,26 +473,18 @@ export default function HomePage() {
 
                 <motion.div layout style={{ marginBottom:18 }}>
                   {isMobile ? (
-                    /* MOBILE: single-row horizontal scroll with fade edge */
                     <div style={{ position:'relative', margin:'0 -20px' }}>
                       <motion.div initial="hidden" animate="visible"
                         variants={{ hidden:{}, visible:{ transition:{ staggerChildren:0.05, delayChildren:0.18 } } }}
                         className="pills-scroll"
-                        style={{
-                          display:'flex', gap:8, padding:'4px 20px 8px',
-                          overflowX:'auto', overflowY:'hidden',
-                          scrollbarWidth:'none', WebkitOverflowScrolling:'touch',
-                          scrollSnapType:'x proximity',
-                        }}>
+                        style={{ display:'flex', gap:8, padding:'4px 20px 8px', overflowX:'auto', overflowY:'hidden', scrollbarWidth:'none', WebkitOverflowScrolling:'touch', scrollSnapType:'x proximity' }}>
                         {QUICK_ACTIONS.map(a => (
                           <div key={a.label} style={{ flexShrink:0, scrollSnapAlign:'start' }}>
                             <Pill a={a} send={send} />
                           </div>
                         ))}
                       </motion.div>
-                      {/* right-edge fade hint */}
-                      <div style={{ position:'absolute', top:0, right:0, bottom:8, width:32, pointerEvents:'none',
-                        background:'linear-gradient(to left, hsl(0,0%,97%), transparent)' }} />
+                      <div style={{ position:'absolute', top:0, right:0, bottom:8, width:32, pointerEvents:'none', background:'linear-gradient(to left, hsl(0,0%,97%), transparent)' }} />
                     </div>
                   ) : (
                     <>
@@ -378,8 +507,7 @@ export default function HomePage() {
                     <span style={{ color:'hsl(0,0%,55%)', fontFamily:'monospace', fontSize:13, userSelect:'none' }}>›_</span>
                     <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==='Enter' && send(input)}
                       placeholder="ask Deepak anything…"
-                      style={{ flex:1, background:'transparent', border:'none', outline:'none', fontSize:15, color:'hsl(0,0%,8%)', fontFamily:f }}
-                    />
+                      style={{ flex:1, background:'transparent', border:'none', outline:'none', fontSize:15, color:'hsl(0,0%,8%)', fontFamily:f }} />
                     <button onClick={() => send(input)} disabled={loading || !input.trim()}
                       style={{ width:32, height:32, borderRadius:'50%', background:'hsl(0,0%,8%)', border:'none', cursor:input.trim()?'pointer':'default', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:input.trim()?1:0.3, transition:'opacity 0.15s' }}>
                       <svg viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width:14, height:14 }}><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -398,28 +526,35 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* ── WORK SECTION — tightened spacing + real preview images ── */}
         <div id="work" className="work-section-bg" style={{ scrollMarginTop:64 }}>
-          <div style={{ maxWidth:1152, margin:'0 auto', padding:'96px 40px 120px' }}>
+          <div style={{ maxWidth:1152, margin:'0 auto', padding: isMobile ? '56px 20px 72px' : '64px 40px 80px' }}>
             <motion.p initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              style={{ fontFamily:f, fontSize:11, fontWeight:500, letterSpacing:'0.14em', textTransform:'uppercase', color:'hsl(0,0%,50%)', marginBottom:56 }}>
+              style={{ fontFamily:f, fontSize:11, fontWeight:500, letterSpacing:'0.14em', textTransform:'uppercase', color:'hsl(0,0%,50%)', marginBottom: isMobile ? 36 : 48 }}>
               Selected work
             </motion.p>
-            <div style={{ display:'flex', flexDirection:'column', gap:112 }}>
-              <CaseRow title="Tech Japan (Talendy) – UX Research & Redesign"
+            <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 52 : 72 }}>
+              <CaseRow
+                title="Tech Japan (Talendy) – UX Research & Redesign"
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
-                image="/src/assets/case-study-1.jpg" bg="hsl(222,100%,96%)" isMobile={isMobile} />
-              <CaseRow title="Buzztro – Collective Buying Platform"
+                image="/01-project-overview.png" bg="hsl(222,100%,96%)" isMobile={isMobile} />
+              <CaseRow
+                title="Buzztro – Collective Buying Platform"
                 desc="Designed the full buying experience for a collective buying platform — where more buyers means a lower price. 40+ screens, 5 core flows, shipped to production in 8 weeks."
                 metric="40+" metricLabel="screens shipped" slug="buzztro"
-                image="/src/assets/case-study-2.jpg" bg="hsl(22,100%,95%)" isMobile={isMobile} />
-              <CaseRow title="Zu-AI – Chat Experience Redesign"
+                image="/buzztro/pdp-overview.png" bg="hsl(22,100%,95%)" isMobile={isMobile} />
+              <CaseRow
+                title="Zu-AI – Chat Experience Redesign"
                 desc="Redesigned the chat experience for an AI tutoring app serving 100K+ students. Research with 33 participants, fixed information overload, added accessibility controls and visual hierarchy improvements."
                 metric="3×" metricLabel="task completion" slug="zu-ai"
-                image="/src/assets/case-study-3.jpg" bg="hsl(260,60%,97%)" isMobile={isMobile} />
+                image="/ZA4_Redesign.png" bg="hsl(260,60%,97%)" isMobile={isMobile} />
             </div>
           </div>
         </div>
+
+        {/* ── SHIPPED NUDGE — sits between work and about sections ── */}
+        <ShippedNudge isMobile={isMobile} />
 
         <Widgets istTime={istTime} playing={playing} setPlaying={setPlaying} isMobile={isMobile} />
       </div>
@@ -466,11 +601,12 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg,isMobile }:{title
       style={{ display:'block', borderRadius:20, overflow:'hidden', background:bg, boxShadow:'0 6px 28px -8px rgba(0,0,0,0.14)', transition:'box-shadow 0.4s,transform 0.4s', textDecoration:'none', order: isMobile ? 1 : 2 }}
       onMouseEnter={e=>{ (e.currentTarget as HTMLElement).style.boxShadow='0 20px 48px -8px rgba(0,0,0,0.22)'; (e.currentTarget as HTMLElement).style.transform='translateY(-3px)' }}
       onMouseLeave={e=>{ (e.currentTarget as HTMLElement).style.boxShadow='0 6px 28px -8px rgba(0,0,0,0.14)'; (e.currentTarget as HTMLElement).style.transform='translateY(0)' }}>
-      <div style={{ aspectRatio:'16/10', overflow:'hidden' }}>
-        <img src={image} alt={title} loading="lazy" style={{ width:'100%', height:'100%', objectFit:'cover', transition:'transform 0.5s cubic-bezier(0.25,1,0.5,1)' }}
-          onMouseEnter={e=>{ (e.target as HTMLImageElement).style.transform='scale(1.04)' }}
+      <div style={{ overflow:'hidden' }}>
+        <img src={image} alt={title} loading="lazy"
+          style={{ width:'100%', height:'auto', display:'block', transition:'transform 0.5s cubic-bezier(0.25,1,0.5,1)' }}
+          onMouseEnter={e=>{ (e.target as HTMLImageElement).style.transform='scale(1.03)' }}
           onMouseLeave={e=>{ (e.target as HTMLImageElement).style.transform='scale(1)' }}
-          onError={e=>{ (e.target as HTMLImageElement).style.opacity='0' }} />
+          onError={e=>{ const img = e.target as HTMLImageElement; img.style.display='none'; img.parentElement!.style.minHeight='160px' }} />
       </div>
     </a>
   </motion.article>
@@ -649,7 +785,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
 
   return (
     <>
-      {/* ROW 1: Profile (full width, hero card) ─────────────────────────── */}
       <motion.div {...fly(0)} style={{ ...card, padding:'22px 22px', display:'flex', alignItems:'center', gap:16 }}>
         <div style={{ width:80, height:80, borderRadius:14, overflow:'hidden', background:'#DDD8FB', flexShrink:0 }}>
           <img src="/deepak.png" alt="Deepak" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 15%' }} onError={e=>{ (e.target as HTMLImageElement).style.display='none' }} />
@@ -663,22 +798,17 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
           <p style={{ fontFamily:f, fontSize:13, color:'hsl(0,0%,50%)', margin:'2px 0 0' }}>Product Designer · Mumbai</p>
         </div>
       </motion.div>
-
-      {/* ROW 2: 2-column — Clock + Currently building ────────────────────── */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <motion.div {...fly(1)} style={{ ...card, padding:'16px 18px' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.14em', color:'hsl(0,0%,55%)', margin:'0 0 6px' }}>IST</p>
           <p style={{ fontFamily:f, fontSize:22, fontWeight:300, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', margin:0, lineHeight:1 }}>{istTime.split(' ')[0]}</p>
           <p style={{ fontFamily:f, fontSize:10, color:'hsl(0,0%,55%)', margin:'4px 0 0' }}>{istTime.split(' ')[1]} · UTC+5:30</p>
         </motion.div>
-
         <motion.div {...fly(2)} style={{ background:'rgba(255,243,205,0.97)', border:'1px solid rgba(240,192,64,0.4)', borderRadius:18, padding:'16px 18px', color:'#7a5c00' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.14em', opacity:0.7, margin:'0 0 6px' }}>Building</p>
           <p style={{ fontFamily:f, fontSize:14, fontWeight:600, margin:0, lineHeight:1.3 }}>AI + design tools</p>
         </motion.div>
       </div>
-
-      {/* ROW 3: Music player (full width, dark personality) ─────────────── */}
       <motion.div {...fly(3)} style={{ background:'linear-gradient(135deg, #1a1a1a, #0f0f0f)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:18, padding:18, boxShadow:'0 12px 40px rgba(0,0,0,0.3)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
           <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" alt="" style={{ width:48, height:48, borderRadius:8, objectFit:'cover', flexShrink:0 }} onError={e=>{ (e.target as HTMLImageElement).style.background='#444' }} />
@@ -705,8 +835,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
           <span style={{ fontFamily:f, fontSize:10, color:'rgba(255,255,255,0.4)' }}>5:57</span>
         </div>
       </motion.div>
-
-      {/* ROW 4: Book a call (full width, prominent CTA) ─────────────────── */}
       <motion.div {...fly(4)} onClick={()=>window.open('https://cal.com/deepakmaan','_blank')}
         style={{ ...card, padding:'18px 20px', cursor:'pointer', display:'flex', alignItems:'center', gap:14 }}>
         <div style={{ width:42, height:42, borderRadius:11, background:'hsl(0,0%,8%)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
@@ -718,8 +846,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
         </div>
         <span style={{ fontSize:18, color:'hsl(0,0%,40%)' }}>↗</span>
       </motion.div>
-
-      {/* ROW 5: 2-column — Resume + LinkedIn ──────────────────────────────── */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <motion.div {...fly(5)} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}
           style={{ background:'linear-gradient(135deg, #FFE058, #FFD23F)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:18, padding:'18px 18px', color:'#3a2e00', cursor:'pointer', minHeight:106, display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
@@ -732,7 +858,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
             <p style={{ fontFamily:f, fontSize:11, opacity:0.7, margin:'2px 0 0' }}>PDF · 1 page</p>
           </div>
         </motion.div>
-
         <motion.div {...fly(6)} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}
           style={{ background:'linear-gradient(135deg, #0a66c2, #084d8f)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:18, padding:'18px 18px', color:'white', cursor:'pointer', minHeight:106, display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
@@ -745,8 +870,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
           </div>
         </motion.div>
       </div>
-
-      {/* ROW 6: Currently reading (full width, with cover) ──────────────── */}
       <motion.div {...fly(7)} style={{ ...card, padding:'18px 20px', display:'flex', gap:14, alignItems:'center' }}>
         <div style={{ width:54, height:78, borderRadius:6, overflow:'hidden', flexShrink:0, background:'#f0f0f0', boxShadow:'0 2px 8px rgba(0,0,0,0.12)' }}>
           <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL._AC_UF1000,1000_QL80_.jpg" alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} onError={e=>{ (e.target as HTMLImageElement).style.background='#ddd' }} />
@@ -760,8 +883,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
           </div>
         </div>
       </motion.div>
-
-      {/* ROW 7: Writings (full width, distinct folder graphic) ──────────── */}
       <motion.div {...fly(8)} onClick={()=>window.location.href='/writings'}
         style={{ ...card, padding:'18px 20px', cursor:'pointer', display:'flex', alignItems:'center', gap:14 }}>
         <div style={{ position:'relative', width:48, height:36, flexShrink:0 }}>
@@ -774,8 +895,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
         </div>
         <span style={{ color:'hsl(0,0%,45%)', fontSize:18 }}>→</span>
       </motion.div>
-
-      {/* ROW 8: 2-column — Interests + Rate ──────────────────────────────── */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <motion.div {...fly(9)} style={{ ...card, padding:'16px 16px' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.14em', color:'hsl(0,0%,55%)', margin:'0 0 10px' }}>Interests</p>
@@ -783,7 +902,6 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
             {INTERESTS.slice(0,4).map(i=><span key={i} style={{ padding:'3px 9px', borderRadius:9999, border:'1px solid hsl(0,0%,86%)', fontSize:10, color:'hsl(0,0%,32%)', fontFamily:f }}>{i}</span>)}
           </div>
         </motion.div>
-
         <motion.div {...fly(10)} style={{ ...card, padding:'16px 16px', textAlign:'center', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
           <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.14em', color:'hsl(0,0%,55%)', margin:'0 0 8px' }}>{rated?'Thanks!':'Rate'}</p>
           <div style={{ display:'flex', gap:2, justifyContent:'center' }}>
