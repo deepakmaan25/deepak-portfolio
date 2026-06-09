@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import Navigation from './components/layout/Navigation'
 import Footer from './components/layout/Footer'
 
@@ -37,6 +39,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AppInner />
+      {/* Analytics inside BrowserRouter so SPA route changes are tracked */}
+      <Analytics />
+      <SpeedInsights />
     </BrowserRouter>
   )
 }
