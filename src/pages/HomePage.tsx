@@ -68,7 +68,7 @@ AVAILABILITY: Open to full-time Product Design roles. Hyderabad, Bangalore, or R
 
 CONTACT:
 Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
-LinkedIn: https://linkedin.com/in/deepakmaan25
+LinkedIn: https://www.linkedin.com/in/deepak-maan-106452230/
 Email: dipumaan2002@gmail.com
 Book a call: https://cal.com/deepakmaan`
 
@@ -106,7 +106,7 @@ function ShippedNudge({ isMobile }: { isMobile: boolean }) {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{
         maxWidth: 1152, margin: '0 auto',
-        padding: isMobile ? '0 20px clamp(64px,9vw,100px)' : '0 40px clamp(72px,9vw,110px)',
+        paddingTop: isMobile ? 'clamp(40px,7vw,72px)' : 'clamp(56px,8vw,96px)', paddingBottom: isMobile ? 'clamp(72px,10vw,112px)' : 'clamp(88px,10vw,128px)', paddingLeft: isMobile ? 20 : 40, paddingRight: isMobile ? 20 : 40,
         backgroundColor: 'hsl(0,0%,97%)',
       }}
     >
@@ -556,7 +556,7 @@ export default function HomePage() {
               style={{ fontFamily:f, fontSize:11, fontWeight:500, letterSpacing:'0.14em', textTransform:'uppercase', color:'hsl(0,0%,50%)', marginBottom: isMobile ? 36 : 48 }}>
               Selected work
             </motion.p>
-            <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 52 : 72 }}>
+            <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 72 : 120 }}>
               <CaseRow
                 title="Tech Japan (Talendy) – UX Research & Redesign"
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
@@ -610,6 +610,11 @@ const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void })
 // Text stays left, the image now sits inside a browser-chrome frame on the right
 // so the visual area is never empty — it always shows the real screenshot.
 
+// ─── Work card (CaseRow) — framed browser mockup on the right ──────────────────
+// Replace the existing CaseRow const in HomePage.tsx with this.
+// Text stays left, the image now sits inside a browser-chrome frame on the right
+// so the visual area is never empty — it always shows the real screenshot.
+
 const CaseRow = ({ title, desc, metric, metricLabel, slug, image, bg, url, isMobile }:
   { title:string; desc:string; metric:string; metricLabel:string; slug:string; image:string; bg:string; url:string; isMobile?:boolean }) => (
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
@@ -640,7 +645,7 @@ const CaseRow = ({ title, desc, metric, metricLabel, slug, image, bg, url, isMob
       onMouseEnter={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 24px 56px -12px rgba(0,0,0,0.25)'; el.style.transform='translateY(-4px)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1.03)' }}
       onMouseLeave={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 12px 36px -10px rgba(0,0,0,0.16)'; el.style.transform='translateY(0)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1)' }}>
       <div className="cr-frame" style={{
-        maxWidth: isMobile ? "100%" : 560, marginLeft: isMobile ? 0 : "auto", borderRadius:16, overflow:"hidden", background:"white",
+        borderRadius:16, overflow:"hidden", background:"white",
         border:'1px solid hsl(0,0%,86%)',
         boxShadow:'0 12px 36px -10px rgba(0,0,0,0.16)',
         transition:'box-shadow 0.4s, transform 0.4s',
