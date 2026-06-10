@@ -79,9 +79,8 @@ const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
 const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
 const uid = () => Math.random().toString(36).slice(2)
 
-// ─── Shipped nudge (N2 — animated gradient) ───────────────────────────────────
-// Replace the existing ShippedNudge function + SHIPPED_ITEMS const in HomePage.tsx
-// with everything below.
+// ─── Shipped nudge (G3 — layered glass) ───────────────────────────────────────
+// Replace the existing SHIPPED_ITEMS const + ShippedNudge function in HomePage.tsx.
 
 const SHIPPED_ITEMS = [
   { name: 'Music Animator',      emoji: '🎵', url: 'https://musictoanimate.vercel.app' },
@@ -107,68 +106,69 @@ function ShippedNudge({ isMobile }: { isMobile: boolean }) {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{
         maxWidth: 1152, margin: '0 auto',
-        padding: isMobile ? '0 20px clamp(56px,8vw,88px)' : '0 40px clamp(56px,8vw,88px)',
+        padding: isMobile ? '0 20px clamp(64px,9vw,100px)' : '0 40px clamp(72px,9vw,110px)',
         backgroundColor: 'hsl(0,0%,97%)',
       }}
     >
+      {/* Outer tinted panel */}
       <div style={{
         position: 'relative',
-        borderRadius: isMobile ? 22 : 26,
+        borderRadius: 26,
+        padding: isMobile ? 16 : 36,
         overflow: 'hidden',
-        padding: isMobile ? '36px 26px' : '52px 56px',
-        color: 'white',
-        background: 'linear-gradient(120deg, #1e1b4b 0%, #4c1d95 45%, #7c3aed 100%)',
-        boxShadow: '0 24px 70px -18px rgba(76,29,149,0.55)',
+        background: 'linear-gradient(135deg, hsl(250,50%,90%), hsl(330,45%,91%))',
       }}>
+        {/* Drifting blobs on the outer panel */}
+        <div style={{ position: 'absolute', width: 240, height: 240, borderRadius: '50%', filter: 'blur(45px)', opacity: 0.55, background: '#818cf8', top: -50, left: '5%', animation: 'glassFloat1 17s ease-in-out infinite', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', filter: 'blur(45px)', opacity: 0.55, background: '#f9a8d4', bottom: -60, right: '8%', animation: 'glassFloat2 20s ease-in-out infinite', pointerEvents: 'none' }} />
 
-        {/* Animated gradient blobs */}
-        <div style={{ position: 'absolute', width: 380, height: 380, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', top: -120, left: -60, background: 'radial-gradient(circle, #a855f7, transparent 65%)', animation: 'nudgeFloat1 14s ease-in-out infinite' }} />
-        <div style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', bottom: -140, right: '10%', background: 'radial-gradient(circle, #ec4899, transparent 65%)', animation: 'nudgeFloat2 18s ease-in-out infinite' }} />
-        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', top: '20%', right: -80, background: 'radial-gradient(circle, #3b82f6, transparent 65%)', animation: 'nudgeFloat3 16s ease-in-out infinite' }} />
-
-        {/* Dot grid + shine sweep */}
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.07, pointerEvents: 'none', backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.5, pointerEvents: 'none', background: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.08) 48%, transparent 60%)', backgroundSize: '300% 300%', animation: 'nudgeSweep 8s ease-in-out infinite' }} />
-
-        {/* Content */}
+        {/* Inner frosted glass card */}
         <div style={{
-          position: 'relative', zIndex: 2,
-          display: isMobile ? 'flex' : 'grid',
-          flexDirection: isMobile ? 'column' : undefined,
-          gridTemplateColumns: isMobile ? undefined : '1fr auto',
-          gap: isMobile ? 28 : 48,
+          position: 'relative', zIndex: 1,
+          borderRadius: 18,
+          padding: isMobile ? '32px 24px' : '36px 40px',
+          background: 'rgba(255,255,255,0.72)',
+          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+          border: '1px solid rgba(255,255,255,0.85)',
+          boxShadow: '0 12px 40px rgba(76,29,149,0.14), inset 0 1px 0 rgba(255,255,255,0.8)',
+          display: isMobile ? 'flex' : 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
           alignItems: isMobile ? 'stretch' : 'center',
+          justifyContent: 'space-between',
+          gap: isMobile ? 28 : 40,
+          flexWrap: 'wrap',
         }}>
 
           {/* Left */}
-          <div>
-            <p style={{ fontFamily: f, fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '0 0 16px' }}>
+          <div style={{ flex: isMobile ? undefined : '1 1 340px' }}>
+            <p style={{ fontFamily: f, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(255,30%,45%)', margin: '0 0 14px' }}>
               Also worth seeing
             </p>
-            <h3 style={{ margin: '0 0 16px', lineHeight: 1.05 }}>
-              <span style={{ fontFamily: f, fontSize: isMobile ? 30 : 36, fontWeight: 800, letterSpacing: '-0.03em', color: 'white', display: 'block' }}>
-                I also build.
+            <h3 style={{ margin: '0 0 12px', lineHeight: 1.1 }}>
+              <span style={{ fontFamily: f, fontSize: isMobile ? 26 : 30, fontWeight: 700, letterSpacing: '-0.025em', color: 'hsl(0,0%,8%)' }}>
+                I also build.{' '}
               </span>
-              <span style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: isMobile ? 28 : 36, color: 'rgba(255,255,255,0.72)', display: 'block', marginTop: 2 }}>
+              <span style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: isMobile ? 25 : 30, color: 'hsl(0,0%,42%)' }}>
                 Not just design.
               </span>
             </h3>
-            <p style={{ fontFamily: f, fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 420 }}>
+            <p style={{ fontFamily: f, fontSize: 14, color: 'hsl(0,0%,40%)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: 380 }}>
               Four live products built solo — research, design, and code. From idea to deployed.
             </p>
-            <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {SHIPPED_ITEMS.map(p => (
                 <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"
                   style={{
-                    fontFamily: f, fontSize: 12.5, padding: '8px 15px', borderRadius: 100,
-                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)',
-                    color: 'white', display: 'inline-flex', gap: 7, alignItems: 'center',
-                    textDecoration: 'none', backdropFilter: 'blur(8px)', transition: 'background 0.2s, transform 0.2s, border-color 0.2s', cursor: 'pointer',
+                    fontFamily: f, fontSize: 12, padding: '7px 14px', borderRadius: 100,
+                    background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.9)',
+                    color: 'hsl(0,0%,28%)', display: 'inline-flex', gap: 6, alignItems: 'center',
+                    textDecoration: 'none', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                    transition: 'transform 0.2s, box-shadow 0.2s, background 0.2s', cursor: 'pointer',
                   }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.2)'; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.1)'; el.style.borderColor = 'rgba(255,255,255,0.18)'; el.style.transform = 'translateY(0)' }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'; el.style.background = 'rgba(255,255,255,0.95)' }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 2px 6px rgba(0,0,0,0.05)'; el.style.background = 'rgba(255,255,255,0.75)' }}
                 >
-                  <span style={{ fontSize: 14 }}>{p.emoji}</span>
+                  <span style={{ fontSize: 13 }}>{p.emoji}</span>
                   {p.name}
                   <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 9, height: 9, opacity: 0.5 }}><path d="M2.5 9.5l7-7M5 2.5h4.5V7"/></svg>
                 </a>
@@ -176,38 +176,59 @@ function ShippedNudge({ isMobile }: { isMobile: boolean }) {
             </div>
           </div>
 
-          {/* Right — stat card + CTA */}
+          {/* Right */}
           <div style={{
             display: 'flex', flexDirection: 'column',
             alignItems: isMobile ? 'stretch' : 'flex-end',
-            minWidth: isMobile ? 0 : 220,
+            gap: 14,
+            width: isMobile ? '100%' : 'auto',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontFamily: f, fontSize: 12, fontWeight: 600, color: '#86efac', marginBottom: 16, alignSelf: isMobile ? 'flex-start' : 'flex-end' }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
+            {/* Live badge */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: f, fontSize: 11, fontWeight: 600, color: '#15803d', alignSelf: isMobile ? 'flex-start' : 'flex-end' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
               All live on Vercel
             </div>
 
-            <div style={{ width: '100%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: 18, backdropFilter: 'blur(12px)', padding: '20px 22px', marginBottom: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: f, fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }}>4</span>
-                <span style={{ fontFamily: f, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.55)', textAlign: 'right', lineHeight: 1.3 }}>Live<br/>products</span>
+            {/* Stats — desktop: inline; mobile: glass card with divider */}
+            {isMobile ? (
+              <div style={{
+                display: 'flex', width: '100%',
+                background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.9)',
+                borderRadius: 14, overflow: 'hidden',
+              }}>
+                <div style={{ flex: 1, padding: '16px 18px', textAlign: 'center', borderRight: '1px solid rgba(0,0,0,0.06)' }}>
+                  <div style={{ fontFamily: f, fontSize: 26, fontWeight: 700, letterSpacing: '-0.04em', color: 'hsl(255,40%,30%)', lineHeight: 1 }}>4</div>
+                  <div style={{ fontFamily: f, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,50%)', marginTop: 5 }}>Live products</div>
+                </div>
+                <div style={{ flex: 1, padding: '16px 18px', textAlign: 'center' }}>
+                  <div style={{ fontFamily: f, fontSize: 26, fontWeight: 700, letterSpacing: '-0.04em', color: 'hsl(255,40%,30%)', lineHeight: 1 }}>0→1</div>
+                  <div style={{ fontFamily: f, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,50%)', marginTop: 5 }}>Built solo</div>
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                <span style={{ fontFamily: f, fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }}>0→1</span>
-                <span style={{ fontFamily: f, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.55)', textAlign: 'right', lineHeight: 1.3 }}>Built<br/>solo</span>
+            ) : (
+              <div style={{ display: 'flex', gap: 24 }}>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: f, fontSize: 26, fontWeight: 700, letterSpacing: '-0.04em', color: 'hsl(255,40%,30%)', lineHeight: 1 }}>4</div>
+                  <div style={{ fontFamily: f, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,50%)', marginTop: 4 }}>Live products</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: f, fontSize: 26, fontWeight: 700, letterSpacing: '-0.04em', color: 'hsl(255,40%,30%)', lineHeight: 1 }}>0→1</div>
+                  <div style={{ fontFamily: f, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'hsl(0,0%,50%)', marginTop: 4 }}>Built solo</div>
+                </div>
               </div>
-            </div>
+            )}
 
+            {/* CTA — full width on both, looks good */}
             <Link to="/shipped"
               style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                fontFamily: f, fontSize: 14, fontWeight: 600, color: '#4c1d95', background: 'white',
-                padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
-                boxShadow: '0 8px 28px rgba(0,0,0,0.25)', width: '100%',
-                transition: 'transform 0.2s, box-shadow 0.2s',
+                fontFamily: f, fontSize: 13, fontWeight: 600, color: 'white',
+                background: 'hsl(255,45%,30%)', padding: '13px 24px', borderRadius: 100,
+                textDecoration: 'none', boxShadow: '0 6px 20px rgba(76,29,149,0.25)',
+                width: '100%', transition: 'transform 0.2s, box-shadow 0.2s, background 0.2s',
               }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 12px 32px rgba(0,0,0,0.3)' }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 8px 28px rgba(0,0,0,0.25)' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'hsl(255,45%,24%)'; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(76,29,149,0.32)' }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'hsl(255,45%,30%)'; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 6px 20px rgba(76,29,149,0.25)' }}
             >
               View shipped builds →
             </Link>
@@ -216,10 +237,8 @@ function ShippedNudge({ isMobile }: { isMobile: boolean }) {
       </div>
 
       <style>{`
-        @keyframes nudgeFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(60px,40px) scale(1.15)} }
-        @keyframes nudgeFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-50px,-30px) scale(1.1)} }
-        @keyframes nudgeFloat3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,50px) scale(1.2)} }
-        @keyframes nudgeSweep { 0%{background-position:0% 0%} 100%{background-position:200% 200%} }
+        @keyframes glassFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+        @keyframes glassFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-20px)} }
       `}</style>
     </motion.div>
   )
@@ -586,6 +605,11 @@ const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void })
 // Text stays left, the image now sits inside a browser-chrome frame on the right
 // so the visual area is never empty — it always shows the real screenshot.
 
+// ─── Work card (CaseRow) — framed browser mockup on the right ──────────────────
+// Replace the existing CaseRow const in HomePage.tsx with this.
+// Text stays left, the image now sits inside a browser-chrome frame on the right
+// so the visual area is never empty — it always shows the real screenshot.
+
 const CaseRow = ({ title, desc, metric, metricLabel, slug, image, bg, url, isMobile }:
   { title:string; desc:string; metric:string; metricLabel:string; slug:string; image:string; bg:string; url:string; isMobile?:boolean }) => (
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
@@ -616,7 +640,7 @@ const CaseRow = ({ title, desc, metric, metricLabel, slug, image, bg, url, isMob
       onMouseEnter={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 24px 56px -12px rgba(0,0,0,0.25)'; el.style.transform='translateY(-4px)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1.03)' }}
       onMouseLeave={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 12px 36px -10px rgba(0,0,0,0.16)'; el.style.transform='translateY(0)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1)' }}>
       <div className="cr-frame" style={{
-        borderRadius:16, overflow:'hidden', background:'white',
+        maxWidth: isMobile ? "100%" : 560, marginLeft: isMobile ? 0 : "auto", borderRadius:16, overflow:"hidden", background:"white",
         border:'1px solid hsl(0,0%,86%)',
         boxShadow:'0 12px 36px -10px rgba(0,0,0,0.16)',
         transition:'box-shadow 0.4s, transform 0.4s',
