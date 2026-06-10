@@ -62,7 +62,7 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
 
   // ─────────────────────────────────────────────
-  // BUZZTRO — position 0
+  // BUZZTRO - position 0
   // ─────────────────────────────────────────────
   {
     slug: "buzztro",
@@ -268,7 +268,7 @@ export const caseStudies: CaseStudy[] = [
   },
 
   // ─────────────────────────────────────────────
-  // TECH JAPAN — position 1
+  // TECH JAPAN - position 1
   // ─────────────────────────────────────────────
   {
     slug: "tech-japan",
@@ -484,7 +484,7 @@ export const caseStudies: CaseStudy[] = [
   },
 
   // ─────────────────────────────────────────────
-  // ZU-AI — position 2
+  // ZU-AI - position 2
   // ─────────────────────────────────────────────
   {
     slug: "zu-ai",
