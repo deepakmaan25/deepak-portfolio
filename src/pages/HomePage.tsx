@@ -655,9 +655,17 @@ const Pill = ({ a, send }: { a:typeof QUICK_ACTIONS[0]; send:(q:string)=>void })
   </motion.button>
 )
 
-const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg,isMobile }:{title:string;desc:string;metric:string;metricLabel:string;slug:string;image:string;bg:string;isMobile?:boolean}) => (
+// ─── Work card (CaseRow) — framed browser mockup on the right ──────────────────
+// Replace the existing CaseRow const in HomePage.tsx with this.
+// Text stays left, the image now sits inside a browser-chrome frame on the right
+// so the visual area is never empty — it always shows the real screenshot.
+
+const CaseRow = ({ title, desc, metric, metricLabel, slug, image, bg, url, isMobile }:
+  { title:string; desc:string; metric:string; metricLabel:string; slug:string; image:string; bg:string; url:string; isMobile?:boolean }) => (
   <motion.article initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true, margin:'-60px' }} transition={{ duration:0.55, ease:[0.4,0,0.2,1] }}
     style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: isMobile ? '20px 0' : '0 72px', alignItems:'start' }}>
+
+    {/* Text — left */}
     <div style={{ paddingTop: isMobile ? 0 : 28, order: isMobile ? 2 : 1 }}>
       <h3 style={{ fontFamily:f, fontSize:'clamp(1.4rem,1.9vw,1.75rem)', fontWeight:600, lineHeight:1.2, letterSpacing:'-0.02em', color:'hsl(0,0%,8%)', margin:0 }}>{title}</h3>
       <p style={{ fontFamily:f, fontSize:15, color:'hsl(0,0%,45%)', lineHeight:1.72, marginTop:18, maxWidth:360 }}>{desc}</p>
@@ -675,16 +683,36 @@ const CaseRow = ({ title,desc,metric,metricLabel,slug,image,bg,isMobile }:{title
         </span>
       </a>
     </div>
+
+    {/* Visual — right, browser-framed */}
     <a href={`/case-study/${slug}`}
-      style={{ display:'block', borderRadius:20, overflow:'hidden', background:bg, boxShadow:'0 6px 28px -8px rgba(0,0,0,0.14)', transition:'box-shadow 0.4s,transform 0.4s', textDecoration:'none', order: isMobile ? 1 : 2 }}
-      onMouseEnter={e=>{ (e.currentTarget as HTMLElement).style.boxShadow='0 20px 48px -8px rgba(0,0,0,0.22)'; (e.currentTarget as HTMLElement).style.transform='translateY(-3px)' }}
-      onMouseLeave={e=>{ (e.currentTarget as HTMLElement).style.boxShadow='0 6px 28px -8px rgba(0,0,0,0.14)'; (e.currentTarget as HTMLElement).style.transform='translateY(0)' }}>
-      <div style={{ overflow:'hidden' }}>
-        <img src={image} alt={title} loading="lazy"
-          style={{ width:'100%', height:'auto', display:'block', transition:'transform 0.5s cubic-bezier(0.25,1,0.5,1)' }}
-          onMouseEnter={e=>{ (e.target as HTMLImageElement).style.transform='scale(1.03)' }}
-          onMouseLeave={e=>{ (e.target as HTMLImageElement).style.transform='scale(1)' }}
-          onError={e=>{ const img = e.target as HTMLImageElement; img.style.display='none'; img.parentElement!.style.minHeight='160px' }} />
+      style={{ display:'block', order: isMobile ? 1 : 2, textDecoration:'none' }}
+      onMouseEnter={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 24px 56px -12px rgba(0,0,0,0.25)'; el.style.transform='translateY(-4px)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1.03)' }}
+      onMouseLeave={e=>{ const el = e.currentTarget.querySelector('.cr-frame') as HTMLElement; if(el){ el.style.boxShadow='0 12px 36px -10px rgba(0,0,0,0.16)'; el.style.transform='translateY(0)' } const img = e.currentTarget.querySelector('.cr-img') as HTMLElement; if(img) img.style.transform='scale(1)' }}>
+      <div className="cr-frame" style={{
+        borderRadius:16, overflow:'hidden', background:'white',
+        border:'1px solid hsl(0,0%,86%)',
+        boxShadow:'0 12px 36px -10px rgba(0,0,0,0.16)',
+        transition:'box-shadow 0.4s, transform 0.4s',
+      }}>
+        {/* Browser chrome */}
+        <div style={{ background:'hsl(0,0%,96%)', padding:'9px 14px', display:'flex', alignItems:'center', gap:10, borderBottom:'1px solid hsl(0,0%,90%)' }}>
+          <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+            <span style={{ width:9, height:9, borderRadius:'50%', background:'#ff5f57' }} />
+            <span style={{ width:9, height:9, borderRadius:'50%', background:'#febc2e' }} />
+            <span style={{ width:9, height:9, borderRadius:'50%', background:'#28c840' }} />
+          </div>
+          <div style={{ flex:1, background:'white', borderRadius:6, padding:'3px 12px', fontFamily:'ui-monospace, monospace', fontSize:10.5, color:'hsl(0,0%,50%)', border:'1px solid hsl(0,0%,90%)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'flex', alignItems:'center', gap:6 }}>
+            <svg viewBox="0 0 16 16" fill="none" stroke="hsl(0,0%,55%)" strokeWidth="1.5" style={{ width:10, height:10, flexShrink:0 }}><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
+            {url}
+          </div>
+        </div>
+        {/* Screenshot — tinted bg shows through any letterboxing so it never reads as empty */}
+        <div style={{ background:bg, display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden' }}>
+          <img className="cr-img" src={image} alt={title} loading="lazy"
+            style={{ width:'100%', height:'auto', display:'block', transition:'transform 0.5s cubic-bezier(0.25,1,0.5,1)' }}
+            onError={e=>{ const img = e.target as HTMLImageElement; img.style.display='none'; img.parentElement!.style.minHeight='200px' }} />
+        </div>
       </div>
     </a>
   </motion.article>
