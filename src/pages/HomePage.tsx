@@ -79,11 +79,14 @@ const SP_SLOW = { type:'spring' as const, stiffness:260, damping:28 }
 const SP_MSG  = { type:'spring' as const, stiffness:420, damping:32 }
 const uid = () => Math.random().toString(36).slice(2)
 
-// ───// ─── Shipped nudge ────────────────────────────────────────────────────────────
+// ─── Shipped nudge (N2 — animated gradient) ───────────────────────────────────
+// Replace the existing ShippedNudge function + SHIPPED_ITEMS const in HomePage.tsx
+// with everything below.
+
 const SHIPPED_ITEMS = [
-  { name: 'PulsePlan',           emoji: '📋', url: 'https://pulseplan-dm.vercel.app'   },
   { name: 'Music Animator',      emoji: '🎵', url: 'https://musictoanimate.vercel.app' },
   { name: 'TypeMatch',           emoji: '⌨️', url: 'https://typematch-mu.vercel.app'   },
+  { name: 'PulsePlan',           emoji: '📋', url: 'https://pulseplan-dm.vercel.app'   },
   { name: 'Kairo Design System', emoji: '🧩', url: 'https://kairo-design.vercel.app'   },
 ]
 
@@ -104,196 +107,119 @@ function ShippedNudge({ isMobile }: { isMobile: boolean }) {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{
         maxWidth: 1152, margin: '0 auto',
-        padding: isMobile
-          ? '0 20px clamp(56px,8vw,88px)'
-          : '0 40px clamp(56px,8vw,88px)',
+        padding: isMobile ? '0 20px clamp(56px,8vw,88px)' : '0 40px clamp(56px,8vw,88px)',
         backgroundColor: 'hsl(0,0%,97%)',
       }}
     >
       <div style={{
         position: 'relative',
-        borderRadius: 22,
+        borderRadius: isMobile ? 22 : 26,
         overflow: 'hidden',
-        background: 'white',
-        border: '1.5px solid hsl(0,0%,82%)',
-        /* layered shadow: tight border shadow + soft ambient lift */
-        boxShadow: '0 1px 0 0 hsl(0,0%,100%) inset, 0 4px 6px -1px rgba(0,0,0,0.07), 0 12px 32px -4px rgba(0,0,0,0.10), 0 32px 64px -12px rgba(0,0,0,0.08)',
+        padding: isMobile ? '36px 26px' : '52px 56px',
+        color: 'white',
+        background: 'linear-gradient(120deg, #1e1b4b 0%, #4c1d95 45%, #7c3aed 100%)',
+        boxShadow: '0 24px 70px -18px rgba(76,29,149,0.55)',
       }}>
 
-        {/* dot grid — same language as work section but slightly lighter */}
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.07) 0.8px, transparent 0.8px)',
-          backgroundSize: '18px 18px',
-        }} />
-        {/* top edge highlight — gives the "lifted card" feel */}
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.9) 30%, rgba(255,255,255,0.9) 70%, transparent)',
-          pointerEvents: 'none',
-        }} />
-        {/* fade right so CTA stays clean against the dot grid */}
-        <div style={{
-          position: 'absolute', top: 0, right: 0, bottom: 0, width: '40%',
-          pointerEvents: 'none',
-          background: 'linear-gradient(to left, white 15%, transparent)',
-        }} />
+        {/* Animated gradient blobs */}
+        <div style={{ position: 'absolute', width: 380, height: 380, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', top: -120, left: -60, background: 'radial-gradient(circle, #a855f7, transparent 65%)', animation: 'nudgeFloat1 14s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', bottom: -140, right: '10%', background: 'radial-gradient(circle, #ec4899, transparent 65%)', animation: 'nudgeFloat2 18s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', filter: 'blur(60px)', opacity: 0.55, mixBlendMode: 'screen', pointerEvents: 'none', top: '20%', right: -80, background: 'radial-gradient(circle, #3b82f6, transparent 65%)', animation: 'nudgeFloat3 16s ease-in-out infinite' }} />
 
+        {/* Dot grid + shine sweep */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.07, pointerEvents: 'none', backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.5, pointerEvents: 'none', background: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.08) 48%, transparent 60%)', backgroundSize: '300% 300%', animation: 'nudgeSweep 8s ease-in-out infinite' }} />
+
+        {/* Content */}
         <div style={{
-          position: 'relative', zIndex: 1,
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 32, flexWrap: 'wrap',
-          padding: isMobile ? '36px 28px' : '44px 52px',
+          position: 'relative', zIndex: 2,
+          display: isMobile ? 'flex' : 'grid',
+          flexDirection: isMobile ? 'column' : undefined,
+          gridTemplateColumns: isMobile ? undefined : '1fr auto',
+          gap: isMobile ? 28 : 48,
+          alignItems: isMobile ? 'stretch' : 'center',
         }}>
 
           {/* Left */}
-          <div style={{ flex: '1 1 280px', minWidth: 0 }}>
-            <p style={{
-              fontFamily: f, fontSize: 10, fontWeight: 700,
-              letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: 'hsl(0,0%,50%)', margin: '0 0 12px',
-            }}>
+          <div>
+            <p style={{ fontFamily: f, fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '0 0 16px' }}>
               Also worth seeing
             </p>
-            <h3 style={{ margin: '0 0 8px', lineHeight: 1.2 }}>
-              <span style={{
-                fontFamily: f,
-                fontSize: isMobile ? 20 : 'clamp(20px,2.2vw,28px)',
-                fontWeight: 700, color: 'hsl(0,0%,8%)', letterSpacing: '-0.025em',
-              }}>
-                I also build.{' '}
+            <h3 style={{ margin: '0 0 16px', lineHeight: 1.05 }}>
+              <span style={{ fontFamily: f, fontSize: isMobile ? 30 : 36, fontWeight: 800, letterSpacing: '-0.03em', color: 'white', display: 'block' }}>
+                I also build.
               </span>
-              <span style={{
-                fontFamily: fs, fontStyle: 'italic', fontWeight: 300,
-                fontSize: isMobile ? 19 : 'clamp(19px,2vw,26px)',
-                color: 'hsl(0,0%,45%)',
-              }}>
+              <span style={{ fontFamily: fs, fontStyle: 'italic', fontWeight: 300, fontSize: isMobile ? 28 : 36, color: 'rgba(255,255,255,0.72)', display: 'block', marginTop: 2 }}>
                 Not just design.
               </span>
             </h3>
-            <p style={{
-              fontFamily: f, fontSize: 14, color: 'hsl(0,0%,48%)',
-              margin: '0 0 22px', lineHeight: 1.65, maxWidth: 380,
-            }}>
+            <p style={{ fontFamily: f, fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 420 }}>
               Four live products built solo — research, design, and code. From idea to deployed.
             </p>
-
-            {/* Project pills — each links to live site */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
               {SHIPPED_ITEMS.map(p => (
-                <a
-                  key={p.name}
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    padding: '6px 14px', borderRadius: 100,
-                    background: 'hsl(0,0%,96%)',
-                    border: '1px solid hsl(0,0%,86%)',
-                    fontFamily: f, fontSize: 12, color: 'hsl(0,0%,30%)',
-                    textDecoration: 'none',
-                    transition: 'border-color 0.15s, background 0.15s, color 0.15s',
-                    cursor: 'pointer',
+                    fontFamily: f, fontSize: 12.5, padding: '8px 15px', borderRadius: 100,
+                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)',
+                    color: 'white', display: 'inline-flex', gap: 7, alignItems: 'center',
+                    textDecoration: 'none', backdropFilter: 'blur(8px)', transition: 'background 0.2s, transform 0.2s, border-color 0.2s', cursor: 'pointer',
                   }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.borderColor = 'hsl(0,0%,50%)'
-                    el.style.background = 'hsl(0,0%,92%)'
-                    el.style.color = 'hsl(0,0%,8%)'
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.borderColor = 'hsl(0,0%,86%)'
-                    el.style.background = 'hsl(0,0%,96%)'
-                    el.style.color = 'hsl(0,0%,30%)'
-                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.2)'; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.1)'; el.style.borderColor = 'rgba(255,255,255,0.18)'; el.style.transform = 'translateY(0)' }}
                 >
-                  <span style={{ fontSize: 13 }}>{p.emoji}</span>
+                  <span style={{ fontSize: 14 }}>{p.emoji}</span>
                   {p.name}
-                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 9, height: 9, opacity: 0.5 }}>
-                    <path d="M2.5 9.5l7-7M5 2.5h4.5V7"/>
-                  </svg>
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 9, height: 9, opacity: 0.5 }}><path d="M2.5 9.5l7-7M5 2.5h4.5V7"/></svg>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Right */}
+          {/* Right — stat card + CTA */}
           <div style={{
             display: 'flex', flexDirection: 'column',
-            alignItems: isMobile ? 'flex-start' : 'flex-end',
-            gap: 16, flexShrink: 0,
+            alignItems: isMobile ? 'stretch' : 'flex-end',
+            minWidth: isMobile ? 0 : 220,
           }}>
-            {/* Stats */}
-            <div style={{ display: 'flex', gap: 28 }}>
-              {[{ val: '4', label: 'Live products' }, { val: '0→1', label: 'Each one' }].map(s => (
-                <div key={s.label} style={{ textAlign: isMobile ? 'left' : 'right' }}>
-                  <div style={{
-                    fontFamily: f, fontSize: 26, fontWeight: 700,
-                    letterSpacing: '-0.04em', color: 'hsl(0,0%,8%)', lineHeight: 1,
-                  }}>{s.val}</div>
-                  <div style={{
-                    fontFamily: f, fontSize: 10, textTransform: 'uppercase',
-                    letterSpacing: '0.1em', color: 'hsl(0,0%,55%)', marginTop: 4,
-                  }}>{s.label}</div>
-                </div>
-              ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontFamily: f, fontSize: 12, fontWeight: 600, color: '#86efac', marginBottom: 16, alignSelf: isMobile ? 'flex-start' : 'flex-end' }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
+              All live on Vercel
             </div>
 
-            {/* Live indicator */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <span style={{
-                width: 7, height: 7, borderRadius: '50%', background: '#22c55e',
-                display: 'inline-block', flexShrink: 0,
-                animation: 'nudge-live 2.4s ease-in-out infinite',
-              }} />
-              <span style={{ fontFamily: f, fontSize: 12, color: '#16a34a', fontWeight: 600 }}>
-                All live on Vercel
-              </span>
+            <div style={{ width: '100%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: 18, backdropFilter: 'blur(12px)', padding: '20px 22px', marginBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: f, fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }}>4</span>
+                <span style={{ fontFamily: f, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.55)', textAlign: 'right', lineHeight: 1.3 }}>Live<br/>products</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <span style={{ fontFamily: f, fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }}>0→1</span>
+                <span style={{ fontFamily: f, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.55)', textAlign: 'right', lineHeight: 1.3 }}>Built<br/>solo</span>
+              </div>
             </div>
 
-            {/* CTA — Link navigates to top of /shipped */}
-            <Link
-              to="/shipped"
+            <Link to="/shipped"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                fontFamily: f, fontSize: 13, fontWeight: 600,
-                background: 'hsl(0,0%,8%)', color: 'white',
-                padding: '12px 26px', borderRadius: 100,
-                textDecoration: 'none',
-                transition: 'background 0.15s, transform 0.15s, box-shadow 0.15s',
-                whiteSpace: 'nowrap',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                fontFamily: f, fontSize: 14, fontWeight: 600, color: '#4c1d95', background: 'white',
+                padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
+                boxShadow: '0 8px 28px rgba(0,0,0,0.25)', width: '100%',
+                transition: 'transform 0.2s, box-shadow 0.2s',
               }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.background = 'hsl(0,0%,20%)'
-                el.style.transform = 'translateY(-2px)'
-                el.style.boxShadow = '0 6px 20px rgba(0,0,0,0.22)'
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.background = 'hsl(0,0%,8%)'
-                el.style.transform = 'translateY(0)'
-                el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)'
-              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 12px 32px rgba(0,0,0,0.3)' }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 8px 28px rgba(0,0,0,0.25)' }}
             >
-              View shipped builds
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 12, height: 12 }}>
-                <path d="M6 4h6v6M12 4 5 11"/>
-              </svg>
+              View shipped builds →
             </Link>
           </div>
         </div>
       </div>
 
       <style>{`
-        @keyframes nudge-live {
-          0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-          50%      { box-shadow: 0 0 0 7px rgba(34,197,94,0.06); }
-        }
+        @keyframes nudgeFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(60px,40px) scale(1.15)} }
+        @keyframes nudgeFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-50px,-30px) scale(1.1)} }
+        @keyframes nudgeFloat3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,50px) scale(1.2)} }
+        @keyframes nudgeSweep { 0%{background-position:0% 0%} 100%{background-position:200% 200%} }
       `}</style>
     </motion.div>
   )
