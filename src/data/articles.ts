@@ -13,7 +13,7 @@ export const ARTICLES: Article[] = [
   {
     slug: 'ikea-ux',
     title: 'How IKEA earns €26 billion a year through deliberate UX',
-    subtitle: 'Every decision in the IKEA experience — from the app to the store maze — is engineered. None of it is accidental.',
+    subtitle: 'Every decision in the IKEA experience - from the app to the store maze - is engineered. None of it is accidental.',
     date: 'Feb 2025',
     readTime: '5 min',
     tag: 'UX Design',
@@ -23,11 +23,11 @@ Here's how it works.
 
 **The AR room preview**
 
-IKEA Kreativ lets you point your phone camera at your actual room and place furniture inside it before buying. Not a showroom. Not a catalogue. Your room. This single feature removes the biggest obstacle in furniture buying — the fear of getting it wrong — and it does so by collapsing the distance between imagination and reality.
+IKEA Kreativ lets you point your phone camera at your actual room and place furniture inside it before buying. Not a showroom. Not a catalogue. Your room. This single feature removes the biggest obstacle in furniture buying - the fear of getting it wrong - and it does so by collapsing the distance between imagination and reality.
 
 **Discovery designed around moods, not SKUs**
 
-Most e-commerce makes you search by product category. IKEA's app lets you browse by room, style, and mood. You're not looking for a sofa — you're looking for what your living room could feel like. The navigation is built around aspiration, not inventory.
+Most e-commerce makes you search by product category. IKEA's app lets you browse by room, style, and mood. You're not looking for a sofa - you're looking for what your living room could feel like. The navigation is built around aspiration, not inventory.
 
 **Cognitive load, done deliberately**
 
@@ -41,13 +41,13 @@ This is environmental UX at scale. The store is the interface.
 
 **The omnichannel loop**
 
-The app saves your in-store visit. The store completes what the app started. They're not separate channels — they're one continuous experience with a shared memory. Most retail is still trying to figure out how to make this work. IKEA built it into the system architecture.
+The app saves your in-store visit. The store completes what the app started. They're not separate channels - they're one continuous experience with a shared memory. Most retail is still trying to figure out how to make this work. IKEA built it into the system architecture.
 
 **The AI layer**
 
-Style quiz, room generator, personalised suggestions. The AI isn't layered on top as a feature — it's woven into the discovery flow. It makes personalisation feel effortless rather than configurational.
+Style quiz, room generator, personalised suggestions. The AI isn't layered on top as a feature - it's woven into the discovery flow. It makes personalisation feel effortless rather than configurational.
 
-What IKEA built is a case study in designing the entire customer journey as a single coherent system. The app, the store, the return policy, the meatballs in the cafeteria — all of it is UX. €26 billion a year says it's working.`,
+What IKEA built is a case study in designing the entire customer journey as a single coherent system. The app, the store, the return policy, the meatballs in the cafeteria - all of it is UX. €26 billion a year says it's working.`,
   },
   {
     slug: 'ai-middle-path',
@@ -58,19 +58,19 @@ What IKEA built is a case study in designing the entire customer journey as a si
     tag: 'AI + Design',
     body: `There are two kinds of designers using AI right now.
 
-The first group is using it to go faster. Same briefs, same outputs, same thinking — but 3x the velocity. They're producing more. Most of it is forgettable.
+The first group is using it to go faster. Same briefs, same outputs, same thinking - but 3x the velocity. They're producing more. Most of it is forgettable.
 
-The second group is smaller, quieter, and building a structural advantage. They're using AI for the mechanical layer — component generation, token naming, variant management, the parts that eat time without requiring taste — while doubling down on the things AI statistically averages away: judgment, perspective, specificity.
+The second group is smaller, quieter, and building a structural advantage. They're using AI for the mechanical layer - component generation, token naming, variant management, the parts that eat time without requiring taste - while doubling down on the things AI statistically averages away: judgment, perspective, specificity.
 
 **Why AI generates median output by design**
 
-AI learns from the aggregate of everything it's seen. That's not a bug — it's the architecture. It produces the statistical center of the internet's design output. And the statistical center of design output is, by definition, forgettable.
+AI learns from the aggregate of everything it's seen. That's not a bug - it's the architecture. It produces the statistical center of the internet's design output. And the statistical center of design output is, by definition, forgettable.
 
 The designers who win aren't the ones who make AI go faster. They're the ones who use AI as speed infrastructure underneath original thinking.
 
 **What the middle path looks like in practice**
 
-Use AI to generate 10 variations in seconds. Then apply taste to pick the one that's actually interesting — and judgment to know why it's interesting. Use it to handle component scaffolding so you spend your hours on what the component means, not what it looks like. Use it to compress exploration time so more of your day is spent on the decisions that require you specifically.
+Use AI to generate 10 variations in seconds. Then apply taste to pick the one that's actually interesting - and judgment to know why it's interesting. Use it to handle component scaffolding so you spend your hours on what the component means, not what it looks like. Use it to compress exploration time so more of your day is spent on the decisions that require you specifically.
 
 The trap is outsourcing the thinking, not the execution. AI can't know what the right problem is. It can't carry a point of view. It can't make the call that breaks the rule for a reason. That's the work.
 
@@ -87,7 +87,7 @@ The middle path isn't about using AI less. It's about being precise about what y
     date: 'Mar 2025',
     readTime: '6 min',
     tag: 'AI + Design',
-    body: `At GTC 2026, Jensen Huang described a world where AI agents navigate digital products on behalf of humans. He outlined agents that browse, click, extract, and act — performing tasks across software that was built for human eyes and human hands.
+    body: `At GTC 2026, Jensen Huang described a world where AI agents navigate digital products on behalf of humans. He outlined agents that browse, click, extract, and act - performing tasks across software that was built for human eyes and human hands.
 
 He never mentioned design. But everything he described is a design problem.
 
@@ -101,17 +101,17 @@ We're still designing as if only humans use our products. That assumption expire
 
 **Six patterns for agentic UX**
 
-Agent-readable content structure — information hierarchy built for machines, not just eyes. Agents need to extract meaning from your product. If meaning is only conveyed visually, agents will fail.
+Agent-readable content structure - information hierarchy built for machines, not just eyes. Agents need to extract meaning from your product. If meaning is only conveyed visually, agents will fail.
 
-Error state design as critical path — when an agent encounters an error, it has no intuition for what "try again later" means. Error states need machine-readable signals, not just human-readable copy.
+Error state design as critical path - when an agent encounters an error, it has no intuition for what "try again later" means. Error states need machine-readable signals, not just human-readable copy.
 
-Trust and permission flows — agents need explicit scopes. Humans need to understand what they've authorised. These are two different design problems in the same flow.
+Trust and permission flows - agents need explicit scopes. Humans need to understand what they've authorised. These are two different design problems in the same flow.
 
-Agent user stories — "As an agent, I need to..." should sit alongside "As a user, I want to..." in your design process. If you haven't written one, you haven't designed for agents.
+Agent user stories - "As an agent, I need to..." should sit alongside "As a user, I want to..." in your design process. If you haven't written one, you haven't designed for agents.
 
-Multi-step orchestration UX — agents perform sequences that span sessions and systems. Designing for a single task in a single session is no longer enough.
+Multi-step orchestration UX - agents perform sequences that span sessions and systems. Designing for a single task in a single session is no longer enough.
 
-Graceful degradation — what happens when the agent fails, goes off-script, or encounters an unexpected state? That's not an edge case. It's the critical path.
+Graceful degradation - what happens when the agent fails, goes off-script, or encounters an unexpected state? That's not an edge case. It's the critical path.
 
 **What you can do before your team asks why you didn't**
 
@@ -140,15 +140,15 @@ Generic output used to compete with other generic output. Now it competes with e
 
 **What separates craft from slop**
 
-Intentionality — every decision has a reason you can articulate. Not "it looked right" but what it's doing and why it's doing it here.
+Intentionality - every decision has a reason you can articulate. Not "it looked right" but what it's doing and why it's doing it here.
 
-Specificity — details that couldn't have been generated, because they came from specific knowledge about a specific context. The Amazonia letterforms couldn't exist without someone knowing what the Amazon river looks like from space.
+Specificity - details that couldn't have been generated, because they came from specific knowledge about a specific context. The Amazonia letterforms couldn't exist without someone knowing what the Amazon river looks like from space.
 
-Restraint — knowing what to remove. Most generated output keeps everything. Craft removes until what's left is exactly what should be there.
+Restraint - knowing what to remove. Most generated output keeps everything. Craft removes until what's left is exactly what should be there.
 
-Texture — the feeling that a human made choices. Not polish. Choices. You can sense the difference.
+Texture - the feeling that a human made choices. Not polish. Choices. You can sense the difference.
 
-Originality — reference points that aren't the median of the internet. If your inspiration is "the top results when I searched this topic," you'll produce the top results when someone else searches this topic.
+Originality - reference points that aren't the median of the internet. If your inspiration is "the top results when I searched this topic," you'll produce the top results when someone else searches this topic.
 
 **The compounding effect**
 
@@ -169,15 +169,15 @@ They didn't build a "woman's car." They built a better car. And in doing so, the
 
 **The decisions**
 
-No hood. You shouldn't need to open it — maintenance is the brand's problem, not yours. The car tells you what it needs. The mechanic handles it. You never pop the hood. This isn't a feature for women. It's a feature for anyone who has ever looked at an engine and felt like they were supposed to understand something they don't.
+No hood. You shouldn't need to open it - maintenance is the brand's problem, not yours. The car tells you what it needs. The mechanic handles it. You never pop the hood. This isn't a feature for women. It's a feature for anyone who has ever looked at an engine and felt like they were supposed to understand something they don't.
 
 Seat and steering wheel adjust simultaneously when you open the door. The car remembers your profile and configures itself before you sit down. Personalisation is automatic, not a manual task you perform every time you get in.
 
-Easy-clean upholstery, storage designed around actual bags, ambient lighting calibrated for visibility. Every detail came from observing how people actually use cars — not how the industry assumed people use cars.
+Easy-clean upholstery, storage designed around actual bags, ambient lighting calibrated for visibility. Every detail came from observing how people actually use cars - not how the industry assumed people use cars.
 
 **What inclusive design actually means**
 
-The auto industry's standard crash test dummy is male, average height, average weight. Most safety systems — airbag deployment, seatbelt geometry, headrest positioning — are calibrated for that dummy. Women are 47% more likely to be seriously injured in a car crash because the safety infrastructure wasn't designed with their body dimensions in mind.
+The auto industry's standard crash test dummy is male, average height, average weight. Most safety systems - airbag deployment, seatbelt geometry, headrest positioning - are calibrated for that dummy. Women are 47% more likely to be seriously injured in a car crash because the safety infrastructure wasn't designed with their body dimensions in mind.
 
 The YCC didn't fix that. But it asked the right question: who are we not designing for, and what would it look like if we did?
 
@@ -185,11 +185,11 @@ The answer, almost universally, is: a better product for everyone.
 
 **The pattern holds everywhere**
 
-Curb cuts were designed for wheelchair users. Runners, cyclists, parents with strollers, and delivery workers use them daily. Closed captions were designed for the deaf. Everyone watching on mute at 2am uses them. Designing for the edge case, the underserved user, the body or context the standard doesn't account for — it consistently produces solutions that improve the product for people who never needed them to.
+Curb cuts were designed for wheelchair users. Runners, cyclists, parents with strollers, and delivery workers use them daily. Closed captions were designed for the deaf. Everyone watching on mute at 2am uses them. Designing for the edge case, the underserved user, the body or context the standard doesn't account for - it consistently produces solutions that improve the product for people who never needed them to.
 
 The YCC concept sold. The production car never came. The lessons have been applied in pieces across the industry, slowly.
 
-The brief that produced it — design for people the industry doesn't usually design for — is available to anyone building products right now.`,
+The brief that produced it - design for people the industry doesn't usually design for - is available to anyone building products right now.`,
   },
   {
     slug: 'end-of-dashboards',
@@ -206,7 +206,7 @@ That's not a problem for the junior designer's time. It's a problem for the dash
 
 **The dashboard was never the point**
 
-We built an entire design discipline around visualising data in grids because it was technically hard. Connecting a database, mapping relationships, building reusable chart components — it required skill. The skill added value.
+We built an entire design discipline around visualising data in grids because it was technically hard. Connecting a database, mapping relationships, building reusable chart components - it required skill. The skill added value.
 
 Now it doesn't. The prompt adds value. The output is commodity.
 
@@ -218,13 +218,13 @@ The products that survive the next five years will be the ones that surface the 
 
 AI can consume a design system and produce technically correct output. Correct tokens. Correct spacing. Correct component usage.
 
-What it can't do is know when to break the rule — and more importantly, why. Design systems codify decisions. They don't codify judgment. The reasoning behind the decision, the context that makes the rule right in one situation and wrong in another — that's not in the component library.
+What it can't do is know when to break the rule - and more importantly, why. Design systems codify decisions. They don't codify judgment. The reasoning behind the decision, the context that makes the rule right in one situation and wrong in another - that's not in the component library.
 
-The future isn't better design systems. It's design systems that carry the reasoning alongside the components. Systems written as if they'll be used by someone who has never met your team — because they will be.
+The future isn't better design systems. It's design systems that carry the reasoning alongside the components. Systems written as if they'll be used by someone who has never met your team - because they will be.
 
 **What comes after**
 
-Dashboards get replaced by contextual surfaces that push relevant information to the right moment. Design systems evolve from component libraries into documented thinking — why decisions were made, what they were trading off, when to deviate.
+Dashboards get replaced by contextual surfaces that push relevant information to the right moment. Design systems evolve from component libraries into documented thinking - why decisions were made, what they were trading off, when to deviate.
 
 Both shifts require the same thing: more craft, more judgment, more specificity. Less template-filling. The things AI can't automate are exactly the things that become more valuable when everything else is automated.`,
   },
@@ -257,7 +257,7 @@ Users read about 20% of a page. Structure everything else for the 80% who are sc
 
 **5. Useful error messages**
 
-"Something went wrong" is useless. "We couldn't save — check your connection and try again" is useful. Error messages are the most important copy in your product. Most get the least attention.
+"Something went wrong" is useless. "We couldn't save - check your connection and try again" is useful. Error messages are the most important copy in your product. Most get the least attention.
 
 **6. Onboarding sets the register**
 
@@ -265,7 +265,7 @@ Your first-use copy establishes the emotional tone for the entire product relati
 
 **7. Empty states are design moments**
 
-"No messages yet" is a void. "Start a conversation — your network is waiting" is an invitation. The empty state is the moment before engagement. Use it.
+"No messages yet" is a void. "Start a conversation - your network is waiting" is an invitation. The empty state is the moment before engagement. Use it.
 
 **8. Microcopy builds trust**
 
@@ -285,13 +285,13 @@ The word "secure" near a payment field increases conversion. Words do measurable
 
 **12. Ditch the placeholder**
 
-Placeholder text disappears when users need it most — when they're typing. Labels exist for a reason. Use them.
+Placeholder text disappears when users need it most - when they're typing. Labels exist for a reason. Use them.
 
 **13. Tone consistency under pressure**
 
 Your error state tone should match your onboarding tone. Products that go formal when things break feel untrustworthy. The personality of a product is only real if it holds under stress.
 
-Google's "Safer with Google" tooltip — 23 words — applies 10 of these simultaneously. That's not an accident.`,
+Google's "Safer with Google" tooltip - 23 words - applies 10 of these simultaneously. That's not an accident.`,
   },
   {
     slug: 'design-system-ai-training-data',
@@ -318,19 +318,19 @@ The system that was fine for humans is insufficient for machines. Most teams hav
 
 **Five shifts that matter**
 
-From guides to carriers of craft — encode taste, not just rules. "Use 8px spacing between elements" is a rule. "We use tighter spacing in data-dense contexts to reduce scroll distance, and looser spacing in onboarding flows to reduce cognitive load" is craft. The second one teaches. The first one just constrains.
+From guides to carriers of craft - encode taste, not just rules. "Use 8px spacing between elements" is a rule. "We use tighter spacing in data-dense contexts to reduce scroll distance, and looser spacing in onboarding flows to reduce cognitive load" is craft. The second one teaches. The first one just constrains.
 
-Exploration needs rails — AI generates 10 variations in seconds. Without guardrails, those variations are noise. The system needs to define what "good" looks like before the generation starts, not after.
+Exploration needs rails - AI generates 10 variations in seconds. Without guardrails, those variations are noise. The system needs to define what "good" looks like before the generation starts, not after.
 
-Write the system for AI too — what designers infer from context, AI doesn't know. Constraints, intent, the reasoning behind decisions — these need to be explicit. Not assumed.
+Write the system for AI too - what designers infer from context, AI doesn't know. Constraints, intent, the reasoning behind decisions - these need to be explicit. Not assumed.
 
-Governance moves upstream — the scope expands from maintaining a component library to governing how all builders, including AI, contribute to the product. That's a different job than most design system teams were hired to do.
+Governance moves upstream - the scope expands from maintaining a component library to governing how all builders, including AI, contribute to the product. That's a different job than most design system teams were hired to do.
 
-Maintenance becomes continuous — stop asking "is the library updated" and start asking "does it reflect our latest decisions." Those are different questions with different cadences.
+Maintenance becomes continuous - stop asking "is the library updated" and start asking "does it reflect our latest decisions." Those are different questions with different cadences.
 
 **The number that stuck**
 
-32% of designers trust AI output without review. 69% of designers report satisfaction with AI tools versus 82% of developers. The designers are closer to the problem — they know when the output is wrong. But the rate at which they're catching it isn't keeping up with the rate at which it's being generated.
+32% of designers trust AI output without review. 69% of designers report satisfaction with AI tools versus 82% of developers. The designers are closer to the problem - they know when the output is wrong. But the rate at which they're catching it isn't keeping up with the rate at which it's being generated.
 
 Write your system as if it will be used by someone who has never met your team. Because it will.`,
   },
@@ -365,7 +365,7 @@ The feed became Instagram's vanity, Twitter's outrage, and a TED Talk's self-ser
 
 **The Open to Work penalty**
 
-Adding the green banner to your profile — the feature LinkedIn built to help job seekers — signals to hiring managers that you're less desirable. The logic: if they were good, someone would have hired them already. LinkedIn knows this. They built a private version visible only to recruiters. That tells you everything.
+Adding the green banner to your profile - the feature LinkedIn built to help job seekers - signals to hiring managers that you're less desirable. The logic: if they were good, someone would have hired them already. LinkedIn knows this. They built a private version visible only to recruiters. That tells you everything.
 
 **The India layer**
 
@@ -375,6 +375,6 @@ In India, LinkedIn profiles became social credibility signals that extend well b
 
 Warm introductions when someone knows the person you're trying to reach. Being found passively by recruiters actively searching your skill set. Company research before an interview. Niche professional communities where substantive conversations still happen, mostly in comments rather than posts.
 
-The infrastructure LinkedIn was supposed to build — transparent hiring, genuine professional networking, accessible career development — still doesn't exist. We needed it. We got Instagram with a blue blazer.`,
+The infrastructure LinkedIn was supposed to build - transparent hiring, genuine professional networking, accessible career development - still doesn't exist. We needed it. We got Instagram with a blue blazer.`,
   },
 ]
