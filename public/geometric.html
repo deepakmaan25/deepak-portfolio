@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geometric Pulse — Shockwave Grid</title>
+<style>
+  html,body{margin:0;height:100%;background:#03030a;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;}
+  #c{display:block;width:100vw;height:100vh;}
+  .hud{position:fixed;left:16px;bottom:16px;color:#8b8ba7;font-size:12px;line-height:1.6;background:rgba(8,8,20,.55);
+       padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(8px);}
+  .hud b{color:#cfcfe6;}
+  .row{display:flex;gap:14px;align-items:center;margin-top:4px;}
+  button{background:rgba(255,255,255,.06);color:#cfcfe6;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;}
+  button:hover{background:rgba(255,255,255,.12);}
+  input[type=range]{accent-color:#ff6ec7;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud">
+  <div><b>Geometric Pulse</b> — concentric shockwave grid (simulated audio)</div>
+  <div class="row">
+    <label>Energy <input id="energy" type="range" min="0" max="100" value="55"></label>
+    <button id="beat">Trigger beat</button>
+    <button id="auto">Auto-beat: ON</button>
+    <button id="shape">Grid: square</button>
+  </div>
+  <div class="row" style="color:#6a6a85">Shockwaves ripple through a dot grid — interference = mesmerizing</div>
+</div>
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d',{alpha:false});
+let W,H,DPR;
+function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);buildGrid();}
+addEventListener('resize',resize);
+
+const PALETTES=[
+  ['#ff6ec7','#7c6cff','#42d9ff'],
+  ['#ffd23d','#ff8a3d','#ff4d6d'],
+  ['#42d9ff','#36f1cd','#a06bff'],
+  ['#a06bff','#ff5e9c','#5cc8ff'],
+];
+let palIdx=0,palT=0;
+function lerpHex(a,b,t){const pa=parseInt(a.slice(1),16),pb=parseInt(b.slice(1),16);
+  const ar=pa>>16,ag=(pa>>8)&255,ab=pa&255,br=pb>>16,bg=(pb>>8)&255,bb=pb&255;
+  return [Math.round(ar+(br-ar)*t),Math.round(ag+(bg-ag)*t),Math.round(ab+(bb-ab)*t)];}
+function rgb(c){return c[0]+','+c[1]+','+c[2];}
+
+// ── Dot grid ──────────────────────────────────────────────────────────────
+let dots=[], spacing=0, gridShape='square'; // 'square' | 'radial'
+function buildGrid(){
+  dots=[];
+  const minDim=Math.min(W,H);
+  spacing = minDim/16;
+  if(gridShape==='square'){
+    const cols=Math.ceil(W/spacing)+2, rows=Math.ceil(H/spacing)+2;
+    const ox=(W-(cols-1)*spacing)/2, oy=(H-(rows-1)*spacing)/2;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      const x=ox+c*spacing, y=oy+r*spacing;
+      dots.push({x,y,bx:x,by:y,d:Math.hypot(x-W/2,y-H/2)});
+    }
+  }else{
+    // radial: concentric rings of dots
+    const cx=W/2,cy=H/2,rings=10;
+    dots.push({x:cx,y:cy,bx:cx,by:cy,d:0});
+    for(let ri=1;ri<=rings;ri++){
+      const rr=ri*spacing;
+      const n=Math.max(6,Math.floor(ri*6));
+      for(let k=0;k<n;k++){
+        const a=(k/n)*Math.PI*2;
+        const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr;
+        dots.push({x,y,bx:x,by:y,d:rr});
+      }
+    }
+  }
+}
+resize();
+
+document.getElementById('shape').onclick=function(){
+  gridShape = gridShape==='square'?'radial':'square';
+  this.textContent='Grid: '+gridShape; buildGrid();
+};
+
+// ── Shockwaves ────────────────────────────────────────────────────────────
+let waves=[];
+function spawnWave(strength){
+  const minDim=Math.min(W,H);
+  waves.push({ r: minDim*0.02, maxR: minDim*0.85, strength, speed: minDim*(0.012+strength*0.010), width: spacing*1.8, colorIdx:Math.floor(Math.random()*3) });
+  if(waves.length>10) waves.shift();
+}
+
+let energyTarget=0.55,energy=0.55,bass=0,mids=0,highs=0,burst=0,autoBeat=true,lastBeat=0;
+document.getElementById('energy').oninput=e=>energyTarget=e.target.value/100;
+document.getElementById('beat').onclick=()=>{burst=Math.min(1,burst+0.9);spawnWave(0.9);};
+const ab=document.getElementById('auto');ab.onclick=()=>{autoBeat=!autoBeat;ab.textContent='Auto-beat: '+(autoBeat?'ON':'OFF');};
+
+let t=0,last=performance.now();
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;t+=dt;
+  palT+=dt*0.05;if(palT>=1){palT=0;palIdx=(palIdx+1)%PALETTES.length;}
+
+  energy+=(energyTarget-energy)*0.05;
+  bass =energy*(0.55+0.45*Math.sin(t*2.4))*0.9;
+  mids =energy*(0.5+0.5*Math.sin(t*3.7+1))*0.7;
+  highs=energy*(0.5+0.5*Math.sin(t*6.2+2))*0.6;
+  if(autoBeat&&now-lastBeat>(480-energy*220)){const s=0.6+energy*0.4;burst=Math.min(1,burst+s);spawnWave(s);lastBeat=now;}
+  burst*=0.84;  // punchy: fast decay
+
+  const pA=PALETTES[palIdx],pB=PALETTES[(palIdx+1)%PALETTES.length];
+  const live=[0,1,2].map(k=>lerpHex(pA[k],pB[k],palT));
+
+  // background trail fade
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle='rgba(3,3,10,0.34)';
+  ctx.fillRect(0,0,W,H);
+
+  const cx=W/2,cy=H/2,minDim=Math.min(W,H);
+
+  // advance waves
+  for(const wv of waves){ wv.r += wv.speed*(60*dt); wv.strength*=0.992; }
+  waves=waves.filter(wv=>wv.r<wv.maxR && wv.strength>0.05);
+
+  ctx.globalCompositeOperation='lighter';
+
+  // ── draw dots, displaced/brightened by passing shockwaves ──────────────
+  for(const dt2 of dots){
+    let push=0, bright=0;
+    for(const wv of waves){
+      const diff=Math.abs(dt2.d - wv.r);
+      if(diff<wv.width){
+        const f=1-diff/wv.width;          // 0..1 across the wave front
+        const e=f*f*wv.strength;          // sharp leading edge
+        push += e*spacing*0.45;
+        bright += e;
+      }
+    }
+    bright=Math.min(1.4,bright);
+    // continuous grid shimmer from mids
+    const shimmer=0.10+0.10*Math.sin(dt2.d*0.03 - t*3)*mids;
+    const a=0.06 + shimmer + bright*0.9;
+    // displacement outward from center
+    const ang=Math.atan2(dt2.by-cy,dt2.bx-cx);
+    dt2.x=dt2.bx+Math.cos(ang)*push;
+    dt2.y=dt2.by+Math.sin(ang)*push;
+
+    const col=live[Math.floor((dt2.d/spacing))%3];
+    const size=1.3 + bright*3.2 + (bright>0.5?bright*1.5:0);
+    if(a>0.02){
+      // glow
+      if(bright>0.12){
+        const g=ctx.createRadialGradient(dt2.x,dt2.y,0,dt2.x,dt2.y,size*3.2);
+        g.addColorStop(0,`rgba(${rgb(col)},${bright*0.5})`);
+        g.addColorStop(1,`rgba(${rgb(col)},0)`);
+        ctx.fillStyle=g;
+        ctx.beginPath();ctx.arc(dt2.x,dt2.y,size*3.2,0,Math.PI*2);ctx.fill();
+      }
+      ctx.fillStyle=`rgba(${rgb(col)},${a})`;
+      ctx.beginPath();ctx.arc(dt2.x,dt2.y,size,0,Math.PI*2);ctx.fill();
+      if(bright>0.6){ // hot white core on wave front
+        ctx.fillStyle=`rgba(255,255,255,${(bright-0.6)*0.9})`;
+        ctx.beginPath();ctx.arc(dt2.x,dt2.y,size*0.5,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+
+  // ── shockwave ring outline (crisp leading edge) ────────────────────────
+  for(const wv of waves){
+    const col=live[wv.colorIdx];
+    ctx.strokeStyle=`rgba(${rgb(col)},${wv.strength*0.5})`;
+    ctx.lineWidth=1+wv.strength*2.5;
+    ctx.beginPath();ctx.arc(cx,cy,wv.r,0,Math.PI*2);ctx.stroke();
+  }
+
+  // ── geometric core: clean rotating polygon ─────────────────────────────
+  const coreR=minDim*0.05*(1+burst*0.7+bass*0.3);
+  const sides=6, rot=t*0.4 + burst*0.5;
+  // core halo
+  const hg=ctx.createRadialGradient(cx,cy,0,cx,cy,coreR*4);
+  hg.addColorStop(0,`rgba(${rgb(live[0])},${0.10+burst*0.18})`);
+  hg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=hg;ctx.beginPath();ctx.arc(cx,cy,coreR*4,0,Math.PI*2);ctx.fill();
+  // polygon
+  ctx.strokeStyle=`rgba(${rgb(live[0])},${0.7+burst*0.3})`;
+  ctx.lineWidth=2+burst*3;
+  ctx.beginPath();
+  for(let s=0;s<=sides;s++){const a=(s/sides)*Math.PI*2+rot;const rr=coreR*(1+burst*0.2);
+    s===0?ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr):ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}
+  ctx.stroke();
+  // bright center
+  ctx.fillStyle=`rgba(255,255,255,${0.8+burst*0.2})`;
+  ctx.beginPath();ctx.arc(cx,cy,coreR*0.32,0,Math.PI*2);ctx.fill();
+
+  ctx.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid Aurora — Curtains Prototype</title>
+<style>
+  html,body{margin:0;height:100%;background:#02020a;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;}
+  #c{display:block;width:100vw;height:100vh;}
+  .hud{position:fixed;left:16px;bottom:16px;color:#8b8ba7;font-size:12px;line-height:1.6;background:rgba(8,8,20,.55);
+       padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(8px);}
+  .hud b{color:#cfcfe6;}
+  .row{display:flex;gap:14px;align-items:center;margin-top:4px;}
+  button{background:rgba(255,255,255,.06);color:#cfcfe6;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;}
+  button:hover{background:rgba(255,255,255,.12);}
+  input[type=range]{accent-color:#42d9ff;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud">
+  <div><b>Liquid Aurora</b> — flowing light curtains (simulated audio)</div>
+  <div class="row">
+    <label>Energy <input id="energy" type="range" min="0" max="100" value="55"></label>
+    <button id="beat">Trigger beat</button>
+    <button id="auto">Auto-beat: ON</button>
+  </div>
+  <div class="row" style="color:#6a6a85">No shadowBlur — glow via layered additive fills (smooth + cheap)</div>
+</div>
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d',{alpha:false});
+let W,H,DPR;
+function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+addEventListener('resize',resize);resize();
+
+const PALETTES=[
+  ['#42d9ff','#7c6cff','#36f1cd'],
+  ['#a06bff','#ff6ec7','#5cc8ff'],
+  ['#36f1cd','#42d9ff','#b06cff'],
+  ['#ff8a3d','#ffd23d','#ff5e9c'],
+];
+let palIdx=0,palT=0;
+function lerpHex(a,b,t){const pa=parseInt(a.slice(1),16),pb=parseInt(b.slice(1),16);
+  const ar=pa>>16,ag=(pa>>8)&255,ab=pa&255,br=pb>>16,bg=(pb>>8)&255,bb=pb&255;
+  return [Math.round(ar+(br-ar)*t),Math.round(ag+(bg-ag)*t),Math.round(ab+(bb-ab)*t)];}
+function rgb(c){return c[0]+','+c[1]+','+c[2];}
+
+// ── Curtains ──────────────────────────────────────────────────────────────
+const NCURTAIN=7;
+const curtains=[];
+function initCurtains(){
+  curtains.length=0;
+  for(let i=0;i<NCURTAIN;i++){
+    curtains.push({
+      baseX:(i+0.5)/NCURTAIN,          // home horizontal position 0..1
+      swayPhase:Math.random()*Math.PI*2,
+      swaySpd:0.25+Math.random()*0.3,
+      foldPhase:Math.random()*Math.PI*2,
+      width:0.06+Math.random()*0.05,   // fraction of W
+      hue:i/NCURTAIN,
+      bandLo:i/NCURTAIN,               // which freq slice drives it
+    });
+  }
+}
+initCurtains();
+
+let energyTarget=0.55,energy=0.55,bass=0,mids=0,highs=0,burst=0,autoBeat=true,lastBeat=0;
+document.getElementById('energy').oninput=e=>energyTarget=e.target.value/100;
+document.getElementById('beat').onclick=()=>burst=Math.min(1,burst+0.8);
+const ab=document.getElementById('auto');ab.onclick=()=>{autoBeat=!autoBeat;ab.textContent='Auto-beat: '+(autoBeat?'ON':'OFF');};
+
+let t=0,last=performance.now();
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;t+=dt;
+  palT+=dt*0.05;if(palT>=1){palT=0;palIdx=(palIdx+1)%PALETTES.length;}
+
+  energy+=(energyTarget-energy)*0.04;
+  bass =energy*(0.55+0.45*Math.sin(t*1.9))*0.9;
+  mids =energy*(0.5+0.5*Math.sin(t*3.3+1))*0.7;
+  highs=energy*(0.5+0.5*Math.sin(t*6.0+2))*0.6;
+  if(autoBeat&&now-lastBeat>(560-energy*240)){burst=Math.min(1,burst+0.8+energy*0.4);lastBeat=now;}
+  burst*=0.86;  // punchier beat envelope, calm flow between hits
+
+  const pA=PALETTES[palIdx],pB=PALETTES[(palIdx+1)%PALETTES.length];
+  const live=[0,1,2].map(k=>lerpHex(pA[k],pB[k],palT));
+
+  // background with gentle vertical gradient + trail fade
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle='rgba(2,2,10,0.30)';
+  ctx.fillRect(0,0,W,H);
+
+  // faint top-sky aurora wash
+  const sky=ctx.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,`rgba(${rgb(live[0])},${0.03+energy*0.03})`);
+  sky.addColorStop(0.5,'rgba(0,0,0,0)');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+
+  ctx.globalCompositeOperation='lighter';
+
+  const SEG=22;                              // vertical segments per curtain
+  for(const c of curtains){
+    c.swayPhase+=c.swaySpd*dt*(0.6+mids*0.7);
+    c.foldPhase+=dt*(0.4+bass*0.8);
+    // frequency value driving this curtain (simulated)
+    const drive=Math.max(0, (c.hue<0.5? bass*0.6+mids*0.4 : mids*0.5+highs*0.5));
+    const col=live[Math.floor(c.hue*live.length)%live.length];
+
+    // collective sway + individual fold
+    const sway=Math.sin(c.swayPhase)*0.04*(1+bass*0.8) + Math.sin(t*0.5)*0.02;
+    const cxN=c.baseX+sway;                  // 0..1
+    const widthPx=c.width*W*(0.7+drive*0.7+burst*0.5);   // curtains flare wider on beats
+
+    // Build the curtain as a vertical ribbon of quads, brightness rippling down
+    let prevLX=0,prevRX=0,prevY=0;
+    for(let s=0;s<=SEG;s++){
+      const f=s/SEG;                          // 0 top .. 1 bottom
+      // horizontal fold: a slow sine along the height makes it drape like cloth
+      const fold=Math.sin(f*3.0+c.foldPhase)*0.03*(0.5+drive)
+                +Math.sin(f*6.0-c.foldPhase*1.4)*0.015*drive;
+      const xN=cxN+fold;
+      const xPx=xN*W;
+      // width tapers at top, full lower (curtain hangs)
+      const wHere=widthPx*(0.25+0.75*Math.pow(f,0.6));
+      const lx=xPx-wHere*0.5, rx=xPx+wHere*0.5;
+      // brightness ripple travelling downward
+      const ripple=0.5+0.5*Math.sin(f*5.0 - t*2.2 + c.swayPhase);
+      const vertFade=Math.sin(f*Math.PI);     // fade top & bottom
+      const a=(0.05+drive*0.22+burst*0.14)*ripple*vertFade;  // curtains surge brighter on beats
+      const yPx=f*H;
+      if(s>0 && a>0.004){
+        // soft-edged quad: gradient across width
+        const g=ctx.createLinearGradient(lx,0,rx,0);
+        g.addColorStop(0,`rgba(${rgb(col)},0)`);
+        g.addColorStop(0.5,`rgba(${rgb(col)},${a})`);
+        g.addColorStop(1,`rgba(${rgb(col)},0)`);
+        ctx.fillStyle=g;
+        ctx.beginPath();
+        ctx.moveTo(prevLX,prevY);
+        ctx.lineTo(prevRX,prevY);
+        ctx.lineTo(rx,yPx);
+        ctx.lineTo(lx,yPx);
+        ctx.closePath();ctx.fill();
+      }
+      prevLX=lx;prevRX=rx;prevY=yPx;
+    }
+
+    // bright core line down the curtain centre (crisp filament)
+    ctx.strokeStyle=`rgba(${rgb(col)},${0.10+drive*0.25})`;
+    ctx.lineWidth=1.2+drive*2;
+    ctx.beginPath();
+    for(let s=0;s<=SEG;s++){
+      const f=s/SEG;
+      const fold=Math.sin(f*3.0+c.foldPhase)*0.03*(0.5+drive)+Math.sin(f*6.0-c.foldPhase*1.4)*0.015*drive;
+      const xPx=(cxN+fold)*W;const yPx=f*H;
+      s===0?ctx.moveTo(xPx,yPx):ctx.lineTo(xPx,yPx);
+    }
+    ctx.stroke();
+  }
+
+  // beat bloom across the top (aurora flares) — bigger, brighter, drops down further
+  if(burst>0.05){
+    const g=ctx.createLinearGradient(0,0,0,H*0.6);
+    g.addColorStop(0,`rgba(${rgb(live[0])},${burst*0.18})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H*0.6);
+  }
+
+  ctx.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

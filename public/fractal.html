@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractal Kaleidoscope — 3 Variants</title>
+<style>
+  html,body{margin:0;height:100%;background:#03030c;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;}
+  #c{display:block;width:100vw;height:100vh;}
+  .hud{position:fixed;left:16px;bottom:16px;color:#8b8ba7;font-size:12px;line-height:1.6;background:rgba(8,8,20,.55);
+       padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(8px);}
+  .hud b{color:#cfcfe6;}
+  .row{display:flex;gap:10px;align-items:center;margin-top:4px;flex-wrap:wrap;}
+  button{background:rgba(255,255,255,.06);color:#cfcfe6;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;}
+  button:hover{background:rgba(255,255,255,.12);}
+  button.active{background:rgba(124,108,255,.3);border-color:rgba(124,108,255,.6);}
+  input[type=range]{accent-color:#36f1cd;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud">
+  <div><b>Fractal Kaleidoscope</b> — 3 new variants (simulated audio)</div>
+  <div class="row">
+    <button class="vbtn active" data-v="kaleido">Kaleidoscope</button>
+    <button class="vbtn" data-v="tree">Recursive Tree</button>
+    <button class="vbtn" data-v="spiro">Spirograph</button>
+  </div>
+  <div class="row">
+    <label>Energy <input id="energy" type="range" min="0" max="100" value="55"></label>
+    <button id="beat">Trigger beat</button>
+    <button id="auto">Auto-beat: ON</button>
+  </div>
+</div>
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d',{alpha:false});
+let W,H,DPR;
+function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+addEventListener('resize',resize);resize();
+
+const PALETTES=[
+  ['#36f1cd','#7c6cff','#ff6ec7'],
+  ['#42d9ff','#a06bff','#ff5e9c'],
+  ['#ffd23d','#ff8a3d','#ff4d6d'],
+  ['#7c6cff','#42d9ff','#36f1cd'],
+];
+let palIdx=0,palT=0;
+function lerpHex(a,b,t){const pa=parseInt(a.slice(1),16),pb=parseInt(b.slice(1),16);
+  const ar=pa>>16,ag=(pa>>8)&255,ab=pa&255,br=pb>>16,bg=(pb>>8)&255,bb=pb&255;
+  return [Math.round(ar+(br-ar)*t),Math.round(ag+(bg-ag)*t),Math.round(ab+(bb-ab)*t)];}
+function rgb(c){return c[0]+','+c[1]+','+c[2];}
+
+let variant='kaleido';
+document.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>{
+  variant=b.dataset.v;
+  document.querySelectorAll('.vbtn').forEach(x=>x.classList.toggle('active',x===b));
+});
+
+let energyTarget=0.55,energy=0.55,bass=0,mids=0,highs=0,burst=0,autoBeat=true,lastBeat=0;
+document.getElementById('energy').oninput=e=>energyTarget=e.target.value/100;
+document.getElementById('beat').onclick=()=>burst=Math.min(1,burst+0.85);
+const ab=document.getElementById('auto');ab.onclick=()=>{autoBeat=!autoBeat;ab.textContent='Auto-beat: '+(autoBeat?'ON':'OFF');};
+
+let t=0,last=performance.now();
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;t+=dt;
+  palT+=dt*0.05;if(palT>=1){palT=0;palIdx=(palIdx+1)%PALETTES.length;}
+  energy+=(energyTarget-energy)*0.05;
+  bass =energy*(0.55+0.45*Math.sin(t*2.1))*0.9;
+  mids =energy*(0.5+0.5*Math.sin(t*3.5+1))*0.7;
+  highs=energy*(0.5+0.5*Math.sin(t*6.1+2))*0.6;
+  if(autoBeat&&now-lastBeat>(520-energy*230)){burst=Math.min(1,burst+0.55+energy*0.35);lastBeat=now;}
+  burst*=0.87;
+  const pA=PALETTES[palIdx],pB=PALETTES[(palIdx+1)%PALETTES.length];
+  const live=[0,1,2].map(k=>lerpHex(pA[k],pB[k],palT));
+  const cx=W/2,cy=H/2,minDim=Math.min(W,H);
+
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=variant==='spiro'?'rgba(3,3,12,0.10)':'rgba(3,3,12,0.24)';
+  ctx.fillRect(0,0,W,H);
+  ctx.globalCompositeOperation='lighter';
+
+  if(variant==='kaleido') drawKaleido(cx,cy,minDim,live);
+  else if(variant==='tree') drawTree(cx,cy,minDim,live);
+  else drawSpiro(cx,cy,minDim,live);
+
+  ctx.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+
+// ── 1. True mirror kaleidoscope ────────────────────────────────────────────
+function drawKaleido(cx,cy,minDim,live){
+  const wedges = 8 + Math.round(burst*4);  // 8..12
+  const rot = t*0.15;
+  // build a source "scene" of a few flowing blobs, then mirror across wedges
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);
+  for(let s=0;s<wedges;s++){
+    ctx.save();
+    ctx.rotate((s/wedges)*Math.PI*2);
+    if(s%2===1) ctx.scale(1,-1);  // mirror alternate wedges → kaleidoscope symmetry
+    // clip to wedge
+    const half=Math.PI/wedges;
+    ctx.beginPath();ctx.moveTo(0,0);
+    ctx.arc(0,0,minDim*0.6,-half,half);ctx.closePath();ctx.clip();
+    // the source pattern: 3 drifting glowing shapes driven by freq
+    for(let k=0;k<3;k++){
+      const fv=[bass,mids,highs][k];
+      const ang=Math.sin(t*(0.4+k*0.3)+k)*0.5;
+      const rr=minDim*(0.12+k*0.13)*(1+fv*0.5);
+      const x=Math.cos(ang)*rr, y=Math.sin(ang*1.3)*rr*0.5;
+      const size=minDim*(0.04+fv*0.06)*(1+burst*0.3);
+      const col=live[k%3];
+      const g=ctx.createRadialGradient(x,y,0,x,y,size);
+      g.addColorStop(0,`rgba(${rgb(col)},${0.5+fv*0.4})`);
+      g.addColorStop(1,`rgba(${rgb(col)},0)`);
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();
+      // a connecting filament for structure
+      ctx.strokeStyle=`rgba(${rgb(col)},${0.2+fv*0.4})`;
+      ctx.lineWidth=1+fv*2;
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(x,y);ctx.stroke();
+    }
+    ctx.restore();
+  }
+  ctx.restore();
+  // centre jewel
+  const jr=minDim*0.04*(1+bass*0.5+burst*0.4);
+  const jg=ctx.createRadialGradient(cx,cy,0,cx,cy,jr);
+  jg.addColorStop(0,'#ffffff');jg.addColorStop(0.4,`rgba(${rgb(live[0])},1)`);jg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=jg;ctx.beginPath();ctx.arc(cx,cy,jr,0,Math.PI*2);ctx.fill();
+}
+
+// ── 2. Recursive fractal tree (radial) ─────────────────────────────────────
+function drawTree(cx,cy,minDim,live){
+  const arms = 6;
+  const maxDepth = 5;
+  const baseLen = minDim*(0.16+bass*0.06);
+  const spread = 0.5 + mids*0.5 + Math.sin(t*0.6)*0.15;
+  function branch(x,y,ang,len,depth){
+    if(depth>maxDepth||len<3) return;
+    const ex=x+Math.cos(ang)*len, ey=y+Math.sin(ang)*len;
+    const col=live[depth%3];
+    const a=(0.15+ (depth/maxDepth)*0.0 + mids*0.3)*(1 - depth/(maxDepth+2));
+    ctx.strokeStyle=`rgba(${rgb(col)},${a+burst*0.1})`;
+    ctx.lineWidth=Math.max(0.6,(maxDepth-depth)*0.9*(1+burst*0.3));
+    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(ex,ey);ctx.stroke();
+    // node glow at tips
+    if(depth>=maxDepth-1){
+      const fv=[bass,mids,highs][depth%3];
+      ctx.fillStyle=`rgba(${rgb(col)},${0.4+fv*0.5})`;
+      ctx.beginPath();ctx.arc(ex,ey,1.5+fv*3,0,Math.PI*2);ctx.fill();
+    }
+    const nl=len*(0.62+highs*0.12);
+    branch(ex,ey,ang-spread,nl,depth+1);
+    branch(ex,ey,ang+spread,nl,depth+1);
+  }
+  for(let a=0;a<arms;a++){
+    const ang=(a/arms)*Math.PI*2 + t*0.1;
+    branch(cx,cy,ang,baseLen,0);
+  }
+  const jr=minDim*0.03*(1+bass*0.6);
+  const jg=ctx.createRadialGradient(cx,cy,0,cx,cy,jr*2);
+  jg.addColorStop(0,`rgba(${rgb(live[0])},${0.8+burst*0.2})`);jg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=jg;ctx.beginPath();ctx.arc(cx,cy,jr*2,0,Math.PI*2);ctx.fill();
+}
+
+// ── 3. Spirograph / harmonograph roses ─────────────────────────────────────
+function drawSpiro(cx,cy,minDim,live){
+  const layers=3;
+  for(let L=0;L<layers;L++){
+    const fv=[bass,mids,highs][L];
+    const col=live[L%3];
+    const R=minDim*(0.30 - L*0.04);
+    const k=2+L + Math.round(mids*3);     // petal frequency
+    const steps=240;
+    ctx.strokeStyle=`rgba(${rgb(col)},${0.25+fv*0.45+burst*0.1})`;
+    ctx.lineWidth=1+fv*2.5;
+    ctx.beginPath();
+    for(let i=0;i<=steps;i++){
+      const th=(i/steps)*Math.PI*2;
+      // rose / harmonograph curve, slowly precessing
+      const r=R*(0.5+0.5*Math.sin(k*th + t*(0.5+L*0.4)))*(0.7+fv*0.5);
+      const x=cx+Math.cos(th + t*0.1*L)*r;
+      const y=cy+Math.sin(th + t*0.1*L)*r;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+  // bright orbiting nodes on the outer rose
+  const k=2+Math.round(mids*3);
+  for(let i=0;i<k*2;i++){
+    const th=(i/(k*2))*Math.PI*2 + t*0.5;
+    const r=minDim*0.30*(0.5+0.5*Math.sin(k*th+t*0.5))*(0.7+bass*0.5);
+    const x=cx+Math.cos(th)*r,y=cy+Math.sin(th)*r;
+    const col=live[i%3];
+    ctx.fillStyle=`rgba(${rgb(col)},${0.5+bass*0.4})`;
+    ctx.beginPath();ctx.arc(x,y,2+bass*4,0,Math.PI*2);ctx.fill();
+  }
+  const jr=minDim*0.025*(1+bass*0.5+burst*0.4);
+  const jg=ctx.createRadialGradient(cx,cy,0,cx,cy,jr*2.5);
+  jg.addColorStop(0,'#ffffff');jg.addColorStop(0.4,`rgba(${rgb(live[0])},1)`);jg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=jg;ctx.beginPath();ctx.arc(cx,cy,jr*2.5,0,Math.PI*2);ctx.fill();
+}
+
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
