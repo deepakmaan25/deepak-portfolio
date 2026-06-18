@@ -558,8 +558,8 @@ export default function HomePage() {
             </motion.p>
             <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 72 : 120 }}>
               <CaseRow
-                title="Music Animate – Directing AI to Ship a Production Tool"
-                desc="Designed, directed and shipped a full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage – built solo by directing AI, debugging and refactoring it to production."
+                title="Music Animate"
+                desc="An audio to animation generator. A full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage, built solo by directing AI, debugging and refactoring it to production."
                 metric="9" metricLabel="generative engines" slug="music-animate"
                 image="/music-animate/ma_hero_dark.png" bg="hsl(0,0%,9%)" isMobile={isMobile} />
               <CaseRow
