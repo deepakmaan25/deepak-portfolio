@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resonance Field — Constellation Prototype</title>
+<style>
+  html,body{margin:0;height:100%;background:#05050c;overflow:hidden;font-family:ui-sans-serif,system-ui,sans-serif;}
+  #c{display:block;width:100vw;height:100vh;}
+  .hud{position:fixed;left:16px;bottom:16px;color:#8b8ba7;font-size:12px;line-height:1.6;background:rgba(10,10,22,.55);
+       padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(8px);}
+  .hud b{color:#cfcfe6;}
+  .row{display:flex;gap:14px;align-items:center;margin-top:4px;}
+  button{background:rgba(255,255,255,.06);color:#cfcfe6;border:1px solid rgba(255,255,255,.12);
+          border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;}
+  button:hover{background:rgba(255,255,255,.12);}
+  input[type=range]{accent-color:#7c6cff;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud">
+  <div><b>Resonance Field</b> — constellation redesign (simulated audio)</div>
+  <div class="row">
+    <label>Energy <input id="energy" type="range" min="0" max="100" value="55"></label>
+    <button id="beat">Trigger beat</button>
+    <button id="auto">Auto-beat: ON</button>
+  </div>
+  <div class="row" style="color:#6a6a85">Palette cycles automatically · move mouse to feel parallax</div>
+</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d', { alpha: false });
+let W, H, DPR;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W*DPR; canvas.height = H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+window.addEventListener('resize', resize); resize();
+
+// ── Palettes (will mirror your liveColors in the real engine) ─────────────
+const PALETTES = [
+  ['#7c6cff','#42d9ff','#ff6ec7'],
+  ['#ff8a3d','#ffd23d','#ff4d6d'],
+  ['#36f1cd','#3d8bff','#b06cff'],
+  ['#ff5e9c','#a06bff','#5cc8ff'],
+];
+let palIdx = 0, palT = 0;
+function lerpHex(a,b,t){
+  const pa=parseInt(a.slice(1),16), pb=parseInt(b.slice(1),16);
+  const ar=pa>>16,ag=(pa>>8)&255,ab=pa&255, br=pb>>16,bg=(pb>>8)&255,bb=pb&255;
+  return [Math.round(ar+(br-ar)*t),Math.round(ag+(bg-ag)*t),Math.round(ab+(bb-ab)*t)];
+}
+function rgb(c){return c[0]+','+c[1]+','+c[2];}
+
+// ── Particle field ────────────────────────────────────────────────────────
+const COUNT = 68;
+const nodes = [];
+function initNodes(){
+  nodes.length = 0;
+  for(let i=0;i<COUNT;i++){
+    nodes.push({
+      // home position in normalised space, slight random
+      hx:(Math.random()*2-1), hy:(Math.random()*2-1),
+      x:0,y:0,
+      // slow individual drift
+      driftA: Math.random()*Math.PI*2,
+      driftR: 0.04+Math.random()*0.10,
+      driftSpd: 0.15+Math.random()*0.35,
+      // bob phase for the low-freq current
+      phase: Math.random()*Math.PI*2,
+      depth: 0.4+Math.random()*0.6,    // parallax depth (0=far,1=near)
+      hue: Math.random(),
+      twinkle: Math.random()*Math.PI*2,
+    });
+  }
+}
+initNodes();
+
+// ── Simulated audio state ─────────────────────────────────────────────────
+let energyTarget = 0.55, energy = 0.55;
+let bass=0, mids=0, highs=0;
+let burst = 0;            // smoothed beat envelope
+let autoBeat = true;
+let lastBeat = 0;
+const energySlider = document.getElementById('energy');
+energySlider.addEventListener('input', e=> energyTarget = e.target.value/100);
+document.getElementById('beat').onclick = ()=> burst = Math.min(1, burst+0.9);
+const autoBtn = document.getElementById('auto');
+autoBtn.onclick = ()=>{ autoBeat=!autoBeat; autoBtn.textContent='Auto-beat: '+(autoBeat?'ON':'OFF'); };
+
+// mouse parallax
+let mx=0, my=0, tmx=0, tmy=0;
+window.addEventListener('mousemove', e=>{ tmx=(e.clientX/W-0.5); tmy=(e.clientY/H-0.5); });
+
+let t = 0, last = performance.now();
+function frame(now){
+  const dt = Math.min(0.05,(now-last)/1000); last = now;
+  t += dt;
+  palT += dt*0.06;
+  if(palT>=1){ palT=0; palIdx=(palIdx+1)%PALETTES.length; }
+
+  // ── simulate audio: smooth energy + faux frequency bands ───────────────
+  energy += (energyTarget-energy)*0.04;
+  const wob = 0.5+0.5*Math.sin(t*1.3);
+  bass  = energy*(0.55+0.45*Math.sin(t*2.1))*0.9;
+  mids  = energy*(0.5+0.5*Math.sin(t*3.7+1))*0.7;
+  highs = energy*(0.5+0.5*Math.sin(t*6.3+2))*0.6;
+
+  if(autoBeat && now-lastBeat > (520 - energy*220)){ // tempo scales with energy
+    burst = Math.min(1, burst + 0.85 + energy*0.45); lastBeat = now;   // snappier, harder hit
+  }
+  burst *= 0.86;  // faster decay → punchier beat envelope, calm between hits
+
+  mx += (tmx-mx)*0.05; my += (tmy-my)*0.05;
+
+  // ── palette blend ──────────────────────────────────────────────────────
+  const pA = PALETTES[palIdx], pB = PALETTES[(palIdx+1)%PALETTES.length];
+  const live = [0,1,2].map(k=>lerpHex(pA[k],pB[k],palT));
+
+  // ── background: deep gradient + gentle trail fade (motion blur feel) ────
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = 'rgba(5,5,12,0.22)';   // low alpha = long, silky trails
+  ctx.fillRect(0,0,W,H);
+
+  const cx=W/2, cy=H/2;
+  const minDim=Math.min(W,H);
+  const fieldR = minDim*(0.52 + bass*0.12 + burst*0.14); // wider spread
+
+  // ── update + project nodes ─────────────────────────────────────────────
+  for(const n of nodes){
+    // slow orbital drift around home
+    n.driftA += n.driftSpd*dt*(0.6+mids*0.8);
+    const dx = Math.cos(n.driftA)*n.driftR;
+    const dy = Math.sin(n.driftA*0.8)*n.driftR;
+    // low-freq vertical bob (the "current")
+    const bob = Math.sin(t*0.7 + n.phase)*0.05*(0.5+energy*0.5);
+    // gentle inward breath on beats — stronger pull so the beat reads clearly
+    const breath = 1 - burst*0.18;
+    let px = (n.hx+dx)*breath;
+    let py = (n.hy+dy+bob)*breath;
+    // parallax by depth + mouse
+    const par = (n.depth-0.5);
+    px += mx*par*0.6;
+    py += my*par*0.6;
+    n.x = cx + px*fieldR;
+    n.y = cy + py*fieldR;
+    n.twinkle += dt*(1.5+highs*4);
+  }
+
+  // ── connections (the constellation web) ────────────────────────────────
+  // proximity lines with additive glow; brightness from closeness + energy
+  const maxDist = minDim*(0.20 + mids*0.06);
+  ctx.globalCompositeOperation = 'lighter';
+  for(let i=0;i<COUNT;i++){
+    const a = nodes[i];
+    for(let j=i+1;j<COUNT;j++){
+      const b = nodes[j];
+      const ddx=a.x-b.x, ddy=a.y-b.y;
+      const d2 = ddx*ddx+ddy*ddy;
+      if(d2 > maxDist*maxDist) continue;
+      const d = Math.sqrt(d2);
+      const closeness = 1 - d/maxDist;           // 0..1
+      const col = live[(i+j)%3];
+      const sparkle = 0.6 + 0.4*Math.sin(a.twinkle+b.twinkle)*highs;
+      const alpha = closeness*closeness*(0.16 + energy*0.30 + burst*0.14)*sparkle;
+      if(alpha<0.004) continue;
+      ctx.strokeStyle = `rgba(${rgb(col)},${alpha})`;
+      ctx.lineWidth = 0.9 + closeness*1.8;
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    }
+  }
+
+  // ── nodes (soft glow + bright core) ────────────────────────────────────
+  for(const n of nodes){
+    const col = live[Math.floor(n.hue*3)%3];
+    const tw = 0.7 + 0.3*Math.sin(n.twinkle);
+    const baseSize = (2.6 + n.depth*3.6)*(1 + burst*0.45);  // larger particles
+    const glow = baseSize*(3.0 + bass*2.2 + burst*2.4);
+    // outer halo
+    const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,glow);
+    g.addColorStop(0,`rgba(${rgb(col)},${0.26*tw*(0.6+energy*0.6)})`);
+    g.addColorStop(1,`rgba(${rgb(col)},0)`);
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(n.x,n.y,glow,0,Math.PI*2); ctx.fill();
+    // core
+    ctx.fillStyle=`rgba(${rgb(col)},${Math.min(1,1.05*tw)})`;
+    ctx.beginPath(); ctx.arc(n.x,n.y,baseSize*(0.85+n.depth*0.45),0,Math.PI*2); ctx.fill();
+    // hot center on near particles
+    ctx.fillStyle=`rgba(255,255,255,${0.7*tw*n.depth})`;
+    ctx.beginPath(); ctx.arc(n.x,n.y,baseSize*0.42,0,Math.PI*2); ctx.fill();
+  }
+
+  // ── beat bloom: soft expanding ring, additive — bigger & brighter on hits ──
+  if(burst>0.06){
+    const ringR = fieldR*(0.45 + (1-burst)*0.8);
+    const col = live[0];
+    const g = ctx.createRadialGradient(cx,cy,ringR*0.65,cx,cy,ringR*1.3);
+    g.addColorStop(0,'rgba(0,0,0,0)');
+    g.addColorStop(0.7,`rgba(${rgb(col)},${burst*0.20})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(cx,cy,ringR*1.3,0,Math.PI*2); ctx.fill();
+  }
+
+  ctx.globalCompositeOperation = 'source-over';
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
