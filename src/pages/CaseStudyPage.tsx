@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '../hooks/useMediaQuery'
@@ -7,10 +7,12 @@ const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
 
 interface Quote { text: string; attribution: string }
+interface Embed { src: string; label: string }
 interface Section {
   id: string; heading: string; body: string
   highlight?: string | null; quote?: Quote | null
   image?: string | null; images?: string[]
+  embeds?: Embed[]
 }
 interface CaseStudy {
   slug: string; category: string; title: string; subtitle: string
@@ -21,6 +23,92 @@ interface CaseStudy {
 }
 
 const CASE_STUDIES: Record<string, CaseStudy> = {
+  'music-animate': {
+    slug: 'music-animate',
+    category: 'Case study · AI Product · 0→1 Build',
+    title: 'Music Animate',
+    subtitle: 'Directing AI to ship a production creative tool',
+    tags: ['Design & Product Lead', '2025 · Solo build', 'Web · runs in the browser', 'React · TS · Supabase · Canvas'],
+    status: 'LIVE',
+    metrics: [
+      { value: '9',    label: 'generative engines' },
+      { value: '25+',  label: 'visual variants' },
+      { value: 'live', label: 'full-stack, solo' },
+    ],
+    bg: 'hsl(0,0%,9%)',
+    accentBg: '#0e0e0e',
+    sections: [
+      { id: 'overview',   label: 'Overview' },
+      { id: 'problem',    label: 'The real problem' },
+      { id: 'direction',  label: 'AI-direction model' },
+      { id: 'process',    label: 'Idea → live' },
+      { id: 'engines',    label: 'The engines' },
+      { id: 'architecture', label: 'Architecture' },
+      { id: 'obstacles',  label: 'Obstacles' },
+      { id: 'design',     label: 'Design system' },
+      { id: 'reflection', label: 'Reflection' },
+    ],
+    content: [
+      {
+        id: 'overview', heading: 'Overview',
+        body: `Music Animate turns any track into a beat-synced animated video for TikTok, Reels and Shorts. Drop a track, the app analyses it — BPM, key, energy, drops — then you pick from 9 visual engines, tune motion and colour, and export. Everything runs in the browser. No server rendering, no upload-to-cloud, no timeline editing.\\n\\nI built it solo, as the design and product lead, by directing AI to write the code. That second sentence is the actual case study. The interesting part isn't that a creative tool exists — it's what it takes to direct AI to architect, build, debug, refactor and ship a real product, with auth, storage and a video export pipeline, and hold the quality across nine different animation systems.\\n\\n**Live:** musictoanimate.vercel.app`,
+        highlight: null, quote: null,
+        image: '/music-animate/ma_studio_dark.png',
+      },
+      {
+        id: 'problem', heading: 'The real problem',
+        body: `Short-form creators need visuals synced to their music. The existing options are bad in predictable ways: After Effects is expensive and steep, templated apps all look the same, and hiring a motion designer doesn't scale to a daily posting habit. So there's room for something fast, free and browser-based that does the analysis for you.\\n\\nThat's the surface problem. The real one was harder: build a performant, real-time generative graphics product — with a full backend — as one person directing AI, without the quality falling apart across nine engines, a video exporter, auth and persistence.\\n\\nGenerative graphics are unforgiving. An engine either feels alive and locked to the music, or it looks like a screensaver. A video exporter either handles Safari's codec quirks or it silently ships a broken file. There's no "good enough" that hides — it's visible the moment you test on a real track on a real phone.`,
+        highlight: "The hard part was never \u201Ccan AI write the code.\u201D It was whether disciplined direction could hold production quality across nine engines, a backend, and an export pipeline.",
+        quote: null, image: null,
+      },
+      {
+        id: 'direction', heading: 'The AI-direction model',
+        body: `I was the single person behind the product: design, product calls, QA and build direction. AI wrote the code, inside a tight loop I ran.\\n\\n**I diagnosed and decided.** Every engine redesign, every architecture call, every "rebuild vs polish vs leave it alone" judgment was mine. AI proposed; I judged against quality and product fit, and sent it back when it was "fine" instead of right.\\n\\n**Prototype before build.** For every visual engine, I had AI build a standalone live prototype with simulated audio first. I reviewed it, tuned or approved it, then directed the port into the real codebase. Never port blind — this one rule is why the engines look intentional instead of generic.\\n\\n**Verification gates I enforced.** After every structural change: brace-balance and scope-depth checks, a clean build before every ship, free-variable scans on refactors. These came out of a production bug that cost me hours.\\n\\nThe honest, sellable insight: directing AI to build production software well takes *more* judgment, not less. The discipline to prototype, the rigour to verify, the taste to tell "fine" from "right." The AI is the build engine. The judgment is the work.`,
+        highlight: null, quote: null, image: null,
+      },
+      {
+        id: 'process', heading: 'From idea to live product',
+        body: `This didn't go in a straight line, and the case study is more honest for saying so. The shape was: build a rough working version, ship it, test on real tracks, find what was weak, and decide — per piece — whether to rebuild, polish, or leave it alone.\\n\\n**Ship the loop first.** Get the full chain running end to end — audio in, analysis, one or two engines, export out — before it's pretty. You can't judge a generative engine in your head; you have to watch it react to a real song.\\n\\n**Test on real music, find the weak engines.** Live testing is where the truth showed up. Some engines reacted beautifully. Others — Orbital especially — looked like a screensaver on a timer with the audio barely nudging it. You don't catch that in a spec; you catch it watching it ignore a beat drop.\\n\\n**Triage, then rebuild only what needed it.** Five engines got full redesigns — prototyped, approved, ported. Four were already strong and only needed smoothing. I deliberately did not rebuild the best two, because rebuilding good work to satisfy a "redesign everything" reflex lowers quality, it doesn't raise it.\\n\\n**Re-architect once stable.** Only after the product worked did I direct the big refactor. Stabilise first, refactor second, never both at once.`,
+        highlight: "The starting-over wasn\u2019t failure. It was the method. You ship to learn what\u2019s wrong, because generative graphics don\u2019t reveal their problems any other way.",
+        quote: null, image: '/music-animate/ma_saved_light.png',
+      },
+      {
+        id: 'engines', heading: 'The engines, in motion',
+        body: `Nine engines, around 25 variants. The fastest way to understand them is to watch them react. These are the actual prototypes I built and reviewed before porting each one into the product — running live, driven by simulated audio. Drag the energy slider or trigger a beat.\\n\\nEach one listens to frequency bands and a beat-onset envelope: bodies sit near-still when it's quiet, then surge on hits. That reactivity is the whole game — it's the difference between "synced to the music" and "decoration that happens to be on screen."`,
+        highlight: null, quote: null,
+        embeds: [
+          { src: '/prototypes/resonance.html', label: 'Resonance Field — particles connect into a living constellation' },
+          { src: '/prototypes/aurora.html',    label: 'Liquid Aurora — light curtains that flare on every beat' },
+          { src: '/prototypes/orbital.html',   label: 'Orbital — bodies trace tilted orbits, trailing comets' },
+          { src: '/prototypes/geometric.html', label: 'Geometric Pulse — shockwaves ripple through a dot grid' },
+          { src: '/prototypes/fractal.html',   label: 'Fractal Kaleidoscope — mirror symmetry, three variants' },
+        ],
+      },
+      {
+        id: 'architecture', heading: 'Architecture & performance',
+        body: `This is the part that matters most for what the project proves, so it gets the most detail.\\n\\n**Real-time audio→visual pipeline.** A Web Audio AnalyserNode produces frequency and time-domain data every frame. A per-frame context carries ~30 values — frequency bands, beat-onset detection, smoothed energy, section intensity, camera state, the live palette — into whichever engine is active. Beat detection runs off bass-onset tracking with a smoothed envelope; section context (intro, verse, drop, chorus) drives camera zoom, colour intensity and motion scale. That's what makes the visuals feel locked to the music instead of decorating it.\\n\\n**Performance engineering, with real numbers.** The biggest per-frame cost was shadowBlur glow. I replaced all of it with cheaper additive radial-gradient halos — a measurable smoothness win on every engine. On top: persistent typed-array buffers reused per frame so there's no per-frame garbage collection, cached hex→rgb conversions, React state throttled to 2 Hz instead of 60 Hz so the overlay never fights the render loop, and perf-mode auto-detection that drops particle counts and skips glow when sustained FPS falls. The result is smooth on mobile, which is where most short-form creators actually work.\\n\\n**Full production backend.** Supabase for Postgres, Storage and Auth. Projects — engine, variant, palette, motion settings, audio metadata — persist in Postgres; audio lives in Storage; unauthenticated users get a "pending upload" flow that syncs once they sign in. Auth was designed around the free tier's email cap rather than ignoring it.\\n\\n**Video export.** An in-browser MediaRecorder pipeline with capability detection and a WebM/MP4 fallback chain, progress and cancel UX, and export history. It handles the iOS and Safari codec differences that quietly break naive exporters.\\n\\n**The signature refactor.** The nine engines originally lived as a ~1,450-line if/else chain inside one giant component. I directed a clean extraction into a standalone, independently testable module behind a typed 31-field context interface — shrinking the main component from ~4,100 to ~2,600 lines with zero behaviour change. It happened *after* the product was stable, was deployed in isolation, and was verified with interface-contract scans in both directions.`,
+        highlight: null, quote: null, image: null,
+      },
+      {
+        id: 'obstacles', heading: 'Obstacles, and how I solved them',
+        body: `This is the most honest section, so it's the most useful one.\\n\\n**The production blank-screen bug.** The big engine-extraction refactor accidentally inserted functions after the component's closing brace, stranding them in module scope. Production rendered a blank screen with a ReferenceError. I chased several wrong theories first — browser cache, wrong Vercel deploy, CDN, minification — before a scope-depth check found the real cause. The lesson became a permanent rule: brace-balance alone isn't enough; verify scope depth on any refactor that moves code between scopes. I also added an ErrorBoundary so the real error surfaces next time instead of a blank screen.\\n\\n**Engines that looked good but weren't musical.** Live testing exposed Orbital as a screensaver — it orbited on a fixed timer with only a tiny audio nudge. I diagnosed that the baseline motion was dominating and the audio was a rounding error, then re-tuned so audio drives the motion: near-still when quiet, surging on beats, the core flashing on hits. The same pass fixed Geometric Pulse looking dead between beats and Liquid Aurora looking pale next to its prototype.\\n\\n**Dead variant buttons.** After redesigning some engines into single cohesive looks, a few variant buttons did nothing — the redesign had quietly ignored the variant parameter. Instead of spot-fixing, I audited all nine engines, found exactly two with dead buttons, and built real second variants for each rather than leave dead UI in the product.\\n\\n**Free-tier constraints, designed around.** Supabase's email cap ruled out the default OTP-confirmation signup, so I built the auth flow to work without confirmation emails rather than hit the cap.`,
+        highlight: "This is the bug that taught me the verification gates I now run by default. The fix wasn\u2019t the patch \u2014 it was the rule that prevents the next one.",
+        quote: null, image: '/music-animate/ma_studio_dark.png',
+      },
+      {
+        id: 'design', heading: 'The design system: Studio Instrument',
+        body: `The visual identity is supporting work, but it's where the product stops looking AI-generated and starts looking like a real tool.\\n\\n**Escaping the AI-SaaS look.** The first UI had the exact cliché — purple-to-pink-to-orange gradient on light purple. I redirected the whole identity to a "Studio Instrument" system grounded in pro audio gear: one electric accent (signal lime), monospace data readouts, fine instrument grids, and a live spectrum input-monitor as the hero, framed like rack gear with BPM / KEY / PEAK / ENGINE readouts.\\n\\n**Dark-first, on purpose.** The canvas renders light-on-black animations, so the workspace stays dark — like a DAW or a video editor. I prototyped a full light mode, tested it, found it fought the dark-designed UI, and reverted it. Knowing when *not* to ship is part of the job. The two screens below are that exact decision: the light build I made, next to the dark one I kept.\\n\\n**Accessibility as a gate.** Every colour pairing was contrast-checked to WCAG-AA in both themes before shipping (body text 17.5:1 dark, 15.9:1 light). Reduced-motion is respected; keyboard focus stays visible.`,
+        highlight: null, quote: null,
+        images: ['/music-animate/ma_engines_dark.png', '/music-animate/ma_engines_light.png'],
+      },
+      {
+        id: 'reflection', heading: 'Reflection',
+        body: `The interesting story isn't "AI wrote the code." It's that shipping a quality product with AI took more product and engineering judgment, not less. The discipline to prototype before building. The habit of verifying obsessively, learned the hard way from a blank-screen production bug. The honesty to triage — rebuild what was weak, leave the strong engines alone. The QA to test across devices and themes on the live site. And the restraint to make the un-flashy calls, like reverting a light mode I'd already built.\\n\\n**What it demonstrates — no invented metrics, because there's no user study here.** A live, deployed product with the full creator flow. Nine engines and ~25 variants, mobile-tested. A full stack built solo: email auth, Postgres and Storage persistence, in-browser video export with codec fallbacks, auto-deploy CI. Real performance engineering. A maintainable architecture refactored with zero behaviour change. And underneath all of it: directing AI to design, build, ship, debug, refactor and scale a production product — with the judgment to know what to build, what to polish, and what not to ship.\\n\\nAI is the build engine. The judgment, taste and rigour are the part that's mine — and the part that's hard to replace.`,
+        highlight: null,
+        quote: null, image: null,
+      },
+    ],
+  },
   'tech-japan': {
     slug: 'tech-japan',
     category: 'Case study · UX Research',
@@ -238,6 +326,48 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
   },
 }
 
+function LazyEmbed({ embeds, accentBg }: { embeds: { src: string; label: string }[]; accentBg: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, margin: '32px 0' }}>
+      {embeds.map((e, i) => <LazyEmbedFrame key={i} src={e.src} label={e.label} accentBg={accentBg} />)}
+    </div>
+  )
+}
+
+function LazyEmbedFrame({ src, label, accentBg }: { src: string; label: string; accentBg: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    // Mount the iframe only while it is on screen; unmount when it scrolls away,
+    // so at most one or two engine render-loops ever run at once (mobile-safe).
+    const io = new IntersectionObserver(
+      entries => entries.forEach(en => setActive(en.isIntersecting)),
+      { rootMargin: '200px 0px', threshold: 0.01 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <div ref={ref} style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid hsl(0,0%,18%)', background: accentBg }}>
+      <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: '#05050c' }}>
+        {active ? (
+          <iframe src={src} title={label} loading="lazy"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, display: 'block' }} />
+        ) : (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'hsl(0,0%,45%)', fontFamily: f, fontSize: 12, letterSpacing: '0.04em' }}>
+            ● loading engine…
+          </div>
+        )}
+      </div>
+      <p style={{ fontFamily: f, fontSize: 11, color: 'hsl(0,0%,55%)', margin: 0, padding: '10px 14px', borderTop: '1px solid hsl(0,0%,16%)' }}>
+        {label} <span style={{ color: 'hsl(0,0%,38%)' }}>· live prototype, simulated audio</span>
+      </p>
+    </div>
+  )
+}
+
 function SingleImage({ src, accentBg }: { src: string; accentBg: string }) {
   return (
     <div style={{ margin: '32px 0', borderRadius: 16, overflow: 'hidden', border: '1px solid hsl(0,0%,90%)', background: accentBg }}>
@@ -386,6 +516,7 @@ export default function CaseStudyPage() {
                     <p style={{ fontFamily: f, fontSize: 11, color: 'hsl(0,0%,55%)', margin: '10px 0 0', paddingLeft: 40 }}>-{section.quote.attribution}</p>
                   </div>
                 )}
+                {section.embeds && section.embeds.length > 0 && <LazyEmbed embeds={section.embeds} accentBg={cs.accentBg} />}
                 {section.images && section.images.length > 0 && <ImageStrip images={section.images} accentBg={cs.accentBg} />}
                 {!section.images && section.image && <SingleImage src={section.image} accentBg={cs.accentBg} />}
               </motion.section>
