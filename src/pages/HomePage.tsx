@@ -558,6 +558,11 @@ export default function HomePage() {
             </motion.p>
             <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 72 : 120 }}>
               <CaseRow
+                title="Music Animate – Directing AI to Ship a Production Tool"
+                desc="Designed, directed and shipped a full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage – built solo by directing AI, debugging and refactoring it to production."
+                metric="9" metricLabel="generative engines" slug="music-animate"
+                image="/music-animate/ma_hero_dark.png" bg="hsl(0,0%,9%)" isMobile={isMobile} />
+              <CaseRow
                 title="Tech Japan (Talendy) – UX Research & Redesign"
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
