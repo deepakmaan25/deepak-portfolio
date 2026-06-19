@@ -401,9 +401,15 @@ function LazyVideo({ src }: { src: string }) {
 
 function DiagramStrip({ keys }: { keys: string[] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, margin: '32px 0' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, margin: '36px 0' }}>
       {keys.map((k, i) => (
-        <div key={i} style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid hsl(0,0%,88%)', background: 'hsl(0,0%,99%)' }}
+        <div key={i} className="ma-diagram"
+          style={{
+            borderRadius: 16, overflow: 'hidden',
+            border: '1px solid hsl(0,0%,90%)', background: 'hsl(0,0%,99.5%)',
+            padding: '8px 10px',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.03), 0 6px 20px -12px rgba(0,0,0,0.10)',
+          }}
           dangerouslySetInnerHTML={{ __html: DIAGRAMS[k] || '' }} />
       ))}
     </div>
@@ -527,11 +533,11 @@ export default function CaseStudyPage() {
               </div>
               {cs.liveUrl && (
                 <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 28, padding: '12px 16px', borderRadius: 10, background: 'hsl(0,0%,8%)', color: 'white', fontFamily: f, fontSize: 13, fontWeight: 600, letterSpacing: '0.01em', textDecoration: 'none', transition: 'opacity 0.15s' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.85' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}>
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 28, padding: '13px 16px', borderRadius: 11, background: 'hsl(76,72%,55%)', color: '#0d0d0d', fontFamily: f, fontSize: 13, fontWeight: 600, letterSpacing: '0.01em', textDecoration: 'none', boxShadow: '0 6px 18px -8px hsla(76,72%,40%,0.5)', transition: 'transform 0.18s ease, box-shadow 0.18s ease' }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 24px -8px hsla(76,72%,40%,0.65)' }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'none'; el.style.boxShadow = '0 6px 18px -8px hsla(76,72%,40%,0.5)' }}>
                   Try it live
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3l5 5-5 5"/></svg>
                 </a>
               )}
             </aside>
@@ -576,12 +582,40 @@ export default function CaseStudyPage() {
             ))}
 
             {cs.liveUrl && (
-              <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: isMobile ? '18px 24px' : '20px 28px', borderRadius: 14, background: 'hsl(0,0%,8%)', color: 'white', fontFamily: f, fontSize: isMobile ? 15 : 16, fontWeight: 600, textDecoration: 'none', transition: 'opacity 0.15s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.85' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}>
-                Try Music Animate live
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+              <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className="ma-cta-card"
+                style={{ display: 'block', textDecoration: 'none', borderRadius: 18, overflow: 'hidden', border: '1px solid hsl(0,0%,88%)', background: '#0d0d0d', boxShadow: '0 1px 2px rgba(0,0,0,0.05), 0 10px 30px -12px rgba(0,0,0,0.25)', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-4px)'; el.style.boxShadow = '0 20px 50px -12px rgba(0,0,0,0.35)' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'none'; el.style.boxShadow = '0 1px 2px rgba(0,0,0,0.05), 0 10px 30px -12px rgba(0,0,0,0.25)' }}>
+                {/* browser chrome */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '11px 16px', background: '#161616', borderBottom: '1px solid hsl(0,0%,16%)' }}>
+                  <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ff5f57' }} />
+                  <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#febc2e' }} />
+                  <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#28c840' }} />
+                  <div style={{ flex: 1, margin: '0 8px', padding: '5px 12px', borderRadius: 7, background: '#0d0d0d', fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11.5, color: 'hsl(0,0%,55%)', textAlign: 'center', letterSpacing: '0.02em' }}>
+                    musictoanimate.vercel.app
+                  </div>
+                </div>
+                {/* body */}
+                <div style={{ padding: isMobile ? '28px 24px' : '40px 40px', position: 'relative' }}>
+                  {/* spectrum bars motif */}
+                  <div aria-hidden="true" style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 40, marginBottom: 24, opacity: 0.9 }}>
+                    {[14,22,30,18,34,40,26,32,20,28,38,16,24,34,22,30,18].map((h, i) => (
+                      <span key={i} style={{ width: 6, height: h, borderRadius: 2, background: 'hsl(76,72%,55%)', opacity: 0.5 + (h/40)*0.5 }} />
+                    ))}
+                  </div>
+                  <div style={{ fontFamily: f, fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(76,72%,58%)', marginBottom: 10 }}>
+                    Live · runs in your browser
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+                    <div style={{ fontFamily: f, fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.02em', color: 'white', lineHeight: 1.15 }}>
+                      Drop a track. Watch it move.
+                    </div>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 20px', borderRadius: 10, background: 'hsl(76,72%,55%)', color: '#0d0d0d', fontFamily: f, fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                      Try Music Animate
+                      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3l5 5-5 5"/></svg>
+                    </span>
+                  </div>
+                </div>
               </a>
             )}
 
