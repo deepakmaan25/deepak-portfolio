@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '../hooks/useMediaQuery'
+import { DIAGRAMS } from '../data/maDiagrams'
 
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
@@ -13,6 +14,8 @@ interface Section {
   highlight?: string | null; quote?: Quote | null
   image?: string | null; images?: string[]
   embeds?: Embed[]
+  svgs?: string[]
+  video?: string
 }
 interface CaseStudy {
   slug: string; category: string; title: string; subtitle: string
@@ -67,12 +70,14 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
         id: 'direction', heading: 'The AI-direction model',
         body: `I was the single person behind the product: design, product calls, QA and build direction. AI wrote the code, inside a tight loop I ran.\n\n**I diagnosed and decided.** Every engine redesign, every architecture call, every "rebuild vs polish vs leave it alone" judgment was mine. AI proposed, I judged against quality and product fit, and I sent it back when it was "fine" instead of right.\n\n**Prototype before build.** For every visual engine, I had AI build a standalone live prototype with simulated audio first. I reviewed it, tuned or approved it, then directed the port into the real codebase. Never port blind. This one rule is why the engines look intentional instead of generic.\n\n**Verification gates I enforced.** After every structural change: brace-balance and scope-depth checks, a clean build before every ship, free-variable scans on refactors. These came out of a production bug that cost me hours.\n\nThe honest, sellable insight is that directing AI to build production software well takes *more* judgment, not less. The discipline to prototype, the rigour to verify, the taste to tell "fine" from "right." The AI is the build engine. The judgment is the work.`,
         highlight: null, quote: null, image: null,
+        svgs: ['loop'],
       },
       {
         id: 'process', heading: 'From idea to live product',
         body: `This did not go in a straight line, and the case study is more honest for saying so. The shape was simple: build a rough working version, ship it, test on real tracks, find what was weak, and decide per piece whether to rebuild, polish, or leave it alone.\n\n**Ship the loop first.** Get the full chain running end to end, audio in, analysis, one or two engines, export out, before it is pretty. You cannot judge a generative engine in your head. You have to watch it react to a real song.\n\n**Test on real music, find the weak engines.** Live testing is where the truth showed up. Some engines reacted beautifully. Others, Orbital especially, looked like a screensaver on a timer with the audio barely nudging it. You do not catch that in a spec. You catch it watching it ignore a beat drop.\n\n**Triage, then rebuild only what needed it.** Five engines got full redesigns: prototyped, approved, ported. Four were already strong and only needed smoothing. I deliberately did not rebuild the best two, because rebuilding good work to satisfy a "redesign everything" reflex lowers quality, it does not raise it.\n\n**Re-architect once stable.** Only after the product worked did I direct the big refactor. Stabilise first, refactor second, never both at once.`,
         highlight: "The starting-over wasn\u2019t failure. It was the method. You ship to learn what\u2019s wrong, because generative graphics don\u2019t reveal their problems any other way.",
         quote: null, image: '/music-animate/ma_saved_light.png',
+        svgs: ['triage'],
       },
       {
         id: 'engines', heading: 'The engines, in motion',
@@ -90,12 +95,14 @@ const CASE_STUDIES: Record<string, CaseStudy> = {
         id: 'architecture', heading: 'Architecture & performance',
         body: `This is the part that matters most for what the project proves, so it gets the most detail.\n\n**Real-time audio to visual pipeline.** A Web Audio AnalyserNode produces frequency and time-domain data every frame. A per-frame context carries around 30 values into whichever engine is active: frequency bands, beat-onset detection, smoothed energy, section intensity, camera state, the live palette. Beat detection runs off bass-onset tracking with a smoothed envelope. Section context (intro, verse, drop, chorus) drives camera zoom, colour intensity and motion scale. That is what makes the visuals feel locked to the music instead of decorating it.\n\n**Performance engineering, with real numbers.** The biggest per-frame cost was shadowBlur glow. I replaced all of it with cheaper additive radial-gradient halos, a measurable smoothness win on every engine. On top of that: persistent typed-array buffers reused per frame so there is no per-frame garbage collection, cached hex to rgb conversions, React state throttled to 2 Hz instead of 60 Hz so the overlay never fights the render loop, and perf-mode auto-detection that drops particle counts and skips glow when sustained FPS falls. The result is smooth on mobile, which is where most short-form creators actually work.\n\n**Full production backend.** Supabase for Postgres, Storage and Auth. Projects persist in Postgres (engine, variant, palette, motion settings, audio metadata), audio lives in Storage, and unauthenticated users get a "pending upload" flow that syncs once they sign in. Auth was designed around the free tier's email cap rather than ignoring it.\n\n**Video export.** An in-browser MediaRecorder pipeline with capability detection and a WebM/MP4 fallback chain, progress and cancel UX, and export history. It handles the iOS and Safari codec differences that quietly break naive exporters.\n\n**The signature refactor.** The nine engines originally lived as a 1,450-line if/else chain inside one giant component. I directed a clean extraction into a standalone, independently testable module behind a typed 31-field context interface, shrinking the main component from around 4,100 to 2,600 lines with zero behaviour change. It happened *after* the product was stable, was deployed in isolation, and was verified with interface-contract scans in both directions.`,
         highlight: null, quote: null, image: null,
+        svgs: ['pipeline', 'refactor'],
       },
       {
         id: 'obstacles', heading: 'Obstacles, and how I solved them',
         body: `This is the most honest section, so it is the most useful one.\n\n**The production blank-screen bug.** The big engine-extraction refactor accidentally inserted functions after the component's closing brace, stranding them in module scope. Production rendered a blank screen with a ReferenceError. I chased several wrong theories first, browser cache, wrong Vercel deploy, CDN, minification, before a scope-depth check found the real cause. The lesson became a permanent rule: brace-balance alone is not enough, verify scope depth on any refactor that moves code between scopes. I also added an ErrorBoundary so the real error surfaces next time instead of a blank screen.\n\n**Engines that looked good but were not musical.** Live testing exposed Orbital as a screensaver. It orbited on a fixed timer with only a tiny audio nudge. I diagnosed that the baseline motion was dominating and the audio was a rounding error, then re-tuned so audio drives the motion: near-still when quiet, surging on beats, the core flashing on hits. The same pass fixed Geometric Pulse looking dead between beats and Liquid Aurora looking pale next to its prototype.\n\n**Dead variant buttons.** After redesigning some engines into single cohesive looks, a few variant buttons did nothing, because the redesign had quietly ignored the variant parameter. Instead of spot-fixing, I audited all nine engines, found exactly two with dead buttons, and built real second variants for each rather than leave dead UI in the product.\n\n**Free-tier constraints, designed around.** Supabase's email cap ruled out the default OTP-confirmation signup, so I built the auth flow to work without confirmation emails rather than hit the cap.`,
         highlight: "This is the bug that taught me the verification gates I now run by default. The fix wasn\u2019t the patch. It was the rule that prevents the next one.",
-        quote: null, image: '/music-animate/ma_studio_dark.png',
+        quote: null, image: null,
+        svgs: ['bug'],
       },
       {
         id: 'design', heading: 'The design system: Studio Instrument',
@@ -370,6 +377,39 @@ function LazyEmbedFrame({ src, label, accentBg }: { src: string; label: string; 
   )
 }
 
+function LazyVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      entries => entries.forEach(en => {
+        if (en.isIntersecting) { el.play().catch(() => {}) } else { el.pause() }
+      }),
+      { threshold: 0.35 }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid hsl(0,0%,88%)', margin: '32px 0', background: '#0a0a0a' }}>
+      <video ref={ref} src={src} muted loop playsInline preload="metadata"
+        style={{ width: '100%', display: 'block' }} />
+    </div>
+  )
+}
+
+function DiagramStrip({ keys }: { keys: string[] }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, margin: '32px 0' }}>
+      {keys.map((k, i) => (
+        <div key={i} style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid hsl(0,0%,88%)', background: 'hsl(0,0%,99%)' }}
+          dangerouslySetInnerHTML={{ __html: DIAGRAMS[k] || '' }} />
+      ))}
+    </div>
+  )
+}
+
 function SingleImage({ src, accentBg }: { src: string; accentBg: string }) {
   return (
     <div style={{ margin: '32px 0', borderRadius: 16, overflow: 'hidden', border: '1px solid hsl(0,0%,90%)', background: accentBg }}>
@@ -527,6 +567,8 @@ export default function CaseStudyPage() {
                     <p style={{ fontFamily: f, fontSize: 11, color: 'hsl(0,0%,55%)', margin: '10px 0 0', paddingLeft: 40 }}>-{section.quote.attribution}</p>
                   </div>
                 )}
+                {section.video && <LazyVideo src={section.video} />}
+                {section.svgs && section.svgs.length > 0 && <DiagramStrip keys={section.svgs} />}
                 {section.embeds && section.embeds.length > 0 && <LazyEmbed embeds={section.embeds} accentBg={cs.accentBg} />}
                 {section.images && section.images.length > 0 && <ImageStrip images={section.images} accentBg={cs.accentBg} />}
                 {!section.images && section.image && <SingleImage src={section.image} accentBg={cs.accentBg} />}
