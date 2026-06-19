@@ -17,7 +17,7 @@ const MONO = "'JetBrains Mono', ui-monospace, monospace"
 
 // 1 ── Real-time audio→visual pipeline ───────────────────────────────────────
 export const PIPELINE = `
-<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="${SANS}" role="img" aria-label="Real-time audio to visual pipeline">
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block" font-family="${SANS}" role="img" aria-label="Real-time audio to visual pipeline">
   <rect width="900" height="360" fill="${PAPER}"/>
   <text x="40" y="46" font-size="13" letter-spacing="0.12em" fill="${MUT}">THE PER-FRAME LOOP · 60 TIMES A SECOND</text>
   <line x1="40" y1="60" x2="860" y2="60" stroke="${LINE}"/>
@@ -67,7 +67,7 @@ export const PIPELINE = `
 
 // 2 ── The signature refactor, before / after ────────────────────────────────
 export const REFACTOR = `
-<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="${SANS}" role="img" aria-label="Engine extraction refactor, before and after">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block" font-family="${SANS}" role="img" aria-label="Engine extraction refactor, before and after">
   <rect width="900" height="380" fill="${PAPER}"/>
   <text x="40" y="46" font-size="13" letter-spacing="0.12em" fill="${MUT}">THE SIGNATURE REFACTOR · ZERO BEHAVIOUR CHANGE</text>
   <line x1="40" y1="60" x2="860" y2="60" stroke="${LINE}"/>
@@ -112,7 +112,7 @@ export const REFACTOR = `
 
 // 3 ── Prototype → port → verify loop ────────────────────────────────────────
 export const LOOP = `
-<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" font-family="${SANS}" role="img" aria-label="Prototype, review, port, verify loop">
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block" font-family="${SANS}" role="img" aria-label="Prototype, review, port, verify loop">
   <rect width="900" height="320" fill="${PAPER}"/>
   <text x="40" y="46" font-size="13" letter-spacing="0.12em" fill="${MUT}">HOW EVERY ENGINE GOT BUILT · THE DIRECTION LOOP</text>
   <line x1="40" y1="60" x2="860" y2="60" stroke="${LINE}"/>
@@ -156,7 +156,7 @@ export const LOOP = `
 
 // 4 ── Triage matrix: 9 engines ──────────────────────────────────────────────
 export const TRIAGE = `
-<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="${SANS}" role="img" aria-label="Engine triage: rebuilt, smoothed, left alone">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block" font-family="${SANS}" role="img" aria-label="Engine triage: rebuilt, smoothed, left alone">
   <rect width="900" height="380" fill="${PAPER}"/>
   <text x="40" y="46" font-size="13" letter-spacing="0.12em" fill="${MUT}">TRIAGE · NINE ENGINES, THREE DECISIONS</text>
   <line x1="40" y1="60" x2="860" y2="60" stroke="${LINE}"/>
@@ -195,7 +195,7 @@ export const TRIAGE = `
 
 // 5 ── Blank-screen bug anatomy ──────────────────────────────────────────────
 export const BUG = `
-<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="${SANS}" role="img" aria-label="The blank-screen bug anatomy">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" style="display:block" font-family="${SANS}" role="img" aria-label="The blank-screen bug anatomy">
   <rect width="900" height="400" fill="${PAPER}"/>
   <text x="40" y="46" font-size="13" letter-spacing="0.12em" fill="${MUT}">THE PRODUCTION BLANK-SCREEN BUG · ANATOMY</text>
   <line x1="40" y1="60" x2="860" y2="60" stroke="${LINE}"/>
