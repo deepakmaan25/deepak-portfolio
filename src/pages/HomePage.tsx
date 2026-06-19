@@ -292,7 +292,7 @@ export default function HomePage() {
 
     if (text === 'see my work')  { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
     if (text === 'resume')       { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
-    if (text === 'linkedin')     { window.open('https://linkedin.com/in/deepakmaan25','_blank'); return }
+    if (text === 'linkedin')     { window.open('https://www.linkedin.com/in/deepakmaan/','_blank'); return }
 
     if (text === 'wanna chat?')
       return addHardcoded(text, "Sure — pick a time that works for you. https://cal.com/deepakmaan")
@@ -924,7 +924,7 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
             <p style={{ fontFamily:f, fontSize:11, opacity:0.7, margin:'2px 0 0' }}>PDF · 1 page</p>
           </div>
         </motion.div>
-        <motion.div {...fly(6)} onClick={()=>window.open('https://linkedin.com/in/deepakmaan25','_blank')}
+        <motion.div {...fly(6)} onClick={()=>window.open('https://linkedin.com/in/deepakmaan','_blank')}
           style={{ background:'linear-gradient(135deg, #0a66c2, #084d8f)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:18, padding:'18px 18px', color:'white', cursor:'pointer', minHeight:106, display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <svg width="22" height="22" viewBox="0 0 16 16" fill="white"><path d="M3.5 5h2v7h-2V5zm1-1.5a1 1 0 110-2 1 1 0 010 2zM6.5 5h1.8v1h.05A2.2 2.2 0 0110.5 5c2 0 2.5 1.3 2.5 3v4h-2V8.3c0-.8 0-1.8-1.1-1.8S8.5 7.4 8.5 8.2V12H6.5V5z"/></svg>
@@ -932,7 +932,7 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
           </div>
           <div>
             <p style={{ fontFamily:f, fontSize:15, fontWeight:600, margin:0 }}>LinkedIn</p>
-            <p style={{ fontFamily:f, fontSize:11, opacity:0.7, margin:'2px 0 0' }}>/in/deepakmaan25</p>
+            <p style={{ fontFamily:f, fontSize:11, opacity:0.7, margin:'2px 0 0' }}>/in/deepakmaan</p>
           </div>
         </motion.div>
       </div>
