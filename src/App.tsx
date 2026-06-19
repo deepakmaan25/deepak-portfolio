@@ -17,9 +17,10 @@ const Loader = () => <div style={{ minHeight: '100vh', backgroundColor: 'hsl(0,0
 function AppInner() {
   const location = useLocation()
   const showFooter = location.pathname !== '/'
+  const isCaseStudy = location.pathname.startsWith('/case-study/')
   return (
     <>
-      <Navigation />
+      {!isCaseStudy && <Navigation />}
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/"                 element={<HomePage />} />
