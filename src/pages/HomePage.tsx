@@ -57,12 +57,11 @@ Product designer from IIT ISM Dhanbad. Currently at JSW Steel as a Design Analys
 CASE STUDIES:
 1. Tech Japan / Talendy — UX research internship Sep-Nov 2024. 10 interviews across 6 IITs, 9 pain points, fixes shipped: job description layout, WCAG 2.1 AA dark mode, save-all profile flow, multiple resume management, built-in communication tool replacing WhatsApp. 80% easier navigation, 70% feature adoption.
 2. Buzztro — Designed full product 0 to 1 for a collective buying platform. The mechanic: more buyers commit → price drops for everyone. 40+ screens, 5 core flows (product card, PDP, booking checkout, cart, post-purchase), shipped to production in 8 weeks. Solo designer, direct to founder.
-3. Zu-AI — Redesigned chat experience for AI tutoring app, 100K+ students. 40% faster scanning, 3x faster task completion.
+3. Music Animate — Audio to animation generator. Full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage. Built solo by directing AI, debugging, and refactoring it to production. Live at musictoanimate.vercel.app
 
 SIDE PROJECTS (all live, built end-to-end):
-1. Music Animation Generator — upload a track, get beat-synced animations in real time. React + Web Audio API + WebGL. Live at musictoanimate.vercel.app
-2. TypMatch — font pairing tool built on a scoring system, not just a search box. React + TypeScript + Google Fonts API. Live at typematch-mu.vercel.app
-3. Kairo Design System — full design system (tokens to components) implemented as a live interactive site. Live at kairo-design.vercel.app
+1. TypMatch — font pairing tool built on a scoring system, not just a search box. React + TypeScript + Google Fonts API. Live at typematch-mu.vercel.app
+2. Kairo Design System — full design system (tokens to components) implemented as a live interactive site. Live at kairo-design.vercel.app
 
 AVAILABILITY: Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
 
@@ -558,11 +557,6 @@ export default function HomePage() {
             </motion.p>
             <div style={{ display:'flex', flexDirection:'column', gap: isMobile ? 72 : 120 }}>
               <CaseRow
-                title="Music Animate"
-                desc="An audio to animation generator. A full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage, built solo by directing AI, debugging and refactoring it to production."
-                metric="9" metricLabel="generative engines" slug="music-animate"
-                image="/music-animate/ma_hero_dark.png" bg="hsl(0,0%,9%)" isMobile={isMobile} />
-              <CaseRow
                 title="Tech Japan (Talendy) – UX Research & Redesign"
                 desc="Ran 10 user interviews across 6 IITs, documented 9 pain points, and shipped fixes to production – job description layout, dark mode accessibility, multiple resume management, and a built-in communication tool."
                 metric="80%" metricLabel="improved navigation" slug="tech-japan"
@@ -573,10 +567,10 @@ export default function HomePage() {
                 metric="40+" metricLabel="screens shipped" slug="buzztro"
                 image="/buzztro/pdp-overview.png" bg="hsl(22,100%,95%)" isMobile={isMobile} />
               <CaseRow
-                title="Zu-AI – Chat Experience Redesign"
-                desc="Redesigned the chat experience for an AI tutoring app serving 100K+ students. Research with 33 participants, fixed information overload, added accessibility controls and visual hierarchy improvements."
-                metric="3×" metricLabel="task completion" slug="zu-ai"
-                image="/ZA4_Redesign.png" bg="hsl(260,60%,97%)" isMobile={isMobile} />
+                title="Music Animate"
+                desc="An audio to animation generator. A full-stack browser tool that turns any track into a beat-synced video. 9 generative engines, in-browser video export, Supabase auth and storage, built solo by directing AI, debugging and refactoring it to production."
+                metric="9" metricLabel="generative engines" slug="music-animate"
+                image="/music-animate/ma_hero_dark.png" bg="hsl(0,0%,9%)" isMobile={isMobile} />
             </div>
           </div>
         </div>
