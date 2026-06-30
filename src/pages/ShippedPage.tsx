@@ -1,10 +1,24 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { useIsMobile } from '../hooks/useMediaQuery'
 
 const f  = "'Overused Grotesk', Inter, system-ui, sans-serif"
 const fs = "'IBM Plex Serif', Georgia, serif"
 
-const SHIPPED = [
+type ShippedItem = {
+  name: string
+  description: string
+  tags: string[]
+  type: string
+  year: string
+  url: string
+  liveUrl: string
+  caseStudyUrl?: string
+  previewBg: string
+  emoji: string
+}
+
+const SHIPPED: ShippedItem[] = [
   {
     name: 'Music Animation Generator',
     description: 'Designed the full system in Figma first — color tokens, component library, light and dark theming. Real-time frequency extraction drives multiple WebGL visual engines. Beat-synced animations ready to post.',
@@ -12,6 +26,7 @@ const SHIPPED = [
     type: 'Creative tool', year: '2024',
     url: 'musictoanimate.vercel.app',
     liveUrl: 'https://musictoanimate.vercel.app/',
+    caseStudyUrl: '/case-study/music-animate',
     previewBg: 'linear-gradient(135deg, hsl(260,55%,90%), hsl(330,45%,93%))',
     emoji: '🎵',
   },
@@ -99,9 +114,17 @@ export default function ShippedPage() {
   )
 }
 
-const ShippedCard = ({ item, isMobile }: { item: typeof SHIPPED[0]; isMobile: boolean }) => (
-  <a href={item.liveUrl} target="_blank" rel="noopener noreferrer"
-    style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+const ShippedCard = ({ item, isMobile }: { item: ShippedItem; isMobile: boolean }) => {
+  const isInternal = !!item.caseStudyUrl
+  const Wrapper = isInternal ? Link : 'a'
+  const wrapperProps = isInternal
+    ? { to: item.caseStudyUrl }
+    : { href: item.liveUrl, target: '_blank', rel: 'noopener noreferrer' }
+
+  return (
+    // @ts-ignore — Wrapper is either Link (to) or 'a' (href), props match accordingly
+    <Wrapper {...wrapperProps}
+      style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
     <div style={{
       borderRadius: 18, overflow: 'hidden',
       border: '1px solid hsl(0,0%,88%)', background: 'white',
@@ -131,13 +154,25 @@ const ShippedCard = ({ item, isMobile }: { item: typeof SHIPPED[0]; isMobile: bo
           <svg viewBox="0 0 16 16" fill="none" stroke="hsl(0,0%,55%)" strokeWidth="1.5" style={{ width: 10, height: 10, flexShrink: 0 }}><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
           {item.url}
         </div>
-        <span style={{
-          fontFamily: f, fontSize: 9, fontWeight: 600, color: '#15803d',
-          display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
-        }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-          Live
-        </span>
+        {isInternal ? (
+          <a href={item.liveUrl} target="_blank" rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            style={{
+              fontFamily: f, fontSize: 9, fontWeight: 600, color: '#15803d', textDecoration: 'none',
+              display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
+            }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+            Live
+          </a>
+        ) : (
+          <span style={{
+            fontFamily: f, fontSize: 9, fontWeight: 600, color: '#15803d',
+            display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+            Live
+          </span>
+        )}
       </div>
 
       {/* Preview area */}
@@ -169,13 +204,26 @@ const ShippedCard = ({ item, isMobile }: { item: typeof SHIPPED[0]; isMobile: bo
           ))}
         </div>
 
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: f, fontSize: 13, fontWeight: 500, color: 'hsl(0,0%,8%)', padding: '8px 16px', borderRadius: 9999, border: '1px solid hsl(0,0%,85%)', background: 'white' }}>
-          Visit site
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 12, height: 12 }}>
-            <path d="M6 4h6v6M12 4 5 11"/>
-          </svg>
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: f, fontSize: 13, fontWeight: 500, color: 'hsl(0,0%,8%)', padding: '8px 16px', borderRadius: 9999, border: '1px solid hsl(0,0%,85%)', background: 'white' }}>
+            {isInternal ? 'View case study' : 'Visit site'}
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 12, height: 12 }}>
+              <path d="M6 4h6v6M12 4 5 11"/>
+            </svg>
+          </span>
+          {isInternal && (
+            <a href={item.liveUrl} target="_blank" rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: f, fontSize: 13, fontWeight: 500, color: 'hsl(0,0%,40%)', textDecoration: 'none' }}>
+              Live site
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 11, height: 11 }}>
+                <path d="M6 4h6v6M12 4 5 11"/>
+              </svg>
+            </a>
+          )}
+        </div>
       </div>
     </div>
-  </a>
-)
+    </Wrapper>
+  )
+}
