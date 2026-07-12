@@ -41,7 +41,7 @@ const Navigation = () => {
           <NavLink href="/writings" label="Writings" active={location.pathname === '/writings'} mobile={isMobile} />
           {!isMobile && (
             <>
-              <ExtLink href="https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing" label="Resume" mobile={isMobile} />
+              <ExtLink href="https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing" label="Resume" mobile={isMobile} />
               <ExtLink href="https://www.linkedin.com/in/deepak-maan-106452230/" label="LinkedIn" mobile={isMobile} />
             </>
           )}
