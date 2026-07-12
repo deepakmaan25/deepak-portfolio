@@ -56,7 +56,7 @@ export default function Footer() {
                   { label: 'LinkedIn', href: 'https://linkedin.com/in/deepakmaan25' },
                   { label: 'GitHub',   href: 'https://github.com/deepakmaan25' },
                   { label: 'Behance',  href: 'https://www.behance.net/deepakmaan1' },
-                  { label: 'Resume',   href: 'https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing' },
+                  { label: 'Resume',   href: 'https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing' },
                 ].map(link => (
                   <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
                     style={{ fontFamily: f, fontSize: 14, color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
