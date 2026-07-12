@@ -66,7 +66,7 @@ SIDE PROJECTS (all live, built end-to-end):
 AVAILABILITY: Open to full-time Product Design roles. Hyderabad, Bangalore, or Remote. Available now.
 
 CONTACT:
-Resume: https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing
+Resume: https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing
 LinkedIn: https://www.linkedin.com/in/deepak-maan-106452230/
 Email: dipumaan2002@gmail.com
 Book a call: https://cal.com/deepakmaan`
@@ -290,7 +290,7 @@ export default function HomePage() {
     if (!text.trim() || loading) return
 
     if (text === 'see my work')  { document.getElementById('work')?.scrollIntoView({ behavior:'smooth' }); return }
-    if (text === 'resume')       { window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank'); return }
+    if (text === 'resume')       { window.open('https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing','_blank'); return }
     if (text === 'linkedin')     { window.open('https://www.linkedin.com/in/deepakmaan/','_blank'); return }
 
     if (text === 'wanna chat?')
@@ -773,7 +773,7 @@ const Widgets = ({ istTime, playing, setPlaying, isMobile }: { istTime:string; p
             ))}
           </div>
         </motion.div>
-        <motion.div {...fly(0.20,-16,-6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}>
+        <motion.div {...fly(0.20,-16,-6)} style={{ position:'absolute', top:'48%', right:'2%', zIndex:4, cursor:'pointer' }} onClick={()=>window.open('https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing','_blank')}>
           <div style={{ background:'rgba(255,224,88,0.97)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:16, padding:'18px 22px', width:178, color:'#3a2e00', boxShadow:'0 4px 20px rgba(0,0,0,0.09)' }}>
             <p style={{ fontFamily:f, fontSize:9, textTransform:'uppercase', letterSpacing:'0.12em', opacity:0.55, margin:'0 0 10px' }}>CV</p>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -907,7 +907,7 @@ const MobileWidgetStack = ({ istTime, playing, setPlaying, rating, hover, rated,
         <span style={{ fontSize:18, color:'hsl(0,0%,40%)' }}>↗</span>
       </motion.div>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-        <motion.div {...fly(5)} onClick={()=>window.open('https://drive.google.com/file/d/17oO7L80b3_m4ooBDDPOrQkmlqUyIjHvw/view?usp=sharing','_blank')}
+        <motion.div {...fly(5)} onClick={()=>window.open('https://drive.google.com/file/d/1NoUjJn9TrUulF_Pib0ES2JXMD-Ww2Y_W/view?usp=sharing','_blank')}
           style={{ background:'linear-gradient(135deg, #FFE058, #FFD23F)', border:'1px solid rgba(58,46,0,0.12)', borderRadius:18, padding:'18px 18px', color:'#3a2e00', cursor:'pointer', minHeight:106, display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
